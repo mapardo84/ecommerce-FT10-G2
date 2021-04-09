@@ -3,7 +3,12 @@ import { Card, Input } from 'antd'
 import Text from 'antd/lib/typography/Text'
 import './home.less'
 
+
+
+
 export const Home = () => {
+
+
     return (
         <div>
             {/* style={{ width: 300 }} */}

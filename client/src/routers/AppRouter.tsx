@@ -23,6 +23,21 @@ export const AppRouter = () => {
                         exact path="/home"
                         component={Home}
                     />
+                    <Route
+                        exact path="/form"
+                        component={Register}
+                    />
+                    <Route
+                        exact path="/logIn"
+                        component={LogIn}
+                    />
+                     <Route
+                        exact path="/logOut"
+                        component={LogOut}
+                    />
+                     <Route
+                        exact path="/rodrigo"
+                        component={Rodrigo}                    />
 
                     <Redirect to="/" />
 
