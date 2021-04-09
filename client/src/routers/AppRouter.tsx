@@ -5,6 +5,7 @@ import {
     Route
 } from "react-router-dom";
 import { Home } from '../components/home/Home';
+import { LandingPage } from "../components/Landing Page/LandingPage";
 
 //ACA VAN TODAS LAS RUTAS
 
@@ -16,7 +17,7 @@ export const AppRouter = () => {
                 <Switch>
                     <Route
                         exact path="/"
-                        component={Home}
+                        component={LandingPage}
                     />
                     <Route
                         exact path="/home"
