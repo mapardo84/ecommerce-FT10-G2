@@ -1,31 +1,45 @@
-import React from 'react';
-import {Layout, Space, Button} from 'antd';
-import {Link} from 'react-router-dom'
+import React from 'react'
+import { Row, Col, Button, Typography, Divider } from "antd";
+import './styles.less'
 
-export function LandingPage(props: {children:any}){
-    return <Layout>
-        <Layout.Header>
+const { Title, Text } = Typography;
 
-        </Layout.Header>
-        <Layout.Content>
-        <div >
-        
-            <div >
-                <div >
-                    <h2 >LIFE IS SHORT AND THE WORLD IS <span >WIDE</span></h2>
-                    <p >” The real voyage of discovery consists not in seeking new landscapes, but in having new eyes.”</p>
-                    
-                 <Link to= "/home">
-                 <button  >Learn More</button>  
-            </Link>
-            </div> 
-            
-            </div> 
-            </div>
-            
-        </Layout.Content>
-        <Layout.Footer>
+export const LandingPage = () => {
+    return (
+        <div className='LandingPage'>
+            <Row align="middle" justify="space-around">
 
-        </Layout.Footer>
-    </Layout>
+                <Col span={14}>
+
+                    <div className='landingleft'>
+
+                        <Title className='landingTitle'>HENRY HOTEL</Title>
+
+                        <Text className='landingText' >
+                            A luxurious hotel, open the door to a whole new world. Feel the diference and prepare for a beatiful traveling experience.
+                        </Text><br />
+
+                        <Button className='lanButton' type="primary" href="/home" size="large">Continue as guest</Button>
+                    </div>
+                </Col>
+
+                <Col span={10}>
+                    <div className='lanForm'>
+                        <Divider>
+                            FORM
+                        </Divider>
+                    </div>
+                </Col>
+
+            </Row>
+        </div>
+    )
 }
+
+export default LandingPage
+
+
+
+
+
+
