@@ -7,7 +7,7 @@ export function LandingPage(props: {children:any}){
         <Layout.Header>
 
         </Layout.Header>
-        <Layout.Content >
+        <Layout.Content>
         <div >
         
             <div >
