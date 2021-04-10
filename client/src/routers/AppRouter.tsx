@@ -4,7 +4,7 @@ import {
     Redirect,
     Route
 } from "react-router-dom";
-import { Home } from '../components/home/Home';
+import {HomeLayout} from '../components/layout/HomeLayout'
 import { LandingPage } from "../components/Landing Page/LandingPage";
 import {Register} from "../components/LogIn/Register";
 import {LogIn} from "../components/LogIn/LogIn";
@@ -25,7 +25,7 @@ export const AppRouter = () => {
                     />
                     <Route
                         exact path="/home"
-                        component={Home}
+                        component={HomeLayout}
                     />
                     <Route
                         exact path="/form"
