@@ -1,6 +1,7 @@
 import React from 'react'
-import { Row, Col, Button, Typography, Divider } from "antd";
+import { Row, Col, Button, Typography } from "antd";
 import './styles.less'
+import LogIn from "../LogIn/LogIn";
 
 const { Title, Text } = Typography;
 
@@ -16,7 +17,7 @@ export const LandingPage = () => {
                         <Title className='landingTitle'>HENRY HOTEL</Title>
 
                         <Text className='landingText' >
-                            A luxurious hotel, open the door to a whole new world. Feel the diference and prepare for a beatiful traveling experience.
+                            A luxurious hotel, open the door to a whole new world. Feel the difference and prepare for a beautiful traveling experience.
                         </Text><br />
 
                         <Button className='lanButton' type="primary" href="/home" size="large">Continue as guest</Button>
@@ -25,9 +26,7 @@ export const LandingPage = () => {
 
                 <Col span={10}>
                     <div className='lanForm'>
-                        <Divider>
-                            FORM
-                        </Divider>
+                            <LogIn />
                     </div>
                 </Col>
 
