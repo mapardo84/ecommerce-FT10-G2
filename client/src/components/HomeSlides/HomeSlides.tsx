@@ -8,7 +8,7 @@ import slide5 from './images/slide5.jpg';
 
 import "./HomeSlides.less"
 
-const HomeSlides = () => {
+export const HomeSlides = () => {
 
     const settings = {
         dots: true,
