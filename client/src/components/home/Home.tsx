@@ -1,12 +1,10 @@
 import { Card, Input } from "antd";
 import Text from "antd/lib/typography/Text";
-import { LayoutTemplate } from "../layout/Layout";
 import "./home.less";
 
 export const Home = () => {
   return (
-    <LayoutTemplate>
-      {/* style={{ width: 300 }} */}
+   <>
       <Card title="Listo con Ant" className="bgColor">
         <Text type="success">Bienvenidos! a la gran C</Text>
       </Card>
@@ -14,6 +12,6 @@ export const Home = () => {
         <Input placeholder="Your Input" />
         <Input placeholder="Another Input" />
       </Card>
-    </LayoutTemplate>
+   </>
   );
 };

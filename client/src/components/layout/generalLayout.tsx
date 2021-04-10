@@ -3,19 +3,19 @@ import { NavBar } from "../NavBar/NavBar";
 import { FooterLayout } from "../footer/Footer";
 import { FunctionComponent } from "react";
 
-const { Header, Footer, Content } = Layout;
 
-export const LayoutTemplate: FunctionComponent = ({ children }) => {
+const { Content } = Layout;
+
+export const LayoutTemplate: FunctionComponent = () => {
   return (
     <>
       <Layout>
-        <NavBar /> {/*NavBar*/}
-        {children} {/*Home, Accomodations, Detail, Booking*/}
+        <NavBar />
+        <Content>
+          {/* <Componente a renderizar> </Componente a renderizar> */}
+        </Content>
         <FooterLayout />
       </Layout>
     </>
   );
 };
-
-
-
