@@ -1,6 +1,7 @@
 
 import { Card, Input } from 'antd'
 import Text from 'antd/lib/typography/Text'
+import { FooterLayout } from '../footer/Footer'
 import './home.less'
 
 export const Home = () => {
@@ -10,11 +11,13 @@ export const Home = () => {
             <Card title="Listo con Ant" className="bgColor" >
 
                 <Text type="success">Bienvenidos! a la gran C</Text>
-            </Card>
+            </Card>            
             <Card title="Card Name" className="hightlight">
                 <Input placeholder="Your Input" />
                 <Input placeholder="Another Input" />
             </Card>
+            <FooterLayout/>
+           
         </div>
     )
 }
