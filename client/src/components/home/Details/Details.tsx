@@ -1,12 +1,17 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { Button, Carousel, Image, Layout } from 'antd';
-import "antd/dist/antd.css";
+import 'antd/dist/antd.css';
+import getDetails from '../../../actions/detailsActions';
 import './Details.css';
 
 const { Header, Footer, Sider, Content } = Layout;
 const Details = function () {
-    
+    const dispatch = useDispatch();
+    useEffect( () => {
+        dispatch(getDetails());
+    }, []);
+
     const handleOnClick = (e:any) => {
         console.log('Bookearon!');
     }
@@ -32,7 +37,7 @@ const Details = function () {
                             <h5>nightly rate</h5>
                         </div>
                         <div>
-                            <Button className='book-button' type='primary' onClick={handleOnClick}>
+                            <Button type='primary' onClick={handleOnClick} size='large'>
                                 Book
                             </Button>
                         </div>

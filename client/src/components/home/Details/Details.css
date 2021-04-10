@@ -33,16 +33,7 @@
 .pic-slider {
     justify-content: center;
 }
-.book-button {
-    width: 120px;
-    height: 80px;
-    border-color: #EEEFE4;
-    border-radius: 20px;
-    background-color: #2D9D6A;
-    font-size: 20px;
-    font-weight: bold;
-    color: #EEEFE4
-}
+
 #details-footer {
     background-color: #1A4E3F;
     color: #EEEFE4
