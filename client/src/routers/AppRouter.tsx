@@ -5,10 +5,9 @@ import {
     Redirect,
     Route
 } from "react-router-dom";
-import { Home } from '../components/Home/Home';
 import { LayoutTemplate } from "../components/Layout/Layout";
-import { Rodrigo } from "../components/LogIn/Rodrigo";
-
+import {Rodrigo} from '../components/LogIn/Rodrigo'
+import { LandingPage } from "../components/Landing Page/LandingPage";
 
 //ACA VAN TODAS LAS RUTAS
 
@@ -20,7 +19,7 @@ export const AppRouter = () => {
                 <Switch>
                     <Route
                         exact path="/"
-                        component={Home}
+                        component={LandingPage}
                     />
                     <Route
                         exact path="/home"
