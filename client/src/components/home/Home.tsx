@@ -1,7 +1,6 @@
 
 import { Card, Input } from 'antd'
 import Text from 'antd/lib/typography/Text'
-import { FooterLayout } from '../footer/Footer'
 import './home.less'
 
 
@@ -21,7 +20,6 @@ export const Home = () => {
                 <Input placeholder="Your Input" />
                 <Input placeholder="Another Input" />
             </Card>
-            <FooterLayout/>
            
         </div>
     )

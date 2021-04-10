@@ -11,21 +11,27 @@ export const Rodrigo = () => {
   const [visible, setVisible] = useState(false);
 
   const onFinish=(values:logIn)=>{
+
     classicLogIn(values.email,values.password)
+    setTimeout(setVisible)    
+    
 }
 
   return (
     <>
       <Button type="primary" onClick={() => setVisible(true)}>
-        Open Modal of 1000px width
+       Log In
       </Button>
       <Modal
-        title="Modal 1000px width"
+        title="Complete the form"
         centered
         visible={visible}
         onOk={() => setVisible(false)}
         onCancel={() => setVisible(false)}
-        width={1000}
+        width={500}
+        footer={[          
+        <Button type="primary" htmlType="submit">Log In</Button>
+        ]}
       >
         <Form
         name="basic"
@@ -33,7 +39,6 @@ export const Rodrigo = () => {
         onFinish={onFinish}>
             <Form.Item
                 name="email"
-                label="Insert e-mail"
                 rules={[{ required: true, message: "Please insert your e-mail!" }, { type: "email", message: "The input is not valid e-mail!" }]}
             >
                 <Input></Input>
@@ -53,7 +58,6 @@ export const Rodrigo = () => {
             >
                 <Input.Password></Input.Password>
             </Form.Item>
-            <Button type="primary" htmlType="submit">Log In</Button>
         </Form>
       </Modal>
     </>

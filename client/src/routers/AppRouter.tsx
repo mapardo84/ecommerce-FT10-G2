@@ -1,13 +1,12 @@
+
 import {
     BrowserRouter as Router,
     Switch,
     Redirect,
     Route
 } from "react-router-dom";
-import { Home } from '../components/home/Home';
-import {LogIn} from "../components/LogIn/LogIn";
-import {LogOut} from "../components/LogIn/LogOut";
-import { Register } from "../components/LogIn/Register";
+import { Home } from '../components/Home/Home';
+import { LayoutTemplate } from "../components/Layout/Layout";
 import { Rodrigo } from "../components/LogIn/Rodrigo";
 
 
@@ -25,23 +24,12 @@ export const AppRouter = () => {
                     />
                     <Route
                         exact path="/home"
-                        component={Home}
-                    />
-                    <Route
-                        exact path="/form"
-                        component={Register}
+                        component={LayoutTemplate}
                     />
                     <Route
                         exact path="/logIn"
-                        component={LogIn}
+                        component={Rodrigo}
                     />
-                     <Route
-                        exact path="/logOut"
-                        component={LogOut}
-                    />
-                     <Route
-                        exact path="/rodrigo"
-                        component={Rodrigo}                    />
 
                     <Redirect to="/" />
 
