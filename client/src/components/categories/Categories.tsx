@@ -1,7 +1,7 @@
 import React, { useState,useEffect } from 'react';
 import {useDispatch, useSelector } from 'react-redux';
 import { Button,Layout,Image } from 'antd';
-import './Category.css';
+import './Category.less';
 import {initialStateProps} from './../../reducers/categoriesReducer';
 import { getCategories } from '../../actions';
 import Category from './Category';
@@ -21,7 +21,7 @@ const Categories = ({ data }: any): JSX.Element=>{
 
 
     return (
-        <div>
+        <div className='categoriesContainer'>
             {
                 cat.categories?.map((categ:any)=>(
                     <Category categ={categ}/>

@@ -1,5 +1,5 @@
 import { Button,Layout,Image } from 'antd';
-import './Category.css';
+import './Category.less';
 const {Sider,Content} = Layout
 const Category = ({ categ }: any): JSX.Element => {
 
