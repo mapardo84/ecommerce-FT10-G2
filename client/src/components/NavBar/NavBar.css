@@ -1,0 +1,31 @@
+.headd {
+  height: 100px !important;
+  background-color: #2D9D6A !important;
+}
+.header {
+  display: flex !important;
+  align-content: center !important;
+}
+.menu {
+  display: flex;
+  justify-content: space-between;
+}
+.imagen {
+  height: 63% ;
+  width: 10%;
+  margin-top: 2%;
+  margin-left: -11%;
+}
+.asdasd {
+  background-color: #2D9D6A !important;
+  margin-top: 34.3% !important;
+}
+.boldFont {
+  font-weight: bold !important;
+}
+.laclande1 {
+  display: flex !important;
+  flex-direction: column !important;
+  background-color: #2D9D6A !important;
+  align-content: space-between !important;
+}
