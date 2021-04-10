@@ -1,0 +1,42 @@
+.categoryContainer{
+    width: 44%;
+    display: flex;
+    align-content: center;
+    justify-content: center; 
+    flex-direction: column;
+}
+
+
+.categorySider{
+    display: flex;
+    margin-bottom: 6px;
+    
+}
+
+.categoryH3{
+    padding: 10px 15px ;
+    font-size: 20px;
+}
+
+.categoryP{
+    padding: 5px 5px ;
+    
+}
+
+.categoryButtons{
+    display: flex;
+    margin-top: 50px;
+}
+.categoryReserveButton{
+    margin: auto;
+
+}
+
+
+
+.categoryMoreInfoButton{
+   margin: auto;
+
+}
+
+

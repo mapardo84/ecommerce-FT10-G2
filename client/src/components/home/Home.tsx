@@ -2,6 +2,7 @@
 import { Card, Input } from 'antd'
 import Text from 'antd/lib/typography/Text'
 import './home.less'
+import Categories from '../categories/Categories';
 
 export const Home = () => {
     return (
@@ -15,6 +16,8 @@ export const Home = () => {
                 <Input placeholder="Your Input" />
                 <Input placeholder="Another Input" />
             </Card>
+
+            <Categories />
         </div>
     )
 }

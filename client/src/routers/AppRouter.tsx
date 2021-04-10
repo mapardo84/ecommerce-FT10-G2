@@ -4,6 +4,7 @@ import {
     Redirect,
     Route
 } from "react-router-dom";
+import Accomodations from "../components/accomodations/Accomodations";
 import { Home } from '../components/home/Home';
 
 //ACA VAN TODAS LAS RUTAS
@@ -22,7 +23,10 @@ export const AppRouter = () => {
                         exact path="/home"
                         component={Home}
                     />
-
+                    <Route 
+                        exact path='/home/accomodations'
+                        component={Accomodations}
+                    />
                     <Redirect to="/" />
 
                 </Switch>
