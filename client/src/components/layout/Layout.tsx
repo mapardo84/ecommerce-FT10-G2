@@ -10,10 +10,11 @@ export function LayoutTemplate() {
       <>
         <Layout>
           <Header></Header>    {/*NavBar*/}
-          <Content></Content>       {/*Home, Accomodations, Detail, Booking*/}
+          <Content></Content>       {/* Home / Accomodations / Detail / Booking */}
           <Footer></Footer>
         </Layout>
       </>
     )
 
 }
+
