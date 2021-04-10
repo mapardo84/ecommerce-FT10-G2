@@ -6,7 +6,7 @@ import { Home } from "../home/Home";
 
 const { Content } = Layout;
 
-export const HomeLayoutTemplate: FunctionComponent = () => {
+export const HomeLayout: FunctionComponent = () => {
   return (
     <>
       <Layout>
