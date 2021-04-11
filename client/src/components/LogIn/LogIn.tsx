@@ -46,11 +46,10 @@ const onFinish=(values:logIn)=>{
             </Form.Item>
             <Button className="button" type="primary" htmlType="submit">Log In</Button>
 
-            <p style={{marginTop:"25px"}}>Or login with</p>
+            <p style={{marginLeft:"40%",marginTop:"35px"}}>Or login with</p>
             <div className="icons">
-                 <FacebookOutlined  style={{ fontSize: '40px' }}/>
 
-           <GoogleOutlined style={{ fontSize: '40px' }}/>
+           <GoogleOutlined style={{marginTop:"-9.5%",fontSize: '40px' }}/>
             </div>
           
         </Form>

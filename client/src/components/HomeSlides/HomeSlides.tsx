@@ -14,7 +14,7 @@ export const HomeSlides = () => {
         dots: true,
         infinite: true,
         autoplay: true,
-        autoplaySpeed: 2000
+        autoplaySpeed: 4000
     };
 
     return (
@@ -24,28 +24,28 @@ export const HomeSlides = () => {
                 <div className="slideContainer">
                     <img className="slidesImages" src={slide3} />
                     <div className="slidesText">
-                        Lorem ipsum dolor sit amet
+                        Convenience and comfort 
                     </div>
                 </div>
 
                 <div className="slideContainer">
                     <img className="slidesImages" src={slide2} />
                     <div className="slidesText">
-                        Lorem ipsum dolor sit amet
+                    Beach and relaxation 
                     </div>
                 </div>
 
                 <div className="slideContainer">
                     <img className="slidesImages" src={slide5} />
                     <div className="slidesText">
-                        Lorem ipsum dolor sit amet
+                        An oasis for you.
                     </div>
                 </div>
 
                 <div className="slideContainer">
                     <img className="slidesImages" src={slide4} />
                     <div className="slidesText">
-                        Lorem ipsum dolor sit amet
+                        The getaway you need
                     </div>
                 </div>
 
