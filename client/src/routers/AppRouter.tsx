@@ -39,10 +39,11 @@ export const AppRouter = () => {
                     />
                     <Route
                         exact path="/booking"
-                        component={StepsBooking}
+                        component={BookingLayout}
                     />
-
+    
                     <Redirect to="/" />
+
 
                 </Switch>
 

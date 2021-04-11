@@ -10,21 +10,24 @@ export const FooterLayout = () => {
         <Row justify="center" align="bottom">
           <Col span={21}>
             <Row>
-              <Button type="text">Contact us</Button>
+              <Button className="info" type="text">Contact us</Button>
             </Row>
             <Row>
-              <Button type="text">Admin panel</Button>
+              <Button className="info" type="text">Admin panel</Button>
             </Row>
             <Row>
-              <Button type="text">About us</Button>
+              <Button className="info" type="text">About us</Button>
             </Row>
           </Col>
           <Col span={3}>
-            <Row>
-              <Button type="text">adress</Button>
+          <Row>
+              <Button className="info" type="text" href="/faq">F.A.Q</Button>
             </Row>
             <Row>
-              <Button type="text">REDES LOGOS</Button>
+              <Button className="info" type="text">Adress</Button>
+            </Row>
+            <Row>
+              <Button className="info" type="text">REDES LOGOS</Button>
             </Row>
           </Col>
         </Row>

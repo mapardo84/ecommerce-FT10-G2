@@ -3,6 +3,7 @@ import 'antd/dist/antd.css';
 import { Steps } from 'antd';
 import { PaxForm } from './paxForm/PaxForm';
 import { AccomodationsSelect } from './accomodationsSelect/AccomodationsSelect';
+import { MyCalendar } from '../Calendar/MyCalendar';
 
 const { Step } = Steps;
 
@@ -36,7 +37,7 @@ export const StepsBooking: FunctionComponent = () => {
         </Steps>
 
         { currentStep.current === 0? <PaxForm/>: null}
-        { currentStep.current === 1? <span>Aca va calendario</span>: null}
+        { currentStep.current === 1? <MyCalendar/>: null}
         { currentStep.current === 2? <AccomodationsSelect/>: null}
         { currentStep.current === 3? <span>Aca va metodo de pago Y GUESTS</span>: null}
         
