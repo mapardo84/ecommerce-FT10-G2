@@ -2,54 +2,62 @@
 @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@500&display=swap');
 
 .headd{
-    height:100px !important;
-    background-color: #1A4E3F !important;
-   position: fixed;
-   z-index: 10;
-   width: 100%;
-   font-family: 'Merriweather', serif;
-   
-}
-
-.header{
-    display: flex !important;
-    align-content: center !important;
-}
-
-.menu{
+    position: fixed;
+    width: 100vw;
+    left: 0;
+    top: 0;
+    height: 10%;
+    background: #5296A5 !important;
+    background: #5296A5 !important;
+    z-index: 70;
+    box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.301) !important;
     display: flex;
-    justify-content: space-between;
+    justify-content:space-between;
+}
+
+.colContainer{
+    display: flex;
+    align-items: center;
+    width: 100vw;
+    height: 100%;
+}
+
+.navLeft{
+    width: 50vw !important;
+    display: flex;
+    height: 100%;
+
+    text-align: center;
+
+    align-items: center !important;
+    justify-content: flex-start !important;
+    margin-left: 4vw;
 }
 
 .imagen{
-    height:6.3vh;
-    margin-top: 1.8%;
-    margin-left: -5%;
-    
+    height:6%;
+    width: 6%;
+    margin-right: 2vw;
 }
 
-.asdasd{
-    background-color: #2D9D6A !important;
-    margin-top: 34.3% !important;
+.navTitle{
+    margin: 0px;
 }
 
-.boldFont{
-    font-weight: bold !important;
-}
-.laclande1{
-    display: flex !important;
-    flex-direction: column !important;    
-    background-color: #2D9D6A !important;
-    align-content: space-between !important;   
-    margin-left: 5%;
-}
-
-.buttons{
+.navRight{
+    width: 50vw;
     display: flex;
-    width: 100%;
     height: 100%;
-    justify-content: space-evenly;
-    margin-right: 5% !important;
-    margin-top: 3.8%;
-    margin-left: 13%;
+
+    justify-content: flex-end !important;
+    margin-right: 10vw !important;
+    align-items: center;
+    padding-right: 3vw;
+}
+
+.navButton{
+    // display: block;
+    color: black !important;
+    font-size: 1.2vw !important;
+
 }

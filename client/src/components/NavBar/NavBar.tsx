@@ -1,33 +1,39 @@
 import { Breadcrumb, Layout, Menu, Row, Divider, Col, Button } from 'antd';
 import { Content, Footer } from 'antd/lib/layout/layout';
-import './NavBar.less'
+import './NavBar.less';
+import hotel from "./hotel.png"
 
 const { Header } = Layout;
-
-
 
 export const NavBar = () => {
   return (
     <>
-
-      <Header className="headd">
+      {/* <Header className="headd"> */}
+      <Menu className="headd">
         <Row className="header" justify="center">
-          <Col xs={13}>
-            <img className="imagen" src="./hotel.png" alt="no funca bro"/>
-          </Col>
-          <Col xs={10}>
-            <div className="buttons">     
-                <Button size="large" type="primary">Home</Button>
-                <Button size="large" type="primary">Acomodation</Button>
-                <Button size="large" style={{border:"0px"}} type="primary">Log In</Button>
-                <Button size="large" style={{backgroundColor: "#9ED5E0"}}>Book Now</Button>
-            </div>
-           
-            </Col>
-            
-        </Row>
-      </Header>
 
+          <div className="colContainer">
+            <Col span={12}>
+              <div className="navLeft">
+                <img className="imagen" src={hotel} alt="no funca bro" />
+                <h1 className="navTitle">HENRY HOTEL</h1>
+              </div>
+            </Col>
+
+            <Col span={12}>
+              <div className="navRight">
+                <Button className="navButton" size="large" type="text">Home</Button>
+                <Button className="navButton" size="large" type="text">Acomodation</Button>
+                <Button className="navButton" size="large" type="text">Log In</Button>
+                <Button style={{ backgroundColor: "#178CA4", color:"white"}}>Book Now</Button>
+              </div>
+            </Col>
+
+          </div>
+
+        </Row>
+      </Menu>
+      {/* </Header> */}
     </>
   )
 }
