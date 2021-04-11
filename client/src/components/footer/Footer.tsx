@@ -20,7 +20,7 @@ export const FooterLayout = () => {
           </Col>
           <Col span={3}>
             <Row>
-              <Button className="info" type="text">adress</Button>
+              <Button className="info" type="text">Adress</Button>
             </Row>
             <Row>
               <Button className="info" type="text">REDES LOGOS</Button>
