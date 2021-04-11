@@ -18,7 +18,7 @@ export const HomeSlides = () => {
     };
 
     return (
-        <div className="font">
+        <div className="containerSlide">
             <Carousel {...settings} className="HomeCarousel">
 
                 <div className="slideContainer">
