@@ -11,6 +11,7 @@ import {LogIn} from "../components/LogIn/LogIn";
 import {LogOut} from "../components/LogIn/LogOut";
 import { Register } from "../components/LogIn/Register";
 import { Rodrigo } from "../components/LogIn/Rodrigo";
+import {MyCalendar} from "../components/Calendar/MyCalendar"
 
 
 //ACA VAN TODAS LAS RUTAS
@@ -49,7 +50,14 @@ export const AppRouter = () => {
                         exact path="/rodrigo"
                         component={Rodrigo}                    />
 
+
+                    <Route 
+                    exact path ='/panchito'
+                    component = {MyCalendar}
+                    />
+
                     <Redirect to="/" />
+
 
                 </Switch>
 
