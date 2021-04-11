@@ -3,6 +3,7 @@ import { NavBar } from "../NavBar/NavBar";
 import { FooterLayout } from "../footer/Footer";
 import { FunctionComponent } from "react";
 import { Home } from "../home/Home";
+import Accomodations from "../accomodations/Accomodations";
 
 const { Content } = Layout;
 
@@ -12,7 +13,7 @@ export const HomeLayout: FunctionComponent = () => {
       <Layout>
         <NavBar />
         <Content>
-          <Home></Home>
+          <Accomodations />
         </Content>
         <FooterLayout />
       </Layout>

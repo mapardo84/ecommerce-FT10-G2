@@ -47,7 +47,8 @@ export const AppRouter = () => {
                     />
                      <Route
                         exact path="/rodrigo"
-                        component={Rodrigo}                    />
+                        component={Rodrigo}                    
+                    />
 
                     <Redirect to="/" />
 
