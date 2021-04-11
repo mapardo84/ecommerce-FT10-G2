@@ -2,6 +2,7 @@ import { Layout, Select,Button } from 'antd';
 import React, { ReactElement } from 'react'
 import Categories from '../categories/Categories'
 import './accomodations.less';
+import './../layout/homeLayout.less';
 
 const { Option } = Select;
 const { Content, Header } = Layout;
@@ -14,10 +15,13 @@ const Accomodations = ({ }: any): ReactElement => {
     return (
         <div>
             <div className='accomodationsDiv'>
-                <h1 className='accomodationsH1'>Accomodation descriptions</h1>
-                <div className='accomodationsP'>
-                    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Nesciunt aut hic necessitatibus blanditiis ad et, suscipit dignissimos recusandae, doloribus placeat reprehenderit cum iusto, molestiae quis vero assumenda autem fugiat aliquam. Lorem ipsum dolor, sit amet consectetur adipisicing elit. Velit sapiente commodi inventore possimus dolore reprehenderit iusto soluta nemo eaque fuga obcaecati recusandae, consequuntur iste? Harum necessitatibus animi totam minima veritatis. Lorem ipsum dolor sit amet consectetur, adipisicing elit. Nemo ullam, consequatur cum voluptates tempora culpa odio repellat suscipit iusto. Id cupiditate consequuntur aliquid est laudantium deserunt aut sed dolorum laboriosam! Lorem ipsum dolor sit amet consectetur adipisicing elit. Velit iure rem, nisi possimus inventore sint repudiandae consequuntur ea ex veritatis hic error magni? Saepe veniam itaque possimus ullam molestias impedit.</p>
-                    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Nesciunt aut hic necessitatibus blanditiis ad et, suscipit dignissimos recusandae, doloribus placeat reprehenderit cum iusto, molestiae quis vero assumenda autem fugiat aliquam. Lorem ipsum dolor, sit amet consectetur adipisicing elit. Velit sapiente commodi inventore possimus dolore reprehenderit iusto soluta nemo eaque fuga obcaecati recusandae, consequuntur iste? Harum necessitatibus animi totam minima veritatis. Lorem ipsum dolor sit amet consectetur, adipisicing elit. Nemo ullam, consequatur cum voluptates tempora culpa odio repellat suscipit iusto. Id cupiditate consequuntur aliquid est laudantium deserunt aut sed dolorum laboriosam! Lorem ipsum dolor sit amet consectetur adipisicing elit. Velit iure rem, nisi possimus inventore sint repudiandae consequuntur ea ex veritatis hic error magni? Saepe veniam itaque possimus ullam molestias impedit.</p>
+                <h1 className='accomodationsH1 title'>Accomodation descriptions</h1>
+                <div className=''>
+                    <h3 className='subtitle2'> 
+                        Lorem ipsum dolor sit amet consectetur, adipisicing elit. Animi unde neque accusamus excepturi autem.
+                    </h3>
+                    <h4 className='description'>Lorem ipsum dolor sit amet consectetur adipisicing elit. Nesciunt aut hic necessitatibus blanditiis ad et, suscipit dignissimos recusandae, doloribus placeat reprehenderit cum iusto, molestiae quis vero assumenda autem fugiat aliquam. Lorem ipsum dolor, sit amet consectetur adipisicing elit. Velit sapiente commodi inventore possimus dolore reprehenderit iusto soluta nemo eaque fuga obcaecati recusandae, consequuntur iste? Harum necessitatibus animi totam minima veritatis. lore</h4>
+                 
                 </div>
                 <div >
                     <span className='accomodationsFilterButton'>
@@ -32,8 +36,8 @@ const Accomodations = ({ }: any): ReactElement => {
                             <Option >Capacity: 6</Option>
                         </Select>
                     </span>
-                    <span className='accomodationReserveButton'>
-                        <Button size='large' type='primary' >Reserve</Button>
+                    <span className='accomodationReserveButtonSpan'>
+                        <Button size='large' type='primary' className='accomodationReserveButton' >Reserve</Button>
                     </span>
                 </div>
             </div>

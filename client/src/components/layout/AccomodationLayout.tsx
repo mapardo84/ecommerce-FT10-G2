@@ -7,7 +7,7 @@ import Accomodations from "../accomodations/Accomodations";
 
 const { Content } = Layout;
 
-export const LayoutTemplate: FunctionComponent = () => {
+export const AccomodationLayout: FunctionComponent = () => {
   return (
     <>
       <Layout>

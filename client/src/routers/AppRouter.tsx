@@ -4,7 +4,6 @@ import {
     Redirect,
     Route
 } from "react-router-dom";
-import Accomodations from "../components/accomodations/Accomodations";
 import { Home } from '../components/home/Home';
 import { HomeLayout } from "../components/layout/HomeLayout";
 import { LandingPage } from "../components/Landing Page/LandingPage";
@@ -12,6 +11,7 @@ import {Register} from "../components/LogIn/Register";
 import {LogIn} from "../components/LogIn/LogIn";
 import {LogOut} from "../components/LogIn/LogOut";
 import {Rodrigo} from "../components/LogIn/Rodrigo";
+import {AccomodationLayout} from './../components/layout/AccomodationLayout';
 
 //ACA VAN TODAS LAS RUTAS
 
@@ -31,7 +31,7 @@ export const AppRouter = () => {
                     />
                     <Route 
                         exact path='/home/accomodations'
-                        component={Accomodations}
+                        component={AccomodationLayout}
                     />
                     <Route
                         exact path="/form"
