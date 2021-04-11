@@ -45,7 +45,7 @@ export const NavBar = () => {
       <Modal
       visible={visible}
       footer={[
-        <a href="/signIn">Don't have an account? Sign In</a>
+        <a href="/signIn" className="loginWith">Don't have an account? Sign In</a>
       ]}
       onCancel={()=>setVisible(false)}>
 

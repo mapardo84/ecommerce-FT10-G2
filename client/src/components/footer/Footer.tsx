@@ -20,6 +20,9 @@ export const FooterLayout = () => {
             </Row>
           </Col>
           <Col span={3}>
+          <Row>
+              <Button className="info" type="text" href="/faq">F.A.Q</Button>
+            </Row>
             <Row>
               <Button className="info" type="text">Adress</Button>
             </Row>
