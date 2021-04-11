@@ -1,11 +1,10 @@
-import {Layout, Menu, Row, Col} from 'antd';
+import {Layout, Menu, Row, Col, Button} from 'antd';
 import Modal from 'antd/lib/modal/Modal';
 import React, { useState } from 'react';
 import LogIn from '../LogIn/LogIn';
 import './NavBar.less'
 
 const { Header } = Layout;
-
 
 export const NavBar = () => {
   
@@ -52,6 +51,16 @@ export const NavBar = () => {
         <LogIn/>
       </Modal>
 
+            <Col span={12}>
+              <div className="navRight">
+                <Button className="navButton" size="large" type="text">Home</Button>
+                <Button className="navButton" size="large" type="text">Acomodation</Button>
+                <Button className="navButton" size="large" type="text">Log In</Button>
+                <Button style={{ backgroundColor: "#178CA4", color:"white"}}>Book Now</Button>
+              </div>
+            </Col>
+
+        
     </>
   )
 }

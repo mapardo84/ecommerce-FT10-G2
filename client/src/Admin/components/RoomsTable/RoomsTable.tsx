@@ -56,7 +56,8 @@ const columns:any = [
         key: 'category',
         filters: [
           { text: 'Economic', value:5},
-          { text: 'Standard', value:2},
+          {text:'Standard(two)',value:1},
+          { text: 'Standard (four)', value:2},
           { text: 'Suite', value:3},
           { text: 'Penthouse', value:6},
         ],
