@@ -1,29 +1,32 @@
-import { Layout, Menu, Row, Col, Button } from "antd";
-import "./Footer.less";
+import { Layout, Row, Col, Button } from "antd";
+import "./footer.less";
 
 const { Footer } = Layout;
 
 export const FooterLayout = () => {
   return (
-    <Footer className="footer">
-        <Row className="ftr" justify="center" align="bottom">
+      <Footer className="laclande" style={{ textAlign: "center" }}>
+        <Row justify="center" align="bottom">
           <Col span={21}>
-            <Menu className="leftMen" theme="dark" mode="vertical">
-               <Menu.Item>Contact us</Menu.Item>      
-                <Menu.Item>Admin panel</Menu.Item>
-                <Menu.Item>About us</Menu.Item>
-              
-              
-            </Menu>
+            <Row>
+              <Button type="text">Contact us</Button>
+            </Row>
+            <Row>
+              <Button type="text">Admin panel</Button>
+            </Row>
+            <Row>
+              <Button type="text">About us</Button>
+            </Row>
           </Col>
           <Col span={3}>
-            <Menu className="rightMen" theme="dark" mode="vertical">
-                <Menu.Item>adress</Menu.Item>
-                <Menu.Item>REDES LOGOS</Menu.Item>
-              
-            </Menu>
+            <Row>
+              <Button type="text">adress</Button>
+            </Row>
+            <Row>
+              <Button type="text">REDES LOGOS</Button>
+            </Row>
           </Col>
         </Row>
-        </Footer>
+      </Footer>
   );
 };

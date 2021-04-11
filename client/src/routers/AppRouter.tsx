@@ -5,9 +5,10 @@ import {
     Redirect,
     Route
 } from "react-router-dom";
-import { LayoutTemplate } from "../components/Layout/Layout";
-import {Rodrigo} from '../components/LogIn/Rodrigo'
+
 import { LandingPage } from "../components/Landing Page/LandingPage";
+import { HomeLayoutTemplate } from "../components/Layout/HomeLayout";
+import { RoomsLayout } from "../Admin/components/Layout/RoomsLayout/RoomsLayout";
 
 //ACA VAN TODAS LAS RUTAS
 
@@ -23,15 +24,22 @@ export const AppRouter = () => {
                     />
                     <Route
                         exact path="/home"
-                        component={LayoutTemplate}
+                        component={HomeLayoutTemplate}
                     />
                     <Route
-                        exact path="/logIn"
-                        component={Rodrigo}
+                        path="/admin/rooms"
+                        component={RoomsLayout}
+                    />
+                    <Route
+                        exact path="/admin_users"
+                    />
+                    <Route
+                        exact path="/admin_bookings"
                     />
 
-                    <Redirect to="/" />
+                
 
+                    <Redirect to="/" />
                 </Switch>
 
             </div>
