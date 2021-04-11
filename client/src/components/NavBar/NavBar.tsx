@@ -1,21 +1,29 @@
-import { Breadcrumb, Layout, Menu, Row, Divider, Col, Button } from 'antd';
+import { Breadcrumb, Layout, Menu, Row, Divider, Col, Button, Modal } from 'antd';
+import LogIn from '../LogIn/LogIn'
 import { Content, Footer } from 'antd/lib/layout/layout';
+import {useState} from 'react';
 import './NavBar.less';
 import hotel from "./hotel.png"
 
 const { Header } = Layout;
 
 export const NavBar = () => {
+
+  const [visible, setVisible] = useState<boolean>(false)
+
   return (
     <>
-      {/* <Header className="headd"> */}
+
+       <Header className="headd"> *
+
+
       <Menu className="headd">
         <Row className="header" justify="center">
 
           <div className="colContainer">
             <Col span={12}>
               <div className="navLeft">
-                <img className="imagen" src={hotel} alt="no funca bro" />
+                <img className="imagen" src={hotel} alt="IMG NOT FOUND" />
                 <h1 className="navTitle">HENRY HOTEL</h1>
               </div>
             </Col>
@@ -24,8 +32,8 @@ export const NavBar = () => {
               <div className="navRight">
                 <Button className="navButton" size="large" type="text">Home</Button>
                 <Button className="navButton" size="large" type="text">Acomodation</Button>
-                <Button className="navButton" size="large" type="text">Log In</Button>
-                <Button style={{ backgroundColor: "#178CA4", color:"white"}}>Book Now</Button>
+                <Button onClick={()=>setVisible(true)} className="navButton" size="large" type="text">Log In</Button>
+                <Button style={{ backgroundColor: "#5296A5", color:"white", border:"1px solid white"}}size="large">Book Now</Button>
               </div>
             </Col>
 
@@ -33,7 +41,16 @@ export const NavBar = () => {
 
         </Row>
       </Menu>
-      {/* </Header> */}
+       </Header> 
+      <Modal
+      visible={visible}
+      footer={[
+        <a href="/signIn">Don't have an account? Sign In</a>
+      ]}
+      onCancel={()=>setVisible(false)}>
+
+        <LogIn/>
+      </Modal>
     </>
   )
 }
