@@ -1,45 +1,44 @@
-import {Layout, Menu, Row, Col, Button} from 'antd';
-import Modal from 'antd/lib/modal/Modal';
-import React, { useState } from 'react';
-import LogIn from '../LogIn/LogIn';
-import './NavBar.less'
+import { Breadcrumb, Layout, Menu, Row, Divider, Col, Button, Modal } from 'antd';
+import LogIn from '../LogIn/LogIn'
+import { Content, Footer } from 'antd/lib/layout/layout';
+import {useState} from 'react';
+import './NavBar.less';
+import hotel from "./hotel.png"
+import { Register } from '../LogIn/Register';
 
 const { Header } = Layout;
 
 export const NavBar = () => {
-  
+
   const [visible, setVisible] = useState<boolean>(false)
-
-  const handleSelect=(key:React.Key):void=>{
-    if(key==="LogIn"){
-      setVisible(true)
-    }else{
-      setVisible(false)
-    }
-  }
-
+ const [registerModal, setRegisterModal] = useState<boolean>(false)
   return (
     <>
-      <Header className="headd">
+
+       <Header className="headd"> *
+
+
+      
         <Row className="header" justify="center">
-          <Col xs={13}>
-            <img className="imagen" src="./hotel.png" alt="no funca bro"/>
-          </Col>
-          <Col xs={10}>
-            <Menu 
-            className="headd" 
-            theme="dark" 
-            mode="horizontal" 
-            onSelect={({key})=>handleSelect(key)}
-            defaultSelectedKeys={['1']}>              
-                <Menu.Item className="menu-opn" style={{marginTop:"20px"}} key="Home">Home</Menu.Item>
-                <Menu.Item className="menu-opn" key="Acomodation">Acomodation</Menu.Item>
-                <Menu.Item className="menu-opn" key="LogIn">Log In</Menu.Item>
-                <Menu.Item className="menu-opn" key="Book">Book Now</Menu.Item>
-            </Menu>
+
+          <div className="colContainer">
+            <Col span={12}>
+              <div className="navLeft">
+                <img className="imagen" src={hotel} alt="IMG NOT FOUND" />
+                <h1 className="navTitle">HENRY HOTEL</h1>
+              </div>
             </Col>
-            
+            <Col span={12}>
+              <div className="navRight">
+                <Button className="navButton" size="large" type="text">Home</Button>
+                <Button className="navButton" size="large" type="text">Acomodation</Button>
+                <Button onClick={()=>setVisible(true)} className="navButton" size="large" type="text">Log In</Button>
+                <Button style={{ backgroundColor: "#5296A5", color:"white", border:"1px solid white"}}size="large">Book Now</Button>
+              </div>
+            </Col>
+            </div>
         </Row>
+       
       </Header>
       <Modal
       visible={visible}
@@ -51,16 +50,25 @@ export const NavBar = () => {
         <LogIn/>
       </Modal>
 
-            <Col span={12}>
-              <div className="navRight">
-                <Button className="navButton" size="large" type="text">Home</Button>
-                <Button className="navButton" size="large" type="text">Acomodation</Button>
-                <Button className="navButton" size="large" type="text">Log In</Button>
-                <Button style={{ backgroundColor: "#178CA4", color:"white"}}>Book Now</Button>
-              </div>
-            </Col>
+            
+       
+      <Modal
+      visible={visible}
+      footer={[
+        <div>Don't have an account? <Button onClick={()=>setRegisterModal(true)}>Sign In</Button></div>
+      ]}
+      onCancel={()=>setVisible(false)}>
 
-        
+        <LogIn/>
+      </Modal>
+
+      <Modal
+      visible={registerModal}
+      footer={[]}
+      onCancel={()=>setRegisterModal(false)}>
+
+        <Register/>
+      </Modal>
     </>
   )
 }

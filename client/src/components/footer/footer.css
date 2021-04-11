@@ -21,13 +21,14 @@
 }
 .laclande {
   background-color: #5296A5 !important;
-  position: absolute;
+  position: relative;
   width: 100%;
   height: auto;
   padding-top: 3vh !important;
   padding-bottom: 3vh !important;
   font-family: 'Merriweather', serif;
   color: white !important;
+  bottom: 0%;
 }
 .layout {
   position: absolute;
@@ -37,5 +38,5 @@
 }
 .info {
   color: white !important;
-  font-size: 1.2vw !important;
+  font-size: 0.8vw !important;
 }
