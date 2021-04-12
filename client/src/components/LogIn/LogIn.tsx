@@ -1,6 +1,8 @@
 import React from 'react'
 import { Form, Button, Input } from 'antd'
 import { classicLogIn } from '../../helpers/logIn'
+import "./LogIn.less"
+import { UserOutlined,LockOutlined, FacebookOutlined, GoogleOutlined } from '@ant-design/icons';
 
 interface logIn{
     email:string
@@ -14,20 +16,22 @@ const onFinish=(values:logIn)=>{
 }
 
     return (
-        <Form
+        <Form className="container"
         name="basic"
         initialValues={{ remember: true }}
         onFinish={onFinish}>
+            <h1 className="Login">LOGIN</h1>
             <Form.Item
                 name="email"
-                label="Insert e-mail"
+                className="email"
                 rules={[{ required: true, message: "Please insert your e-mail!" }, { type: "email", message: "The input is not valid e-mail!" }]}
             >
-                <Input></Input>
+                <Input prefix={<UserOutlined style={{color:'gray'}} />} size="large" placeholder="Email"></Input>
             </Form.Item>
             <Form.Item
+                className="password"
                 name="password"
-                label="Password"
+               
                 rules={[
                     { required: true, message: "Please insert password" },
                     {
@@ -38,9 +42,18 @@ const onFinish=(values:logIn)=>{
                         },
                     },]}
             >
-                <Input.Password></Input.Password>
+                <Input.Password prefix={<LockOutlined style={{color:'gray'}}/>} size="large" placeholder="Password"></Input.Password>
             </Form.Item>
-            <Button type="primary" htmlType="submit">Log In</Button>
+            <Button className="button" type="primary" htmlType="submit">Log In</Button>
+
+            <p style={{marginLeft:"40%",marginTop:"35px"}}>Or login with</p>
+            <div className="icons">
+
+           <GoogleOutlined style={{marginTop:"-9.5%",fontSize: '40px' }}/>
+            </div>
+          
         </Form>
     )
 }
+
+export default LogIn;
