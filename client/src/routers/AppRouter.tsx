@@ -4,11 +4,6 @@ import {
     Redirect,
     Route
 } from "react-router-dom";
-<<<<<<< HEAD
-import Accomodations from "../components/accomodations/Accomodations";
-import Details from "../components/categories/Details/Details";
-=======
->>>>>>> PateFunkyV2
 import { Home } from '../components/home/Home';
 import { HomeLayout } from "../components/layout/HomeLayout";
 import { LandingPage } from "../components/Landing Page/LandingPage";
@@ -17,6 +12,7 @@ import {LogIn} from "../components/LogIn/LogIn";
 import {LogOut} from "../components/LogIn/LogOut";
 import {Rodrigo} from "../components/LogIn/Rodrigo";
 import {AccomodationLayout} from './../components/layout/AccomodationLayout';
+import { AccomodationDetailsLayout } from '../components/layout/AccomodationsDetailsLayout';
 
 //ACA VAN TODAS LAS RUTAS
 
@@ -40,7 +36,7 @@ export const AppRouter = () => {
                     />
                     <Route 
                         exact path='/home/accomodations/:id'
-                        component={Details}
+                        component={AccomodationDetailsLayout}
                     />
                     <Route
                         exact path="/form"

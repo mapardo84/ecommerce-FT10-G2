@@ -39,7 +39,7 @@ const Details = ({ data }: any): JSX.Element => {
             </div>
             <div className='details-conteiner'>
                 <div className='title-category'>
-                    <h1 style={{textAlign: 'center', color: '#dddad7', paddingTop: '10px'}}>{category?.name}</h1>
+                    <h1 style={{fontSize: '32px', textAlign: 'center', color: 'black', paddingTop: '10px'}}>{category?.name}</h1>
                 </div>
                 <div className='content-description'>
                     <p id='description'>{category?.description}</p>
@@ -54,7 +54,7 @@ const Details = ({ data }: any): JSX.Element => {
                     </section>
                 </div>
                 <div className='aside-book'>
-                    <h3 style={{color: '#dddad7'}}>Rate... ${category?.price} usd</h3>                        
+                    <h3>Rate: ${category?.price} usd</h3>                        
                     <div>
                         <Button type='primary' onClick={handleOnClick} size='large'>
                             Book
