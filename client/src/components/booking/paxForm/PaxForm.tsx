@@ -3,6 +3,7 @@ import 'antd/dist/antd.css';
 import { Form, Input, Cascader, Select, DatePicker, Checkbox, Button, Switch } from 'antd';
 import { sendPax } from '../../../actions/Booking/PaxFormActions';
 import '../paxForm/PaxForm.less'
+import { PaymentBooking } from '../paymentBooking/PaymentBooking';
 const { Option } = Select;
 
 const residences = [
@@ -92,158 +93,170 @@ const prefixSelector = (
 );
 
     return (
-        <div className='form'>
+        <div className='paxForm_container'>
+            
+            <div className='form'>
+                <div className='paxForm_TitleGuest'>
+                <h3>Guest Information</h3>
+                </div>
+            <Form
+                {...formItemLayout}
+                form={form}
+                name="register"
+                onFinish={onFinish}
+                initialValues={{
+                    country: ['United States'],
+                    prefix: '1',
+                    remember: true
+                }}
+                scrollToFirstError
+                className='form'
+                >
 
-        <Form
-            {...formItemLayout}
-            form={form}
-            name="register"
-            onFinish={onFinish}
-            initialValues={{
-                country: ['United States'],
-                prefix: '1',
-                remember: true
-            }}
-            scrollToFirstError
-            >
-
-        <Form.Item
-            name="first_name"
-            label="Name"
-            rules={[
-                {
-                    required: true,
-                    message: 'Please input your name!',
-                    whitespace: true,
-                },
-            ]}
-            >
-            <Input />
-        </Form.Item>
-
-        <Form.Item
-            name="last_name"
-            label="Last Name"
-            rules={[
-                {
-                    required: true,
-                    message: 'Please input your last name!',
-                    whitespace: true,
-                },
-            ]}
-            >
-            <Input />
-        </Form.Item>
-        
-        <Form.Item 
-            name= "birth_date"
-            label="Birth Date"
-            rules={[
-                {
-                    // type: 'string',
-                    required: true,
-                    message: 'Please select your birth date!',
-                },
-            ]}
-            >
-            <DatePicker />
+            
+            <Form.Item
+                name="first_name"
+                label="Name"
+                rules={[
+                    {
+                        required: true,
+                        message: 'Please input your name!',
+                        whitespace: true,
+                    },
+                ]}
+                >
+                <Input className='paxForm_input'/>
             </Form.Item>
 
             <Form.Item
-            name="uuid"
-            label="DNI"
-            rules={[
-                {
-                    required: true,
-                    message: 'Please input your identification!',
-                    whitespace: true,
-                },
-            ]}
-            >
-            <Input />
-        </Form.Item>
+                name="last_name"
+                label="Last Name"
+                rules={[
+                    {
+                        required: true,
+                        message: 'Please input your last name!',
+                        whitespace: true,
+                    },
+                ]}
+                >
+                <Input className='paxForm_input'/>
+            </Form.Item>
+            
+            <Form.Item 
+                name= "birth_date"
+                label="Birth Date"
+                rules={[
+                    {
+                        // type: 'string',
+                        required: true,
+                        message: 'Please select your birth date!',
+                    },
+                ]}
+                >
+                <DatePicker />
+                </Form.Item>
 
-        <Form.Item
-            name="country"
-            label="Country"
-            rules={[
-                {
-                    type: 'array',
-                    required: true,
-                    message: 'Please select your country!',
-                },
-            ]}
-            >
-            <Cascader options={residences} />
-        </Form.Item>
+                <Form.Item
+                name="uuid"
+                label="DNI"
+                rules={[
+                    {
+                        required: true,
+                        message: 'Please input your identification!',
+                        whitespace: true,
+                    },
+                ]}
+                >
+                <Input className='paxForm_input'/>
+            </Form.Item>
 
-        <Form.Item
-            name="address"
-            label="Address"
-            rules={[
-                {
-                    required: true,
-                    message: 'Please input your address!',
-                    whitespace: true,
-                },
-            ]}
-            >
-            <Input />
-        </Form.Item>
+            <Form.Item
+                name="country"
+                label="Country"
+                rules={[
+                    {
+                        type: 'array',
+                        required: true,
+                        message: 'Please select your country!',
+                    },
+                ]}
+                >
+                <Cascader options={residences} className='paxForm_input'/>
+            </Form.Item>
 
-        <Form.Item
-            name="phone"
-            label="Phone Number"
-            rules={[
-                {
-                    type: "string",
-                    required: true,
-                    message: 'Please input your phone number!',
-                },
-            ]}
-            >
-            <Input
-            addonBefore={prefixSelector}
-            style={{
-                width: '100%',
-            }}
-            />
-        </Form.Item>
+            <Form.Item
+                name="address"
+                label="Address"
+                rules={[
+                    {
+                        required: true,
+                        message: 'Please input your address!',
+                        whitespace: true,
+                    },
+                ]}
+                >
+                <Input className='paxForm_input'/>
+            </Form.Item>
+
+            <Form.Item
+                name="phone"
+                label="Phone Number"
+                rules={[
+                    {
+                        type: "string",
+                        required: true,
+                        message: 'Please input your phone number!',
+                    },
+                ]}
+                >
+                <Input
+                addonBefore={prefixSelector}
+                style={{
+                    width: '100%',
+                }}
+                className='paxForm_input'
+                />
+            </Form.Item>
 
 
-        <Form.Item 
-            name= 'titular'
-            label= 'Titular'
-            >
-            <Switch
-            defaultChecked = {true}
-            checked = {true}
-            />
-        </Form.Item>
+            <Form.Item 
+                name= 'titular'
+                label= 'Titular'
+                >
+                <Switch
+                defaultChecked = {true}
+                checked = {true}
+                />
+            </Form.Item>
 
-        <Form.Item
-            name="agreement"
-            valuePropName="checked"
-            rules={[
-                {
-                    validator: (_, value) =>
-                    value ? Promise.resolve() : Promise.reject(new Error('Should accept agreement')),
-                },
-            ]}
-            {...tailFormItemLayout}
-            >
-            <Checkbox>
-            I have read the <a href="https://memegenerator.net/img/instances/64451727/i-believe-we-have-an-agreement.jpg">agreement</a>  {/* hacer modal con foto*/}
-            </Checkbox>
-        </Form.Item>
+            <Form.Item
+                name="agreement"
+                valuePropName="checked"
+                rules={[
+                    {
+                        validator: (_, value) =>
+                        value ? Promise.resolve() : Promise.reject(new Error('Should accept agreement')),
+                    },
+                ]}
+                {...tailFormItemLayout}
+                >
+                <Checkbox>
+                I have read the <a href="https://memegenerator.net/img/instances/64451727/i-believe-we-have-an-agreement.jpg">agreement</a>  {/* hacer modal con foto*/}
+                </Checkbox>
+            </Form.Item>
 
-        <Form.Item {...tailFormItemLayout}>
-            <Button type="primary" htmlType="submit">
-            CONFIRM BOOKING
-            </Button>
-        </Form.Item>
+            <Form.Item {...tailFormItemLayout}>
+                <Button type="primary" htmlType="submit">
+                CONFIRM BOOKING
+                </Button>
+            </Form.Item>
 
-        </Form>
+            </Form>
             </div>
+
+            <div>
+                <PaymentBooking/>
+            </div>
+        </div>
 );
 };
