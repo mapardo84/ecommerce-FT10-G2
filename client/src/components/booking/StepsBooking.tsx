@@ -1,5 +1,4 @@
 import React, { useState, FunctionComponent } from 'react';
-import 'antd/dist/antd.css';
 import { Steps } from 'antd';
 import { PaxForm } from './paxForm/PaxForm';
 import { AccomodationsSelect } from './accomodationsSelect/AccomodationsSelect';
