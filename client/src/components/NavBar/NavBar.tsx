@@ -66,6 +66,7 @@ export const NavBar = () => {
       </Header>
       <Modal
         visible={visible}
+        zIndex={10010}
         footer={[
           <div>
             Don't have an account?{" "}
@@ -79,6 +80,7 @@ export const NavBar = () => {
 
       <Modal
         visible={registerModal}
+        zIndex={10012}
         footer={[]}
         onCancel={() => setRegisterModal(false)}
       >

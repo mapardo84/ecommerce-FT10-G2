@@ -9,25 +9,25 @@ import { Button } from 'antd';
 
 export function MyCalendar() {
 
-//   const dispatch = useDispatch
+  //   const dispatch = useDispatch
 
-//   const handleClick = (event:any) => {
-//    dispatch(event.target.id)
-// }
+  //   const handleClick = (event:any) => {
+  //    dispatch(event.target.id)
+  // }
 
   const { RangePicker } = DatePicker
-  
+
   return (
 
     <div className='backgroundPage'>
-        <Space direction="vertical" size={12}>
-          <div className='Calendar'>
-          <RangePicker className='backgroundPage' open={true} />
-          </div>
-        </Space>
-         <div className='fuckBtn'>
-        <Button  className='buttonBabe' type="primary">UPGRADE DATES</Button>
+      <Space direction="vertical" size={12}>
+        <div className='Calendar'>
+          <RangePicker className='backgroundPageA' open={true} />
         </div>
+      </Space>
+      <div className='fuckBtn'>
+        <Button className='buttonBabe' type="primary">UPGRADE DATES</Button>
+      </div>
     </div>
 
   )
