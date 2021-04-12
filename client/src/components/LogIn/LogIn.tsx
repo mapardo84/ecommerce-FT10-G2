@@ -60,7 +60,7 @@ export const LogIn = () => {
         Log In
       </Button>
 
-      <p className="loginWith">Or login with</p>
+      <div className="loginCenter">Or login with</div>
       <div className="icons">
         <GoogleOutlined style={{ marginTop: "-9.5%", fontSize: "40px" }} />
       </div>

@@ -9,6 +9,7 @@ const { Header } = Layout;
 
 export const NavBar = () => {
   const [visible, setVisible] = useState<boolean>(false);
+  const [registerVisible, setRegisterVisible] = useState<boolean>(false);
 
   return (
     <>
@@ -45,16 +46,18 @@ export const NavBar = () => {
                       Log In
                     </Button>
                   </div>
-                  <Button
-                    style={{
-                      backgroundColor: "#5296A5",
-                      color: "white",
-                      border: "1px solid white",
-                    }}
-                    size="large"
-                  >
-                    Book Now
-                  </Button>
+                  <NavLink to="/booking">
+                    <Button
+                      style={{
+                        backgroundColor: "#5296A5",
+                        color: "white",
+                        border: "1px solid white",
+                      }}
+                      size="large"
+                    >
+                      Book Now
+                    </Button>
+                  </NavLink>
                 </div>
               </Col>
             </div>
@@ -62,11 +65,13 @@ export const NavBar = () => {
         </Menu>
       </Header>
       <Modal
+        zIndex={1100}
         visible={visible}
         footer={[
-          <a href="/signIn" className="loginWith">
+          <NavLink to="/form">
+          <div className="loginWith">
             Don't have an account? Sign In
-          </a>,
+          </div></NavLink>
         ]}
         onCancel={() => setVisible(false)}
       >

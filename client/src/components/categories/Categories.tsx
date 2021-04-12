@@ -7,6 +7,7 @@ import { getCategories } from "../../actions";
 import Category from "./Category";
 import "./../accomodations/accomodations.less";
 import "./../layout/homeLayout.less";
+import { NavLink } from "react-router-dom";
 
 const { Option } = Select;
 const { Content, Header } = Layout;
@@ -47,6 +48,7 @@ const Categories = ({ data }: any): JSX.Element => {
             </Select>
           </span>
           <span>
+            <NavLink to="/booking">
             <Button
               size="large"
               type="primary"
@@ -54,6 +56,7 @@ const Categories = ({ data }: any): JSX.Element => {
             >
               Book now!
             </Button>
+            </NavLink>
           </span>
         </div>
       </div>

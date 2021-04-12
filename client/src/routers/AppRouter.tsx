@@ -33,7 +33,7 @@ export const AppRouter = () => {
             exact
             path="/home/accomodations"
             component={AccomodationLayout}
-          />
+          />         
           <Redirect to="/" />
         </Switch>
       </div>
