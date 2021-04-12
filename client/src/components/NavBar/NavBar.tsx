@@ -1,6 +1,5 @@
 import { Layout, Menu, Row, Col, Button, Modal } from "antd";
 import { LogIn } from "../LogIn/LogIn";
-
 import { useState } from "react";
 import "./NavBar.less";
 import hotel from "./hotel.png";
