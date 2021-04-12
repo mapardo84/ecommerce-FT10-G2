@@ -1,11 +1,11 @@
 import { Layout, Row, Col, Button } from "antd";
+import { NavLink } from "react-router-dom";
 import "./footer.less";
 
 const { Footer } = Layout;
 
 export const FooterLayout = () => {
   return (
-    <Layout className="layout">
       <Footer className="laclande" style={{ textAlign: "center" }}>
         <Row justify="center" align="bottom">
           <Col span={21}>
@@ -20,6 +20,9 @@ export const FooterLayout = () => {
             </Row>
           </Col>
           <Col span={3}>
+          <Row>
+          <NavLink to="/faq"><Button className="info" type="text">F.A.Q</Button></NavLink>
+            </Row>
             <Row>
               <Button className="info" type="text">Adress</Button>
             </Row>
@@ -29,6 +32,5 @@ export const FooterLayout = () => {
           </Col>
         </Row>
       </Footer>
-    </Layout>
   );
 };

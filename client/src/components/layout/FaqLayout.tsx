@@ -1,20 +1,20 @@
 import { Layout } from "antd";
 import { NavBar } from "../NavBar/NavBar";
-import {FooterLayout} from '../footer/Footer'
+import { FooterLayout } from "../footer/Footer";
 import { FunctionComponent } from "react";
-
+import { Faq } from "../Faq/Faq";
 
 const { Content } = Layout;
 
-export const LayoutTemplate: FunctionComponent = () => {
+export const FaqLayout: FunctionComponent = () => {
   return (
     <>
       <Layout>
         <NavBar />
-        <Content>
-          {/* <Componente a renderizar> </Componente a renderizar> */}
+        <Content style={{ minHeight: "100%" }}>
+          <Faq />
         </Content>
-        <FooterLayout/>
+        <FooterLayout />
       </Layout>
     </>
   );

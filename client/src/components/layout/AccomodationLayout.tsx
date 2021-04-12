@@ -1,20 +1,21 @@
 import { Layout } from "antd";
 import { NavBar } from "../NavBar/NavBar";
-import {FooterLayout} from '../footer/Footer'
+import { FooterLayout } from "../footer/Footer";
 import { FunctionComponent } from "react";
+import Accomodations from "../accomodations/Accomodations";
 
 
 const { Content } = Layout;
 
-export const LayoutTemplate: FunctionComponent = () => {
+export const AccomodationLayout: FunctionComponent = () => {
   return (
     <>
       <Layout>
         <NavBar />
         <Content>
-          {/* <Componente a renderizar> </Componente a renderizar> */}
+         <Accomodations />
         </Content>
-        <FooterLayout/>
+        <FooterLayout />
       </Layout>
     </>
   );
