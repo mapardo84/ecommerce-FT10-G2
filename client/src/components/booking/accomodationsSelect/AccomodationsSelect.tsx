@@ -25,10 +25,8 @@ export const AccomodationsSelect = ({ data }: any): JSX.Element => {
   }, []);
 
   const handleChange = (value: any) => {
-    console.log(value);
     if (value === '0') {
       getCategoriesDB(undefined);
-      console.log("ENRE")
     } else {
       getCategoriesDB(value);
     }

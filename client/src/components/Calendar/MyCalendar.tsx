@@ -1,6 +1,4 @@
-import 'antd/dist/antd.css';
 import { Space, DatePicker } from 'antd';
-import 'antd/dist/antd.less'
 import './MyCalendar.less'
 import { Button } from 'antd';
 // import { useDispatch } from 'react-redux';
