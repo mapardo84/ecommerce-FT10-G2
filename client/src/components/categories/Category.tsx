@@ -1,4 +1,5 @@
 import { Button,Layout,Image } from 'antd';
+import { Link } from 'react-router-dom';
 import './Category.less';
 const {Sider,Content} = Layout
 const Category = ({ categ }: any): JSX.Element => {
@@ -22,9 +23,11 @@ const Category = ({ categ }: any): JSX.Element => {
                         </p>
                     </div>
                     <div className='categoryButtons'>
-                        <Button type='link' className='categoryMoreInfoButton'>
-                            More Info...
-                        </Button>
+                        <Link to={`/home/accomodations/${categ.id}`}>
+                            <Button type='link' className='categoryMoreInfoButton'>
+                                More Info...
+                            </Button>
+                        </Link>
                     </div>
                 </Sider>
             </Layout>

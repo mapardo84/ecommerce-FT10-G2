@@ -5,6 +5,7 @@ import {
     Route
 } from "react-router-dom";
 import Accomodations from "../components/accomodations/Accomodations";
+import Details from "../components/categories/Details/Details";
 import { Home } from '../components/home/Home';
 import { HomeLayout } from "../components/layout/HomeLayout";
 import {LogIn} from "../components/LogIn/LogIn";
@@ -32,6 +33,10 @@ export const AppRouter = () => {
                     <Route 
                         exact path='/home/accomodations'
                         component={Accomodations}
+                    />
+                    <Route 
+                        exact path='/home/accomodations/:id'
+                        component={Details}
                     />
                     <Route
                         exact path="/form"

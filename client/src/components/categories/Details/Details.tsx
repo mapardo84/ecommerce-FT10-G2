@@ -1,0 +1,69 @@
+import { useEffect, useState } from 'react';
+import { useParams } from 'react-router-dom';
+import { useSelector } from 'react-redux';
+import {initialStateProps} from '../../../reducers/categoriesReducer';
+import { Button, Carousel, Image, Row, Col } from 'antd';
+import 'antd/dist/antd.css';
+import './Details.less';
+
+interface category {
+    id:number, name:string, capacity:number, description:string, price:number, images:string[], details:string[]
+}
+
+const Details = ({ data }: any): JSX.Element => {
+    const { id }:any = useParams();
+    const [ category, setCategory ] = useState<category>();
+    const cat:category[] = useSelector(( state:initialStateProps) => state.categories ).categories;
+
+    useEffect( () => {
+        setCategory(cat.find(( (x:any) => x.id === Number(id) )));
+    }, [cat, id]);
+
+    const handleOnClick = (e:any) => {
+        console.log('Bookearon!');
+    }
+    return (
+        <div>
+            <div className='header-slider'>
+                <header className='pic-slider'>
+                    <Carousel autoplay>
+                        {(category?.images?.map( (image:string, i:number) => {
+                            return (
+                                <div key={i} className='image-details'>
+                                    <Image src={image} height={400} width={600}/>
+                                </div>
+                            )
+                        }))}
+                    </Carousel>
+                </header>
+            </div>
+            <div className='details-conteiner'>
+                <div className='title-category'>
+                    <h1 style={{textAlign: 'center', color: '#dddad7', paddingTop: '10px'}}>{category?.name}</h1>
+                </div>
+                <div className='content-description'>
+                    <p id='description'>{category?.description}</p>
+                </div>
+                <div className='content-features'>
+                    <section id='features-section'>
+                        {(category?.details?.map( (detail:string, i:number) => {
+                                return (
+                                        <p key={i} className='p-features'>- {detail}</p>
+                                    )
+                                }))}           
+                    </section>
+                </div>
+                <div className='aside-book'>
+                    <h3 style={{color: '#dddad7'}}>Rate... ${category?.price} usd</h3>                        
+                    <div>
+                        <Button type='primary' onClick={handleOnClick} size='large'>
+                            Book
+                        </Button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    )
+}
+
+export default Details;

@@ -1,4 +1,3 @@
-import Details from './Details/Details';
 import { Card, Input } from 'antd'
 import Text from 'antd/lib/typography/Text'
 import './home.less'
