@@ -5,6 +5,7 @@ import {
     Route
 } from "react-router-dom";
 import { Home } from '../components/home/Home';
+import { QandA } from "../components/q&a/q&a";
 
 //ACA VAN TODAS LAS RUTAS
 
@@ -21,6 +22,10 @@ export const AppRouter = () => {
                     <Route
                         exact path="/home"
                         component={Home}
+                    />
+                     <Route
+                        exact path="/qa"
+                        component={QandA}
                     />
 
                     <Redirect to="/" />
