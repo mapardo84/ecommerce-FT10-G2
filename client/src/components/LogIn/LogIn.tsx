@@ -1,4 +1,3 @@
-import React from "react";
 import { Form, Button, Input } from "antd";
 import { classicLogIn } from "../../helpers/logIn";
 import "./LogIn.less";

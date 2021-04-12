@@ -1,9 +1,10 @@
-import React, { useState, FunctionComponent } from 'react';
+import { useState, FunctionComponent } from 'react';
+import '../booking/StepsBooking.less'
 import { Steps } from 'antd';
 import { PaxForm } from './paxForm/PaxForm';
 import { AccomodationsSelect } from './accomodationsSelect/AccomodationsSelect';
 import { MyCalendar } from '../Calendar/MyCalendar';
-import '../booking/StepsBooking.less'
+
 import { GuestsForm } from './guestsForm/GuestsForm';
 
 const { Step } = Steps;

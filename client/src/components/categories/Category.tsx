@@ -23,7 +23,7 @@ const Category = ({ categ }: any): JSX.Element => {
                         </p>
                     </div>
                     <div className='categoryButtons'>
-                        <Link to={`/home/accomodations/${categ.id}`}>
+                        <Link to={`/accomodations/${categ.id}`}>
                             <Button type='link' className='categoryMoreInfoButton'>
                                 More Info...
                             </Button>

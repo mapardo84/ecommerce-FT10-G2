@@ -1,7 +1,7 @@
 import { Button, Layout, Image, Modal } from 'antd';
 import { useState } from 'react';
-import { Link } from 'react-router-dom';
 import '../accomodationsSelect/AccomodationsCards.less'
+import 'antd/dist/antd.css';
 const { Sider, Content } = Layout
 
 

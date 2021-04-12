@@ -14,7 +14,7 @@ export const BookingLayout: FunctionComponent = () => {
       <Layout>
         <NavBar />
         <Content className='sticky'>
-          <StepsBooking></StepsBooking>
+          <StepsBooking/>
         </Content>
         <FooterLayout />
       </Layout>

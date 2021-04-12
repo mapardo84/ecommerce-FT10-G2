@@ -3,9 +3,8 @@ import LogIn from "../LogIn/LogIn";
 import { useState } from "react";
 import { NavLink } from "react-router-dom";
 import "./NavBar.less";
-import hotel from "./hotel.png";
+import hotel from "./hotel.png"
 import { Register } from "../LogIn/Register";
-
 const { Header } = Layout;
 
 export const NavBar = () => {
@@ -31,7 +30,7 @@ export const NavBar = () => {
                       Home
                     </Button>
                   </NavLink>
-                  <NavLink to="/home/accomodations">
+                  <NavLink to="/accomodations">
                     <Button className="navButton" size="large" type="text">
                       Accomodations
                     </Button>
