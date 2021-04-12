@@ -4,6 +4,7 @@ import { Content, Footer } from 'antd/lib/layout/layout';
 import {useState} from 'react';
 import './NavBar.less';
 import hotel from "./hotel.png"
+import { NavLink } from 'react-router-dom';
 
 const { Header } = Layout;
 
@@ -14,7 +15,7 @@ export const NavBar = () => {
   return (
     <>
 
-       <Header className="headd"> *
+       <Header className="headd"> 
 
 
       <Menu className="headd">
@@ -30,9 +31,9 @@ export const NavBar = () => {
 
             <Col span={12}>
               <div className="navRight">
-                <Button className="navButton" size="large" type="text">Home</Button>
-                <Button className="navButton" size="large" type="text">Acomodation</Button>
-                <Button onClick={()=>setVisible(true)} className="navButton" size="large" type="text">Log In</Button>
+                <NavLink to="/home"><Button className="navButton" size="large" type="text" >Home</Button></NavLink>
+                <NavLink to="/home"><Button className="navButton" size="large" type="text">Acomodation</Button></NavLink>
+                <div className="loginButton"><Button onClick={()=>setVisible(true)} className="navButton" size="large" type="text">Log In</Button></div>
                 <Button style={{ backgroundColor: "#5296A5", color:"white", border:"1px solid white"}}size="large">Book Now</Button>
               </div>
             </Col>
