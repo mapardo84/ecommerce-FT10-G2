@@ -58,7 +58,7 @@ export const GuestsForm = () => {
         }}
         >
 
-        <Button type="primary" htmlType="submit">
+        <Button style={{marginLeft:'30px'}} type="primary" htmlType="submit">
           UPGRADE GUESTS
         </Button>
       </Form.Item>
