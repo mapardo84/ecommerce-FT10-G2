@@ -1,6 +1,7 @@
 import React from 'react';
 import { Form, Input, Button } from 'antd';
 import { sendRegister } from '../../helpers/register'
+import './Register.less'
 
 export interface Register {
     email: string
@@ -18,13 +19,15 @@ export const Register = () => {
     };
 
     return (
+        <div className="register_Container">
+            <div className="register_Title">Register</div>
         <Form
             name="basic"
             initialValues={{ remember: true }}
             onFinish={onFinish}
         >
             <Form.Item
-                label="firstName"
+                label="First Name"
                 name="firstName"
                 rules={[{ required: true, message: "Please, put your first name!" }]}>
                 <Input></Input>
@@ -84,9 +87,10 @@ export const Register = () => {
             >
                 <Input.Password></Input.Password>
             </Form.Item>
-            <Button type="primary" htmlType="submit">Register</Button>
+            <Button type="primary" htmlType="submit" className="register_Btn">Register</Button>
 
         </Form>
+        </div>
 
 
     )
