@@ -1,8 +1,9 @@
-import React from "react";
-import { Form, Button, Input } from "antd";
+import React, { useState } from "react";
+import { Form, Button, Input, Result } from "antd";
 import { classicLogIn } from "../../helpers/logIn";
 import "./LogIn.less";
 import { UserOutlined, LockOutlined, GoogleOutlined } from "@ant-design/icons";
+import Modal from "antd/lib/modal/Modal";
 
 interface logIn {
   email: string;
@@ -10,6 +11,7 @@ interface logIn {
 }
 
 export const LogIn = () => {
+  const [visible, setVisible] = useState(false)
   const onFinish = (values: logIn) => {
     classicLogIn(values.email, values.password);
   };
@@ -59,11 +61,27 @@ export const LogIn = () => {
       <Button className="button" type="primary" htmlType="submit">
         Log In
       </Button>
-
       <div className="loginCenter">Or login with</div>
       <div className="icons">
         <GoogleOutlined style={{ marginTop: "-9.5%", fontSize: "40px" }} />
       </div>
+      <Modal
+        visible={visible}
+        onCancel={()=>setVisible(false)}>
+        <Result
+          status="success"
+          title="Successfully Purchased Cloud Server ECS!"
+          subTitle="Order number: 2017182818828182881 Cloud server configuration takes 1-5 minutes, please wait."
+          extra={[
+            <Button type="primary" key="console">
+              Go Console
+      </Button>,
+            <Button key="buy">Buy Again</Button>,
+          ]}
+        />
+
+      </Modal>
+
     </Form>
   );
 };

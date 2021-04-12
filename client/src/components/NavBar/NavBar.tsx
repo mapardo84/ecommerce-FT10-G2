@@ -10,6 +10,7 @@ const { Header } = Layout;
 
 export const NavBar = () => {
   const [visible, setVisible] = useState<boolean>(false);
+  const [regOrLog, setRegOrLog] = useState<string>("logIn")
   const [registerModal, setRegisterModal] = useState<boolean>(false);
   return (
     <>
@@ -67,22 +68,33 @@ export const NavBar = () => {
       <Modal
         visible={visible}
         footer={[
-          <div>
-            Don't have an account?{" "}
-            <Button onClick={() => setRegisterModal(true)}>Sign In</Button>
+          <div>{regOrLog === "logIn" ?
+            <div>
+              Don't have an account?
+              <Button onClick={() => setRegOrLog("signIn")}>Sign In</Button>
+            </div> :
+            <div>
+              If you have an account
+              <Button onClick={() => setRegOrLog("logIn")}>Log In</Button>
+            </div>
+          }
           </div>,
         ]}
-        onCancel={() => setVisible(false)}
+        onCancel={() => {
+          setRegOrLog("logIn")
+          setVisible(false)
+        }}
       >
-        <LogIn />
+        {regOrLog === "logIn" ? <LogIn /> : <Register />}
       </Modal>
+
 
       <Modal
         visible={registerModal}
         footer={[]}
         onCancel={() => setRegisterModal(false)}
       >
-        <Register />
+
       </Modal>
     </>
   );
