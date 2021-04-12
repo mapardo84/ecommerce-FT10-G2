@@ -11,7 +11,6 @@ const { Header } = Layout;
 export const NavBar = () => {
   const [visible, setVisible] = useState<boolean>(false);
   const [regOrLog, setRegOrLog] = useState<string>("logIn")
-  const [registerModal, setRegisterModal] = useState<boolean>(false);
   return (
     <>
       <Header className="headd">
@@ -86,15 +85,6 @@ export const NavBar = () => {
         }}
       >
         {regOrLog === "logIn" ? <LogIn /> : <Register />}
-      </Modal>
-
-
-      <Modal
-        visible={registerModal}
-        footer={[]}
-        onCancel={() => setRegisterModal(false)}
-      >
-
       </Modal>
     </>
   );
