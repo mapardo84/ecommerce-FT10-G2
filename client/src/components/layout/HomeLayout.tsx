@@ -1,12 +1,12 @@
 import { Layout } from "antd";
 import { NavBar } from "../NavBar/NavBar";
-import { FooterLayout } from "../footer/Footer";
+import {FooterLayout} from '../Footer/Footer'
 import { FunctionComponent } from "react";
 import { HomeSlides } from "../HomeSlides/HomeSlides";
 import "./homeLayout.less";
 const { Content } = Layout;
 
-export const HomeLayout: FunctionComponent = () => {
+export const HomeLayout = ():JSX.Element => {
   return (
     <>
       <Layout className="container">

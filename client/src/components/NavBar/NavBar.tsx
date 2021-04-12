@@ -1,16 +1,16 @@
 import { Layout, Menu, Row, Col, Button, Modal } from "antd";
-import { LogIn } from "../LogIn/LogIn";
+import LogIn from "../LogIn/LogIn";
 import { useState } from "react";
+import { NavLink } from "react-router-dom";
 import "./NavBar.less";
 import hotel from "./hotel.png";
-import { NavLink } from "react-router-dom";
+import { Register } from "../LogIn/Register";
 
 const { Header } = Layout;
 
 export const NavBar = () => {
   const [visible, setVisible] = useState<boolean>(false);
-  const [registerVisible, setRegisterVisible] = useState<boolean>(false);
-
+  const [registerModal, setRegisterModal] = useState<boolean>(false);
   return (
     <>
       <Header className="headd">
@@ -65,17 +65,24 @@ export const NavBar = () => {
         </Menu>
       </Header>
       <Modal
-        zIndex={1100}
         visible={visible}
         footer={[
-          <NavLink to="/form">
-          <div className="loginWith">
-            Don't have an account? Sign In
-          </div></NavLink>
+          <div>
+            Don't have an account?{" "}
+            <Button onClick={() => setRegisterModal(true)}>Sign In</Button>
+          </div>,
         ]}
         onCancel={() => setVisible(false)}
       >
         <LogIn />
+      </Modal>
+
+      <Modal
+        visible={registerModal}
+        footer={[]}
+        onCancel={() => setRegisterModal(false)}
+      >
+        <Register />
       </Modal>
     </>
   );

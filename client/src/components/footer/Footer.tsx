@@ -6,7 +6,6 @@ const { Footer } = Layout;
 
 export const FooterLayout = () => {
   return (
-    <Layout className="layout">
       <Footer className="laclande" style={{ textAlign: "center" }}>
         <Row justify="center" align="bottom">
           <Col span={21}>
@@ -33,6 +32,5 @@ export const FooterLayout = () => {
           </Col>
         </Row>
       </Footer>
-    </Layout>
   );
 };

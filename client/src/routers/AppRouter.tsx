@@ -13,6 +13,7 @@ import { Rodrigo } from "../components/LogIn/Rodrigo";
 import { FaqLayout } from "../components/layout/FaqLayout";
 import { AccomodationLayout } from "./../components/layout/AccomodationLayout";
 import { BookingLayout } from "../components/layout/BookingLayout";
+import { RoomsLayout } from "../Admin/components/Layout/RoomsLayout/RoomsLayout";
 
 //ACA VAN TODAS LAS RUTAS
 
@@ -29,11 +30,14 @@ export const AppRouter = () => {
           <Route exact path="/rodrigo" component={Rodrigo} />
           <Route exact path="/booking" component={BookingLayout} />
           <Route exact path="/faq" component={FaqLayout} />
+          <Route path="/admin/rooms" component={RoomsLayout} />
+          <Route exact path="/admin_users" />
+          <Route exact path="/admin_bookings" />
           <Route
             exact
             path="/home/accomodations"
             component={AccomodationLayout}
-          />         
+          />
           <Redirect to="/" />
         </Switch>
       </div>
