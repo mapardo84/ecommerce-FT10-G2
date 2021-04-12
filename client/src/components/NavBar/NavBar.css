@@ -1,31 +1,70 @@
+@font-face {
+  font-family: 'Merriweather';
+  font-style: italic;
+  font-weight: 300;
+  src: url(https://fonts.gstatic.com/s/merriweather/v22/u-4l0qyriQwlOrhSvowK_l5-eR7lXcf_.ttf) format('truetype');
+}
+@font-face {
+  font-family: 'Merriweather';
+  font-style: normal;
+  font-weight: 300;
+  src: url(https://fonts.gstatic.com/s/merriweather/v22/u-4n0qyriQwlOrhSvowK_l521wRpXw.ttf) format('truetype');
+}
+@font-face {
+  font-family: 'Montserrat';
+  font-style: normal;
+  font-weight: 500;
+  src: url(https://fonts.gstatic.com/s/montserrat/v15/JTURjIg1_i6t8kCHKm45_ZpC7g4.ttf) format('truetype');
+}
 .headd {
-  height: 100px !important;
-  background-color: #2D9D6A !important;
-}
-.header {
-  display: flex !important;
-  align-content: center !important;
-}
-.menu {
+  position: fixed;
+  width: 100vw;
+  left: 0;
+  top: 0;
+  height: 10%;
+  background: #5296A5 !important;
+  z-index: 70;
+  box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.301) !important;
   display: flex;
   justify-content: space-between;
 }
+.colContainer {
+  display: flex;
+  align-items: center;
+  width: 100vw;
+  height: 100%;
+}
+.navLeft {
+  width: 50vw !important;
+  display: flex;
+  height: 100%;
+  text-align: center;
+  align-items: center !important;
+  justify-content: flex-start !important;
+  margin-left: 4vw;
+}
 .imagen {
-  height: 63% ;
-  width: 10%;
-  margin-top: 2%;
-  margin-left: -11%;
+  height: 6%;
+  width: 6%;
+  margin-right: 2vw;
 }
-.asdasd {
-  background-color: #2D9D6A !important;
-  margin-top: 34.3% !important;
+.navTitle {
+  margin: 0px;
+  font-family: 'Montserrat', sans-serif;
+  color: #ffff;
 }
-.boldFont {
-  font-weight: bold !important;
+.navRight {
+  width: 50vw;
+  display: flex;
+  height: 100%;
+  font-family: 'Merriweather', serif;
+  justify-content: flex-end !important;
+  margin-right: 10vw !important;
+  align-items: center;
+  padding-right: 3vw;
+  color: #ffff;
 }
-.laclande1 {
-  display: flex !important;
-  flex-direction: column !important;
-  background-color: #2D9D6A !important;
-  align-content: space-between !important;
+.navButton {
+  color: #ffff !important;
+  font-size: 1vw !important;
 }

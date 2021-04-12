@@ -1,6 +1,6 @@
 import { Layout } from "antd";
 import { NavBar } from "../NavBar/NavBar";
-import { FooterLayout } from "../footer/Footer";
+import {FooterLayout} from '../footer/Footer'
 import { FunctionComponent } from "react";
 
 
@@ -14,7 +14,7 @@ export const LayoutTemplate: FunctionComponent = () => {
         <Content>
           {/* <Componente a renderizar> </Componente a renderizar> */}
         </Content>
-        <FooterLayout />
+        <FooterLayout/>
       </Layout>
     </>
   );

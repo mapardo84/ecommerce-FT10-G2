@@ -1,29 +1,91 @@
-import { Breadcrumb, Layout, Menu, Row, Divider, Col, Button } from 'antd';
-import { Content, Footer } from 'antd/lib/layout/layout';
-import './NavBar.less'
+import { Layout, Menu, Row, Col, Button, Modal } from "antd";
+import LogIn from "../LogIn/LogIn";
+import { useState } from "react";
+import { NavLink } from "react-router-dom";
+import "./NavBar.less";
+import hotel from "./hotel.png";
+import { Register } from "../LogIn/Register";
+
 const { Header } = Layout;
 
-
 export const NavBar = () => {
+  const [visible, setVisible] = useState<boolean>(false);
+  const [regOrLog, setRegOrLog] = useState<string>("logIn")
   return (
     <>
-
       <Header className="headd">
-        <Row className="header" justify="center">
-          <Col xs={13}>
-            <img className="imagen" src="./hotel.png" alt="no funca bro"/>
-          </Col>
-          <Col xs={10}>
-            <Menu className="headd" theme="dark" mode="horizontal" defaultSelectedKeys={['2']}>              
-                <Menu.Item className="menu-opn" style={{marginTop:"20px"}} key="1">Home</Menu.Item>
-                <Menu.Item className="menu-opn" key="2">Acomodation</Menu.Item>
-                <Menu.Item className="menu-opn" key="3">Log In</Menu.Item>
-                <Menu.Item className="menu-opn" key="4">Book Now</Menu.Item>
-            </Menu>
-            </Col>    
-        </Row>
-      </Header>
+        <Menu className="headd">
+          <Row className="header" justify="center">
+            <div className="colContainer">
+              <Col span={12}>
+                <div className="navLeft">
+                  <img className="imagen" src={hotel} alt="IMG NOT FOUND" />
+                  <h1 className="navTitle">HENRY HOTEL</h1>
+                </div>
+              </Col>
 
+              <Col span={12}>
+                <div className="navRight">
+                  <NavLink to="/home">
+                    <Button className="navButton" size="large" type="text">
+                      Home
+                    </Button>
+                  </NavLink>
+                  <NavLink to="/home/accomodations">
+                    <Button className="navButton" size="large" type="text">
+                      Accomodations
+                    </Button>
+                  </NavLink>
+                  <div className="loginButton">
+                    <Button
+                      onClick={() => setVisible(true)}
+                      className="navButton"
+                      size="large"
+                      type="text"
+                    >
+                      Log In
+                    </Button>
+                  </div>
+                  <NavLink to="/booking">
+                    <Button
+                      style={{
+                        backgroundColor: "#5296A5",
+                        color: "white",
+                        border: "1px solid white",
+                      }}
+                      size="large"
+                    >
+                      Book Now
+                    </Button>
+                  </NavLink>
+                </div>
+              </Col>
+            </div>
+          </Row>
+        </Menu>
+      </Header>
+      <Modal
+        visible={visible}
+        footer={[
+          <div>{regOrLog === "logIn" ?
+            <div>
+              Don't have an account?
+              <Button onClick={() => setRegOrLog("signIn")}>Sign In</Button>
+            </div> :
+            <div>
+              If you have an account
+              <Button onClick={() => setRegOrLog("logIn")}>Log In</Button>
+            </div>
+          }
+          </div>,
+        ]}
+        onCancel={() => {
+          setRegOrLog("logIn")
+          setVisible(false)
+        }}
+      >
+        {regOrLog === "logIn" ? <LogIn /> : <Register />}
+      </Modal>
     </>
-  )
-}
+  );
+};

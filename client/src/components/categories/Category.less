@@ -1,47 +1,51 @@
-.categoriesContainer{
-    margin-bottom: 200px;
-    margin-top: 50px;
+.categoriesContainer {
+  margin-bottom: 200px;
+  margin-top: 50px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 }
-
-
-.categoryContainer{
-    width: 44%;
-    display: flex;
-    align-content: center;
-    justify-content: center; 
-    flex-direction: column;
+.categories_options {
+ margin-left: 250px;
+ margin-right: 100px;
+  display: flex;
+  justify-content: space-between;
 }
-
-
-.categorySider{
-    display: flex;
-    margin-bottom: 6px;
-    background-color: #332926 !important;
-    color: white;
+.categoryContainer {
+  width: 44%;
+  margin-top: 40px;
 }
-
-.categoryH3{
-    padding: 10px 15px ;
-    font-size: 20px;
+.categorySider {
+  display: flex;
+  margin-bottom: 6px;
+  background-color: #b88b61 !important;
+  color: white;
+  position: relative;
 }
-
-.categoryP{
-    padding: 5px 5px ;
-    
+.categoryH3 {
+  padding: 10px 15px;
+  font-size: 20px;
+  color: white;
 }
-
-.categoryButtons{
-    display: flex;
-    margin-top: 50px;
+.categoryP {
+  padding-left: 10px;
+  padding-right: 10px;
 }
-.categoryReserveButton{
-    margin: auto;
-
+.categoryButtons {
+  display: flex;
+  margin-top: 50px;
+  position: absolute;
+  bottom: 0;
+  margin-bottom: 10px;
 }
-
-
-
-.categoryMoreInfoButton{
-   margin: auto;
-
+.categoryReserveButton {
+  margin: auto;
+}
+.categoryMoreInfoButton {
+  margin: auto;
+  color: black;
+  &:hover{
+    color: white
+  }
 }
