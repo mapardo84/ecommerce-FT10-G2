@@ -1,5 +1,5 @@
 import { Breadcrumb, Layout, Menu, Row, Divider, Col, Button, Modal } from 'antd';
-import LogIn from '../LogIn/LogIn'
+import {LogIn} from '../LogIn/LogIn'
 import { Content, Footer } from 'antd/lib/layout/layout';
 import {useState} from 'react';
 import './NavBar.less';

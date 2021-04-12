@@ -11,6 +11,7 @@ import { LogIn } from "../components/LogIn/LogIn";
 import { LogOut } from "../components/LogIn/LogOut";
 import { Rodrigo } from "../components/LogIn/Rodrigo";
 import { FaqLayout } from "../components/layout/FaqLayout";
+import { AccomodationLayout } from "./../components/layout/AccomodationLayout";
 
 //ACA VAN TODAS LAS RUTAS
 
@@ -26,8 +27,7 @@ export const AppRouter = () => {
           <Route exact path="/logOut" component={LogOut} />
           <Route exact path="/rodrigo" component={Rodrigo} />
           <Route exact path="/faq" component={FaqLayout} />
-          
-
+          <Route exact path="/home/accomodations" component={AccomodationLayout} />
           <Redirect to="/" />
         </Switch>
       </div>
