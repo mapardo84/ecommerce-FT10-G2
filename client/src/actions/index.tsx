@@ -11,14 +11,28 @@ export const GET_CATEGORIES='GET_CATEGORIES';
 }    */
 
 
-export const getCategories = async () => { 
-            let { data: categories, error } = await supabase
+export const getCategories = async (id?:number) => { 
+    if(!id){
+        let { data: categories, error } = await supabase
             .from('categories')
-            .select('*')  
+            .select('*') 
             return {
                 type:GET_CATEGORIES,
                 payload:categories
             }
+    }else if(id){
+        let { data: categories, error } = await supabase
+        .from('categories')
+        .select('*') 
+        .eq('id', id) 
+        return {
+            type:GET_CATEGORIES,
+            payload:categories
+        }
+    }       
+    
+    
+   
 }
 
 
