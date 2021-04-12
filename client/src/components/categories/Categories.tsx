@@ -25,7 +25,11 @@ const Categories = ({ data }: any): JSX.Element => {
   }, []);
   const handleChange = (value: any) => {
     console.log(value);
-    getCategoriesDB(value);
+    if (value === '0') {
+      getCategoriesDB(undefined);
+    } else {
+      getCategoriesDB(value);
+    }
   };
 
   return (
@@ -49,12 +53,12 @@ const Categories = ({ data }: any): JSX.Element => {
           </span>
           <span>
             <NavLink to="/booking">
-            <Button
-              size="large"
-              type="primary"
-              className="accomodationReserveButton"
-            >
-              Book now!
+              <Button
+                size="large"
+                type="primary"
+                className="accomodationReserveButton"
+              >
+                Book now!
             </Button>
             </NavLink>
           </span>

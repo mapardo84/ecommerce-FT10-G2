@@ -11,9 +11,10 @@ import { LogIn } from "../components/LogIn/LogIn";
 import { LogOut } from "../components/LogIn/LogOut";
 import { Rodrigo } from "../components/LogIn/Rodrigo";
 import { FaqLayout } from "../components/layout/FaqLayout";
-import { AccomodationLayout } from "./../components/layout/AccomodationLayout";
 import { BookingLayout } from "../components/layout/BookingLayout";
 import { RoomsLayout } from "../Admin/components/Layout/RoomsLayout/RoomsLayout";
+import { AccomodationLayout } from "./../components/layout/AccomodationLayout";
+import { AccomodationDetailsLayout } from "../components/layout/AccomodationsDetailsLayout";
 
 //ACA VAN TODAS LAS RUTAS
 
@@ -33,6 +34,11 @@ export const AppRouter = () => {
           <Route path="/admin/rooms" component={RoomsLayout} />
           <Route exact path="/admin_users" />
           <Route exact path="/admin_bookings" />
+          <Route
+            exact
+            path="/home/accomodations/:id"
+            component={AccomodationDetailsLayout}
+          />
           <Route
             exact
             path="/home/accomodations"
