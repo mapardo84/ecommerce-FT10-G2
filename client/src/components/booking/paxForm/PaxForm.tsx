@@ -2,6 +2,7 @@ import React from 'react';
 import 'antd/dist/antd.css';
 import { Form, Input, Cascader, Select, DatePicker, Checkbox, Button, Switch } from 'antd';
 import { sendPax } from '../../../actions/Booking/PaxFormActions';
+import '../paxForm/PaxForm.less'
 const { Option } = Select;
 
 const residences = [
@@ -91,6 +92,8 @@ const prefixSelector = (
 );
 
     return (
+        <div className='form'>
+
         <Form
             {...formItemLayout}
             form={form}
@@ -102,19 +105,19 @@ const prefixSelector = (
                 remember: true
             }}
             scrollToFirstError
-        >
+            >
 
         <Form.Item
             name="first_name"
             label="Name"
             rules={[
-            {
-                required: true,
-                message: 'Please input your name!',
-                whitespace: true,
-            },
+                {
+                    required: true,
+                    message: 'Please input your name!',
+                    whitespace: true,
+                },
             ]}
-        >
+            >
             <Input />
         </Form.Item>
 
@@ -122,13 +125,13 @@ const prefixSelector = (
             name="last_name"
             label="Last Name"
             rules={[
-            {
-                required: true,
-                message: 'Please input your last name!',
-                whitespace: true,
-            },
+                {
+                    required: true,
+                    message: 'Please input your last name!',
+                    whitespace: true,
+                },
             ]}
-        >
+            >
             <Input />
         </Form.Item>
         
@@ -136,13 +139,13 @@ const prefixSelector = (
             name= "birth_date"
             label="Birth Date"
             rules={[
-            {
-                // type: 'string',
-                required: true,
-                message: 'Please select your birth date!',
-            },
+                {
+                    // type: 'string',
+                    required: true,
+                    message: 'Please select your birth date!',
+                },
             ]}
-        >
+            >
             <DatePicker />
             </Form.Item>
 
@@ -150,13 +153,13 @@ const prefixSelector = (
             name="uuid"
             label="DNI"
             rules={[
-            {
-                required: true,
-                message: 'Please input your identification!',
-                whitespace: true,
-            },
+                {
+                    required: true,
+                    message: 'Please input your identification!',
+                    whitespace: true,
+                },
             ]}
-        >
+            >
             <Input />
         </Form.Item>
 
@@ -164,13 +167,13 @@ const prefixSelector = (
             name="country"
             label="Country"
             rules={[
-            {
-                type: 'array',
-                required: true,
-                message: 'Please select your country!',
-            },
+                {
+                    type: 'array',
+                    required: true,
+                    message: 'Please select your country!',
+                },
             ]}
-        >
+            >
             <Cascader options={residences} />
         </Form.Item>
 
@@ -178,13 +181,13 @@ const prefixSelector = (
             name="address"
             label="Address"
             rules={[
-            {
-                required: true,
-                message: 'Please input your address!',
-                whitespace: true,
-            },
+                {
+                    required: true,
+                    message: 'Please input your address!',
+                    whitespace: true,
+                },
             ]}
-        >
+            >
             <Input />
         </Form.Item>
 
@@ -192,13 +195,13 @@ const prefixSelector = (
             name="phone"
             label="Phone Number"
             rules={[
-            {
-                type: "string",
-                required: true,
-                message: 'Please input your phone number!',
-            },
+                {
+                    type: "string",
+                    required: true,
+                    message: 'Please input your phone number!',
+                },
             ]}
-        >
+            >
             <Input
             addonBefore={prefixSelector}
             style={{
@@ -211,7 +214,7 @@ const prefixSelector = (
         <Form.Item 
             name= 'titular'
             label= 'Titular'
-        >
+            >
             <Switch
             defaultChecked = {true}
             checked = {true}
@@ -222,13 +225,13 @@ const prefixSelector = (
             name="agreement"
             valuePropName="checked"
             rules={[
-            {
-                validator: (_, value) =>
-                value ? Promise.resolve() : Promise.reject(new Error('Should accept agreement')),
-            },
+                {
+                    validator: (_, value) =>
+                    value ? Promise.resolve() : Promise.reject(new Error('Should accept agreement')),
+                },
             ]}
             {...tailFormItemLayout}
-        >
+            >
             <Checkbox>
             I have read the <a href="https://memegenerator.net/img/instances/64451727/i-believe-we-have-an-agreement.jpg">agreement</a>  {/* hacer modal con foto*/}
             </Checkbox>
@@ -236,10 +239,11 @@ const prefixSelector = (
 
         <Form.Item {...tailFormItemLayout}>
             <Button type="primary" htmlType="submit">
-            Confirm
+            CONFIRM BOOKING
             </Button>
         </Form.Item>
 
         </Form>
+            </div>
 );
 };

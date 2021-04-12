@@ -18,13 +18,6 @@ export function MyCalendar() {
   const { RangePicker } = DatePicker
   
   return (
-      <div>
-        <p>Lorem ipsum, 
-          dolor sit amet consectetur adipisicing elit. 
-          Quod a laboriosam possimus iste! Exercitationem, 
-          sapiente officia distinctio libero iure nesciunt placeat, 
-          perferendis voluptatibus quaerat beatae voluptates assumenda, 
-          explicabo laborum corporis?</p>
 
     <div className='backgroundPage'>
         <Space direction="vertical" size={12}>
@@ -33,9 +26,8 @@ export function MyCalendar() {
           </div>
         </Space>
          <div className='fuckBtn'>
-        <Button  className='buttonBabe' type="primary">Next</Button>
+        <Button  className='buttonBabe' type="primary">UPGRADE DATES</Button>
         </div>
-    </div>
     </div>
 
   )
