@@ -34,16 +34,13 @@ export const AppRouter = () => {
           <Route path="/admin/rooms" component={RoomsLayout} />
           <Route exact path="/admin_users" />
           <Route exact path="/admin_bookings" />
+          <Route exact path="/accomodations" component={AccomodationLayout} />
           <Route
             exact
-            path="/home/accomodations/:id"
+            path="/accomodations/:id"
             component={AccomodationDetailsLayout}
           />
-          <Route
-            exact
-            path="/home/accomodations"
-            component={AccomodationLayout}
-          />
+
           <Redirect to="/" />
         </Switch>
       </div>
