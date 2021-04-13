@@ -3,7 +3,7 @@ import '../booking/StepsBooking.less'
 import { Steps } from 'antd';
 import { PaxForm } from './paxForm/PaxForm';
 import { AccomodationsSelect } from './accomodationsSelect/AccomodationsSelect';
-import { MyCalendar } from '../Calendar/MyCalendar';
+
 
 import { GuestsForm } from './guestsForm/GuestsForm';
 
@@ -33,15 +33,13 @@ export const StepsBooking: FunctionComponent = () => {
       >
 
         <Step status={0 < currentStep.current ? "finish" : "process"} title="Guests" description='' />
-        <Step status={1 < currentStep.current ? "finish" : "wait"} title="Dates Of Stay" />
-        <Step status={2 < currentStep.current ? "finish" : "wait"} title="Accomodations" />
-        <Step status={3 < currentStep.current ? "finish" : "wait"} title="Payment" />
+        <Step status={1 < currentStep.current ? "finish" : "wait"} title="Accomodations" />
+        <Step status={2 < currentStep.current ? "finish" : "wait"} title="Payment" />
       </Steps>
 
       { currentStep.current === 0 ? <GuestsForm /> : null}
-      { currentStep.current === 1 ? <MyCalendar /> : null}
-      { currentStep.current === 2 ? <AccomodationsSelect /> : null}
-      { currentStep.current === 3 ? <PaxForm /> : null}
+      { currentStep.current === 1 ? <AccomodationsSelect /> : null}
+      { currentStep.current === 2 ? <PaxForm /> : null}
 
 
     </>

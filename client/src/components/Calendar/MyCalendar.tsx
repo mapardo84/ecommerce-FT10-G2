@@ -1,6 +1,5 @@
 import { Space, DatePicker } from 'antd';
 import './MyCalendar.less'
-import { Button } from 'antd';
 // import { useDispatch } from 'react-redux';
 
 
@@ -23,9 +22,6 @@ export function MyCalendar() {
           <RangePicker className='backgroundPageA' open={true} />
         </div>
       </Space>
-      <div className='fuckBtn'>
-        <Button className='buttonBabe' type="primary">UPGRADE DATES</Button>
-      </div>
     </div>
 
   )
