@@ -15,7 +15,6 @@ import { BookingLayout } from "../components/layout/BookingLayout";
 import { AccomodationLayout } from "./../components/layout/AccomodationLayout";
 import { AccomodationDetailsLayout } from "../components/layout/AccomodationsDetailsLayout";
 import { Plantilla } from "../Admin/Plantilla";
-import { Test } from "../Admin/components/Test";
 import { RoomsLayout } from "../Admin/components/RoomsLayout";
 
 //ACA VAN TODAS LAS RUTAS
