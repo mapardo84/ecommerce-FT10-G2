@@ -5,10 +5,10 @@ import './Register.less'
 
 export interface Register {
     email: string
-    firstName: string
-    lastName: string
+    first_name: string
+    last_name: string
     password: string
-    DNI: string
+    uuid: string
 }
 
 export const Register = () => {

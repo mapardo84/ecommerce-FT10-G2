@@ -1,4 +1,4 @@
-import { Room } from '../Admin/components/RoomsTable/RoomsTable'
+
 import {supabase} from '../SupaBase/conection'
 export const GET_ALL_ROOMS:string="GET_ALL_ROOMS"
 

@@ -1,5 +1,5 @@
 import {GET_ALL_ROOMS} from '../actions/roomsActions'
-import { Room } from '../Admin/components/RoomsTable/RoomsTable'
+import { Room } from '../components/Admin/components/RoomsTable/RoomsTable'
 
 const InitialState={
     roomsList:[]

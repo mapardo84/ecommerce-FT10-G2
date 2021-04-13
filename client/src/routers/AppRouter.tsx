@@ -12,9 +12,10 @@ import { LogOut } from "../components/LogIn/LogOut";
 import { Rodrigo } from "../components/LogIn/Rodrigo";
 import { FaqLayout } from "../components/layout/FaqLayout";
 import { BookingLayout } from "../components/layout/BookingLayout";
-import { RoomsLayout } from "../Admin/components/Layout/RoomsLayout/RoomsLayout";
 import { AccomodationLayout } from "./../components/layout/AccomodationLayout";
 import { AccomodationDetailsLayout } from "../components/layout/AccomodationsDetailsLayout";
+import { RoomsLayout } from "../components/Admin/components/Layout/RoomsLayout/RoomsLayout";
+import { LayoutAdmin } from "../components/Admin/components/Layout/Layout";
 
 //ACA VAN TODAS LAS RUTAS
 
@@ -25,14 +26,11 @@ export const AppRouter = () => {
         <Switch>
           <Route exact path="/" component={LandingPage} />
           <Route exact path="/home" component={HomeLayout} />
-          <Route exact path="/form" component={Register} />
-          <Route exact path="/logIn" component={LogIn} />
-          <Route exact path="/logOut" component={LogOut} />
-          <Route exact path="/rodrigo" component={Rodrigo} />
           <Route exact path="/booking" component={BookingLayout} />
           <Route exact path="/faq" component={FaqLayout} />
-          <Route path="/admin/rooms" component={RoomsLayout} />
-          <Route exact path="/admin_users" />
+          <Route exact path="/admin" component={LayoutAdmin}/>
+          <Route exact path="/admin/rooms" component={RoomsLayout} />
+          <Route exact path="/admin_users"  />
           <Route exact path="/admin_bookings" />
           <Route
             exact

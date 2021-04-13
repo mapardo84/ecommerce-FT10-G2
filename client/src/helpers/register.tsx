@@ -23,12 +23,13 @@ export const sendRegister = async (formData: Register) => {
     });
     
     if (!results.error) {
-        const { data, error } = await supabase.from("users").insert([
+        const {uuid,email,first_name,last_name}=formData
+        const { error } = await supabase.from("users").insert([
             {
-                uuid: formData.DNI,
-                email: formData.email,
-                first_name: formData.firstName,
-                last_name: formData.lastName,
+                uuid,
+                email,
+                first_name,
+                last_name
             },
         ]);
         if (!error) {

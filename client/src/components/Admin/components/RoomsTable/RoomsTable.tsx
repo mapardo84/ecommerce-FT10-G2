@@ -1,7 +1,7 @@
 import { Button, Table } from 'antd'
 import React, { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import {getAllRooms} from '../../../actions/roomsActions'
+import { getAllRooms } from '../../../../actions/roomsActions'
 
 
 export interface Room{
