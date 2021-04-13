@@ -1,12 +1,10 @@
 import { Layout } from "antd";
-
-
 import { MenuLeft } from "../MenuLeft";
 import { HeaderAdmin } from "../HeaderAdmin";
 import { FooterAdmin } from "../FooterAdmin";
-import { Inicio } from "../components/Inicio";
+import { Rooms } from "./Rooms/Rooms";
 
-export const Test = () => {
+export const RoomsLayout = () => {
 
 
     const { Content } = Layout;
@@ -20,7 +18,7 @@ export const Test = () => {
                 <Content style={{ margin: "0 16px" }}>
 
                     {/* aca va el componente */}
-                    <Inicio />
+                    <Rooms />
 
 
 

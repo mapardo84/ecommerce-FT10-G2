@@ -71,7 +71,7 @@ export const MenuLeft = () => {
                         <NavLink to="/admin">{paginas[0]}</NavLink>
                     </Menu.Item>
                     <Menu.Item key={paginas[1]} icon={<PieChartOutlined />} onClick={() => setPage(paginas[1])}>
-                        <NavLink to="/admin/test">{paginas[1]}</NavLink>
+                        <NavLink to="/admin/rooms">{paginas[1]}</NavLink>
                     </Menu.Item>
 
 
