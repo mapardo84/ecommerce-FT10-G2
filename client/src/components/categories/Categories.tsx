@@ -1,6 +1,6 @@
-import React, { useState, useEffect } from "react";
+import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Button, Layout, Image, Select } from "antd";
+import { Button, Select } from "antd";
 import "./Category.less";
 import { initialStateProps } from "./../../reducers/categoriesReducer";
 import { getCategories } from "../../actions";
@@ -9,26 +9,26 @@ import "./../accomodations/accomodations.less";
 import "./../layout/homeLayout.less";
 import { NavLink } from "react-router-dom";
 
+
+const getCategoriesDB = async (value: number | undefined, dispatch: any) => {
+  const resolve = await getCategories(value);
+  dispatch(resolve);
+};
+
 const { Option } = Select;
-const { Content, Header } = Layout;
-const Categories = ({ data }: any): JSX.Element => {
+const Categories = (): JSX.Element => {
   const dispatch = useDispatch();
   const cat = useSelector((state: initialStateProps) => state.categories);
 
-  const getCategoriesDB = async (value: number | undefined) => {
-    const resolve = await getCategories(value);
-    dispatch(resolve);
-  };
-
   useEffect(() => {
-    getCategoriesDB(undefined);
-  }, []);
+    getCategoriesDB(undefined, dispatch);
+  }, [dispatch]);
+
   const handleChange = (value: any) => {
-    console.log(value);
-    if (value === '0') {
-      getCategoriesDB(undefined);
+    if (value === "0") {
+      getCategoriesDB(undefined, dispatch);
     } else {
-      getCategoriesDB(value);
+      getCategoriesDB(value, dispatch);
     }
   };
 
@@ -59,7 +59,7 @@ const Categories = ({ data }: any): JSX.Element => {
                 className="accomodationReserveButton"
               >
                 Book now!
-            </Button>
+              </Button>
             </NavLink>
           </span>
         </div>

@@ -1,39 +1,43 @@
-import React, { useEffect } from "react";
+import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Button, Select } from "antd";
-import '../../categories/Category.less'
+import { Select } from "antd";
+import "../../categories/Category.less";
 import { initialStateProps } from "../../../reducers/categoriesReducer";
 import { getCategories } from "../../../actions";
-import './AccomodationsSelect.less'
+import "./AccomodationsSelect.less";
 import { AccomodationsCards } from "./AccomodationsCards";
+import 'antd/dist/antd.css';
 
 const { Option } = Select;
 
-export const AccomodationsSelect = ({ data }: any): JSX.Element => {
+const getCategoriesDB = async (value: number | undefined, dispatch: any) => {
+  const resolve = await getCategories(value);
+  dispatch(resolve);
+};
 
+
+export const AccomodationsSelect = ({ data }: any): JSX.Element => {
   const dispatch = useDispatch();
 
-  const categoriesState = useSelector((state: initialStateProps) => state.categories);
+  const categoriesState = useSelector(
+    (state: initialStateProps) => state.categories
+  );
 
-  const getCategoriesDB = async (value: number | undefined) => {
-    const resolve = await getCategories(value);
-    dispatch(resolve);
-  };
-
+ 
   useEffect(() => {
-    getCategoriesDB(undefined);
-  }, []);
+    getCategoriesDB(undefined, dispatch);
+  }, [dispatch]);
 
   const handleChange = (value: any) => {
-    if (value === '0') {
-      getCategoriesDB(undefined);
+    if (value === "0") {
+      getCategoriesDB(undefined, dispatch);
     } else {
-      getCategoriesDB(value);
+      getCategoriesDB(value, dispatch);
     }
   };
 
   return (
-    <div className='accomodationsSelect_container'>
+    <div className="accomodationsSelect_container">
       <div className="accomodationsSelect_select">
         <span>
           <Select
@@ -62,8 +66,6 @@ export const AccomodationsSelect = ({ data }: any): JSX.Element => {
       {/* <div className="accomodationsSelect_btn">
         <Button type="primary" htmlType="submit">SELECT</Button>
       </div> */}
-
     </div>
   );
 };
-

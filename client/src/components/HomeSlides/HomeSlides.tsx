@@ -1,11 +1,4 @@
-import React from 'react'
 import { Carousel } from 'antd';
-
-import slide2 from './images/slide2.jpg';
-import slide3 from './images/slide3.jpg';
-import slide4 from './images/slide4.jpg';
-import slide5 from './images/slide5.jpg';
-
 import "./HomeSlides.less"
 
 export const HomeSlides = () => {
@@ -22,28 +15,28 @@ export const HomeSlides = () => {
             <Carousel {...settings} className="HomeCarousel">
 
                 <div className="slideContainer">
-                    <img className="slidesImages" src={slide3} />
+                    <img className="slidesImages" src='./images/slide3.jpg' alt="Img not found"/>
                     <div className="slidesText">
                         Convenience and comfort 
                     </div>
                 </div>
 
                 <div className="slideContainer">
-                    <img className="slidesImages" src={slide2} />
+                    <img className="slidesImages" src='./images/slide2.jpg' alt="Img not found"/>
                     <div className="slidesText">
                     Beach and relaxation 
                     </div>
                 </div>
 
                 <div className="slideContainer">
-                    <img className="slidesImages" src={slide5} />
+                    <img className="slidesImages" src='./images/slide5.jpg' alt="Img not found"/>
                     <div className="slidesText">
                         An oasis for you.
                     </div>
                 </div>
 
                 <div className="slideContainer">
-                    <img className="slidesImages" src={slide4} />
+                    <img className="slidesImages" src='./images/slide4.jpg' alt="Img not found"/>
                     <div className="slidesText">
                         The getaway you need
                     </div>

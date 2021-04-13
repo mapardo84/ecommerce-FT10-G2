@@ -3,7 +3,7 @@ import { useParams } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { initialStateProps } from "../../../reducers/categoriesReducer";
 import { Button, Carousel, Image } from "antd";
-import "antd/dist/antd.css";
+//import "antd/dist/antd.css";
 import "./Details.less";
 
 interface category {
@@ -58,11 +58,11 @@ const Details = ({ data }: any): JSX.Element => {
             {category?.name}
           </h1>
         </div>
-        
-          <div className="content-description">
-            <p id="description">{category?.description}</p>
-          </div>
-          <div className="details_main">
+
+        <div className="content-description">
+          <p id="description">{category?.description}</p>
+        </div>
+        <div className="details_main">
           <div className="details_left">
             <div className="content-features">
               <section id="features-section">
