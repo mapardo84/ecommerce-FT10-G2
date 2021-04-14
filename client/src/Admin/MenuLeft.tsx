@@ -1,6 +1,7 @@
 import { Menu } from "antd";
 import {
     PieChartOutlined,
+    WalletOutlined,
 } from "@ant-design/icons";
 import hotelImg from './hotel.png'
 import { useDispatch, useSelector } from 'react-redux';
@@ -70,7 +71,7 @@ export const MenuLeft = () => {
                     <Menu.Item key={paginas[0]} icon={<PieChartOutlined />} onClick={() => setPage(paginas[0])}>
                         <NavLink to="/admin">{paginas[0]}</NavLink>
                     </Menu.Item>
-                    <Menu.Item key={paginas[1]} icon={<PieChartOutlined />} onClick={() => setPage(paginas[1])}>
+                    <Menu.Item key={paginas[1]} icon={<WalletOutlined />} onClick={() => setPage(paginas[1])}>
                         <NavLink to="/admin/rooms">{paginas[1]}</NavLink>
                     </Menu.Item>
                     <Menu.Item key={paginas[2]} icon={<PieChartOutlined />} onClick={() => setPage(paginas[2])}>
