@@ -1,4 +1,4 @@
-import {supabase} from './../SupaBase/conection'
+import {supabase} from '../SupaBase/conection'
 
 export const GET_CATEGORIES='GET_CATEGORIES';
 

@@ -13,7 +13,6 @@ export interface IRegister {
 export const Register = (): JSX.Element => {
   const onFinish = (values: IRegister) => {
     sendRegister(values);
-    console.log(values);
   };
 
   return (

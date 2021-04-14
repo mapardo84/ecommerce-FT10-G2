@@ -1,10 +1,19 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import { useSelector } from "react-redux";
+import { useSelector,useDispatch } from "react-redux";
 import { initialStateProps } from "../../../reducers/categoriesReducer";
 import { Button, Carousel, Image } from "antd";
 //import "antd/dist/antd.css";
 import "./Details.less";
+import AddReview from "../../addReview/AddReview";
+import {getUserIdByMail} from './../../../actions/getUserIdByMail/index';
+import { supabase } from "../../../SupaBase/conection";
+
+
+const getIdByMail = async (value:any, dispatch: any) => {
+  const resolve = await getUserIdByMail(value);
+  dispatch(resolve);
+};
 
 interface category {
   id: number;
@@ -18,14 +27,25 @@ interface category {
 
 const Details = ({ data }: any): JSX.Element => {
   const { id }: any = useParams();
+  const dispatch = useDispatch();
   const [category, setCategory] = useState<category>();
   const cat: category[] = useSelector(
     (state: initialStateProps) => state.categories
   ).categories;
+  const session = supabase.auth.session();
+  const idUser = useSelector((state:any) =>state.idByMail)
 
   useEffect(() => {
     setCategory(cat.find((x: any) => x.id === Number(id)));
   }, [cat, id]);
+
+  useEffect(()=>{
+    getIdByMail(session?.user.email,dispatch)
+    //console.log(idUser.userId[0].id)
+  },[dispatch])
+
+
+
 
   const handleOnClick = (e: any) => {
     console.log("Bookearon!");
@@ -83,6 +103,9 @@ const Details = ({ data }: any): JSX.Element => {
                 Book
               </Button>
             </div>
+          </div>
+          <div>
+            <AddReview categId={id} userId={idUser?.userId[0]?.id}/>
           </div>
         </div>
       </div>

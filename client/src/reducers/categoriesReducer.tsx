@@ -1,4 +1,4 @@
-import {GET_CATEGORIES} from './../actions/index';
+import {GET_CATEGORIES} from '../actions/index';
 
 export interface initialStateProps {
     categories: any
@@ -6,7 +6,7 @@ export interface initialStateProps {
 
 interface actionProps {
     type:string,
-    payload:any
+    payload:[]
 }
 
 
