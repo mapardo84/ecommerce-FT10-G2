@@ -3,7 +3,6 @@ import '../../Calendar/MyCalendar.less';
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux'
-import { getAllRooms } from '../../../Admin/actions/roomsActions';
 
 import { Space, DatePicker } from 'antd';
 import {
@@ -11,6 +10,7 @@ import {
   InputNumber,
   Button
 } from 'antd';
+import { getBookData, stepChange } from '../../../actions/Booking/bookingAction';
 
 const formItemLayout = {
   labelCol: {
@@ -22,12 +22,12 @@ const formItemLayout = {
 };
 
 export const GuestsForm = () => {
-
+  let nights:number;
   const dispatch = useDispatch();
   
   const [ date,setDate ] = useState<string[]>([]);
 
-  const [ pax,setPax ] = useState<any>({
+  const [ pax, setPax ] = useState<any>({
     adults:0,
     children:0
   });
@@ -44,26 +44,13 @@ export const GuestsForm = () => {
     let checkin= new Date(b[0]).getTime();
     let checkout= new Date(b[1]).getTime();
     setDate(b)
-    let nights= (checkout-checkin)/(1000*60*60*24);
+    nights= (checkout-checkin)/(1000*60*60*24);
   }
-
-  interface room {
-    id: number, 
-    name: string, description: null|string, 
-    floor: number, 
-    availability: string, 
-    category_id:number, 
-    beds:number 
-  }
-
-  const allRooms:room[] = useSelector( (state:any) => state.rooms.roomsList );
 
   function handleClickRooms(e:any){
     e.preventDefault();
-    getAllRooms().then(res=>dispatch(res));
-    let totalPaxes = pax.adults+pax.children;
-    let filteredRooms:room[] = allRooms.filter( e => e.beds >= totalPaxes );
-    console.log(filteredRooms);
+    dispatch(getBookData(pax, date, nights));
+    dispatch(stepChange(1));
   } 
 
   const onFinish = (values: string) => {
