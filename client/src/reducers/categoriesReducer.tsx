@@ -26,3 +26,5 @@ export function categoriesReducer(state = initialState,action:actionProps){
     return state;
 }
 
+
+
