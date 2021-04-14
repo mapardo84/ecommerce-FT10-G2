@@ -2,6 +2,9 @@ import React from 'react';
 import '../guestsForm/GuestsForm.less';
 import '../../Calendar/MyCalendar.less';
 import { useState } from 'react';
+import {useSelector, useDispatch} from 'react-redux'
+import {getAllRooms} from '../../../Admin/actions/roomsActions';
+
 import { Space, DatePicker } from 'antd';
 import {
   Form,
@@ -20,7 +23,7 @@ const formItemLayout = {
 
 export const GuestsForm = () => {
 
-
+  const dispatch = useDispatch();
   
   const [date,setDate]=useState<string[]>([])
 
@@ -28,6 +31,8 @@ export const GuestsForm = () => {
     adults:0,
     children:0
   })
+
+
 
   function handleChangePaxsAdults (inputs:number) {
     console.log(inputs)
@@ -50,8 +55,28 @@ export const GuestsForm = () => {
     
     console.log(date)
   }
+  interface room {
+    id: number, 
+    name: string, description: null|string, 
+    floor: number, 
+    availability: string, 
+    category_id:number, 
+    beds:number 
+  }
 
-  
+
+  const allRooms:room[] = useSelector((state:any) => state.rooms.roomsList)
+
+  function handleClickRooms(e:any){
+    e.preventDefault()
+    getAllRooms().then(res=>dispatch(res))
+    let totalPaxes = pax.adults+pax.children
+    let filteredRooms:room[] = allRooms?.filter((e:any)=> e.beds>=totalPaxes)
+    console.log(filteredRooms)
+  } 
+
+
+  console.log(allRooms)
 
 
   const onFinish = (values: string) => {
@@ -105,7 +130,7 @@ export const GuestsForm = () => {
           >
             <div className="buttons_Guests">
               <Button style={{marginTop:"400px"}} >Cancel</Button>
-            <Button disabled={!( date[0] && date[1] && pax.adults)} style={{marginTop:"400px"}} type="primary">
+            <Button disabled={!( date[0] && date[1] && pax.adults)} style={{marginTop:"400px"}} onClick={handleClickRooms} type="primary">
               Next
             </Button>
        
