@@ -16,6 +16,7 @@ import { AccomodationLayout } from "./../components/layout/AccomodationLayout";
 import { AccomodationDetailsLayout } from "../components/layout/AccomodationsDetailsLayout";
 import { RoomsLayout } from "../components/Admin/components/Layout/RoomsLayout/RoomsLayout";
 import { LayoutAdmin } from "../components/Admin/components/Layout/Layout";
+import { PruebaAuth } from "../components/PruebaAuth";
 
 //ACA VAN TODAS LAS RUTAS
 
@@ -30,7 +31,7 @@ export const AppRouter = () => {
           <Route exact path="/faq" component={FaqLayout} />
           <Route exact path="/admin" component={LayoutAdmin}/>
           <Route exact path="/admin/rooms" component={RoomsLayout} />
-          <Route exact path="/admin_users"  />
+          <Route exact path="/pruebaAuth" component={PruebaAuth} />
           <Route exact path="/admin_bookings" />
           <Route
             exact
