@@ -7,8 +7,24 @@ import { getCategories } from "../../../actions";
 import "./AccomodationsSelect.less";
 import { AccomodationsCards } from "./AccomodationsCards";
 import 'antd/dist/antd.css';
+import { getAllRooms } from '../../../Admin/actions/roomsActions';
 
 const { Option } = Select;
+
+interface room {
+  id: number, 
+  name: string, description: null|string, 
+  floor: number, 
+  availability: string, 
+  category_id:number, 
+  beds:number 
+}
+
+interface book {
+  pax: any,
+  date: string[],
+  nights: number
+}
 
 const getCategoriesDB = async (value: number | undefined, dispatch: any) => {
   const resolve = await getCategories(value);
@@ -18,15 +34,29 @@ const getCategoriesDB = async (value: number | undefined, dispatch: any) => {
 
 export const AccomodationsSelect = ({ data }: any): JSX.Element => {
   const dispatch = useDispatch();
-
-  const categoriesState = useSelector(
-    (state: initialStateProps) => state.categories
-  );
+  const bookInfo:book = useSelector( (state:any) => state.bookings.book );
+  const allRooms:room[] = useSelector( (state:any) => state.rooms.roomsList );
+  const categoriesState = useSelector( (state: initialStateProps) => state.categories );
 
  
   useEffect(() => {
     getCategoriesDB(undefined, dispatch);
+    getAllRooms().then(res=>dispatch(res));
   }, [dispatch]);
+
+  let totalPaxes = bookInfo.pax.adults + bookInfo.pax.children;
+  let filteredRooms:room[] = allRooms.filter( e => e.beds >= totalPaxes );
+  const catRooms:number[] = [];
+  filteredRooms.forEach( (room:room) => catRooms.push(room.category_id) );
+  const catUnique = catRooms.filter( (value, index, self) => {
+      return self.indexOf(value) === index
+  });
+  
+  let categoriesToShow:any = [];
+  categoriesState.categories.forEach( (cat:any) => {
+    if (catUnique.includes(cat.id)) categoriesToShow.push(cat)
+  });
+  console.log(categoriesToShow);
 
   const handleChange = (value: any) => {
     if (value === "0") {
@@ -58,7 +88,7 @@ export const AccomodationsSelect = ({ data }: any): JSX.Element => {
       </div>
 
       <div className="accomodationsSelect_cards">
-        {categoriesState.categories?.map((categ: any, key: number) => (
+        {categoriesToShow?.map((categ: any, key: number) => (
           <AccomodationsCards categ={categ} key={key} />
         ))}
       </div>

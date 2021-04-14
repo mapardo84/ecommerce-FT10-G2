@@ -1,9 +1,8 @@
-import React from 'react';
 import '../guestsForm/GuestsForm.less';
 import '../../Calendar/MyCalendar.less';
-import { useState } from 'react';
-import {useSelector, useDispatch} from 'react-redux'
-import {getAllRooms} from '../../../Admin/actions/roomsActions';
+import React, { useState } from 'react';
+import { Link } from 'react-router-dom';
+import { useSelector, useDispatch } from 'react-redux'
 
 import { Space, DatePicker } from 'antd';
 import {
@@ -11,6 +10,7 @@ import {
   InputNumber,
   Button
 } from 'antd';
+import { getBookData, stepChange } from '../../../actions/Booking/bookingAction';
 
 const formItemLayout = {
   labelCol: {
@@ -22,62 +22,36 @@ const formItemLayout = {
 };
 
 export const GuestsForm = () => {
-
+  let nights:number;
   const dispatch = useDispatch();
   
-  const [date,setDate]=useState<string[]>([])
+  const [ date,setDate ] = useState<string[]>([]);
 
-  const [pax,setPax]=useState<any>({
+  const [ pax, setPax ] = useState<any>({
     adults:0,
     children:0
-  })
+  });
 
-
-
-  function handleChangePaxsAdults (inputs:number) {
-    console.log(inputs)
-    setPax({...pax,adults:inputs})
+  function handleChangePaxsAdults ( inputs:number ) {
+    setPax({...pax,adults:inputs});
   }
 
-  function handleChangePaxsChildren (inputs:number) {
-    console.log(inputs)
-    setPax({...pax,children:inputs})
+  function handleChangePaxsChildren ( inputs:number ) {
+    setPax({...pax,children:inputs});
   }
 
   function handleChangeDates (a:any,b:any,c:any){
-    console.log(b) 
-    let checkin= new Date (b[0]).getTime()
+    let checkin= new Date(b[0]).getTime();
     let checkout= new Date(b[1]).getTime();
     setDate(b)
-    let nights= (checkout-checkin)/(1000*60*60*24)
-  
-    console.log(nights)
-    
-    console.log(date)
+    nights= (checkout-checkin)/(1000*60*60*24);
   }
-  interface room {
-    id: number, 
-    name: string, description: null|string, 
-    floor: number, 
-    availability: string, 
-    category_id:number, 
-    beds:number 
-  }
-
-
-  const allRooms:room[] = useSelector((state:any) => state.rooms.roomsList)
 
   function handleClickRooms(e:any){
-    e.preventDefault()
-    getAllRooms().then(res=>dispatch(res))
-    let totalPaxes = pax.adults+pax.children
-    let filteredRooms:room[] = allRooms?.filter((e:any)=> e.beds>=totalPaxes)
-    console.log(filteredRooms)
+    e.preventDefault();
+    dispatch(getBookData(pax, date, nights));
+    dispatch(stepChange(1));
   } 
-
-
-  console.log(allRooms)
-
 
   const onFinish = (values: string) => {
     console.log('Received values of form: ', values);
@@ -102,7 +76,7 @@ export const GuestsForm = () => {
 
           <Form.Item className='input'>
             <Form.Item  label="Adults" name="input-number-adults"  >
-              <InputNumber name="adults" onChange={handleChangePaxsAdults}  min={1} max={6} />
+              <InputNumber name="adults" onChange={handleChangePaxsAdults} min={1} max={6} />
             </Form.Item>
           </Form.Item>
 
@@ -120,7 +94,6 @@ export const GuestsForm = () => {
         </div>
       </Space>
     </div>
-
         <div className='btn'>
           <Form.Item
             wrapperCol={{
@@ -129,13 +102,13 @@ export const GuestsForm = () => {
             }}
           >
             <div className="buttons_Guests">
-              <Button style={{marginTop:"400px"}} >Cancel</Button>
-            <Button disabled={!( date[0] && date[1] && pax.adults)} style={{marginTop:"400px"}} onClick={handleClickRooms} type="primary">
-              Next
-            </Button>
-       
+              <Link to='/home'>
+                <Button style={{marginTop:"400px"}} >Cancel</Button>
+              </Link>
+              <Button disabled={!( date[0] && date[1] && pax.adults)} style={{marginTop:"400px"}} onClick={handleClickRooms} type="primary">
+                Next
+              </Button>
             </div>
-            
           </Form.Item>
         </div>
       </Form>
