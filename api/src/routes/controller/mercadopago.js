@@ -26,9 +26,14 @@ async function getPreferenceId(req,res){
                 quantity
         }]
     }).then(preference=> {
-        console.log(preference.body.init_point)
+        console.log(preference)
         res.json({preferenceId:preference.body.id})
     }).catch(e=>console.log(unit_price,quantity,title))
 }
 
-module.exports={getPreferenceId}
+async function getIPN(req,res){
+
+}
+
+module.exports={getPreferenceId,getIPN}
+

@@ -11,7 +11,8 @@ export const PruebaAuth = () => {
     useEffect(() => {
         axios.get('http://localhost:4000/mercadopago?quantity=3&unit_price=200&title=dalequeva')
         .then((res)=>{
-            setPreferenceId(res.data.preferenceId)})
+          setPreferenceId(res.data.preferenceId)
+        })
 
     },[])
 
@@ -19,13 +20,13 @@ export const PruebaAuth = () => {
     useEffect(() => {
         if (preferenceId) {
           // con el preferenceId en mano, inyectamos el script de mercadoPago
-          const script = document.createElement('script');
+          let script = document.createElement('script');
           script.type = 'text/javascript';
           console.log(preferenceId)
           script.src =
-            'https://www.mercadopago.cl/integrations/v1/web-payment-checkout.js';
+            'https://www.mercadopago.com.ar/integrations/v1/web-payment-checkout.js';
           script.setAttribute('data-preference-id', preferenceId);
-          const form:any = document.getElementById(FORM_ID);
+          let form:any = document.getElementById(FORM_ID);
           form.appendChild(script);
           
         console.log(form)
