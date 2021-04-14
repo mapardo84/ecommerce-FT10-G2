@@ -1,8 +1,7 @@
 import React from 'react';
-//import 'antd/dist/antd.css';
-import '../guestsForm/GuestsForm.less'
-import '../../Calendar/MyCalendar.less'
-import {useState} from 'react'
+import '../guestsForm/GuestsForm.less';
+import '../../Calendar/MyCalendar.less';
+import { useState } from 'react';
 import { Space, DatePicker } from 'antd';
 import {
   Form,
@@ -18,11 +17,6 @@ const formItemLayout = {
     span: 14,
   },
 };
-
-//interface dateRange=<any> 
-
-
-
 
 export const GuestsForm = () => {
 
@@ -111,7 +105,7 @@ export const GuestsForm = () => {
           >
             <div className="buttons_Guests">
               <Button style={{marginTop:"400px"}} >Cancel</Button>
-            <Button disabled={!(date[0]&&date[1])} style={{marginTop:"400px"}} type="primary">
+            <Button disabled={!( date[0] && date[1] && pax.adults)} style={{marginTop:"400px"}} type="primary">
               Next
             </Button>
        
