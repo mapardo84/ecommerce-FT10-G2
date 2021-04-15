@@ -28,7 +28,7 @@ export const HomeLayout = (): JSX.Element => {
 
     const user: any = supabase.auth.user()
 
-    if (user?.aud == "authenticated") {
+    if (user?.aud === "authenticated") {
 
       const email = user.email
 
@@ -36,10 +36,12 @@ export const HomeLayout = (): JSX.Element => {
         .from('users')
         .select('first_name')
         .eq('email', email)
+        
 
       setName(data && data[0]?.first_name)
 
     } else {
+      console.log(error)
       return false
     }
   }

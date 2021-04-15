@@ -17,7 +17,7 @@ export const NavBar = () => {
 
   const authValidation = () => {
     const user: any = supabase.auth.user()
-    if (user?.aud == "authenticated") {
+    if (user?.aud === "authenticated") {
       return true
     } else {
       return false
@@ -36,8 +36,7 @@ export const NavBar = () => {
               <Col span={12}>
                 <div className="navLeft">
                   <img className="imagen" src={hotel} alt="IMG NOT FOUND" />
-                  <h1 className="navTitle">HENRY HOTEL</h1>
-                
+                <NavLink className="navTitle" to="/home">HENRY HOTEL</NavLink>
                 </div>
               </Col>
 
@@ -82,12 +81,8 @@ export const NavBar = () => {
                   </div>
                   <NavLink to="/booking">
                     <Button
-                      style={{
-                        backgroundColor: "#5296A5",
-                        color: "white",
-                        border: "1px solid white",
-                      }}
                       size="large"
+                      className="btnNavbar"
                     >
                       Book Now
                     </Button>
