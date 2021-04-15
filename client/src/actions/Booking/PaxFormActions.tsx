@@ -1,10 +1,9 @@
 import { PaxValues } from "../../components/booking/paxForm/PaxForm";
 import { supabase } from "../../SupaBase/conection";
 
-
 export const sendPax = async (value: PaxValues) => {
     const { uuid, first_name, last_name, phone, country, birth_date, address } = value;
-    const { data, error } = await supabase.from('paxes').insert([
+    const { data } = await supabase.from('paxes').insert([
         {
             uuid,
             first_name,
@@ -16,5 +15,6 @@ export const sendPax = async (value: PaxValues) => {
             titular: true,                              // esto no sirve si es admin 
         }
     ])
+    console.log(`Se ha guardado el pax ${data}`);
 }
 

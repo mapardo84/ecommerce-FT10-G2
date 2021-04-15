@@ -1,17 +1,12 @@
 import '../guestsForm/GuestsForm.less';
 import '../../Calendar/MyCalendar.less';
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { Link } from 'react-router-dom';
-import {useDispatch } from 'react-redux'
-
+import { useDispatch, useSelector } from 'react-redux'
 import { Space, DatePicker } from 'antd';
-import {
-  Form,
-  InputNumber,
-  Button
-} from 'antd';
-import { getBookData, stepChange } from '../../../actions/Booking/bookingAction';
-
+import { setBookData, stepChange } from '../../../actions/Booking/bookingAction';
+import { Form, InputNumber, Button } from 'antd';
+const { RangePicker } = DatePicker;
 const formItemLayout = {
   labelCol: {
     span: 6,
@@ -21,43 +16,42 @@ const formItemLayout = {
   },
 };
 
-export const GuestsForm = () => {
-  let nights:number;
-  const dispatch = useDispatch();
-  
-  const [ date,setDate ] = useState<string[]>([]);
+export interface bookingType {
+  adults:number,
+  children:number,
+  range:string[],
+  nights:number, 
+  category:string[]
+}
 
-  const [ pax, setPax ] = useState<any>({
-    adults:0,
-    children:0
+export const GuestsForm = () => {
+  const currentBooking:bookingType = useSelector( (state:any) => state.bookings.booking );
+  const dispatch = useDispatch();
+  const [ booking, setBooking ] = useState<bookingType>({
+    adults: 0,
+    children: 0,
+    range: [],
+    nights: 0,
+    category: []
   });
 
-  function handleChangePaxsAdults ( inputs:number ) {
-    setPax({...pax,adults:inputs});
+  const handleChangePaxsAdults = ( inputs:number ) => { setBooking({...booking, adults: inputs}) };
+  const handleChangePaxsChildren = ( inputs:number ) => { setBooking({...booking, children: inputs}) };
+  const handleChangeDates = (_a:any, dates:string[], _c:any) => {
+    const checkin= new Date(dates[0]).getTime();
+    const checkout= new Date(dates[1]).getTime();
+    const nights= (checkout-checkin)/(1000*60*60*24);
+    setBooking({ ...booking, range: dates, nights });
   }
-
-  function handleChangePaxsChildren ( inputs:number ) {
-    setPax({...pax,children:inputs});
-  }
-
-  function handleChangeDates (a:any,b:any,c:any){
-    let checkin= new Date(b[0]).getTime();
-    let checkout= new Date(b[1]).getTime();
-    setDate(b)
-    nights= (checkout-checkin)/(1000*60*60*24);
-  }
-
-  function handleClickRooms(e:any){
+  const handleClickRooms = (e:any) => {
     e.preventDefault();
-    dispatch(getBookData(pax, date, nights));
+    dispatch(setBookData(booking));
     dispatch(stepChange(1));
   } 
 
   const onFinish = (values: string) => {
     console.log('Received values of form: ', values);
   };
-
-  const { RangePicker } = DatePicker
 
   return (
     <div className='conteiner'>
@@ -73,27 +67,26 @@ export const GuestsForm = () => {
         }}
       >
         <div className='inputs'>
-
           <Form.Item className='input'>
             <Form.Item  label="Adults" name="input-number-adults"  >
-              <InputNumber name="adults" onChange={handleChangePaxsAdults} min={1} max={6} />
+              <InputNumber name="adults" onChange={handleChangePaxsAdults} value={booking.adults} min={1} max={6} />
             </Form.Item>
           </Form.Item>
 
           <Form.Item className='input' >
             <Form.Item label="Children" name="input-number-children" >
-              <InputNumber name="children" onChange={handleChangePaxsChildren} min={0} max={6} />
+              <InputNumber name="children" onChange={handleChangePaxsChildren} value={currentBooking.children} min={0} max={6} />
             </Form.Item>
           </Form.Item>
         </div>
 
         <div className='backgroundPage'>
-      <Space direction="vertical" size={12}>
-        <div className='Calendar'>
-          <RangePicker onCalendarChange={handleChangeDates} className='backgroundPageA' open={true} />
+          <Space direction="vertical" size={12}>
+            <div className='Calendar'>
+              <RangePicker onCalendarChange={handleChangeDates} className='backgroundPageA' open={true} />
+            </div>
+          </Space>
         </div>
-      </Space>
-    </div>
         <div className='btn'>
           <Form.Item
             wrapperCol={{
@@ -103,9 +96,9 @@ export const GuestsForm = () => {
           >
             <div className="buttons_Guests">
               <Link to='/home'>
-                <Button style={{marginTop:"400px"}} >Cancel</Button>
+                <Button style={{marginTop:"400px"}} onClick={() => dispatch(setBookData({adults: 0, children: 0, range: [], nights: 0, category: []}))} >Cancel</Button>
               </Link>
-              <Button disabled={!( date[0] && date[1] && pax.adults)} style={{marginTop:"400px"}} onClick={handleClickRooms} type="primary">
+              <Button disabled={!( booking.range[0] && booking.range[1] && booking.adults )} style={{marginTop:"400px"}} onClick={handleClickRooms} type="primary">
                 Next
               </Button>
             </div>
