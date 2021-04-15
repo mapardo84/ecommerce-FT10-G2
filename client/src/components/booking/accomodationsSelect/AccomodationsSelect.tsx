@@ -1,30 +1,24 @@
-import { useEffect,useState } from "react";
+import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Select } from "antd";
-import "../../categories/Category.less";
+import { Select, Button, Checkbox } from "antd";
 import { initialStateProps } from "../../../reducers/categoriesReducer";
 import { getCategories } from "../../../actions";
-import "./AccomodationsSelect.less";
 import { AccomodationsCards } from "./AccomodationsCards";
-import 'antd/dist/antd.css';
 import { getAllRooms } from '../../../Admin/actions/roomsActions';
-import { getBookData, stepChange } from '../../../actions/Booking/bookingAction';
-import { Button } from 'antd';
+import { setBookData, stepChange } from '../../../actions/Booking/bookingAction';
+import { bookingType } from '../guestsForm/GuestsForm';
+import filteredCategories from './filteredCategories';
+import "./AccomodationsSelect.less";
 const { Option } = Select;
 
-interface room {
+export interface roomType {
   id: number, 
-  name: string, description: null|string, 
+  name: string, 
+  description: null|string, 
   floor: number, 
   availability: string, 
   category_id:number, 
   beds:number 
-}
-
-interface book {
-  pax: any,
-  date: string[],
-  nights: number
 }
 
 const getCategoriesDB = async (value: number | undefined, dispatch: any) => {
@@ -32,93 +26,76 @@ const getCategoriesDB = async (value: number | undefined, dispatch: any) => {
   dispatch(resolve);
 };
 
-
-export const AccomodationsSelect = ({ data }: any): JSX.Element => {
+export const AccomodationsSelect = ():JSX.Element => {
   const dispatch = useDispatch();
-  const bookInfo:book = useSelector( (state:any) => state.bookings.book );
-  const allRooms:room[] = useSelector( (state:any) => state.rooms.roomsList );
-  const categoriesState = useSelector( (state: initialStateProps) => state.categories );
-
-  
-  let nights:number;
-  
-  const [ date ] = useState<string[]>([]);
-
-  const [ pax ] = useState<any>({
-    adults:0,
-    children:0
-  });
-
- 
-  function handleClickRooms(e:any){
-      e.preventDefault();
-      dispatch(getBookData(pax, date, nights));
-      dispatch(stepChange(0));
-    } 
-
- 
   useEffect(() => {
     getCategoriesDB(undefined, dispatch);
     getAllRooms().then(res=>dispatch(res));
   }, [dispatch]);
-
-  let totalPaxes = bookInfo.pax.adults + bookInfo.pax.children;
-  let filteredRooms:room[] = allRooms.filter( e => e.beds >= totalPaxes );
-  const catRooms:number[] = [];
-  filteredRooms.forEach( (room:room) => catRooms.push(room.category_id) );
-  const catUnique = catRooms.filter( (value, index, self) => {
-      return self.indexOf(value) === index
-  });
-  
-  let categoriesToShow:any = [];
-  categoriesState.categories.forEach( (cat:any) => {
-    if (catUnique.includes(cat.id)) categoriesToShow.push(cat)
-  });
-  console.log(categoriesToShow);
-
+  const [ categorySelected, setCategorySelected ] = useState<string[]>([]);
+  const booking:bookingType = useSelector( (state:any) => state.bookings.booking );
+  const allRooms:roomType[] = useSelector( (state:any) => state.rooms.roomsList );
+  const categoriesState = useSelector( (state: initialStateProps) => state.categories );
   const handleChange = (value: any) => {
     if (value === "0") {
       getCategoriesDB(undefined, dispatch);
     } else {
       getCategoriesDB(value, dispatch);
     }
-  };
+  }
 
+  const handleClickBack = (e:any) => {
+    e.preventDefault();
+    dispatch(stepChange(0));
+  } 
+
+  const handleClickNext = (e:any) => {
+    e.preventDefault();
+    booking.category = categorySelected;
+    dispatch(setBookData(booking));
+    dispatch(stepChange(2));
+  }
+ 
+  const handleCheckBox = (e:any) => {
+    const { value, checked } = e.target;
+    console.log(e);
+    checked? setCategorySelected([...categorySelected, value]):
+    setCategorySelected(categorySelected.filter( x => { return x !== value}));
+  }
   
+  const categoriesToShow = filteredCategories(allRooms, booking, categoriesState);
 
   return (
     <div className="accomodationsSelect_container">
       <div className="accomodationsSelect_select">
         <span>
-          <Select
+          <Select key='selectCategory'
             placeholder="Select Category"
-            // style={{ width: 200 }}
             onChange={handleChange}
             className="accomodationsSelect_si"
           >
-            <Option value="0">All categories</Option>
-            <Option value="5">Economic 1 Person</Option>
-            <Option value="1">Standard 2 Persons</Option>
-            <Option value="2">Standard 4 Persons</Option>
-            <Option value="4">Suite 2 Persons</Option>
-            <Option value="3">Suite 4 Persons</Option>
-            <Option value="6">Penthouse 6 Persons</Option>
+            <Option key={0} value="0">All categories</Option>
+            <Option key={1} value="5">Economic 1 Person</Option>
+            <Option key={2} value="1">Standard 2 Persons</Option>
+            <Option key={3} value="2">Standard 4 Persons</Option>
+            <Option key={4} value="4">Suite 2 Persons</Option>
+            <Option key={5} value="3">Suite 4 Persons</Option>
+            <Option key={6} value="6">Penthouse 6 Persons</Option>
           </Select>
         </span>
       </div>
-
       <div className="accomodationsSelect_cards">
-        {categoriesToShow?.map((categ: any, key: number) => (
-          <AccomodationsCards categ={categ} key={key} />
+        <Checkbox.Group>
+        {categoriesToShow?.map((categ: any, i: number) => (
+          <div>
+            <AccomodationsCards categ={categ} booking={booking} key={i} />
+            <Checkbox key={i+7} value={categ.name} onChange={handleCheckBox}>{categ.name}</Checkbox>
+          </div>
         ))}
+        </Checkbox.Group>
       </div>
-         
-      {/* <div className="accomodationsSelect_btn">
-        <Button type="primary" htmlType="submit">SELECT</Button>
-      </div> */}
-      <Button onClick={handleClickRooms} >Go back</Button>
-       
+      <Button onClick={handleClickBack}>Go back</Button>
+      <Button onClick={handleClickNext}>Next</Button>
     </div>
-
   );
 };
