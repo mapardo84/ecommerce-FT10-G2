@@ -14,6 +14,9 @@ export const success = () => {
 const errorMsg = () => {
     message.error("Error");
 };
+export const errorMsgcaptcha = () => {
+    message.error("Complete the captcha to cotinue");
+};
 
 //Sign in using third-party providers.
 export const loginWith = async (provider: any) => {

@@ -3,6 +3,8 @@ import { classicLogIn, loginWith } from "../../helpers/logIn";
 import "./LogIn.less";
 import { UserOutlined, LockOutlined, GoogleOutlined, FacebookOutlined } from "@ant-design/icons";
 import { useHistory } from "react-router-dom";
+import ReCAPTCHA from "react-google-recaptcha";
+import {errorMsgcaptcha} from "../../helpers/logIn"
 
 interface logIn {
   email: string;
@@ -13,12 +15,32 @@ export const LogIn = () => {
 
   const history = useHistory();
 
-  const onFinish = async (values: logIn) => {
-    var a = await classicLogIn(values.email, values.password);
-    a && history.push("/home");
-    a && window.location.reload()
-  };
+  let captchaData = {
+    isVerified: false,
+  }
 
+  
+  function onChange(value: any) {
+    console.log("Captcha value:", value);
+    if (value) {
+      captchaData.isVerified = true
+      console.log(captchaData.isVerified)
+    } else {
+      captchaData.isVerified = false
+      console.log(captchaData.isVerified)
+
+    }
+  }
+  
+  const onFinish = async (values: logIn) => {
+    if(captchaData.isVerified){
+      var a = await classicLogIn(values.email, values.password);
+      a && history.push("/home");
+      a && window.location.reload()
+    }else{
+      errorMsgcaptcha()
+    }
+  };
 
   return (
     <Form
@@ -64,13 +86,18 @@ export const LogIn = () => {
       </Form.Item>
       <Button className="button" type="primary" htmlType="submit">
         Log In
-      </Button>
+      </Button><br/><br/>
+<div className="captcha"><ReCAPTCHA
+        sitekey="6LcZXqsaAAAAAN4pWJ2LNrXd68tnxzwHvPclIjex"
+        onChange={onChange}
+      /></div>
+      
 
       <div className="loginCenter">Or login with</div>
-  
+
       <div className="loginIconContainer">
-        <GoogleOutlined style={{ fontSize: "40px" }} onClick={() => loginWith("google")}></GoogleOutlined>
-        <FacebookOutlined style={{ fontSize: "40px" }} onClick={() => loginWith("facebook")}></FacebookOutlined>
+        <GoogleOutlined style={{ fontSize: "40px",marginInline:"5x" }} onClick={() => loginWith("google")}></GoogleOutlined>
+        <FacebookOutlined style={{ fontSize: "40px",marginInline:"5px" }} onClick={() => loginWith("facebook")}></FacebookOutlined>
       </div>
     </Form>
   );

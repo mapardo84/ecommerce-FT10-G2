@@ -1,5 +1,4 @@
 import { Carousel } from 'antd';
-import { supabase } from '../../SupaBase/conection';
 import "./HomeSlides.less"
 
 
