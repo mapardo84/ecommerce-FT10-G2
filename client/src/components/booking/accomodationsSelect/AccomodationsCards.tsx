@@ -1,13 +1,16 @@
 import { Button, Layout, Image, Modal } from 'antd';
 import { useState } from 'react';
 import '../accomodationsSelect/AccomodationsCards.less'
-import 'antd/dist/antd.css';
+import { useDispatch } from "react-redux";
+import { getBookData, stepChange } from '../../../actions/Booking/bookingAction';
 const { Sider, Content } = Layout
+
 
 
 export const AccomodationsCards = ({ categ }: any): JSX.Element => {
 
     const [isModalVisible, setIsModalVisible] = useState(false);
+
 
     const showModal = () => {
         setIsModalVisible(true);
@@ -20,6 +23,23 @@ export const AccomodationsCards = ({ categ }: any): JSX.Element => {
     const handleCancel = () => {
         setIsModalVisible(false);
     };
+
+    let nights:number;
+    const dispatch = useDispatch();
+    
+    const [ date ] = useState<string[]>([]);
+  
+    const [ pax ] = useState<any>({
+      adults:0,
+      children:0
+    });
+  
+   
+    function handleClickRooms(e:any){
+        e.preventDefault();
+        dispatch(getBookData(pax, date, nights));
+        dispatch(stepChange(2));
+      } 
 
     return (
 
@@ -45,11 +65,18 @@ export const AccomodationsCards = ({ categ }: any): JSX.Element => {
 
                     <div className='categoryButtons'>
                         <div>
-                            <h6 className='categoryH3'>Rate: ${categ?.price} usd</h6>
+                            <h6 className='categoryH3'>Rate: ${categ?.price} USD</h6>
                         </div>
-                        <Button type="primary" className="accomodationReserveButton" onClick={showModal}>
+                        <div className="AccButtons">
+                             <Button style={{marginBottom:"10px",backgroundColor:"white"}} type="dashed" className="accomodationReserveButton" onClick={showModal}>
                             Learn more..
                     </Button>
+
+                    <Button onClick={handleClickRooms} type="primary">
+                            Select
+                    </Button>
+                        </div>
+                       
                         <Modal title="Amenities" visible={isModalVisible} onOk={handleOk} onCancel={handleCancel} footer={null}>
                             <div>
                                 <section>
@@ -68,6 +95,7 @@ export const AccomodationsCards = ({ categ }: any): JSX.Element => {
                     </div>
                 </Sider>
             </Layout>
+           
 
 
         </div>

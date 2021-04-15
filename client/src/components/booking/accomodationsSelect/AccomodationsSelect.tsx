@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect,useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Select } from "antd";
 import "../../categories/Category.less";
@@ -8,7 +8,8 @@ import "./AccomodationsSelect.less";
 import { AccomodationsCards } from "./AccomodationsCards";
 import 'antd/dist/antd.css';
 import { getAllRooms } from '../../../Admin/actions/roomsActions';
-
+import { getBookData, stepChange } from '../../../actions/Booking/bookingAction';
+import { Button } from 'antd';
 const { Option } = Select;
 
 interface room {
@@ -38,6 +39,23 @@ export const AccomodationsSelect = ({ data }: any): JSX.Element => {
   const allRooms:room[] = useSelector( (state:any) => state.rooms.roomsList );
   const categoriesState = useSelector( (state: initialStateProps) => state.categories );
 
+  
+  let nights:number;
+  
+  const [ date ] = useState<string[]>([]);
+
+  const [ pax ] = useState<any>({
+    adults:0,
+    children:0
+  });
+
+ 
+  function handleClickRooms(e:any){
+      e.preventDefault();
+      dispatch(getBookData(pax, date, nights));
+      dispatch(stepChange(0));
+    } 
+
  
   useEffect(() => {
     getCategoriesDB(undefined, dispatch);
@@ -66,6 +84,8 @@ export const AccomodationsSelect = ({ data }: any): JSX.Element => {
     }
   };
 
+  
+
   return (
     <div className="accomodationsSelect_container">
       <div className="accomodationsSelect_select">
@@ -92,10 +112,13 @@ export const AccomodationsSelect = ({ data }: any): JSX.Element => {
           <AccomodationsCards categ={categ} key={key} />
         ))}
       </div>
-
+         
       {/* <div className="accomodationsSelect_btn">
         <Button type="primary" htmlType="submit">SELECT</Button>
       </div> */}
+      <Button onClick={handleClickRooms} >Go back</Button>
+       
     </div>
+
   );
 };

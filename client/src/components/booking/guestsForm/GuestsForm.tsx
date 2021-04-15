@@ -2,7 +2,7 @@ import '../guestsForm/GuestsForm.less';
 import '../../Calendar/MyCalendar.less';
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { useSelector, useDispatch } from 'react-redux'
+import {useDispatch } from 'react-redux'
 
 import { Space, DatePicker } from 'antd';
 import {
