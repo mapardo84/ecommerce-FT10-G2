@@ -34,7 +34,7 @@ import { NavLink } from "react-router-dom";
 //////////////////////////////////////////////////////////////
 
 
-const paginas = ['Inicio', 'Rooms']
+const paginas = ['Inicio', 'Rooms', 'Categories']
 
 export const MenuLeft = () => {
     const dispatch = useDispatch()
@@ -73,6 +73,9 @@ export const MenuLeft = () => {
                     </Menu.Item>
                     <Menu.Item key={paginas[1]} icon={<WalletOutlined />} onClick={() => setPage(paginas[1])}>
                         <NavLink to="/admin/rooms">{paginas[1]}</NavLink>
+                    </Menu.Item>
+                    <Menu.Item key={paginas[2]} icon={<PieChartOutlined />} onClick={() => setPage(paginas[2])}>
+                        <NavLink to="/admin/categories">{paginas[2]}</NavLink>
                     </Menu.Item>
 
 

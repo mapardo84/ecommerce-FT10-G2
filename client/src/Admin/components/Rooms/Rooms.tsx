@@ -8,14 +8,14 @@ import './rooms.less'
 import { getCategories } from '../../../actions/index';
 
 export interface Room {
-    id: number,
-    name: string,
-    description: any,
-    floor: number,
-    availability: string,
-    beds: number,
-    category_id: number
-    categories: { name: string }[]
+  id: number;
+  name: string;
+  description: any;
+  floor: number;
+  availability: string;
+  beds: number;
+  category_id: number;
+  categories: { name: string }[];
 }
 
 interface ISort {

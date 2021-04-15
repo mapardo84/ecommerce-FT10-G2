@@ -16,6 +16,7 @@ import { AccomodationLayout } from "./../components/layout/AccomodationLayout";
 import { AccomodationDetailsLayout } from "../components/layout/AccomodationsDetailsLayout";
 import { Plantilla } from "../Admin/Plantilla";
 import { RoomsLayout } from "../Admin/components/RoomsLayout";
+import { CategoriesLayout } from "../Admin/components/CategoriesLayout";
 
 //ACA VAN TODAS LAS RUTAS
 
@@ -36,6 +37,8 @@ export const AppRouter = () => {
           {/* Parte administrativa */}
           <Route exact path="/admin" component={Plantilla} />
           <Route exact path="/admin/rooms" component={RoomsLayout} />
+          <Route exact path="/admin/categories" component={CategoriesLayout} />
+          {/* Parte administrativa */}
 
           <Route exact path="/accomodations" component={AccomodationLayout} />
           <Route
