@@ -1,8 +1,7 @@
 import { Form, Button, Input } from "antd";
-import { classicLogIn, googleLogIn, faceLogIn } from "../../helpers/logIn";
+import { classicLogIn, loginWith } from "../../helpers/logIn";
 import "./LogIn.less";
 import { UserOutlined, LockOutlined, GoogleOutlined, FacebookOutlined } from "@ant-design/icons";
-import { supabase } from '../../SupaBase/conection'
 import { useHistory } from "react-router-dom";
 
 interface logIn {
@@ -10,65 +9,14 @@ interface logIn {
   password: string;
 }
 
-export interface IGoogleAndFaceRegister {
-  id: string,
-  email: string;
-  user_metadata: any;
-  full_name: string;
-}
-
-const logInGoogle = async () => {
-  await googleLogIn()
-}
-
-const logInFace = async () => {
-
-  await faceLogIn()
-}
-
-
-export const getSession = async (session:any) => {
-  
-
-
-
-  
-    const { data, error } = await supabase
-      .from('users')
-      .select('email')
-      .eq('email', session.user?.email)
-
-      
-      if (session.user) {var name = (session.user.user_metadata.full_name).split(" ")}
-
-
-    if (data?.length === 0) {
-      console.log(data)
-      console.log("USUARIO NUEVO REGISTRADO")
-      await supabase.from("users").insert([
-        {
-          uuid: session.user?.id,
-          email: session.user?.email,
-          first_name: name[0],
-          last_name: name[1]
-        },
-      ]);
-    } else {
-      console.log("USUARIO YA EXISTE")
-    }
-  
-}
-
-//MAIN COMPONENT_____________________
 export const LogIn = () => {
 
-
   const history = useHistory();
-
 
   const onFinish = async (values: logIn) => {
     var a = await classicLogIn(values.email, values.password);
     a && history.push("/home");
+    a && window.location.reload()
   };
 
 
@@ -119,23 +67,10 @@ export const LogIn = () => {
       </Button>
 
       <div className="loginCenter">Or login with</div>
-      {/* <GoogleLogin
-    clientId="982352923244-qrc2mn9clmfdkmidai537evf8s97920c.apps.googleusercontent.com"
-    buttonText="Login"
-    onSuccess={responseGoogle}
-    onFailure={responseGoogle}
-    cookiePolicy={'single_host_origin'}
-  /> */}
-
-
-
-      {/* <div className="icons">
-        <GoogleOutlined style={{ marginTop: "-9.5%", fontSize: "40px" }} />
-      ,
-      </div> */}
+  
       <div className="loginIconContainer">
-        <GoogleOutlined style={{ fontSize: "40px" }} onClick={() => logInGoogle()}></GoogleOutlined>
-        <FacebookOutlined style={{ fontSize: "40px" }} onClick={() => logInFace()}></FacebookOutlined>
+        <GoogleOutlined style={{ fontSize: "40px" }} onClick={() => loginWith("google")}></GoogleOutlined>
+        <FacebookOutlined style={{ fontSize: "40px" }} onClick={() => loginWith("facebook")}></FacebookOutlined>
       </div>
     </Form>
   );

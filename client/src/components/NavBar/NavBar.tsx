@@ -14,12 +14,14 @@ const { Header } = Layout;
 export const NavBar = () => {
 
   //Valida si el usuario esta logueado
+
   const authValidation = () => {
     const user: any = supabase.auth.user()
     if (user?.aud == "authenticated") {
       return true
     } else {
       return false
+      
     }
   }
 

@@ -15,59 +15,24 @@ const errorMsg = () => {
     message.error("Error");
 };
 
-
-export const faceLogIn = async () => {
+//Sign in using third-party providers.
+export const loginWith = async (provider: any) => {
     try {
-        const { user, session, error } = await supabase.auth.signIn({
-
-            // provider can be 'github', 'google', 'gitlab', or 'bitbucket'
-            provider: 'facebook'
+        const { error } = await supabase.auth.signIn({
+            provider
         }, {
             redirectTo: 'http://localhost:3000/home'
         })
-
-
         if (!error) {
-            console.log(user)
-            console.log(session)
-            await success()
-
+            success()
 
         } else {
-            console.log(error)
             errorMsg()
         }
     } catch (err) { console.log(err) }
-
 }
 
-
-export const googleLogIn = async () => {
-    try {
-        const { user, session, error } = await supabase.auth.signIn({
-
-            // provider can be 'github', 'google', 'gitlab', or 'bitbucket'
-            provider: 'google'
-        }, {
-            redirectTo: 'http://localhost:3000/home'
-        })
-
-
-        if (!error) {
-            console.log(user)
-            console.log(session)
-            await success()
-
-
-        } else {
-            console.log(error)
-            errorMsg()
-        }
-    } catch (err) { console.log(err) }
-
-}
-
-
+//user login with email provider
 export const classicLogIn = async (email: string, password: string) => {
     try {
         const { user, error } = await supabase.auth.signIn({
@@ -77,13 +42,56 @@ export const classicLogIn = async (email: string, password: string) => {
             redirectTo: 'http://localhost:3000/home'
         })
         if (!error) {
-            console.log(user)
             success()
             return true
 
         } else {
-            console.log(error)
             errorMsg()
         }
     } catch (err) { console.log(err) }
+}
+
+
+//get the current user information
+export const getUserData = async () => {
+
+    const user = supabase.auth.user()
+
+    if (user?.aud == "authenticated") {
+
+        const email = user.email
+
+        var { data } = await supabase
+            .from('users')
+            .select('first_name')
+            .eq('email', email)
+
+        return (data)
+    }
+}
+
+//get current session
+export const getSession = async (session: any) => {
+
+    const { data } = await supabase
+        .from('users')
+        .select('email')
+        .eq('email', session.user?.email)
+
+    //user register if data is empty
+    if (data?.length === 0) {
+        if (session.user) { var name = (session.user.user_metadata.full_name)?.split(" ") }
+        await supabase.from("users").insert([
+            {
+                uuid: session.user?.id,
+                email: session.user?.email,
+                first_name: name[0],
+                last_name: name[1]
+            },
+        ]);
+        console.log("USUARIO NUEVO REGISTRADO")
+    } else {
+        console.log("USUARIO YA EXISTE")
+    }
+
 }

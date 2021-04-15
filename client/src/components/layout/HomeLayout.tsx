@@ -1,38 +1,29 @@
+import { useEffect, useState } from "react";
 import { Layout } from "antd";
 import { NavBar } from "../NavBar/NavBar";
 import { FooterLayout } from '../footer/Footer'
 import { HomeSlides } from "../HomeSlides/HomeSlides";
-import "./homeLayout.less";
 import { supabase } from "../../SupaBase/conection";
-import { useEffect, useState } from "react";
-import {getSession} from "../LogIn/LogIn"
-
+import { getSession } from "../../helpers/logIn"
+import "./homeLayout.less";
 
 const { Content } = Layout;
 
 
 export const HomeLayout = (): JSX.Element => {
 
-  
-useEffect(() => {
-  supabase.auth.onAuthStateChange((event, session) => {
-   
-     getSession(session)
-    
-       console.log(event, session)
-     })
- 
-}, [])
 
-
-
-
+  useEffect(() => {
+    supabase.auth.onAuthStateChange((event, session) => {
+      getSession(session)
+    })
+  }, [])
 
 
   var [name, setName] = useState("empty")
 
   const showName = async () => {
-    
+
     const user: any = supabase.auth.user()
 
     if (user?.aud == "authenticated") {
@@ -54,13 +45,14 @@ useEffect(() => {
 
   return (
     <>
- 
- 
+
+
       <Layout className="container">
         <NavBar />
         {
-          name !== "empty"&& <div className="welcomeBox">Welcome, {name}</div>
+          name !== "empty" && <div className="welcomeBox">Welcome, {name}</div>
         }
+   
         <Content>
           <HomeSlides />
           <div className="text">
