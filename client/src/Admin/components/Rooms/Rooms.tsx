@@ -2,9 +2,10 @@ import { Button, Input, InputNumber, Select, Table, Form, Popconfirm, Tooltip } 
 import Modal from 'antd/lib/modal/Modal'
 import { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { deleteRoom, getAllRooms, updateRoom } from '../../actions/roomsActions';
+import { addRoom, deleteRoom, getAllRooms, updateRoom } from '../../actions/roomsActions';
 import { FaPencilAlt, FaTrashAlt } from "react-icons/fa";
 import './rooms.less'
+import { getCategories } from '../../../actions/index';
 
 export interface Room {
     id: number,
@@ -122,44 +123,56 @@ export const Rooms = () => {
 
     const [isModalVisible, setIsModalVisible] = useState<boolean>(false);
     const [fields, setFields] = useState<any[]>(campos);
-    const [editId, setEditId] = useState(null)
+    const [editId, setEditId] = useState<any>(null)
 
     const { roomsList } = useSelector((state: any) => state?.rooms)
+    const { categories } = useSelector((state: any) => state?.categories)
     const dispatch = useDispatch()
 
     useEffect(() => {
         dispatch(getAllRooms())
+        dispatch(getCategories())
     }, [dispatch])
 
     const onFinish = (values: any) => {
-        const data = { ...values, category_id: Number(values.category_id), id: editId }
 
-        console.log('Success:', data);
-        dispatch(updateRoom(data))
-        setIsModalVisible(false)
+        if (editId) {
+            console.log('Values:', values);
+            const data = { ...values, category_id: values.category_id, id: editId.id }
+            console.log('Success:', data);
+            dispatch(updateRoom(data))
+            setIsModalVisible(false)
+            setEditId(null)
+        } else {
+            console.log(values)
+            dispatch(addRoom(values))
+            setIsModalVisible(false)
+        }
     };
 
     const handleDelete = (id: number) => {
         const index = roomsList.find((room: Room) => room.id === id)
-        dispatch(deleteRoom(index))
+        dispatch(deleteRoom(index.id))
     };
 
 
     const handleEdit = (id: number) => {
         setIsModalVisible(true)
         const index = roomsList.find((room: Room) => room.id === id)
-        setEditId(index.id)
+        setEditId(index)
+        console.log("El index: ", index)
         setFields([
             { name: ['name'], value: index.name },
             { name: ['floor'], value: index.floor },
             { name: ['availability'], value: index.availability },
-            { name: ['category_id'], value: index.categories.name },
+            // { name: ['category_id'], value: index.category_id },
             { name: ['beds'], value: index.beds },
         ])
     }
 
     const closeModal = () => {
         setFields(campos)
+        setEditId(null)
         setIsModalVisible(false)
     }
 
@@ -202,9 +215,14 @@ export const Rooms = () => {
                     <Form.Item
                         label="Category"
                         name="category_id"
+                        initialValue={editId?.category_id.toString()}
                         rules={[{ required: true, message: 'Please input a category!' }]}>
                         <Select style={{ width: "200px" }} placeholder="Select a category">
-                            <Select.Option value="5">Economic</Select.Option>
+                            {
+                                // categories.map(category =>{
+                                //     <Select.Option value={category.id}>{category.name}</Select.Option>
+                                // })
+                            }
                             <Select.Option value="2">Standard</Select.Option>
                             <Select.Option value="3">Suite</Select.Option>
                             <Select.Option value="6">Penthouse</Select.Option>

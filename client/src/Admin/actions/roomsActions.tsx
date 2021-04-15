@@ -5,8 +5,9 @@ import { message } from 'antd';
 export const GET_ALL_ROOMS: string = "GET_ALL_ROOMS"
 export const FILTER_ROOM: string = "FILTER_ROOM"
 export const UPDATE_ROOM: string = "UPDATE_ROOM"
+export const ADD_ROOM: string = "ADD_ROOM"
 
-const errorMsg = (msg: any) => {
+const errorMsg = (msg: string) => {
     message.error(msg);
 };
 
@@ -21,7 +22,6 @@ const success = (mensaje: string) => {
 };
 
 export const getAllRooms = () => {
-
     return async (dispatch: Dispatch<any>) => {
         try {
             const { data, error } = await supabase.from('rooms').select('*,categories(name)')
@@ -30,7 +30,6 @@ export const getAllRooms = () => {
             } else {
                 errorMsg(JSON.stringify(error))
             }
-
         } catch (err) {
             console.log(err)
             errorMsg("Internal server error. Try again")
@@ -51,7 +50,6 @@ export const deleteRoom = (id: number) => {
                 success('Room deleted')
                 dispatch(filterRoom(id))
             }
-
         } catch (err) {
             console.log(err)
             errorMsg("Internal server error. Try again")
@@ -96,6 +94,34 @@ export const updateRoom = (dataChange: any) => {
     }
 }
 
+export const addRoom = (newData: any) => {
+    return async (dispatch: Dispatch<any>) => {
+        try {
+            const { data, error } = await supabase
+                .from('rooms')
+                .insert([{
+                    name: newData.name,
+                    floor: newData.floor,
+                    availability: newData.availability,
+                    category_id: newData.category_id,
+                    beds: newData.beds
+                },
+                ])
+            if (error) {
+                errorMsg(JSON.stringify(error))
+            } else {
+                console.log(data)
+                success('Room added')
+                dispatch(addedRoom(data))
+            }
+        } catch (err) {
+            console.log(err)
+            errorMsg("Internal server error. Try again")
+        }
+    }
+}
+
+
 const saveRooms = (data: any) => ({
     type: GET_ALL_ROOMS,
     payload: data
@@ -108,5 +134,10 @@ const filterRoom = (data: any) => ({
 
 const updatedRoom = (data: any) => ({
     type: UPDATE_ROOM,
+    payload: data
+})
+
+const addedRoom = (data: any) => ({
+    type: ADD_ROOM,
     payload: data
 })

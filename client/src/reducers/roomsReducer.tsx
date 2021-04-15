@@ -1,4 +1,4 @@
-import { FILTER_ROOM, GET_ALL_ROOMS, UPDATE_ROOM } from '../Admin/actions/roomsActions'
+import { FILTER_ROOM, GET_ALL_ROOMS, UPDATE_ROOM, ADD_ROOM } from '../Admin/actions/roomsActions';
 import { Room } from '../Admin/components/Rooms/Rooms'
 
 interface IState {
@@ -36,6 +36,12 @@ export function roomsReducer(state: IState = InitialState, action: actionProps) 
                     return room
                 })
             }
+        case ADD_ROOM:
+            return {
+                ...state,
+                roomsList: [...state.roomsList, action.payload[0]]
+            }
+
         default:
             return state
     }
