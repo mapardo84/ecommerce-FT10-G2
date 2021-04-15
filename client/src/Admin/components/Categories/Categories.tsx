@@ -1,8 +1,15 @@
-import { Popconfirm, Table, Tag, Tooltip } from "antd";
-import { useEffect } from "react";
+import { Input, Popconfirm, Table, Tag, Tooltip, Form, InputNumber, Button } from "antd";
+import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { getAllCategories } from "../../actions/categoriesActions";
-import { FaTrashAlt } from "react-icons/fa";
+import {
+  getAllCategories,
+  deleteCategory,
+  updateCategory
+} from "../../actions/categoriesActions";
+import { FaPencilAlt, FaTrashAlt } from "react-icons/fa";
+import Modal from "antd/lib/modal/Modal";
+import './categories.less'
+
 
 /* 
 
@@ -22,6 +29,14 @@ export interface Category {
   price: number;
   images: string[];
 }
+
+const campos = [
+  { name: ["name"], value: "" },
+  { name: ["capacity"], value: "" },
+  { name: ["description"], value: "" },
+  { name: ["details"], value: "" },
+  { name: ["price"], value: "" },
+];
 
 export const Categories = () => {
   const columns: any = [
@@ -71,10 +86,18 @@ export const Categories = () => {
       render: (_: undefined, record: { id: number }) =>
         categories.length >= 1 ? (
           <>
+            <Tooltip title="Edit">
+              <span
+                className="adminrooms_options"
+                onClick={() => handleEdit(record.id)}
+              >
+                <FaPencilAlt size="18" color="orange" />{" "}
+              </span>
+            </Tooltip>
             <Tooltip title="Delete">
               <Popconfirm
                 placement="left"
-                title="Are you sure you want to delete this row?"
+                title="Sure to delete?"
                 onConfirm={() => handleDelete(record.id)}
               >
                 <div>
@@ -87,15 +110,44 @@ export const Categories = () => {
         ) : null,
     },
   ];
-  /* const [deleteCategories, setDeleteCategories] = useState<Category>(); */
+
+  const [isModalVisible, setIsModalVisible] = useState<boolean>(false);
+  const [fields, setFields] = useState<any[]>(campos);
+  const [editId, setEditId] = useState(null);
+
   const { categories } = useSelector((state: any) => state?.categories);
-  /* console.log(categories); */
   const dispatch = useDispatch();
 
-  const handleDelete = (key: React.Key) => {
-    /* dispatch(accionquefiltra(key)) */
-    /* categories.filter((category: any) => category.key !== key); */
+  const handleDelete = (id: number) => {
+    const index = categories.find((category: Category) => category.id === id);
+    dispatch(deleteCategory(index.id));
   };
+  
+  const handleEdit = (id: number) => {
+    setIsModalVisible(true);
+    const index = categories.find((category: Category) => category.id === id);
+    setEditId(index.id);
+    setFields([
+      { name: ["name"], value: index.name },
+      { name: ["capacity"], value: index.capacity },
+      { name: ["description"], value: index.description },
+      { name: ["details"], value: index.details },
+      { name: ["price"], value: index.price },
+    ]);
+  };
+
+  const onFinish = (values: any) => {
+    const data = { ...values, id: editId }    
+    console.log('Success:', data);
+    dispatch(updateCategory(data))
+    console.log("hizo el dispatch ---------------------------------------------------------------")
+    setIsModalVisible(false)
+};
+
+  const closeModal = () => {
+    setFields(campos)
+    setIsModalVisible(false)
+}
 
   useEffect(() => {
     dispatch(getAllCategories());
@@ -111,6 +163,49 @@ export const Categories = () => {
         rowKey="id"
         bordered={true}
       />
+      <Modal title="Add Room" visible={isModalVisible} onCancel={closeModal} footer={null} >
+                <Form onFinish={onFinish} fields={fields}>
+                    <Form.Item
+                        label="Name"
+                        name="name"
+                        rules={[{ required: true, message: 'Please input a name!' }]}>
+                        <Input placeholder="Category Name"></Input>
+                    </Form.Item>
+                    <Form.Item
+                        label="Capacity"
+                        name="capacity"
+                        rules={[{ required: true, message: 'Please input the capacity!' }]}>
+                        <InputNumber placeholder="Capacity"></InputNumber>
+                    </Form.Item>
+                    <Form.Item
+                        label="Description"
+                        name="description"
+                        rules={[{ required: true, message: 'Please input the description!' }]}> 
+                        <Input placeholder="Description"></Input>                       
+                    </Form.Item>
+                    <Form.Item
+                        label="Details"
+                        name="details"
+                        rules={[{ required: true, message: 'Please input the details!' }]}>
+                          <Input placeholder="[item1, item2, item3, ...]"></Input>                        
+                    </Form.Item>
+                    <Form.Item
+                        label="Price"
+                        name="price"
+                        rules={[{ required: true, message: 'Please input the price!' }]}>
+                        <InputNumber placeholder="Price" min={1}></InputNumber>
+                    </Form.Item>
+                    <div className="admincategories_btn">
+                        <Button onClick={closeModal}>
+                            Cancel
+                        </Button>
+                        <Button type="primary" htmlType="submit">
+                            Save
+                        </Button>
+                    </div>
+
+                </Form>
+            </Modal>
     </div>
   );
 };
