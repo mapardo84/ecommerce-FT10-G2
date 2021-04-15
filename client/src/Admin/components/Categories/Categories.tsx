@@ -1,29 +1,28 @@
-import { Input, Popconfirm, Table, Tag, Tooltip, Form, InputNumber, Button } from "antd";
+import {
+  Input,
+  Popconfirm,
+  Table,
+  Tag,
+  Tooltip,
+  Form,
+  InputNumber,
+  Button,
+  Select,
+} from "antd";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import {
   getAllCategories,
   deleteCategory,
-  updateCategory
+  updateCategory,
 } from "../../actions/categoriesActions";
 import { FaPencilAlt, FaTrashAlt } from "react-icons/fa";
 import Modal from "antd/lib/modal/Modal";
-import './categories.less'
-
-
-/* 
-
-FALTA HACER EL FILTER EN EL STORE SACANDO EL ELEMENTO DEL ID QUE QUIERO REMOVER
-ALGO ASI:
-categories.filter((category: any) => category.key !== key);
-
-
- */
+import "./categories.less";
 
 export interface Category {
   id: number;
   name: string;
-  capacity: number;
   description: string;
   details: string[];
   price: number;
@@ -32,7 +31,6 @@ export interface Category {
 
 const campos = [
   { name: ["name"], value: "" },
-  { name: ["capacity"], value: "" },
   { name: ["description"], value: "" },
   { name: ["details"], value: "" },
   { name: ["price"], value: "" },
@@ -49,11 +47,6 @@ export const Categories = () => {
       title: "Category name",
       dataIndex: "name",
       key: "name",
-    },
-    {
-      title: "Capacity",
-      dataIndex: "capacity",
-      key: "capacity",
     },
     {
       title: "Description",
@@ -122,40 +115,39 @@ export const Categories = () => {
     const index = categories.find((category: Category) => category.id === id);
     dispatch(deleteCategory(index.id));
   };
-  
+
   const handleEdit = (id: number) => {
     setIsModalVisible(true);
     const index = categories.find((category: Category) => category.id === id);
     setEditId(index.id);
     setFields([
       { name: ["name"], value: index.name },
-      { name: ["capacity"], value: index.capacity },
       { name: ["description"], value: index.description },
       { name: ["details"], value: index.details },
       { name: ["price"], value: index.price },
     ]);
   };
 
+  
+
   const onFinish = (values: any) => {
-    const data = { ...values, id: editId }    
-    console.log('Success:', data);
-    dispatch(updateCategory(data))
-    console.log("hizo el dispatch ---------------------------------------------------------------")
-    setIsModalVisible(false)
-};
+    const data = { ...values, id: editId };
+    /* console.log('Success:', data); */
+    dispatch(updateCategory(data));
+    setIsModalVisible(false);
+  };
 
   const closeModal = () => {
-    setFields(campos)
-    setIsModalVisible(false)
-}
+    setFields(campos);
+    setIsModalVisible(false);
+  };
 
   useEffect(() => {
     dispatch(getAllCategories());
   }, [dispatch]);
 
   return (
-    <div>
-      Categories admin page
+    <div>      
       <Table
         dataSource={categories}
         columns={columns}
@@ -163,49 +155,55 @@ export const Categories = () => {
         rowKey="id"
         bordered={true}
       />
-      <Modal title="Add Room" visible={isModalVisible} onCancel={closeModal} footer={null} >
-                <Form onFinish={onFinish} fields={fields}>
-                    <Form.Item
-                        label="Name"
-                        name="name"
-                        rules={[{ required: true, message: 'Please input a name!' }]}>
-                        <Input placeholder="Category Name"></Input>
-                    </Form.Item>
-                    <Form.Item
-                        label="Capacity"
-                        name="capacity"
-                        rules={[{ required: true, message: 'Please input the capacity!' }]}>
-                        <InputNumber placeholder="Capacity"></InputNumber>
-                    </Form.Item>
-                    <Form.Item
-                        label="Description"
-                        name="description"
-                        rules={[{ required: true, message: 'Please input the description!' }]}> 
-                        <Input placeholder="Description"></Input>                       
-                    </Form.Item>
-                    <Form.Item
-                        label="Details"
-                        name="details"
-                        rules={[{ required: true, message: 'Please input the details!' }]}>
-                          <Input placeholder="[item1, item2, item3, ...]"></Input>                        
-                    </Form.Item>
-                    <Form.Item
-                        label="Price"
-                        name="price"
-                        rules={[{ required: true, message: 'Please input the price!' }]}>
-                        <InputNumber placeholder="Price" min={1}></InputNumber>
-                    </Form.Item>
-                    <div className="admincategories_btn">
-                        <Button onClick={closeModal}>
-                            Cancel
-                        </Button>
-                        <Button type="primary" htmlType="submit">
-                            Save
-                        </Button>
-                    </div>
-
-                </Form>
-            </Modal>
+      <Modal
+        title="Add Room"
+        visible={isModalVisible}
+        onCancel={closeModal}
+        footer={null}
+      >
+        <Form onFinish={onFinish} fields={fields}>
+          <Form.Item
+            label="Name"
+            name="name"
+            rules={[{ required: true, message: "Please input a name!" }]}
+          >
+            <Input placeholder="Category Name"></Input>
+          </Form.Item>
+          <Form.Item
+            label="Description"
+            name="description"
+            rules={[
+              { required: true, message: "Please input the description!" },
+            ]}
+          >
+            <Input placeholder="Description"></Input>
+          </Form.Item>
+          <Form.Item
+            label="Details"
+            name="details"
+            rules={[{ required: true, message: "Please input the details!" }]}
+          >
+            <Select
+              mode="tags"
+              style={{ width: "100%" }}
+              placeholder="Tags Mode"              
+            />
+          </Form.Item>
+          <Form.Item
+            label="Price"
+            name="price"
+            rules={[{ required: true, message: "Please input the price!" }]}
+          >
+            <InputNumber placeholder="Price" min={1}></InputNumber>
+          </Form.Item>
+          <div className="admincategories_btn">
+            <Button onClick={closeModal}>Cancel</Button>
+            <Button type="primary" htmlType="submit">
+              Save
+            </Button>
+          </div>
+        </Form>
+      </Modal>
     </div>
   );
 };
