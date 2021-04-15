@@ -1,5 +1,5 @@
 import { supabase } from '../SupaBase/conection'
-import {message} from 'antd'
+import { message } from 'antd'
 
 export const success = () => {
     message.success({
@@ -22,7 +22,7 @@ export const faceLogIn = async () => {
 
             // provider can be 'github', 'google', 'gitlab', or 'bitbucket'
             provider: 'facebook'
-        },{
+        }, {
             redirectTo: 'http://localhost:3000/home'
         })
 
@@ -38,7 +38,7 @@ export const faceLogIn = async () => {
             errorMsg()
         }
     } catch (err) { console.log(err) }
-    
+
 }
 
 
@@ -48,7 +48,7 @@ export const googleLogIn = async () => {
 
             // provider can be 'github', 'google', 'gitlab', or 'bitbucket'
             provider: 'google'
-        },{
+        }, {
             redirectTo: 'http://localhost:3000/home'
         })
 
@@ -64,7 +64,7 @@ export const googleLogIn = async () => {
             errorMsg()
         }
     } catch (err) { console.log(err) }
-    
+
 }
 
 
@@ -73,15 +73,15 @@ export const classicLogIn = async (email: string, password: string) => {
         const { user, error } = await supabase.auth.signIn({
             email,
             password
-        },{
+        }, {
             redirectTo: 'http://localhost:3000/home'
         })
-        if(!error){
+        if (!error) {
             console.log(user)
-            await success()
-            
+            success()
+            return true
 
-        }else{
+        } else {
             console.log(error)
             errorMsg()
         }

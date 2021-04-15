@@ -19,6 +19,7 @@ export const logOut=async()=>{
     const response = await supabase.auth.signOut()  
     if(!response.error){
         success()
+        window.location.reload();
     }else{
         errorMsg()
     }

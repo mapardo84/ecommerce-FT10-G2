@@ -1,7 +1,12 @@
 import { Carousel } from 'antd';
+import { supabase } from '../../SupaBase/conection';
 import "./HomeSlides.less"
 
+
+
 export const HomeSlides = () => {
+    
+
 
     const settings = {
         dots: true,
@@ -9,9 +14,11 @@ export const HomeSlides = () => {
         autoplay: true,
         autoplaySpeed: 4000
     };
-
+    
     return (
+  
         <div className="containerSlide">
+
             <Carousel {...settings} className="HomeCarousel">
 
                 <div className="slideContainer">

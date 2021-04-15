@@ -1,10 +1,9 @@
 import { Form, Button, Input } from "antd";
-import { classicLogIn,googleLogIn,faceLogIn } from "../../helpers/logIn";
+import { classicLogIn, googleLogIn, faceLogIn } from "../../helpers/logIn";
 import "./LogIn.less";
-import { UserOutlined, LockOutlined, GoogleOutlined,FacebookOutlined } from "@ant-design/icons";
-import {supabase} from '../../SupaBase/conection'
-
-
+import { UserOutlined, LockOutlined, GoogleOutlined, FacebookOutlined } from "@ant-design/icons";
+import { supabase } from '../../SupaBase/conection'
+import { useHistory } from "react-router-dom";
 
 interface logIn {
   email: string;
@@ -19,51 +18,59 @@ export interface IGoogleAndFaceRegister {
 }
 
 const logInGoogle = async () => {
-   getSession()
   await googleLogIn()
 }
 
 const logInFace = async () => {
-  getSession()
- await faceLogIn()
+
+  await faceLogIn()
 }
 
 
-const getSession = async () => {
-
-  const user: any = supabase.auth.user()
-
-
-  const { data, error } = await supabase
-    .from('users')
-    .select('email')
-    .eq('email', user.email)
-
-  console.log(data)
-  console.log(error)
-
-  if (data?.length == 0) {
-    console.log("USUARIO NUEVO REGISTRADO")
-    await supabase.from("users").insert([
-      {
-        uuid: user.id,
-        email: user.email,
-        first_name: user.user_metadata.full_name,
-        last_name: user.user_metadata.full_name,
-      },
-    ]);
-  }else{
-    console.log("USUARIO YA EXISTE")
-  }
-
-}
-
-export const LogIn = () => {
-  const onFinish = (values: logIn) => {
-    classicLogIn(values.email, values.password);
-
-  };
+export const getSession = async (session:any) => {
   
+
+
+
+  
+    const { data, error } = await supabase
+      .from('users')
+      .select('email')
+      .eq('email', session.user?.email)
+
+      
+      if (session.user) {var name = (session.user.user_metadata.full_name).split(" ")}
+
+
+    if (data?.length === 0) {
+      console.log(data)
+      console.log("USUARIO NUEVO REGISTRADO")
+      await supabase.from("users").insert([
+        {
+          uuid: session.user?.id,
+          email: session.user?.email,
+          first_name: name[0],
+          last_name: name[1]
+        },
+      ]);
+    } else {
+      console.log("USUARIO YA EXISTE")
+    }
+  
+}
+
+//MAIN COMPONENT_____________________
+export const LogIn = () => {
+
+
+  const history = useHistory();
+
+
+  const onFinish = async (values: logIn) => {
+    var a = await classicLogIn(values.email, values.password);
+    a && history.push("/home");
+  };
+
 
   return (
     <Form
@@ -119,15 +126,17 @@ export const LogIn = () => {
     onFailure={responseGoogle}
     cookiePolicy={'single_host_origin'}
   /> */}
-  
-  
+
+
 
       {/* <div className="icons">
         <GoogleOutlined style={{ marginTop: "-9.5%", fontSize: "40px" }} />
       ,
       </div> */}
-      <GoogleOutlined  style={{fontSize: "40px" }} onClick={() => logInGoogle()}></GoogleOutlined>
-  <FacebookOutlined style={{ fontSize: "40px" }}  onClick={() => logInFace()}></FacebookOutlined>
+      <div className="loginIconContainer">
+        <GoogleOutlined style={{ fontSize: "40px" }} onClick={() => logInGoogle()}></GoogleOutlined>
+        <FacebookOutlined style={{ fontSize: "40px" }} onClick={() => logInFace()}></FacebookOutlined>
+      </div>
     </Form>
   );
 };
