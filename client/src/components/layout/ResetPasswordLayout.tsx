@@ -1,17 +1,21 @@
-import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { Layout } from "antd";
 import { NavBar } from "../NavBar/NavBar";
 import { FooterLayout } from '../footer/Footer'
-import { HomeSlides } from "../HomeSlides/HomeSlides";
 import { supabase } from "../../SupaBase/conection";
-import { getSession } from "../../helpers/logIn"
-import { Row, Col, Button, Typography, Form, Input } from "antd";
+import ReCAPTCHA from "react-google-recaptcha";
+import { errorMsgcaptcha } from "../../helpers/logIn"
+import { Form, Input, Button, message } from "antd";
 import { useHistory } from "react-router-dom";
 import "./ResetPasswordLayout.less"
-import "./homeLayout.less";
 
 const { Content } = Layout;
+
+
+interface IPassword {
+    password: any;
+    repeatPsw: string;
+}
 
 export const ResetPasswordLayout = (): JSX.Element => {
 
@@ -19,28 +23,49 @@ export const ResetPasswordLayout = (): JSX.Element => {
     const { token }: any = useParams();
 
 
-    const changePassword = async () => {
-        
-        const { error, data } = await supabase.auth.api
-            .updateUser(token, { password: "654321" })
-
-        console.log(error)
-        console.log(data)
-        history.push("/home")
+    let captchaData = {
+        isVerified: false,
     }
 
-    const onFinish = () => {
-
+    //captcha handler
+    function onChange(value: any) {
+        console.log("Captcha value:", value);
+        if (value) {
+            captchaData.isVerified = true
+        } else {
+            captchaData.isVerified = false
+        }
     }
+
+
+    const onFinish = async (value: IPassword) => {
+
+        var pass = value.password
+
+        if (captchaData.isVerified) {
+            const { error, data } = await supabase.auth.api
+                .updateUser(token, { password: pass })
+                console.log(data)
+
+            !error && message.success({
+                content: "Password changed successfully",
+            });
+
+            history.push("/home")
+        } else {
+            errorMsgcaptcha()
+        }
+    }
+
 
 
     return (
         <>
-            <Layout className="container">
+            <Layout className="resetLayout">
                 <NavBar />
-                <Content style={{ minHeight: "100%" }}>
+                <Content>
                     <div className="FormReset" >
-                        <h1>Password Reset</h1>
+                        <h1 className="resetTitle">Password Reset</h1>
 
                         <Form name="basic" initialValues={{ remember: true }} layout="vertical" onFinish={onFinish}>
                             <Form.Item
@@ -83,12 +108,14 @@ export const ResetPasswordLayout = (): JSX.Element => {
                             >
                                 <Input.Password></Input.Password>
                             </Form.Item>
-
+                            <Button type="primary" htmlType="submit">SEND</Button>
                         </Form>
+                            <div className="captcha2">
+                                <ReCAPTCHA
+                                    sitekey="6LcZXqsaAAAAAN4pWJ2LNrXd68tnxzwHvPclIjex"
+                                    onChange={onChange} />
+                            </div>
 
-
-                        <p>{token}</p>
-                        <Button onClick={changePassword}>CHANGE</Button>
                     </div>
                 </Content>
                 <FooterLayout />
