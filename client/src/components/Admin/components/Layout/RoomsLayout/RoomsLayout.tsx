@@ -1,12 +1,7 @@
-import { Layout, Menu, Breadcrumb, Button } from 'antd';
+import { Layout, Menu, Button } from 'antd';
 
 import { useState } from 'react';
-import {
-    DesktopOutlined,
-    PieChartOutlined,
-    FileOutlined
-} from '@ant-design/icons';
-import { Link, NavLink } from 'react-router-dom';
+import { NavLink } from 'react-router-dom';
 import Modal from 'antd/lib/modal/Modal';
 import { AddCategories } from '../../AddCategories/AddCategories';
 import { AddRooms } from '../../AddRooms/AddRooms';
@@ -19,7 +14,6 @@ export const RoomsLayout = () => {
     const [addCategories, setAddCategories] = useState<boolean>(false)
     
     const { Header, Content, Footer, Sider } = Layout;
-    const [page, setPage] = useState("Rooms")
     
     const [collapsed, setCollapsed] = useState<boolean>(false)
     

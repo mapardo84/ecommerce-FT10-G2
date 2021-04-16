@@ -32,7 +32,7 @@ async function getPreferenceId(req,res){
 }
 
 async function getIPN(req,res){
-
+        
 }
 
 module.exports={getPreferenceId,getIPN}

@@ -22,28 +22,28 @@ export const HomeSlides = () => {
             <Carousel {...settings} className="HomeCarousel">
 
                 <div className="slideContainer">
-                    <img className="slidesImages" src={slide3} />
+                    <img className="slidesImages" src={slide3} alt="asd"/>
                     <div className="slidesText">
                         Convenience and comfort 
                     </div>
                 </div>
 
                 <div className="slideContainer">
-                    <img className="slidesImages" src={slide2} />
+                    <img className="slidesImages" src={slide2} alt="asd"/>
                     <div className="slidesText">
                     Beach and relaxation 
                     </div>
                 </div>
 
                 <div className="slideContainer">
-                    <img className="slidesImages" src={slide5} />
+                    <img className="slidesImages" src={slide5} alt="asd"/>
                     <div className="slidesText">
                         An oasis for you.
                     </div>
                 </div>
 
                 <div className="slideContainer">
-                    <img className="slidesImages" src={slide4} />
+                    <img className="slidesImages" src={slide4} alt="asd"/>
                     <div className="slidesText">
                         The getaway you need
                     </div>

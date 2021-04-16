@@ -16,5 +16,6 @@ export const sendPax = async (value: PaxValues) => {
             titular: true,                              // esto no sirve si es admin 
         }
     ])
+    console.log(data,error)
 }
 

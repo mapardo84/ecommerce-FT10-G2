@@ -77,7 +77,7 @@ const Details = ({ data }: any): JSX.Element => {
             </div>
           </div>
           <div className="aside-book">
-            <h3>Rate: ${category?.price} usd</h3>
+            <h3>From: ${category?.price} usd</h3>
             <div>
               <Button type="primary" onClick={handleOnClick} size="large">
                 Book

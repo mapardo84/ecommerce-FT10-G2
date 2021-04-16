@@ -1,6 +1,6 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Button, Layout, Image, Select } from "antd";
+import { Button, Select } from "antd";
 import "./Category.less";
 import { initialStateProps } from "./../../reducers/categoriesReducer";
 import { getCategories } from "../../actions";
@@ -10,7 +10,6 @@ import "./../layout/homeLayout.less";
 import { NavLink } from "react-router-dom";
 
 const { Option } = Select;
-const { Content, Header } = Layout;
 const Categories = ({ data }: any): JSX.Element => {
   const dispatch = useDispatch();
   const cat = useSelector((state: initialStateProps) => state.categories);
@@ -22,7 +21,7 @@ const Categories = ({ data }: any): JSX.Element => {
 
   useEffect(() => {
     getCategoriesDB(undefined);
-  }, []);
+  }, [dispatch]);
   const handleChange = (value: any) => {
     console.log(value);
     if (value === '0') {
