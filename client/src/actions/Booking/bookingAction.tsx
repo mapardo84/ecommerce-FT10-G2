@@ -34,45 +34,38 @@ export const getBookings= async() =>{
     }
 }
 
-/*export const getTypes = async (paxes:number) =>{
-    let { data:types } = await supabase
-  .from("types")
-  .select('id')
-  .gte("capacity",paxes)
-  return{
-      type:GET_TYPES,
-      payload: types
-  }
-}*/
-
 export const getTypes = (paxes:number) =>{
     return async(dispatch:any) =>{
-        const {data} = await supabase
-    .from("types")
-    .select("id")
-    .gte("capacity",paxes)
-    dispatch(saveTypes(data))
-}
+        const { data:types } = await supabase
+        .from("types")
+        .select("id")
+        .gte("capacity",paxes)
+        dispatch(saveTypes(types))
     }
-    
-
+}
 const saveTypes = (payload:any) =>{
-    return{
+    return {
         type: GET_TYPES,
-    payload
-    }
-    
+        payload
+    }   
 }
 
-export const getRooms = (types:any)=>{
-   return async (dispatch:any) =>{
-            const {data} = await supabase.from("rooms").select('category_id').eq("type_id",types[0])
-                dispatch(saveRooms(data))
+export const getRooms = (types:any) => {
+   return async (dispatch:any) => {
+        if( types ) {
+            let resul = [];
+            console.log('entró a la action');
+            for (let i = 0; i < types.length; i++) {
+                const { data } = await supabase
+                .from("rooms")
+                .select('*')
+                .eq("type_id",types[i].id);
+                resul.push(data);
+            }
+            dispatch(saveRooms(resul));
+        }
    }
-   }
-    
-
-
+}
 const saveRooms = (payload:any) =>{
     return{
         type: GET_ROOMS,
