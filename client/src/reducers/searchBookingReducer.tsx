@@ -1,15 +1,33 @@
-import {BOOKING_PAX} from '../actions/SearchBookings/action_searchBookings'
+import {BYPAXID, BYBOOKINGID, BYFIRSTNAME, BYLASTNAME} from '../actions/SearchBookings/action_searchBookings'
 
 const initialState={
-    booking_pax:[]    
+    bypaxID:[],
+    bybookingID: [],
+    byFirstName: [],
+    byLastName: [],
 }
 
-export const searchBookingReducer=(state:{booking_pax:any}=initialState,action:{type:string,payload:any})=>{
+export const searchBookingReducer=(state:any=initialState,action:{type:string,payload:any})=>{
     switch(action.type){
-        case BOOKING_PAX:
+        case BYPAXID:
             return{
                 ...state,
-                booking_pax:action.payload
+                bypaxID:action.payload
+            }
+        case BYBOOKINGID:
+            return{
+                ...state,
+                bybookingID:action.payload
+            }
+        case BYFIRSTNAME:
+            return{
+                ...state,
+                byFirstName:action.payload
+            }
+        case BYLASTNAME:
+            return{
+                ...state,
+                byLastName:action.payload
             }
         default:
             return state

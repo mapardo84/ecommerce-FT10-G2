@@ -13,7 +13,6 @@ import { AccomodationDetailsLayout } from "../components/layout/AccomodationsDet
 import { RoomsLayout } from "../components/Admin/components/Layout/RoomsLayout/RoomsLayout";
 import { LayoutAdmin } from "../components/Admin/components/Layout/Layout";
 import { PruebaAuth } from "../components/PruebaAuth";
-import { WishList } from "../components/WishList/WishList";
 import { SearchBooking } from "../components/Admin/SearchBar/SearchBar";
 
 //ACA VAN TODAS LAS RUTAS
