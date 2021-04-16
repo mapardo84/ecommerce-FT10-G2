@@ -50,7 +50,7 @@ export const SearchBooking = () => {
                     return (
                         <>
                         <div>Pax: {i}</div>
-                        <div key={i}>{book.pax_id}</div>
+                        <div key={i}>{JSON.stringify(book)}</div>
                         </>
                     )
                 })
@@ -61,7 +61,7 @@ export const SearchBooking = () => {
                     return (
                         <>
                         <div>Reserva: {i}</div>
-                        <div key={i}>{book.booking_id}</div>
+                        <div key={i}>{JSON.stringify(book)}</div>
                         </>
                     )
                 })

@@ -10,7 +10,7 @@ export function getByPaxID(id: any){
     return async (dispatch:any)=>{
         const relacional:any=await supabase
         .from("booking_pax")
-        .select(`*`)
+        .select(`*, pax_id(*), booking_id(*)`)
         .eq(`pax_id`, `${id}`)
         console.log(relacional)
         dispatch(get_bookingPax(relacional.data))
@@ -21,7 +21,7 @@ export function getByBookingID(id: any){
     return async (dispatch:any)=>{
         const relacional:any=await supabase
         .from("booking_pax")
-        .select(`*`)
+        .select(`*, booking_id(*), pax_id(*)`)
         .eq('booking_id', `${id}`)
         console.log(relacional)
         dispatch(get_bookingID(relacional.data))
