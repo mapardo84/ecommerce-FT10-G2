@@ -4,7 +4,7 @@ import { Select, Button, Checkbox } from "antd";
 import { initialStateProps } from "../../../reducers/categoriesReducer";
 import { getCategories } from "../../../actions";
 import { AccomodationsCards } from "./AccomodationsCards";
-import { setBookData, stepChange, getBookings, getRooms } from '../../../actions/Booking/bookingAction';
+import { setBookData, stepChange, getRooms, getSomeBookings, getTypes, getAvailableCategories } from '../../../actions/Booking/bookingAction';
 import { bookingType } from '../guestsForm/GuestsForm';
 import "./AccomodationsSelect.less";
 const { Option } = Select;
@@ -27,19 +27,28 @@ const getCategoriesDB = async (value: number | undefined, dispatch: any) => {
 export const AccomodationsSelect = ():JSX.Element => {
   const dispatch = useDispatch();
   const [ categorySelected, setCategorySelected ] = useState<string[]>([]);
-  const [ types, setTypes ] = useState([]);
   const selectedTypes:any = useSelector( (state:any) => state.bookings.types);
   const booking:bookingType = useSelector( (state:any) => state.bookings.booking );
   // const categoriesState = useSelector( (state: initialStateProps) => state.categories );
-  // const allBookings = useSelector((state:any) => state.bookings.allBookings);
-  useEffect(() => {
-    // getCategoriesDB(undefined, dispatch);
-    setTypes(selectedTypes);
-    types.length && dispatch(getRooms(types));
-  }, [selectedTypes, types, dispatch, booking]);
-
   const rooms:roomType = useSelector( (state:any) => state.bookings.rooms ); 
-  console.log(rooms);
+  const availableBookings = useSelector((state:any)=> state.bookings.savedBookings)
+
+  
+  useEffect(() => {
+    dispatch(getRooms(selectedTypes));
+  }, [dispatch, booking,selectedTypes]);
+
+  useEffect(()=>{
+    dispatch(getSomeBookings(rooms))
+  
+  },[dispatch,rooms])
+
+  useEffect(()=>{
+    dispatch(getAvailableCategories(rooms))
+  },[dispatch,rooms])
+
+  
+  
   
   const handleChange = (value: any) => {
     if (value === "0") getCategoriesDB(undefined, dispatch);

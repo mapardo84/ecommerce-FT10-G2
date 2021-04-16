@@ -1,4 +1,4 @@
-import { bookAction, GET_BOOKINGS, SET_BOOK_DATA, STEP_CHANGE, GET_TYPES,GET_ROOMS } from '../actions/Booking/bookingAction';
+import { bookAction, GET_BOOKINGS, SET_BOOK_DATA, STEP_CHANGE, GET_TYPES,GET_ROOMS, GET_SOME_BOOKINGS,CATEGORIES_TO_SHOW } from '../actions/Booking/bookingAction';
 
 const initialState = {
     step: 0,
@@ -10,7 +10,9 @@ const initialState = {
     },
     allBookings:[],
     types:[],
-    rooms:null
+    rooms:null,
+    savedBookings: [],
+    categoriesToShow: []
 }
 
 export function bookingsReducer (state = initialState, action:bookAction) {
@@ -25,7 +27,11 @@ export function bookingsReducer (state = initialState, action:bookAction) {
         case GET_TYPES:
             return{...state, types:action.payload} 
         case GET_ROOMS:
-            return{...state, rooms:action.payload}        
+            return{...state, rooms:action.payload}
+        case GET_SOME_BOOKINGS:
+            return{...state,savedBookings:action.payload}
+        case CATEGORIES_TO_SHOW:
+            return{...state, categoriesToShow:action.payload}        
         default: return state;
     }
 }
