@@ -5,24 +5,32 @@ import { useDispatch, useSelector } from 'react-redux'
 import { addRoom, deleteRoom, getAllRooms, updateRoom } from '../../actions/roomsActions';
 import { FaPencilAlt, FaTrashAlt } from "react-icons/fa";
 import './rooms.less'
-import { getCategories } from '../../../actions/index';
+import { Category } from '../Categories/Categories';
+import { getAllCategories } from '../../actions/categoriesActions';
+import { getAllTypes } from '../../actions/typesActions';
+import { IType } from '../Types/Types';
 
 export interface Room {
-  id: number;
-  name: string;
-  description: any;
-  floor: number;
-  availability: string;
-  beds: number;
-  category_id: number;
-  categories: { name: string }[];
+    id: number;
+    name: string;
+    description: string;
+    floor: number;
+    availability: string;
+    category_id: number | string;
+    type_id: number | string;
+    categories: { name: string }[];
+}
+
+interface IFields {
+    name: string[],
+    value: string | number
 }
 
 interface ISort {
     name: number
 }
 
-const campos = [
+const campos: IFields[] = [
     { name: ['name'], value: '' },
     { name: ['floor'], value: '' },
     { name: ['availability'], value: '' },
@@ -30,9 +38,38 @@ const campos = [
     { name: ['beds'], value: '' },
 ]
 
+const filterData = (data: Category[]) => {
+    return data.map((category: Category) => {
+        return { text: category.name, value: category.id }
+    })
+}
+
+// const numberBeds = (rooms: Room[]) => {
+//     let beds = rooms.map((room) => {
+//         return room.beds
+//     });
+//     return Array.from(new Set([...beds])).map((bed) => ({ text: bed === 1 ? `1 bed` : `${bed} beds`, value: bed }));
+// }
+
+const numberFloor = (rooms: Room[]) => {
+    let floors = rooms.map((floor) => {
+        return floor.floor
+    });
+    return Array.from(new Set([...floors])).map((floor) => ({ text: `floor #${floor}`, value: floor }));
+}
 
 
 export const Rooms = () => {
+
+    const [isModalVisible, setIsModalVisible] = useState<boolean>(false);
+    const [fields, setFields] = useState<IFields[]>(campos);
+    const [editId, setEditId] = useState<null | Room>(null)
+
+    const { roomsList } = useSelector((state: any) => state?.rooms)
+    const { categories } = useSelector((state: any) => state?.categories)
+    const { types } = useSelector((state: any) => state?.types)
+    const dispatch = useDispatch()
+
     const columns: any = [
         {
             title: 'Room Name',
@@ -44,13 +81,7 @@ export const Rooms = () => {
             title: 'Floor',
             dataIndex: 'floor',
             key: 'floor',
-            filters: [
-                { text: '1st floor', value: 1 },
-                { text: '2nd floor', value: 2 },
-                { text: '3rd floor', value: 3 },
-                { text: '4th floor', value: 4 },
-                { text: '5th floor', value: 5 },
-            ],
+            filters: numberFloor(roomsList),
             filterMultiple: false,
             onFilter: (value: number, rooms: Room) => {
                 return rooms.floor === value
@@ -71,35 +102,27 @@ export const Rooms = () => {
         },
         {
             title: 'Category',
-            dataIndex: 'categories',
-            render: (categories: { name: string }) => (<>{categories.name}</>),
-            key: 'categories',
-            filters: [
-                { text: 'Economic', value: 5 },
-                { text: 'Standard(two)', value: 1 },
-                { text: 'Standard (four)', value: 2 },
-                { text: 'Suite', value: 3 },
-                { text: 'Penthouse', value: 6 },
-            ],
+            dataIndex: 'category_id',
+            render: (category_id: number) => (<>{categories.find((category: Category) => category.id === category_id)?.name}</>),
+            key: 'category_id',
+            filters: filterData(categories),
             filterMultiple: false,
             onFilter: (value: number, rooms: Room) => {
                 return rooms.category_id === value
             }
         },
         {
-            title: 'beds',
-            dataIndex: 'beds',
-            key: 'beds',
-            filters: [
-                { text: 'One bed', value: 1 },
-                { text: 'Two beds', value: 2 },
-                { text: 'Three beds', value: 3 },
-            ],
+            title: 'Type',
+            dataIndex: 'type_id',
+            render: (type_id: number) => (<>{types.find((type: IType) => type.id === type_id)?.name}</>),
+            key: 'type_id',
+            filters: filterData(types),
             filterMultiple: false,
             onFilter: (value: number, rooms: Room) => {
-                return rooms.beds === value
+                return rooms.category_id === value
             }
-        }, {
+        },
+        {
             title: 'Action',
             dataIndex: 'operation',
             key: 'name',
@@ -121,30 +144,29 @@ export const Rooms = () => {
         },
     ]
 
-    const [isModalVisible, setIsModalVisible] = useState<boolean>(false);
-    const [fields, setFields] = useState<any[]>(campos);
-    const [editId, setEditId] = useState<any>(null)
-
-    const { roomsList } = useSelector((state: any) => state?.rooms)
-    const { categories } = useSelector((state: any) => state?.categories)
-    const dispatch = useDispatch()
-
     useEffect(() => {
         dispatch(getAllRooms())
-        dispatch(getCategories())
+        dispatch(getAllCategories())
+        dispatch(getAllTypes())
+
     }, [dispatch])
 
-    const onFinish = (values: any) => {
+    const onFinish = (values: Room) => {
 
         if (editId) {
-            console.log('Values:', values);
-            const data = { ...values, category_id: values.category_id, id: editId.id }
-            console.log('Success:', data);
+            //chequear que lo que llega en los select si sea numeros... culpa de ant!
+            if (categories.some((category: Category) => category.name === values.category_id)) {
+                values.category_id = categories.find((category: Category) => category.name === values.category_id)?.id
+            }
+            if (types.some((type: IType) => type.name === values.type_id)) {
+                values.type_id = types.find((type: IType) => type.name === values.type_id)?.id
+            }
+
+            const data = { ...values, category_id: Number(values.category_id), type_id: Number(values.type_id), id: editId.id }
             dispatch(updateRoom(data))
             setIsModalVisible(false)
             setEditId(null)
         } else {
-            console.log(values)
             dispatch(addRoom(values))
             setIsModalVisible(false)
         }
@@ -160,13 +182,12 @@ export const Rooms = () => {
         setIsModalVisible(true)
         const index = roomsList.find((room: Room) => room.id === id)
         setEditId(index)
-        console.log("El index: ", index)
         setFields([
             { name: ['name'], value: index.name },
             { name: ['floor'], value: index.floor },
             { name: ['availability'], value: index.availability },
-            // { name: ['category_id'], value: index.category_id },
-            { name: ['beds'], value: index.beds },
+            { name: ['category_id'], value: categories.find((category: Category) => category.id === index.category_id)?.name },
+            { name: ['type_id'], value: types.find((type: IType) => type.id === index.type_id)?.name },
         ])
     }
 
@@ -215,25 +236,30 @@ export const Rooms = () => {
                     <Form.Item
                         label="Category"
                         name="category_id"
-                        initialValue={editId?.category_id.toString()}
+                        //valuePropName='option'
+                        //defaultValue={[{id: editId?.category_id, name:'nombre'}]} 
                         rules={[{ required: true, message: 'Please input a category!' }]}>
-                        <Select style={{ width: "200px" }} placeholder="Select a category">
+                        <Select style={{ width: "200px" }} >
                             {
-                                // categories.map(category =>{
-                                //     <Select.Option value={category.id}>{category.name}</Select.Option>
-                                // })
+                                categories.map((category: Category) => {
+                                    return (<Select.Option key={category.id} value={category.id.toString()}>{category.name}</Select.Option>)
+                                })
                             }
-                            <Select.Option value="2">Standard</Select.Option>
-                            <Select.Option value="3">Suite</Select.Option>
-                            <Select.Option value="6">Penthouse</Select.Option>
                         </Select>
                     </Form.Item>
                     <Form.Item
-                        label="Beds"
-                        name="beds"
-                        rules={[{ required: true, message: 'Please input a beds number!' }]}>
-                        <InputNumber placeholder="Beds" min={1}></InputNumber>
+                        label="Type"
+                        name="type_id"
+                        rules={[{ required: true, message: 'Please input a type!' }]}>
+                        <Select style={{ width: "200px" }} placeholder="Select a type" >
+                            {
+                                types.map((type: IType) => {
+                                    return (<Select.Option key={type.id} value={type.id.toString()}>{type.name}</Select.Option>)
+                                })
+                            }
+                        </Select>
                     </Form.Item>
+
                     <div className="adminrooms_btn">
                         <Button onClick={closeModal}>
                             Cancel
