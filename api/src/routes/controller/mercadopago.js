@@ -10,17 +10,29 @@ mercadopago.configure({
   });
 
 
+let order;
 
 async function getPreferenceId(req,res){
     let {unit_price,quantity,title}=req.query
     unit_price=Number(unit_price)
     quantity=Number(quantity)
 
+    order = {
+        id: '1',
+        title,
+        unit_price, 
+        quantity, 
+        totalPrice: unit_price * quantity,
+        status: ''
+    }
 
+    // { userId: req.userId, productId: req.body.productId }
     const hola=await supabase.from("rooms").select("*")
-    mercadopago.preferences.create(
-        {
-            items:[{
+
+    mercadopago.preferences.create({
+        external_reference: order.id,
+        notification_url: 'http://localhost:4000/mercadopago/ipn',
+        items:[{
                 title,
                 unit_price,
                 quantity
@@ -28,12 +40,12 @@ async function getPreferenceId(req,res){
     }).then(preference=> {
         console.log(preference)
         res.json({preferenceId:preference.body.id})
-    }).catch(e=>console.log(unit_price,quantity,title))
+    }).catch(e=>console.log(e))
 }
 
 async function getIPN(req,res){
         
 }
 
-module.exports={getPreferenceId,getIPN}
 
+module.exports={getPreferenceId,getIPN}

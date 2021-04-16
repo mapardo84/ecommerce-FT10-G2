@@ -55,5 +55,6 @@ export const PruebaAuth = () => {
 
     return (
         <form id={FORM_ID} method="GET" />
-      )
+    )
+
 }
