@@ -4,10 +4,8 @@ import { Select, Button, Checkbox } from "antd";
 import { initialStateProps } from "../../../reducers/categoriesReducer";
 import { getCategories } from "../../../actions";
 import { AccomodationsCards } from "./AccomodationsCards";
-import { getAllRooms } from '../../../Admin/actions/roomsActions';
 import { setBookData, stepChange, getBookings, getRooms } from '../../../actions/Booking/bookingAction';
 import { bookingType } from '../guestsForm/GuestsForm';
-import filteredCategories from './filteredCategories';
 import "./AccomodationsSelect.less";
 const { Option } = Select;
 
@@ -18,7 +16,7 @@ export interface roomType {
   floor: number, 
   availability: string, 
   category_id:number, 
-  beds:number 
+  type_id:number 
 }
 
 const getCategoriesDB = async (value: number | undefined, dispatch: any) => {
@@ -26,27 +24,26 @@ const getCategoriesDB = async (value: number | undefined, dispatch: any) => {
   dispatch(resolve);
 };
 
-
-
 export const AccomodationsSelect = ():JSX.Element => {
   const dispatch = useDispatch();
-  const types:any = useSelector( (state:any) => state.bookings.types);
-  useEffect(() => {
-    getCategoriesDB(undefined, dispatch);
-    //getAllRooms().then(res=>dispatch(res));
-   
-  }, [dispatch]);
   const [ categorySelected, setCategorySelected ] = useState<string[]>([]);
+  const [ types, setTypes ] = useState([]);
+  const selectedTypes:any = useSelector( (state:any) => state.bookings.types);
   const booking:bookingType = useSelector( (state:any) => state.bookings.booking );
-  const allRooms:roomType[] = useSelector( (state:any) => state.rooms.roomsList );
-  const categoriesState = useSelector( (state: initialStateProps) => state.categories );
+  // const categoriesState = useSelector( (state: initialStateProps) => state.categories );
+  // const allBookings = useSelector((state:any) => state.bookings.allBookings);
+  useEffect(() => {
+    // getCategoriesDB(undefined, dispatch);
+    setTypes(selectedTypes);
+    types.length && dispatch(getRooms(types));
+  }, [selectedTypes, types, dispatch, booking]);
+
+  const rooms:roomType = useSelector( (state:any) => state.bookings.rooms ); 
+  console.log(rooms);
   
   const handleChange = (value: any) => {
-    if (value === "0") {
-      getCategoriesDB(undefined, dispatch);
-    } else {
-      getCategoriesDB(value, dispatch);
-    }
+    if (value === "0") getCategoriesDB(undefined, dispatch);
+    else getCategoriesDB(value, dispatch);
   }
 
   const handleClickBack = (e:any) => {
@@ -63,16 +60,9 @@ export const AccomodationsSelect = ():JSX.Element => {
  
   const handleCheckBox = (e:any) => {
     const { value, checked } = e.target;
-    console.log(e);
     checked? setCategorySelected([...categorySelected, value]):
     setCategorySelected(categorySelected.filter( x => { return x !== value}));
   }
-  useEffect(() => {
-    getBookings().then(res => dispatch(res))
-  }, [dispatch])
-  
-  const allBookings = useSelector((state:any) => state.bookings.allBookings)
-  //const categoriesToShow = filteredCategories(allRooms, booking, categoriesState, allBookings);
 
   return (
     <div className="accomodationsSelect_container">

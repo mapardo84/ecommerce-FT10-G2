@@ -10,8 +10,7 @@ const initialState = {
     },
     allBookings:[],
     types:[],
-    rooms:[]
-
+    rooms:null
 }
 
 export function bookingsReducer (state = initialState, action:bookAction) {

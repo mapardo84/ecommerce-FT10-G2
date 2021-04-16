@@ -1,10 +1,10 @@
 import '../guestsForm/GuestsForm.less';
 import '../../Calendar/MyCalendar.less';
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { useDispatch, useSelector } from 'react-redux'
+import { useDispatch } from 'react-redux'
 import { Space, DatePicker } from 'antd';
-import { setBookData, stepChange, getRooms, getTypes} from '../../../actions/Booking/bookingAction';
+import { setBookData, stepChange, getTypes} from '../../../actions/Booking/bookingAction';
 import { Form, InputNumber, Button } from 'antd';
 const { RangePicker } = DatePicker;
 const formItemLayout = {
@@ -24,15 +24,13 @@ export interface bookingType {
 }
 
 export const GuestsForm = () => {
-  //const currentBooking:bookingType = useSelector( (state:any) => state.bookings.booking );
- 
+  const dispatch = useDispatch();
   const [ booking, setBooking ] = useState<bookingType>({
     guests: 0,
     range: [],
     nights: 0,
     category: []
   });
-
   const handleChangePaxs = ( inputs:number ) => { setBooking({...booking, guests: inputs}) };
   const handleChangeDates = (_a:any, dates:string[], _c:any) => {
     const checkin= new Date(dates[0]).getTime();
@@ -40,26 +38,18 @@ export const GuestsForm = () => {
     const nights= (checkout-checkin)/(1000*60*60*24);
     setBooking({ ...booking, range: dates, nights });
   }
-
- 
-   
-   const dispatch = useDispatch();
   const handleClickRooms = async(e:any) => {
     e.preventDefault();
-    //dispatch(setBookData(booking));
-    dispatch(getTypes(booking.guests))
-    
+    dispatch(setBookData(booking));
+    dispatch(getTypes(booking.guests));
     dispatch(stepChange(1));
   } 
 
   const onFinish = (values: string) => {
     console.log('Received values of form: ', values);
   };
-  
-
   return (
     <div className='conteiner'>
-
       <h1 className='adultsandchildren'> Guests </h1>
       <Form
         name="validate_other"
