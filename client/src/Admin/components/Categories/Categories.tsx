@@ -15,6 +15,7 @@ import {
   getAllCategories,
   deleteCategory,
   updateCategory,
+  createCategory,
 } from "../../actions/categoriesActions";
 import { FaPencilAlt, FaTrashAlt } from "react-icons/fa";
 import Modal from "antd/lib/modal/Modal";
@@ -34,6 +35,7 @@ const campos = [
   { name: ["description"], value: "" },
   { name: ["details"], value: "" },
   { name: ["price"], value: "" },
+  { name: ["images"], value: "" }
 ];
 
 export const Categories = () => {
@@ -42,6 +44,8 @@ export const Categories = () => {
       title: "Id",
       dataIndex: "id",
       key: "id",
+      defaultSortOrder: 'descend',
+      sorter: (a:any, b:any) => a.id - b.id,
     },
     {
       title: "Category name",
@@ -72,6 +76,20 @@ export const Categories = () => {
       dataIndex: "price",
       key: "price",
     },
+    /* {
+      title: "Images",
+      dataIndex: "images",
+      key: "images",
+      render: (images: string[]) => (
+        <>
+          {images?.map((image: string) => (
+            <Tag color="green" key={image}>
+              {image}
+            </Tag>
+          ))}
+        </>
+      ),
+    }, */
     {
       title: "Action",
       dataIndex: "operation",
@@ -81,7 +99,7 @@ export const Categories = () => {
           <>
             <Tooltip title="Edit">
               <span
-                className="adminrooms_options"
+                className="adminCategories_options"
                 onClick={() => handleEdit(record.id)}
               >
                 <FaPencilAlt size="18" color="orange" />{" "}
@@ -125,21 +143,26 @@ export const Categories = () => {
       { name: ["description"], value: index.description },
       { name: ["details"], value: index.details },
       { name: ["price"], value: index.price },
+      { name: ["images"], value: index.images }
     ]);
   };
-
-  
 
   const onFinish = (values: any) => {
     const data = { ...values, id: editId };
     /* console.log('Success:', data); */
-    dispatch(updateCategory(data));
+    if (editId) {
+      dispatch(updateCategory(data));
+    } else {
+      dispatch(createCategory(data));
+    }
     setIsModalVisible(false);
+    setEditId(null);
   };
 
   const closeModal = () => {
     setFields(campos);
     setIsModalVisible(false);
+    setEditId(null);
   };
 
   useEffect(() => {
@@ -147,16 +170,26 @@ export const Categories = () => {
   }, [dispatch]);
 
   return (
-    <div>      
+    <div>
+      <div>
+        <Button
+          type="primary"
+          onClick={() => setIsModalVisible(true)}
+          className="adminCategories_upbar"
+        >
+          Create a new category
+        </Button>
+      </div>
       <Table
         dataSource={categories}
         columns={columns}
         pagination={{ position: ["bottomCenter"] }}
         rowKey="id"
         bordered={true}
+       
       />
       <Modal
-        title="Add Room"
+        title="Create a category"
         visible={isModalVisible}
         onCancel={closeModal}
         footer={null}
@@ -186,7 +219,7 @@ export const Categories = () => {
             <Select
               mode="tags"
               style={{ width: "100%" }}
-              placeholder="Tags Mode"              
+              placeholder="Tags Mode"
             />
           </Form.Item>
           <Form.Item
@@ -196,7 +229,18 @@ export const Categories = () => {
           >
             <InputNumber placeholder="Price" min={1}></InputNumber>
           </Form.Item>
-          <div className="admincategories_btn">
+          <Form.Item
+            label="Images"
+            name="images"
+            rules={[{ required: true, message: "Please input the images!" }]}
+          >
+            <Select
+              mode="tags"
+              style={{ width: "100%" }}
+              placeholder="Tags Mode"
+            />
+          </Form.Item>
+          <div className="adminCategories_btn">
             <Button onClick={closeModal}>Cancel</Button>
             <Button type="primary" htmlType="submit">
               Save

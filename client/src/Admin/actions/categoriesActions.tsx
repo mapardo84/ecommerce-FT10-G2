@@ -2,20 +2,22 @@ import { Dispatch } from "react";
 import { supabase } from "../../SupaBase/conection";
 import { message } from "antd";
 
-export const GET_CATEGORIES: string = "GET_CATEGORIES";
+export const GET_ADMIN_CATEGORIES: string = "GET_CATEGORIES";
 export const FILTER_CATEGORY: string = "FILTER_CATEGORY";
-export const UPDATE_CATEGORY: string = "UPDATE_CATEGORY"
+export const UPDATE_CATEGORY: string = "UPDATE_CATEGORY";
+export const CREATE_CATEGORY: string = "CREATE_CATEGORY";
+
 
 const errorMsg = (err: any) => {
   message.error(err);
 };
 const success = (mensaje: string) => {
   message.success({
-      content: mensaje,
-      className: "custom-class",
-      style: {
-          marginTop: "20vh",
-      },
+    content: mensaje,
+    className: "custom-class",
+    style: {
+      marginTop: "20vh",
+    },
   });
 };
 
@@ -39,75 +41,98 @@ export const getAllCategories = () => {
 };
 export const deleteCategory = (id: number) => {
   return async (dispatch: Dispatch<any>) => {
-      try {
-          const { error } = await supabase
-              .from('categories')
-              .delete()
-              .eq('id', id)
-          if (error) {
-              errorMsg(JSON.stringify(error))
-          } else {
-              success('Category deleted')
-              dispatch(filterCategory(id))
-          }
-
-      } catch (err) {
-          console.log(err)
-          errorMsg("Internal server error. Try again")
+    try {
+      const { error } = await supabase.from("categories").delete().eq("id", id);
+      if (error) {
+        errorMsg(JSON.stringify(error));
+      } else {
+        success("Category deleted");
+        dispatch(filterCategory(id));
       }
-  }
-}
+    } catch (err) {
+      console.log(err);
+      errorMsg("Internal server error. Try again");
+    }
+  };
+};
 
 export const updateCategory = (dataChange: any) => {
   return async (dispatch: Dispatch<any>) => {
-      try {
-          const { error } = await supabase
-              .from('categories')
-              .update({
-                  name: dataChange.name,
-                  capacity: dataChange.capacity,
-                  description: dataChange.description,
-                  details: dataChange.details,
-                  price: dataChange.price
-              })
-              .eq('id', dataChange.id)
-          if (error) {
-              errorMsg(JSON.stringify(error))
+    try {
+      const { error } = await supabase
+        .from("categories")
+        .update({
+          name: dataChange.name,
+          capacity: dataChange.capacity,
+          description: dataChange.description,
+          details: dataChange.details,
+          price: dataChange.price,
+          images: dataChange.images
+        })
+        .eq("id", dataChange.id);
+      if (error) {
+        errorMsg(JSON.stringify(error));
+      } else {
+        try {
+          const { data: newData, error: newError } = await supabase
+            .from("categories")
+            .select("*")
+            .eq("id", dataChange.id);
+          if (newError) {
+            errorMsg(JSON.stringify(error));
           } else {
-              try {
-                  const { data: newData, error: newError } = await supabase.from('categories').select('*').eq('id', dataChange.id)
-                  if (newError) {
-                      errorMsg(JSON.stringify(error))
-                  } else {
-                     
-                      success('Category updated')
-                      dispatch(updatedCategory(newData))
-                  }
-              } catch (err) {
-                  console.log(err)
-                  errorMsg("1.Internal server error. Try again")
-              }
+            success("Category updated");
+            dispatch(updatedCategory(newData));
           }
-      } catch (err) {
-          console.log(err)          
-          errorMsg("2.Internal server error. Try again")
+        } catch (err) {
+          console.log(err);
+          errorMsg("Internal server error. Try again");
+        }
       }
-  }
-}
+    } catch (err) {
+      console.log(err);
+      errorMsg("Internal server error. Try again");
+    }
+  };
+};
 
-
-
+export const createCategory = (data: any) => {
+  return async (dispatch: Dispatch<any>) => {
+    try {
+      const { data: newData, error } = await supabase.from("categories").insert({
+        name: data.name,
+        capacity: data.capacity,
+        description: data.description,
+        details: data.details,
+        price: data.price,
+        images: data.images
+      });
+      if (error) {
+        errorMsg(JSON.stringify(error));
+      } else {
+        success("Category created");
+        dispatch(createdCategory(newData));
+      }
+    } catch (err) {
+      console.log(err);
+      errorMsg("Internal server error. Try again");
+    }
+  };
+};
 
 const saveCategories = (data: any) => ({
-  type: GET_CATEGORIES,
+  type: GET_ADMIN_CATEGORIES,
   payload: data,
 });
 const filterCategory = (data: any) => ({
   type: FILTER_CATEGORY,
-  payload: data
-})
+  payload: data,
+});
 const updatedCategory = (data: any) => ({
   type: UPDATE_CATEGORY,
-  payload: data
-})
-
+  payload: data,
+});
+const createdCategory = (data: any) => ({
+  type: CREATE_CATEGORY,
+  payload: data,
+});
