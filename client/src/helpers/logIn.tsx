@@ -12,7 +12,7 @@ export const success = () => {
 };
 
 const errorMsg = () => {
-    message.error("Error");
+    message.error("Incorrect user or password, try again");
 };
 export const errorMsgcaptcha = () => {
     message.error("Complete the captcha to cotinue");

@@ -1,105 +1,156 @@
-import { Form, Button, Input } from "antd";
+import { Form, Button, Input, Divider, Modal, message } from "antd";
 import { classicLogIn, loginWith } from "../../helpers/logIn";
-import "./LogIn.less";
 import { UserOutlined, LockOutlined, GoogleOutlined, FacebookOutlined } from "@ant-design/icons";
 import { useHistory } from "react-router-dom";
 import ReCAPTCHA from "react-google-recaptcha";
-import {errorMsgcaptcha} from "../../helpers/logIn"
+import { errorMsgcaptcha } from "../../helpers/logIn"
+import { useState } from "react";
+import { supabase } from "../../SupaBase/conection";
+import "./LogIn.less";
 
+interface log {
+  email: string;
+}
 interface logIn {
   email: string;
   password: string;
 }
 
+//Login component
 export const LogIn = () => {
-
+  const [form] = Form.useForm();
   const history = useHistory();
 
   let captchaData = {
     isVerified: false,
   }
-
-  
+  //captcha handler
   function onChange(value: any) {
     console.log("Captcha value:", value);
     if (value) {
       captchaData.isVerified = true
-      console.log(captchaData.isVerified)
     } else {
       captchaData.isVerified = false
-      console.log(captchaData.isVerified)
-
     }
   }
-  
+  //login submithandler
   const onFinish = async (values: logIn) => {
-    if(captchaData.isVerified){
+    if (captchaData.isVerified) {
       var a = await classicLogIn(values.email, values.password);
       a && history.push("/home");
       a && window.location.reload()
-    }else{
+    } else {
       errorMsgcaptcha()
     }
   };
 
+  //password reset handler
+  const onFinishPassword = async (value:log) => {
+    form.resetFields();
+    console.log(value.email)
+    supabase.auth.api.resetPasswordForEmail(value.email)
+    message.success("Email sent");
+    setvisible(false)
+  };
+
+  const [visible, setvisible] = useState(false)
+
+  const handleCancel = () => {
+    setvisible(!visible)
+  }
+
   return (
-    <Form
-      className="container"
-      name="basic"
-      initialValues={{ remember: true }}
-      onFinish={onFinish}
-    >
-      <h1 className="Login">LOGIN</h1>
-      <Form.Item
-        name="email"
-        className="email"
-        rules={[
-          { required: true, message: "Please insert your e-mail!" },
-          { type: "email", message: "The input is not valid e-mail!" },
-        ]}
+    <>
+      <Form
+        className="container"
+        name="basic"
+        initialValues={{ remember: true }}
+        onFinish={onFinish}
+        form={form}
       >
-        <Input
-          prefix={<UserOutlined style={{ color: "gray" }} />}
-          size="large"
-          placeholder="Email"
-        ></Input>
-      </Form.Item>
-      <Form.Item
-        className="password"
-        name="password"
-        rules={[
-          { required: true, message: "Please insert password" },
-          {
-            validator: async (_, password) => {
-              if (!password || password.length < 6) {
-                return Promise.reject(new Error("At least 6 characters"));
-              }
+        <h1 className="Login">LOGIN</h1>
+        <Form.Item
+          name="email"
+          className="email"
+          rules={[
+            { required: true, message: "Please insert your e-mail!" },
+            { type: "email", message: "The input is not valid e-mail!" },
+          ]}
+        >
+          <Input
+            prefix={<UserOutlined style={{ color: "gray" }} />}
+            size="large"
+            placeholder="Email"
+            allowClear={true}
+          ></Input>
+        </Form.Item>
+        <Form.Item
+          className="password"
+          name="password"
+          rules={[
+            { required: true, message: "Please insert password" },
+            {
+              validator: async (_, password) => {
+                if (!password || password.length < 6) {
+                  return Promise.reject(new Error("At least 6 characters"));
+                }
+              },
             },
-          },
-        ]}
-      >
-        <Input.Password
-          prefix={<LockOutlined style={{ color: "gray" }} />}
-          size="large"
-          placeholder="Password"
-        ></Input.Password>
-      </Form.Item>
-      <Button className="button" type="primary" htmlType="submit">
-        Log In
-      </Button><br/><br/>
-<div className="captcha"><ReCAPTCHA
-        sitekey="6LcZXqsaAAAAAN4pWJ2LNrXd68tnxzwHvPclIjex"
-        onChange={onChange}
-      /></div>
-      
+          ]}
+        >
+          <Input.Password
+            prefix={<LockOutlined style={{ color: "gray" }} />}
+            size="large"
+            placeholder="Password"
+          ></Input.Password>
+        </Form.Item>
 
-      <div className="loginCenter">Or login with</div>
+        <Button className="buttonLogin1" type="primary" htmlType="submit">
+          Log In
+      </Button>
+        <br />
 
-      <div className="loginIconContainer">
-        <GoogleOutlined style={{ fontSize: "40px",marginInline:"5x" }} onClick={() => loginWith("google")}></GoogleOutlined>
-        <FacebookOutlined style={{ fontSize: "40px",marginInline:"5px" }} onClick={() => loginWith("facebook")}></FacebookOutlined>
-      </div>
-    </Form>
+        <div className="loginChangePass" onClick={handleCancel}>Forgot password?</div>
+
+        <div className="captcha">
+          <ReCAPTCHA
+            sitekey="6LcZXqsaAAAAAN4pWJ2LNrXd68tnxzwHvPclIjex"
+            onChange={onChange} />
+        </div>
+
+        <Divider style={{ fontSize: "13px" }}>Or login with</Divider>
+
+        <div className="loginIconContainer">
+          <GoogleOutlined style={{ fontSize: "40px", marginRight: "30x" }} onClick={() => loginWith("google")}></GoogleOutlined>
+          <FacebookOutlined style={{ fontSize: "40px", marginLeft: "30px" }} onClick={() => loginWith("facebook")}></FacebookOutlined>
+        </div>
+      </Form>
+
+
+      {/*Password reset modal */}
+      <Modal visible={visible} title="Password reset" onCancel={handleCancel} footer={null}>
+        <Form className="container" name="basic" onFinish={onFinishPassword}>
+          <div className="resetText"> Please, enter the email address you used to register.
+                    We will send you an email with a link to reset your password. </div>
+
+          <Form.Item name="email" className="email" rules={[
+            { required: true, message: "Please insert your e-mail!" },
+            { type: "email", message: "The input is not valid e-mail!" },
+          ]}>
+            <Input
+              prefix={<UserOutlined style={{ color: "gray" }} />}
+              size="large"
+              placeholder="Email"
+              allowClear={true}
+            ></Input>
+          </Form.Item>
+          <Button htmlType="submit" type="primary">Send</Button>
+        </Form>
+      </Modal>
+
+    </>
+
+
   );
 };
 
