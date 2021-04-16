@@ -8,6 +8,7 @@ import "./Details.less";
 import AddReview from "../../addReview/AddReview";
 import {getUserIdByMail} from './../../../actions/getUserIdByMail/index';
 import { supabase } from "../../../SupaBase/conection";
+import AddReviewModal from '../../addReview/AddReviewModal';
 
 
 const getIdByMail = async (value:any, dispatch: any) => {
@@ -104,9 +105,9 @@ const Details = ({ data }: any): JSX.Element => {
               </Button>
             </div>
           </div>
-          <div>
+        </div>
+        <div>
             <AddReview categId={id} userId={idUser?.userId[0]?.id}/>
-          </div>
         </div>
       </div>
     </div>

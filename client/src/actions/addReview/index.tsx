@@ -17,11 +17,12 @@ const errorMsg = (msg: any) => {
 
 
 
-export const addReview = async (review?: string, catId?: Number, userId?:Number) => {
+export const addReview = async (review?: string, catId?: number, userId?:number,rate?:number) => {
     const { data, error } = await supabase.from('reviews').insert([
         {
             review: review,
-            category_id: catId
+            category_id: catId,
+            rate
         },
     ]);
     const {} = await supabase.from('user_review').insert([

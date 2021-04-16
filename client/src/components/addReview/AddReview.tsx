@@ -1,27 +1,37 @@
-import { ReactElement } from 'react'
-import { Form, Input, Button } from 'antd';
+import { ReactElement,useState } from 'react'
+import { Form, Input, Button,Rate } from 'antd';
 import { addReview } from './../../actions/addReview/index';
+import { supabase } from '../../SupaBase/conection';
+import './AddReview.less';
 
 
 interface IaddReviewForm {
 
 }
-
-
-export default function AddReview({ categId, userId }: any): ReactElement {
-
+const desc = ['terrible', 'bad', 'normal', 'good', 'wonderful'];
+const session = supabase.auth.session();
+   
     const layout = {
-        labelCol: { span: 7 },
-        wrapperCol: { span: 8 }
-
+        labelCol: { span: 6 },
+        wrapperCol: { span: 10 }
     }
 
     const tailLayout = {
-        wrapperCol: { offset: 8, span: 16 }
+        wrapperCol: { offset: 10, span: 1 },
+        labelCol: { span: 6 }
+    }
+    
+export default function AddReview({ categId, userId }: any): ReactElement {
+
+    const [rate,setRate] = useState<number>(3)
+
+
+    const handleChangeRate = (rateValue:number)=>{
+        setRate(rateValue);
     }
 
-    const onFinish = (values: any) => {
-        addReview(values.accomodationreview,categId,userId)
+    const onFinish = (values: {accomodationreview:string}) => {
+        addReview(values.accomodationreview,categId,userId,rate)
     }
 
     const onFinishFailed = (errorInfo: any) => {
@@ -29,27 +39,36 @@ export default function AddReview({ categId, userId }: any): ReactElement {
     }
     return (
         <div>
-            <Form
+            { session?.user.email &&
+            <Form         
                 {...layout}
+                size='large'
                 name='basic'
                 initialValues={{ remember: false }}
                 onFinish={onFinish}
                 onFinishFailed={onFinishFailed}
             >
-
-                <Form.Item
-                    label='Accomodation Review'
+             
+                <Form.Item 
+                    label='Add Review'
                     name='accomodationreview'
                     rules={[{ required: true, message: 'Review empty' }]}
                 >
-                    <Input />
-                </Form.Item>
+                    <Input.TextArea />
+                    </Form.Item>
+                <span className='addReviewRate'>
+                <Rate tooltips={desc} onChange={handleChangeRate} 
+                   value={rate} />
+                   {rate ? <span className='ant-rate-text'> {desc[rate - 1]}</span> : ''}
+                </span>
+                
                 <Form.Item {...tailLayout}>
-                    <Button type='primary' htmlType='submit'>
+                    <Button type='primary' htmlType='submit' size='large'>
                         Post Review
                 </Button>
                 </Form.Item>
             </Form>
+            }
         </div>
     )
 }
