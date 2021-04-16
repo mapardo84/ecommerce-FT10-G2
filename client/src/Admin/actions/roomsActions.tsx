@@ -67,7 +67,7 @@ export const updateRoom = (dataChange: any) => {
                     floor: dataChange.floor,
                     availability: dataChange.availability,
                     category_id: dataChange.category_id,
-                    beds: dataChange.beds
+                    type_id: dataChange.type_id
                 })
                 .eq('id', dataChange.id)
             if (error) {
@@ -104,7 +104,7 @@ export const addRoom = (newData: any) => {
                     floor: newData.floor,
                     availability: newData.availability,
                     category_id: newData.category_id,
-                    beds: newData.beds
+                    type_id: newData.type_id
                 },
                 ])
             if (error) {
