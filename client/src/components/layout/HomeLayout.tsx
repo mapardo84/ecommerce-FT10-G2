@@ -5,6 +5,8 @@ import { FooterLayout } from '../footer/Footer'
 import { HomeSlides } from "../HomeSlides/HomeSlides";
 import { supabase } from "../../SupaBase/conection";
 import { getSession } from "../../helpers/logIn"
+
+
 import "./homeLayout.less";
 
 const { Content } = Layout;
@@ -26,7 +28,7 @@ export const HomeLayout = (): JSX.Element => {
 
     const user: any = supabase.auth.user()
 
-    if (user?.aud == "authenticated") {
+    if (user?.aud === "authenticated") {
 
       const email = user.email
 
@@ -34,10 +36,12 @@ export const HomeLayout = (): JSX.Element => {
         .from('users')
         .select('first_name')
         .eq('email', email)
+        
 
       setName(data && data[0]?.first_name)
 
     } else {
+      console.log(error)
       return false
     }
   }
@@ -52,6 +56,7 @@ export const HomeLayout = (): JSX.Element => {
         {
           name !== "empty" && <div className="welcomeBox">Welcome, {name}</div>
         }
+     
    
         <Content>
           <HomeSlides />
@@ -71,6 +76,7 @@ export const HomeLayout = (): JSX.Element => {
               amazing location, overlooking more than 200 feet of beautiful
               white sandy tropical beaches on the Atlantic Ocean.{" "}
             </h4>
+            
             <h4 className="description">
               Built in 2009 and completely renovated in 2018, our modern Miami
               hotel offers the highest levels of luxury and comfort. Our leisure

@@ -32,6 +32,7 @@ export const sendRegister = async (formData: IRegister) => {
             },
         ]);
         if (!error) {
+            console.log(data)
             success();
         } else {
             errorMsg(JSON.stringify(error))

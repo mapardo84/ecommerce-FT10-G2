@@ -14,6 +14,9 @@ export const success = () => {
 const errorMsg = () => {
     message.error("Error");
 };
+export const errorMsgcaptcha = () => {
+    message.error("Complete the captcha to cotinue");
+};
 
 //Sign in using third-party providers.
 export const loginWith = async (provider: any) => {
@@ -42,6 +45,7 @@ export const classicLogIn = async (email: string, password: string) => {
             redirectTo: 'http://localhost:3000/home'
         })
         if (!error) {
+            console.log(user)
             success()
             return true
 
@@ -57,7 +61,7 @@ export const getUserData = async () => {
 
     const user = supabase.auth.user()
 
-    if (user?.aud == "authenticated") {
+    if (user?.aud === "authenticated") {
 
         const email = user.email
 
