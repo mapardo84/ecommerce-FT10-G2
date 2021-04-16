@@ -8,8 +8,8 @@ export const UPDATE_CATEGORY: string = "UPDATE_CATEGORY";
 export const CREATE_CATEGORY: string = "CREATE_CATEGORY";
 
 
-const errorMsg = (err: any) => {
-  message.error(err);
+const errorMsg = (err: string, time: number=3) => {
+  message.error(err, time)
 };
 const success = (mensaje: string) => {
   message.success({
@@ -44,7 +44,11 @@ export const deleteCategory = (id: number) => {
     try {
       const { error } = await supabase.from("categories").delete().eq("id", id);
       if (error) {
-        errorMsg(JSON.stringify(error));
+        if (JSON.stringify(error).includes('violates foreign key constraint')) {
+          errorMsg("The category you want to delete has rooms assigned to it. Reassign the rooms to another category in order to delete it", 10)
+          return
+      } else{
+        errorMsg(JSON.stringify(error));}
       } else {
         success("Category deleted");
         dispatch(filterCategory(id));

@@ -63,7 +63,7 @@ export function categoriesReducer(
     case CREATE_CATEGORY:
       return {
         ...state,
-        movies: state.categories.concat(action.payload),
+        categories: state.categories.concat(action.payload),
       };
 
     default:
