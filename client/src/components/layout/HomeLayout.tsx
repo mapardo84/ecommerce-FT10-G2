@@ -14,10 +14,11 @@ const { Content } = Layout;
 
 export const HomeLayout = (): JSX.Element => {
 
-
   useEffect(() => {
+    window.scrollTo(0, 0);
     supabase.auth.onAuthStateChange((event, session) => {
       getSession(session)
+      
     })
   }, [])
 

@@ -14,6 +14,7 @@ import { BookingLayout } from "../components/layout/BookingLayout";
 import { RoomsLayout } from "../Admin/components/Layout/RoomsLayout/RoomsLayout";
 import { AccomodationLayout } from "./../components/layout/AccomodationLayout";
 import { AccomodationDetailsLayout } from "../components/layout/AccomodationsDetailsLayout";
+import ResetPasswordLayout from "../components/layout/ResetPasswordLayout";
 
 //ACA VAN TODAS LAS RUTAS
 
@@ -38,7 +39,7 @@ export const AppRouter = () => {
             path="/accomodations/:id"
             component={AccomodationDetailsLayout}
           />
-
+          <Route exact path="/reset/:token" component={ResetPasswordLayout} />
           <Redirect to="/" />
         </Switch>
       </div>
