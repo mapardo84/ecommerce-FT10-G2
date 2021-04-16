@@ -18,7 +18,6 @@ export const HomeLayout = (): JSX.Element => {
     window.scrollTo(0, 0);
     supabase.auth.onAuthStateChange((event, session) => {
       getSession(session)
-      
     })
   }, [])
 
