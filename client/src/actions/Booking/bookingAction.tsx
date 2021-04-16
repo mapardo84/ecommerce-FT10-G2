@@ -56,7 +56,6 @@ export const getRooms = (types:any) => {
    return async (dispatch:any) => {
         if( types ) {
             let resul = [];
-            
             for (let i = 0; i < types.length; i++) {
                 const { data } = await supabase
                 .from("rooms")
@@ -102,22 +101,23 @@ const saveSomeBookings = (payload:any)=>{
 }
 
 export const getAvailableCategories = (rooms:any)=>{
-    return async(dispatch:any)=>{
+    return async ( dispatch:any ) => {
         let result:any=[]
-        if(rooms&&rooms.length){
+        if( rooms && rooms.length ){
             for(let i=0; i< rooms.length; i++){
                 for(let j=0; j< rooms[i].length; j++){
                     let { data: categories } = await supabase
                     .from('categories')
                     .select('*')
-                    .eq("id",rooms[i][j].category_id)
-                    if(!result.find((e:any)=>e.id === categories?.pop().id)){
-                        result.push(categories?.pop())
+                    .eq("id",rooms[i][j].category_id);
+                    if(!result.length || !result.find( (e:any) => e?.room === categories?.pop().id ) ){
+                        result.push(categories?.pop());
                     }
-                    
-        }}}
-        
-        dispatch(categoriesToShow(result))
+                }
+            }
+            console.log(result);
+        }
+        dispatch(categoriesToShow(result));
     }
 }
 
