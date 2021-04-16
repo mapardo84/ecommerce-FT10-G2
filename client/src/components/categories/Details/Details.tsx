@@ -3,6 +3,7 @@ import { useParams } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { initialStateProps } from "../../../reducers/categoriesReducer";
 import { Button, Carousel, Image } from "antd";
+import {Reviews} from '../../Reviews/Reviews'
 //import "antd/dist/antd.css";
 import "./Details.less";
 
@@ -85,6 +86,9 @@ const Details = ({ data }: any): JSX.Element => {
             </div>
           </div>
         </div>
+      </div>
+      <div>
+          <Reviews idRv = {id}/>
       </div>
     </div>
   );
