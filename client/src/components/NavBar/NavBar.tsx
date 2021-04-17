@@ -68,14 +68,12 @@ export const NavBar = () => {
                         </NavLink>
                             
                         :
-                        <NavLink to="/home">
                           <Button
                             onClick={() => setVisible(true)}
                             className="navButton"
                             type="text">
                             Log In
                          </Button>
-                        </NavLink>
 
                     }
                   </div>
@@ -93,8 +91,11 @@ export const NavBar = () => {
           </Row>
         </Menu>
       </Header>
+
       <Modal
         visible={visible}
+        width={450}
+        destroyOnClose={true}
         footer={[
           <div>{regOrLog === "logIn" ?
             <div>Don't have an account?

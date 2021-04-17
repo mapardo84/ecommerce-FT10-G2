@@ -15,7 +15,7 @@ export const LandingPage = () => {
     
     if (JSON.stringify(location.hash).indexOf("type=recovery") !== -1) {
         var acces_token = location.hash.substring(14).split("&")[0]
-        history.push("/reset/"+acces_token);
+        history.push("/password-reset/"+acces_token);
     }
 
     return (

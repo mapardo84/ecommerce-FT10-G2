@@ -97,5 +97,4 @@ export const getSession = async (session: any) => {
     } else {
         console.log("USUARIO YA EXISTE")
     }
-
 }

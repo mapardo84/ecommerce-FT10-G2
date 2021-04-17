@@ -39,7 +39,7 @@ export const AppRouter = () => {
             path="/accomodations/:id"
             component={AccomodationDetailsLayout}
           />
-          <Route exact path="/reset/:token" component={ResetPasswordLayout} />
+          <Route exact path="/password-reset/:token" component={ResetPasswordLayout} />
           <Redirect to="/" />
         </Switch>
       </div>

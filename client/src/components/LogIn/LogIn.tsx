@@ -45,7 +45,7 @@ export const LogIn = () => {
   };
 
   //password reset handler
-  const onFinishPassword = async (value:log) => {
+  const onFinishPassword = async (value: log) => {
     form.resetFields();
     console.log(value.email)
     supabase.auth.api.resetPasswordForEmail(value.email)
@@ -68,7 +68,8 @@ export const LogIn = () => {
         onFinish={onFinish}
         form={form}
       >
-        <h1 className="Login">LOGIN</h1>
+        <h1 className="Login">Login</h1>
+        <Divider className="dividerRegister"></Divider>
         <Form.Item
           name="email"
           className="email"
@@ -128,8 +129,12 @@ export const LogIn = () => {
 
 
       {/*Password reset modal */}
-      <Modal visible={visible} title="Password reset" onCancel={handleCancel} footer={null}>
+      <Modal visible={visible} width={450} onCancel={handleCancel} footer={null} destroyOnClose={true}>
         <Form className="container" name="basic" onFinish={onFinishPassword}>
+
+          <h1 className="titleRgister">Password Reset</h1>
+          <Divider className="dividerRegister"></Divider>
+
           <div className="resetText"> Please, enter the email address you used to register.
                     We will send you an email with a link to reset your password. </div>
 
@@ -138,13 +143,15 @@ export const LogIn = () => {
             { type: "email", message: "The input is not valid e-mail!" },
           ]}>
             <Input
-              prefix={<UserOutlined style={{ color: "gray" }} />}
+              // prefix={<UserOutlined style={{ color: "gray" }} />}
               size="large"
               placeholder="Email"
               allowClear={true}
             ></Input>
           </Form.Item>
           <Button htmlType="submit" type="primary">Send</Button>
+          <Divider className="dividerRegister"></Divider>
+          <p className="footerPasswordReset">If you still need help, contact HENRY HOTEL Support.</p>
         </Form>
       </Modal>
 

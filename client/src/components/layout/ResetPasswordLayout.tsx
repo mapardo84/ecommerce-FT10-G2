@@ -5,7 +5,7 @@ import { FooterLayout } from '../footer/Footer'
 import { supabase } from "../../SupaBase/conection";
 import ReCAPTCHA from "react-google-recaptcha";
 import { errorMsgcaptcha } from "../../helpers/logIn"
-import { Form, Input, Button, message } from "antd";
+import { Form, Input, Button, message, Divider } from "antd";
 import { useHistory } from "react-router-dom";
 import "./ResetPasswordLayout.less"
 
@@ -45,10 +45,7 @@ export const ResetPasswordLayout = (): JSX.Element => {
         if (captchaData.isVerified) {
             const { error, data } = await supabase.auth.api
                 .updateUser(token, { password: pass })
-<<<<<<< HEAD
-=======
-                console.log(data)
->>>>>>> origin/nico
+            console.log(data)
 
             !error && message.success({
                 content: "Password changed successfully",
@@ -60,6 +57,11 @@ export const ResetPasswordLayout = (): JSX.Element => {
         }
     }
 
+    const cancelChange = () => {
+        history.push("/home")
+    }
+
+
 
 
     return (
@@ -68,12 +70,13 @@ export const ResetPasswordLayout = (): JSX.Element => {
                 <NavBar />
                 <Content>
                     <div className="FormReset" >
-                        <h1 className="resetTitle">Password Reset</h1>
+                        <h1 className="resetTitle">Enter a new password</h1>
+                        <Divider className="dividerRegister"></Divider>
+
 
                         <Form name="basic" initialValues={{ remember: true }} layout="vertical" onFinish={onFinish}>
                             <Form.Item
                                 name="password"
-                                label="Password"
                                 rules={[
                                     { required: true, message: "Please insert password" },
                                     {
@@ -85,11 +88,10 @@ export const ResetPasswordLayout = (): JSX.Element => {
                                     },
                                 ]}
                             >
-                                <Input.Password></Input.Password>
+                                <Input.Password placeholder="Password"></Input.Password>
                             </Form.Item>
                             <Form.Item
                                 name="repeatPsw"
-                                label="Repeat Password"
                                 dependencies={["password"]}
                                 hasFeedback
                                 rules={[
@@ -109,15 +111,19 @@ export const ResetPasswordLayout = (): JSX.Element => {
                                     }),
                                 ]}
                             >
-                                <Input.Password></Input.Password>
+                                <Input.Password placeholder="Repeat Password"></Input.Password>
                             </Form.Item>
-                            <Button type="primary" htmlType="submit">SEND</Button>
+                            <Button type="primary" className="sendPassword" htmlType="submit">SEND</Button>
+                            <Button type="primary" className="sendPassword" onClick={cancelChange}>CANCEL</Button>
+
                         </Form>
-                            <div className="captcha2">
-                                <ReCAPTCHA
-                                    sitekey="6LcZXqsaAAAAAN4pWJ2LNrXd68tnxzwHvPclIjex"
-                                    onChange={onChange} />
-                            </div>
+                        <div className="captcha2">
+                            <ReCAPTCHA
+                                sitekey="6LcZXqsaAAAAAN4pWJ2LNrXd68tnxzwHvPclIjex"
+                                onChange={onChange} />
+                        </div>
+                        <Divider className="dividerRegister"></Divider>
+
 
                     </div>
                 </Content>
