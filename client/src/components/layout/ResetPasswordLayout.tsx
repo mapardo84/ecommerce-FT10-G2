@@ -45,6 +45,10 @@ export const ResetPasswordLayout = (): JSX.Element => {
         if (captchaData.isVerified) {
             const { error, data } = await supabase.auth.api
                 .updateUser(token, { password: pass })
+<<<<<<< HEAD
+=======
+                console.log(data)
+>>>>>>> origin/nico
 
             !error && message.success({
                 content: "Password changed successfully",

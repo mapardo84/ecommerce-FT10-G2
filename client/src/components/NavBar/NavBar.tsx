@@ -97,13 +97,12 @@ export const NavBar = () => {
         visible={visible}
         footer={[
           <div>{regOrLog === "logIn" ?
-            <div>
-              Don't have an account?
-              <Button onClick={() => setRegOrLog("signIn")}> Sign Up</Button>
+            <div>Don't have an account?
+              <Button style={{marginLeft:"8px"}} onClick={() => setRegOrLog("signIn")}> Sign Up</Button>
             </div> :
             <div>
               If you have an account
-              <Button onClick={() => setRegOrLog("logIn")}>Log In</Button>
+              <Button style={{marginLeft:"8px"}} onClick={() => setRegOrLog("logIn")}>Log In</Button>
             </div>
           }
           </div>,

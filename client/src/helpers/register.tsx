@@ -38,7 +38,7 @@ export const sendRegister = async (formData: IRegister) => {
             errorMsg(JSON.stringify(error))
         }
     }else{
-        errorMsg(JSON.stringify(results.error))
+        errorMsg('A user with this email address has already been registered')
     }
     }catch(error){console.log(error)}
 };

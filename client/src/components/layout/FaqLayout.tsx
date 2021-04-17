@@ -1,7 +1,7 @@
 import { Layout } from "antd";
 import { NavBar } from "../NavBar/NavBar";
 import { FooterLayout } from "../footer/Footer";
-import { FunctionComponent, useEffect } from "react";
+import { FunctionComponent } from "react";
 import { Faq } from "../Faq/Faq";
 
 const { Content } = Layout;
