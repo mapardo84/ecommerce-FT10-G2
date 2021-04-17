@@ -3,6 +3,8 @@ import { categoriesReducer } from "./categoriesReducer";
 import { loginReducer } from "./loginReducer";
 import { roomsReducer } from "./roomsReducer";
 import {getIdByEmailReducer} from './getIdByEmailReducer'
+import {reviewsReducer} from './ReviewsReducer'
+import {getCheckOut} from './getCheckOut';
 
 //ACA SE AGREGA CADA REDUCER QUE UTILICEN
 export const rootReducer = combineReducers({
@@ -10,5 +12,7 @@ export const rootReducer = combineReducers({
   categories: categoriesReducer,
   login: loginReducer,
   rooms: roomsReducer,
-  idByMail: getIdByEmailReducer  
+  idByMail: getIdByEmailReducer,  
+  reviews:reviewsReducer,
+  getCheckOut
 });

@@ -3,14 +3,15 @@ import { Form, Input, Button,Rate } from 'antd';
 import { addReview } from './../../actions/addReview/index';
 import { supabase } from '../../SupaBase/conection';
 import './AddReview.less';
+import {useDispatch} from 'react-redux';
 
 
 interface IaddReviewForm {
 
 }
-const desc = ['terrible', 'bad', 'normal', 'good', 'wonderful'];
+const desc = ['Terrible', 'Bad', 'Normal', 'Good', 'Wonderful'];
 const session = supabase.auth.session();
-   
+
     const layout = {
         labelCol: { span: 6 },
         wrapperCol: { span: 10 }
@@ -21,31 +22,33 @@ const session = supabase.auth.session();
         labelCol: { span: 6 }
     }
     
-export default function AddReview({ categId, userId }: any): ReactElement {
-
+export default function AddReview({ categId, userId, veri }: any): ReactElement {
+    const [form] = Form.useForm();
     const [rate,setRate] = useState<number>(3)
-
+    const dispatch = useDispatch();
 
     const handleChangeRate = (rateValue:number)=>{
         setRate(rateValue);
     }
 
-    const onFinish = (values: {accomodationreview:string}) => {
-        addReview(values.accomodationreview,categId,userId,rate)
+    const onFinish = (values: {accomodationreview:string}) => {      
+        dispatch(addReview(values.accomodationreview,categId,userId,rate));
+        form.resetFields();
     }
-
+   
     const onFinishFailed = (errorInfo: any) => {
         console.log('Failed:', errorInfo);
     }
     return (
         <div>
-            { session?.user.email &&
+            { session?.user.email && veri &&
             <Form         
                 {...layout}
                 size='large'
                 name='basic'
-                initialValues={{ remember: false }}
+                initialValues={{ remember: false  }}
                 onFinish={onFinish}
+                form={form}
                 onFinishFailed={onFinishFailed}
             >
              
@@ -61,12 +64,12 @@ export default function AddReview({ categId, userId }: any): ReactElement {
                    value={rate} />
                    {rate ? <span className='ant-rate-text'> {desc[rate - 1]}</span> : ''}
                 </span>
-                
                 <Form.Item {...tailLayout}>
-                    <Button type='primary' htmlType='submit' size='large'>
+                    <Button type='primary' htmlType='submit' size='large' >
                         Post Review
                 </Button>
                 </Form.Item>
+
             </Form>
             }
         </div>

@@ -3,18 +3,38 @@ import { useParams } from "react-router-dom";
 import { useSelector,useDispatch } from "react-redux";
 import { initialStateProps } from "../../../reducers/categoriesReducer";
 import { Button, Carousel, Image } from "antd";
+import {Reviews} from '../../Reviews/Reviews'
 //import "antd/dist/antd.css";
 import "./Details.less";
 import AddReview from "../../addReview/AddReview";
 import {getUserIdByMail} from './../../../actions/getUserIdByMail/index';
 import { supabase } from "../../../SupaBase/conection";
-import AddReviewModal from '../../addReview/AddReviewModal';
+import {checkoutValidation} from './../../../actions/getUserIdByMail/index';
+
+
+let date:any = new Date()
+let fecha:any 
+let day:any = date.getDate()
+let month:any = date.getMonth() + 1
+let year:any = date.getFullYear()
+if(month < 10){
+  fecha= year+'-0'+month+'-'+day
+}else{
+  fecha= year+'-'+month+'-'+day
+}
+
 
 
 const getIdByMail = async (value:any, dispatch: any) => {
   const resolve = await getUserIdByMail(value);
   dispatch(resolve);
 };
+
+const getCheckout = async (valor:any, dispatch:any)=>{
+  const x =await checkoutValidation(valor);
+  dispatch(x)
+}
+
 
 interface category {
   id: number;
@@ -35,6 +55,18 @@ const Details = ({ data }: any): JSX.Element => {
   ).categories;
   const session = supabase.auth.session();
   const idUser = useSelector((state:any) =>state.idByMail)
+  const checkout= useSelector((check:any) => check.getCheckOut)
+
+  let verificacion = checkout.checkOut.filter( (e:any) => e.pax_id !== null)
+  if(verificacion[0]?.booking_id?.room_id?.category_id == id){
+    let verificacionId= verificacion
+    if(verificacionId[0].booking_id.checkout.split('-').join('') < fecha.split('-').join('')){
+      verificacion= true
+    }
+  }
+  else{
+    verificacion=false
+  }
 
   useEffect(() => {
     setCategory(cat.find((x: any) => x.id === Number(id)));
@@ -43,10 +75,14 @@ const Details = ({ data }: any): JSX.Element => {
   useEffect(()=>{
     getIdByMail(session?.user.email,dispatch)
     //console.log(idUser.userId[0].id)
+    
   },[dispatch])
 
+  useEffect(()=>{
+    getCheckout(idUser?.userId[0]?.uuid,dispatch)
+  },[idUser])
 
-
+  
 
   const handleOnClick = (e: any) => {
     console.log("Bookearon!");
@@ -107,7 +143,8 @@ const Details = ({ data }: any): JSX.Element => {
           </div>
         </div>
         <div>
-            <AddReview categId={id} userId={idUser?.userId[0]?.id}/>
+            <AddReview categId={id} userId={idUser?.userId[0]?.id} veri={verificacion}/>
+            <Reviews idRv = {id}/>
         </div>
       </div>
     </div>
