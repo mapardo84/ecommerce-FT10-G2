@@ -1,10 +1,9 @@
+import { categoryType, roomType } from '../../components/booking/accomodationsSelect/AccomodationsSelect';
 import { bookingType } from '../../components/booking/guestsForm/GuestsForm';
+import { categoriesReducer } from '../../reducers/categoriesReducer';
 import { supabase } from '../../SupaBase/conection';
 export const STEP_CHANGE = 'STEP_CHANGE';
 export const SET_BOOK_DATA = 'SET_BOOK_DATA'
-export const GET_BOOKINGS = "GET_BOOKINGS"
-export const GET_TYPES = "GET_TYPES";
-export const GET_ROOMS = "GET_ROOMS";
 export const GET_SOME_BOOKINGS="GET_SOME_BOOKINGS";
 export const CATEGORIES_TO_SHOW="CATEGORIES_TO_SHOW";
 export const FILTER_DATES ="FILTER_DATES";
@@ -24,86 +23,6 @@ export const setBookData = (booking:bookingType) => {
     return {
         type: SET_BOOK_DATA,
         payload: { booking }
-    }
-}
-
-export const getBookings = async () =>{
-    let { data:bookings } = await supabase
-    .from("bookings")
-    .select ("*");
-    return{
-        type: GET_BOOKINGS,
-        payload: bookings
-    }
-}
-
-export const getTypes = (paxes:number) =>{
-    return async(dispatch:any) =>{
-        const { data:types } = await supabase
-        .from("types")
-        .select("id")
-        .gte("capacity",paxes);
-        dispatch(saveTypes(types))
-    }
-}
-const saveTypes = ( payload:any ) => {
-    return {
-        type: GET_TYPES,
-        payload
-    }   
-}
-
-export const getRooms = (types:any) => {
-   return async (dispatch:any) => {
-        if( types ) {
-            let resul = [];
-            for (let i = 0; i < types.length; i++) {
-                const { data } = await supabase
-                .from("rooms")
-                .select('*')
-                .eq("type_id",types[i].id);
-                resul.push(data);
-            }
-            dispatch(saveRooms(resul));
-        }
-   }
-}
-const saveRooms = (payload:any) =>{
-    return{
-        type: GET_ROOMS,
-        payload
-    }
-}
-
-export const getSomeBookings =(rooms:any)=>{
-    return async (dispatch:any)=>{
-        if(rooms){
-            let resolved = []
-            let foundBookings= []
-            for(let i=0; i< rooms.length; i++){
-                for(let j=0; j< rooms[i].length; j++){
-                    if(rooms[i][j].id){
-                        let { data: bookings } = await supabase
-                        .from('bookings')
-                        .select('*')
-                        .eq("room_id", rooms[i][j].id)
-                        console.log(bookings)
-                        resolved.push({room_id: rooms[i][j].id, booked: bookings})
-                        if(bookings?.length){
-                            foundBookings.push(bookings.pop())
-                        }
-                    }   
-                }
-            }
-            dispatch(saveSomeBookings({bookings: foundBookings, resolved:resolved}))
-        }  
-    }
-}
-
-const saveSomeBookings = (payload:any)=>{
-    return{
-        type:GET_SOME_BOOKINGS,
-        payload
     }
 }
 
@@ -129,26 +48,89 @@ export const getAvailableCategories = (rooms:any)=>{
     }
 }
 
-const categoriesToShow = (payload:any)=>{
+// ACTION EJECUTADA POR EL BOTON NEXT DEL COMPONENTE GUEST FORM
+export const getCategoriesForUser = (userBooking:bookingType) => {
+    return async ( dispatch:any ) => {
+        const categories:categoryType[] = [];
+        const { guests, range } = userBooking;
+        const [ checkin, checkout ] = range;
+        
+        //Traer los Types que cumple con el criterio de guests
+        const { data: types } = await supabase
+        .from("types")
+        .select("*")
+        .gte("capacity",guests);
+        
+        //Traer los Rooms que pertencen a los types recibidos en el paso anterior
+        const rooms:any = [];
+        if( types?.length ) {
+            for ( let i = 0; i < types.length; i++ ) {
+                const { data: room } = await supabase
+                .from("rooms")
+                .select('*')
+                .eq("type_id",types[i].id);
+                rooms.push(room);
+            }
+        }
+
+        //Trae los Rooms que están disponibles en las fechas dadas por el usuario
+        let freeRooms:roomType[] = [];
+        for (let i:number = 0; i < rooms.length; i ++) {
+            for (let j:number = 0; j < rooms[i].length; j ++) {
+                let { data: bookingRoom } = await supabase
+                .from('bookings')
+                .select('*')
+                .eq("room_id", rooms[i][j].id);
+                if ( !bookingRoom?.length ) freeRooms.push(rooms[i][j]);
+                else {
+                    if ( bookingRoom[0].checkout <= checkin ) {
+                        freeRooms.push(rooms[i][j]);
+                    }
+                    else if ( bookingRoom[0].checkin >= checkout ) {
+                        freeRooms.push(rooms[i][j]);
+                    }
+                    else if ( bookingRoom[0].checkin < checkin && bookingRoom[0].checkout > checkin ) {
+                        console.log('se descarta');
+                    }
+                    else if ( bookingRoom[0].checkin >= checkin && bookingRoom[0].checkout <= checkout ) {
+                        console.log('se descarta');
+                    }
+                    else if ( bookingRoom[0].checkin <= checkout && bookingRoom[0].checkout >= checkout ) {
+                        console.log('se descarta');
+                    }
+                }
+            }
+        }
+
+         //Seleccionar categorias correspondientes a los rooms libres
+         let result:any=[]
+         let categoriesFiltered:any = []
+         for(let i = 0; i < freeRooms.length; i++){
+             if(!categoriesFiltered.find( (x:categoryType) => x.id === freeRooms[i].category_id )){
+                 let { data: categories } = await supabase
+                 .from('categories')
+                 .select('*')
+                 .eq("id",freeRooms[i].category_id);
+                 result.push(categories?.pop()); 
+                 categoriesFiltered.push(freeRooms[i].category_id);
+             }
+         }
+        console.log(freeRooms);
+        console.log(result);
+        console.log(categoriesFiltered);
+        dispatch(categoriesToShow(categoriesFiltered));
+    }
+// user                     checkin                   checkout
+// room      ckin   ckout
+// room             ckin               ckout
+// room                         ckin            ckout
+// room                                ckin                    ckout
+// room                                                 ckin            ckout
+}
+
+const categoriesToShow = (payload:categoryType[])=>{
     return{
         type: CATEGORIES_TO_SHOW,
         payload
-    }
-}
-
-export const filterByDates = ( availableBookings:any, userDates:string[] )=>{
-    return async ( dispatch:any ) => {
-        const [ checkin, checkout ] = userDates;
-        const ckin = new Date(checkin).getTime();
-        const ckout = new Date(checkout).getTime();
-        let { data: bookings } = await supabase
-        .from('bookings')
-        .select('checkin')
-        .range(ckin, ckout);
-        console.log(bookings);
-        return{
-            type: FILTER_DATES,
-            payload: []
-        }     
     }
 }
