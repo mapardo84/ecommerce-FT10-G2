@@ -4,7 +4,7 @@ import { Select, Button, Checkbox } from "antd";
 import { initialStateProps } from "../../../reducers/categoriesReducer";
 import { getCategories } from "../../../actions";
 import { AccomodationsCards } from "./AccomodationsCards";
-import { setBookData, stepChange, getRooms, getSomeBookings, getTypes, getAvailableCategories, filterByDates } from '../../../actions/Booking/bookingAction';
+import { setBookData, stepChange, getAvailableCategories } from '../../../actions/Booking/bookingAction';
 import { bookingType } from '../guestsForm/GuestsForm';
 import "./AccomodationsSelect.less";
 const { Option } = Select;
@@ -19,6 +19,16 @@ export interface roomType {
   type_id:number 
 }
 
+export interface categoryType {
+  id: number, 
+  name: string, 
+  capacity: number, 
+  description: string, 
+  details: string[], 
+  price: number, 
+  images: string[],
+}
+
 const getCategoriesDB = async (value: number | undefined, dispatch: any) => {
   const resolve = await getCategories(value);
   dispatch(resolve);
@@ -27,24 +37,15 @@ const getCategoriesDB = async (value: number | undefined, dispatch: any) => {
 export const AccomodationsSelect = ():JSX.Element => {
   const dispatch = useDispatch();
   const [ categorySelected, setCategorySelected ] = useState<string[]>([]);
-  const [bookedRoom, setBookedRoom] = useState<any>([])
-  const selectedTypes:any = useSelector( (state:any) => state.bookings.types);
   const booking:bookingType = useSelector( (state:any) => state.bookings.booking );
   // const categoriesState = useSelector( (state: initialStateProps) => state.categories );
-  const rooms:roomType = useSelector( (state:any) => state.bookings.rooms ); 
   const availableBookings = useSelector((state:any)=> state.bookings.savedBookings)
   const categoriesFind = useSelector((state:any)=> state.bookings.categoriesToShow)
 
-  
-  useEffect(() => {
-    dispatch(getRooms(selectedTypes));
-  }, [dispatch, booking,selectedTypes]);
-
-  useEffect(()=>{
-    dispatch(getSomeBookings(rooms))
-    dispatch(getAvailableCategories(rooms))
-    dispatch(filterByDates(availableBookings, booking.range))
-  },[dispatch,rooms])
+  // useEffect(()=>{
+    // dispatch(getSomeBookings(rooms))
+    // dispatch(getAvailableCategories(rooms))
+  // },[dispatch,rooms])
   
   const handleChange = (value: any) => {
     if (value === "0") getCategoriesDB(undefined, dispatch);
