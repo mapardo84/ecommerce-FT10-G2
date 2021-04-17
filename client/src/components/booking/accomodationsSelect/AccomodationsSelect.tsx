@@ -27,11 +27,13 @@ const getCategoriesDB = async (value: number | undefined, dispatch: any) => {
 export const AccomodationsSelect = ():JSX.Element => {
   const dispatch = useDispatch();
   const [ categorySelected, setCategorySelected ] = useState<string[]>([]);
+  const [bookedRoom, setBookedRoom] = useState<any>([])
   const selectedTypes:any = useSelector( (state:any) => state.bookings.types);
   const booking:bookingType = useSelector( (state:any) => state.bookings.booking );
   // const categoriesState = useSelector( (state: initialStateProps) => state.categories );
   const rooms:roomType = useSelector( (state:any) => state.bookings.rooms ); 
   const availableBookings = useSelector((state:any)=> state.bookings.savedBookings)
+  const categoriesFind = useSelector((state:any)=> state.bookings.categoriesToShow)
 
   
   useEffect(() => {
@@ -40,13 +42,15 @@ export const AccomodationsSelect = ():JSX.Element => {
 
   useEffect(()=>{
     dispatch(getSomeBookings(rooms))
+    dispatch(getAvailableCategories(rooms))
   
   },[dispatch,rooms])
 
-  useEffect(()=>{
-    dispatch(getAvailableCategories(rooms))
-  },[dispatch,rooms])
+  
 
+  useEffect(()=>{
+    
+  },[])
   
   
   
@@ -94,12 +98,12 @@ export const AccomodationsSelect = ():JSX.Element => {
       </div>
       <div className="accomodationsSelect_cards">
         <Checkbox.Group>
-        {/*categoriesToShow?.map((categ: any, i: number) => (
+        {categoriesFind?.map((categ: any, i: number) => (
           <div>
             <AccomodationsCards categ={categ} booking={booking} key={i} />
             <Checkbox key={i+7} value={categ.name} onChange={handleCheckBox}>{categ.name}</Checkbox>
           </div>
-        ))*/}
+        ))}
         </Checkbox.Group>
       </div>
       <Button onClick={handleClickBack}>Go back</Button>

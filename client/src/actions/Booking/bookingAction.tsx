@@ -7,6 +7,7 @@ export const GET_TYPES = "GET_TYPES";
 export const GET_ROOMS = "GET_ROOMS";
 export const GET_SOME_BOOKINGS="GET_SOME_BOOKINGS";
 export const CATEGORIES_TO_SHOW="CATEGORIES_TO_SHOW";
+export const FILTER_DATES ="FILTER_DATES";
 export interface bookAction {
     type: string,
     payload: any
@@ -78,6 +79,7 @@ export const getSomeBookings =(rooms:any)=>{
     return async (dispatch:any)=>{
         if(rooms){
             let resolved = []
+            let foundBookings= []
             for(let i=0; i< rooms.length; i++){
                 for(let j=0; j< rooms[i].length; j++){
                   if(rooms[i][j].id){
@@ -85,10 +87,15 @@ export const getSomeBookings =(rooms:any)=>{
                     .from('bookings')
                     .select('*')
                     .eq("room_id", rooms[i][j].id)
-                    resolved.push({room: rooms[i][j].category_id, booked: bookings})
+                    console.log(bookings)
+                    resolved.push({room_id: rooms[i][j].id, booked: bookings})
+                    if(bookings?.length){
+                        foundBookings.push(bookings.pop())
+                    }
                 }}
             }
-            dispatch(saveSomeBookings(resolved))
+            console.log(foundBookings)
+            dispatch(saveSomeBookings({bookings: foundBookings, resolved:resolved}))
         }  
     }
 }
@@ -103,19 +110,20 @@ const saveSomeBookings = (payload:any)=>{
 export const getAvailableCategories = (rooms:any)=>{
     return async ( dispatch:any ) => {
         let result:any=[]
+        let categoriesFiltered:any=[]
         if( rooms && rooms.length ){
             for(let i=0; i< rooms.length; i++){
                 for(let j=0; j< rooms[i].length; j++){
-                    let { data: categories } = await supabase
-                    .from('categories')
-                    .select('*')
-                    .eq("id",rooms[i][j].category_id);
-                    if(!result.length || !result.find( (e:any) => e?.room === categories?.pop().id ) ){
-                        result.push(categories?.pop());
+                    if(!categoriesFiltered.includes(rooms[i][j].category_id)){
+                          let { data: categories } = await supabase
+                            .from('categories')
+                            .select('*')
+                            .eq("id",rooms[i][j].category_id);
+                            result.push(categories?.pop()); 
+                            categoriesFiltered.push(rooms[i][j].category_id)
                     }
                 }
             }
-            console.log(result);
         }
         dispatch(categoriesToShow(result));
     }
@@ -127,4 +135,17 @@ const categoriesToShow = (payload:any)=>{
         payload
     }
 }
+
+/*export const filterByDates = (availableBookings:any,userDates:any)=>{
+    const [checkin,checkout]=userDates
+    for(let i=0; i<availableBookings.length;i++){
+    }
+    return{
+        type: FILTER_DATES,
+        
+}*/
+
+
+
+
 
