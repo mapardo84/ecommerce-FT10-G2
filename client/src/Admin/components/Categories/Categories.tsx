@@ -103,8 +103,7 @@ export const Categories = () => {
   useEffect(() => {
     dispatch(getAllCategories());
   }, [dispatch]);
-
-  // ant la concha de wtu madre
+  
   const getColumnSearchProps = (dataIndex: any) => ({
     filterDropdown: ({
       setSelectedKeys,
