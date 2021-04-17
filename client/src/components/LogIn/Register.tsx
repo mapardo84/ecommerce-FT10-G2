@@ -19,8 +19,8 @@ export const Register = (): JSX.Element => {
   return (
     <div className="register_Container">
       <h1 className="titleRgister">Sign Up</h1>
-      <Divider className="dividerRegister"></Divider>
       <Form name="basic" initialValues={{ remember: true }} onFinish={onFinish} layout="vertical">
+      <Divider orientation="center" className="dividerRegister">Personal information</Divider>
 
         <Form.Item
           name="firstName"
@@ -35,9 +35,7 @@ export const Register = (): JSX.Element => {
           name="lastName"
           rules={[
             { required: true, message: "Please, insert your last name!" }]}
-          style={{ display: 'inline-block', width: 'calc(50% - 8px)', margin: '0 0 0 16px' }}
-
-        >
+          style={{ display: 'inline-block', width: 'calc(50% - 8px)', margin: '0 0 0 16px' }}>
           <Input placeholder="Last Name"></Input>
         </Form.Item>
 

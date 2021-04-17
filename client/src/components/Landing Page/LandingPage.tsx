@@ -18,6 +18,9 @@ export const LandingPage = () => {
         history.push("/password-reset/"+acces_token);
     }
 
+    
+
+
     return (
         <div className='LandingPage'>
             <Row align="middle" justify="space-around">

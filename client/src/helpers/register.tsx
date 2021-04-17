@@ -3,13 +3,7 @@ import { supabase } from "../SupaBase/conection";
 import { message } from "antd";
 
 const success = () => {
-    message.success({
-        content: "Success register",
-        className: "custom-class",
-        style: {
-            marginTop: "20vh",
-        },
-    });
+    message.success("Confirmation email sent, please check it");
 };
 
 const errorMsg = (msg:any) => {
@@ -34,6 +28,9 @@ export const sendRegister = async (formData: IRegister) => {
         if (!error) {
             console.log(data)
             success();
+            setTimeout(() => {
+                window.location.reload()
+            }, 2000);
         } else {
             errorMsg(JSON.stringify(error))
         }

@@ -21,43 +21,12 @@ export const HomeLayout = (): JSX.Element => {
     })
   }, [])
 
-
-  var [name, setName] = useState("empty")
-
-  const showName = async () => {
-
-    const user: any = supabase.auth.user()
-
-    if (user?.aud === "authenticated") {
-
-      const email = user.email
-
-      var { data, error } = await supabase
-        .from('users')
-        .select('first_name')
-        .eq('email', email)
-        
-
-      setName(data && data[0]?.first_name)
-
-    } else {
-      console.log(error)
-      return false
-    }
-  }
-  showName()
-
   return (
     <>
 
 
       <Layout className="container">
         <NavBar />
-        {
-          name !== "empty" && <div className="welcomeBox">Welcome, {name}</div>
-        }
-     
-   
         <Content>
           <HomeSlides />
           <div className="text">
