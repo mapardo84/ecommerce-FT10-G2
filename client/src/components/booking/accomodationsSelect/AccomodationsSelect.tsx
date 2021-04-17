@@ -4,7 +4,7 @@ import { Select, Button, Checkbox } from "antd";
 import { initialStateProps } from "../../../reducers/categoriesReducer";
 import { getCategories } from "../../../actions";
 import { AccomodationsCards } from "./AccomodationsCards";
-import { setBookData, stepChange, getRooms, getSomeBookings, getTypes, getAvailableCategories } from '../../../actions/Booking/bookingAction';
+import { setBookData, stepChange, getRooms, getSomeBookings, getTypes, getAvailableCategories, filterByDates } from '../../../actions/Booking/bookingAction';
 import { bookingType } from '../guestsForm/GuestsForm';
 import "./AccomodationsSelect.less";
 const { Option } = Select;
@@ -43,16 +43,8 @@ export const AccomodationsSelect = ():JSX.Element => {
   useEffect(()=>{
     dispatch(getSomeBookings(rooms))
     dispatch(getAvailableCategories(rooms))
-  
+    dispatch(filterByDates(availableBookings, booking.range))
   },[dispatch,rooms])
-
-  
-
-  useEffect(()=>{
-    
-  },[])
-  
-  
   
   const handleChange = (value: any) => {
     if (value === "0") getCategoriesDB(undefined, dispatch);

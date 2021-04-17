@@ -13,7 +13,7 @@ export interface bookAction {
     payload: any
 }
 
-export const stepChange = (inputs:any) => {
+export const stepChange = (inputs:number) => {
     return {
         type: STEP_CHANGE,
         payload: inputs
@@ -27,10 +27,10 @@ export const setBookData = (booking:bookingType) => {
     }
 }
 
-export const getBookings= async() =>{
-    let {data:bookings} = await supabase
+export const getBookings = async () =>{
+    let { data:bookings } = await supabase
     .from("bookings")
-    .select ("*") 
+    .select ("*");
     return{
         type: GET_BOOKINGS,
         payload: bookings
@@ -42,11 +42,11 @@ export const getTypes = (paxes:number) =>{
         const { data:types } = await supabase
         .from("types")
         .select("id")
-        .gte("capacity",paxes)
+        .gte("capacity",paxes);
         dispatch(saveTypes(types))
     }
 }
-const saveTypes = (payload:any) =>{
+const saveTypes = ( payload:any ) => {
     return {
         type: GET_TYPES,
         payload
@@ -82,19 +82,19 @@ export const getSomeBookings =(rooms:any)=>{
             let foundBookings= []
             for(let i=0; i< rooms.length; i++){
                 for(let j=0; j< rooms[i].length; j++){
-                  if(rooms[i][j].id){
-                    let { data: bookings } = await supabase
-                    .from('bookings')
-                    .select('*')
-                    .eq("room_id", rooms[i][j].id)
-                    console.log(bookings)
-                    resolved.push({room_id: rooms[i][j].id, booked: bookings})
-                    if(bookings?.length){
-                        foundBookings.push(bookings.pop())
-                    }
-                }}
+                    if(rooms[i][j].id){
+                        let { data: bookings } = await supabase
+                        .from('bookings')
+                        .select('*')
+                        .eq("room_id", rooms[i][j].id)
+                        console.log(bookings)
+                        resolved.push({room_id: rooms[i][j].id, booked: bookings})
+                        if(bookings?.length){
+                            foundBookings.push(bookings.pop())
+                        }
+                    }   
+                }
             }
-            console.log(foundBookings)
             dispatch(saveSomeBookings({bookings: foundBookings, resolved:resolved}))
         }  
     }
@@ -136,16 +136,19 @@ const categoriesToShow = (payload:any)=>{
     }
 }
 
-/*export const filterByDates = (availableBookings:any,userDates:any)=>{
-    const [checkin,checkout]=userDates
-    for(let i=0; i<availableBookings.length;i++){
+export const filterByDates = ( availableBookings:any, userDates:string[] )=>{
+    return async ( dispatch:any ) => {
+        const [ checkin, checkout ] = userDates;
+        const ckin = new Date(checkin).getTime();
+        const ckout = new Date(checkout).getTime();
+        let { data: bookings } = await supabase
+        .from('bookings')
+        .select('checkin')
+        .range(ckin, ckout);
+        console.log(bookings);
+        return{
+            type: FILTER_DATES,
+            payload: []
+        }     
     }
-    return{
-        type: FILTER_DATES,
-        
-}*/
-
-
-
-
-
+}
