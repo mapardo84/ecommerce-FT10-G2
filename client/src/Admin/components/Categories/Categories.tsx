@@ -8,8 +8,9 @@ import {
   InputNumber,
   Button,
   Select,
+  Space,
 } from "antd";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import {
   getAllCategories,
@@ -17,6 +18,7 @@ import {
   updateCategory,
   createCategory,
 } from "../../actions/categoriesActions";
+import { SearchOutlined } from "@ant-design/icons";
 import { FaPencilAlt, FaTrashAlt } from "react-icons/fa";
 import Modal from "antd/lib/modal/Modal";
 import "./categories.less";
@@ -35,32 +37,167 @@ const campos = [
   { name: ["description"], value: "" },
   { name: ["details"], value: "" },
   { name: ["price"], value: "" },
-  { name: ["images"], value: "" }
+  { name: ["images"], value: "" },
 ];
 
 export const Categories = () => {
+  const handleSearch = (selectedKeys: any, confirm: any, dataIndex: any) => {
+    confirm();
+    setState({
+      searchText: selectedKeys[0],
+      searchedColumn: dataIndex,
+    });
+  };
+
+  const handleReset = (clearFilters: any) => {
+    clearFilters();
+    setState({ searchText: "" });
+  };
+
+  const [state, setState] = useState<any>("");
+  const [isModalVisible, setIsModalVisible] = useState<boolean>(false);
+  const [fields, setFields] = useState<any[]>(campos);
+  const [editId, setEditId] = useState(null);
+
+ 
+
+  const { categories } = useSelector((state: any) => state?.categories);
+  const dispatch = useDispatch();
+
+  const handleDelete = (id: number) => {
+    const index = categories.find((category: Category) => category.id === id);
+    dispatch(deleteCategory(index.id));
+  };
+
+  const handleEdit = (id: number) => {
+    setIsModalVisible(true);
+    const index = categories.find((category: Category) => category.id === id);
+    setEditId(index.id);
+    setFields([
+      { name: ["name"], value: index.name },
+      { name: ["description"], value: index.description },
+      { name: ["details"], value: index.details },
+      { name: ["price"], value: index.price },
+      { name: ["images"], value: index.images },
+    ]);
+  };
+
+  const onFinish = (values: any) => {
+    const data = { ...values, id: editId };
+    /* console.log('Success:', data); */
+    if (editId) {
+      dispatch(updateCategory(data));
+    } else {
+      dispatch(createCategory(data));
+    }
+    setIsModalVisible(false);
+    setEditId(null);
+  };
+
+  const closeModal = () => {
+    setFields(campos);
+    setIsModalVisible(false);
+    setEditId(null);
+  };
+
+  useEffect(() => {
+    dispatch(getAllCategories());
+  }, [dispatch]);
+
+  // ant la concha de wtu madre
+  const getColumnSearchProps = (dataIndex: any) => ({
+    filterDropdown: ({
+      setSelectedKeys,
+      selectedKeys,
+      confirm,
+      clearFilters,
+    }: {
+      setSelectedKeys: any;
+      selectedKeys: any;
+      confirm: any;
+      clearFilters: any;
+    }) => (
+      <div style={{ padding: 8 }}>
+        <Input
+          placeholder={`Search ${dataIndex}`}
+          value={selectedKeys[0]}
+          onChange={(e) =>
+            setSelectedKeys(e.target.value ? [e.target.value] : [])
+          }
+          onPressEnter={() => handleSearch(selectedKeys, confirm, dataIndex)}
+          style={{ width: 188, marginBottom: 8, display: "block" }}
+        />
+        <Space>
+          <Button
+            type="primary"
+            onClick={() => handleSearch(selectedKeys, confirm, dataIndex)}
+            icon={<SearchOutlined />}
+            size="small"
+            style={{ width: 30 }}
+          >           
+          </Button>
+          <Button
+            onClick={() => handleReset(clearFilters)}
+            size="small"
+            style={{ width: 60, marginLeft:"52px"}}
+          >
+            Reset
+          </Button>
+          <Button
+            type="link"
+            size="small"
+            style={{ marginLeft: "120px" }}
+            onClick={() => {
+              confirm({ closeDropdown: false });
+              setState({
+                searchText: selectedKeys[0],
+                searchedColumn: dataIndex,
+              });
+            }}
+          >
+            Filter
+          </Button>
+        </Space>
+      </div>
+    ),
+    filterIcon: (filtered: any) => (
+      <SearchOutlined style={{ color: filtered ? "#1890ff" : undefined }} />
+    ),
+    onFilter: (value: any, record: any) =>
+      record[dataIndex]
+        ? record[dataIndex]
+            .toString()
+            .toLowerCase()
+            .includes(value.toLowerCase())
+        : "",
+    render: (text: any) => text,
+  });
+
   const columns: any = [
     {
       title: "Id",
       dataIndex: "id",
       key: "id",
-      defaultSortOrder: 'descend',
-      sorter: (a:any, b:any) => a.id - b.id,
+      defaultSortOrder: "descend",
+      sorter: (a: any, b: any) => a.id - b.id,
     },
     {
       title: "Category name",
       dataIndex: "name",
       key: "name",
+      ...getColumnSearchProps("name"),
     },
     {
       title: "Description",
       dataIndex: "description",
       key: "description",
+      ...getColumnSearchProps("description"),
     },
     {
       title: "Details",
       dataIndex: "details",
       key: "details",
+      ...getColumnSearchProps("details"),
       render: (details: string[]) => (
         <>
           {details.map((detail: string) => (
@@ -75,21 +212,22 @@ export const Categories = () => {
       title: "Price",
       dataIndex: "price",
       key: "price",
+      sorter: (a: any, b: any) => a.id - b.id,
     },
     /* {
-      title: "Images",
-      dataIndex: "images",
-      key: "images",
-      render: (images: string[]) => (
-        <>
-          {images?.map((image: string) => (
-            <Tag color="green" key={image}>
-              {image}
-            </Tag>
-          ))}
-        </>
-      ),
-    }, */
+        title: "Images",
+        dataIndex: "images",
+        key: "images",
+        render: (images: string[]) => (
+          <>
+            {images?.map((image: string) => (
+              <Tag color="green" key={image}>
+                {image}
+              </Tag>
+            ))}
+          </>
+        ),
+      }, */
     {
       title: "Action",
       dataIndex: "operation",
@@ -122,53 +260,6 @@ export const Categories = () => {
     },
   ];
 
-  const [isModalVisible, setIsModalVisible] = useState<boolean>(false);
-  const [fields, setFields] = useState<any[]>(campos);
-  const [editId, setEditId] = useState(null);
-
-  const { categories } = useSelector((state: any) => state?.categories);
-  const dispatch = useDispatch();
-
-  const handleDelete = (id: number) => {
-    const index = categories.find((category: Category) => category.id === id);
-    dispatch(deleteCategory(index.id));
-  };
-
-  const handleEdit = (id: number) => {
-    setIsModalVisible(true);
-    const index = categories.find((category: Category) => category.id === id);
-    setEditId(index.id);
-    setFields([
-      { name: ["name"], value: index.name },
-      { name: ["description"], value: index.description },
-      { name: ["details"], value: index.details },
-      { name: ["price"], value: index.price },
-      { name: ["images"], value: index.images }
-    ]);
-  };
-
-  const onFinish = (values: any) => {
-    const data = { ...values, id: editId };
-    /* console.log('Success:', data); */
-    if (editId) {
-      dispatch(updateCategory(data));
-    } else {
-      dispatch(createCategory(data));
-    }
-    setIsModalVisible(false);
-    setEditId(null);
-  };
-
-  const closeModal = () => {
-    setFields(campos);
-    setIsModalVisible(false);
-    setEditId(null);
-  };
-
-  useEffect(() => {
-    dispatch(getAllCategories());
-  }, [dispatch]);
-
   return (
     <div>
       <div>
@@ -186,7 +277,6 @@ export const Categories = () => {
         pagination={{ position: ["bottomCenter"] }}
         rowKey="id"
         bordered={true}
-       
       />
       <Modal
         title="Create a category"
