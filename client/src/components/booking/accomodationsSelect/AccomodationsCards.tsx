@@ -4,23 +4,19 @@ import '../accomodationsSelect/AccomodationsCards.less'
 import { bookingType } from '../guestsForm/GuestsForm';
 import { Checkbox, Select } from "antd";
 import { useDispatch} from "react-redux";
-import { setCategory } from '../../../actions/Booking/bookingAction';
 import { convertToObject } from 'typescript';
 
 const { Sider, Content } = Layout;
-const { Option } = Select;
 
-export const AccomodationsCards = ({ categ }:any, key:number, booking:bookingType, types:any ): JSX.Element => {
+export const AccomodationsCards = ({ categ }:any, key:number, types:any ): JSX.Element => {
     const dispatch = useDispatch()
     const [ isModalVisible, setIsModalVisible ] = useState(false);
-    const [ categorySelected, setCategorySelected ] = useState<string[]>([]);
     const showModal = () => { setIsModalVisible(true) };
     const handleOk = () => { setIsModalVisible(false) };
     const handleCancel = () => { setIsModalVisible(false) };
    
     return (
         <div className='categoryContainer'>
-
             <Layout className='categoryLayout'>
                 <Content className='categoryContent'>
                     <Image src={categ.images[0]} width={600} />

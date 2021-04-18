@@ -20,7 +20,9 @@ export interface bookingType {
   guests:number,
   range:string[],
   nights:number, 
-  category:string[]
+  category:any,
+  fee:number,
+  room_id:number
 }
 
 export const GuestsForm = () => {
@@ -29,7 +31,9 @@ export const GuestsForm = () => {
     guests: 0,
     range: [],
     nights: 0,
-    category: []
+    category: [],
+    fee: 0,
+    room_id: 0
   });
   const handleChangePaxs = ( inputs:number ) => { setBooking({...booking, guests: inputs}) };
   const handleChangeDates = (_a:any, dates:string[], _c:any) => {
@@ -87,7 +91,7 @@ export const GuestsForm = () => {
           >
             <div className="buttons_Guests">
               <Link to='/home'>
-                <Button style={{marginTop:"400px"}} onClick={() => dispatch(setBookData({guests: 0, range: [], nights: 0, category: []}))} >Cancel</Button>
+                <Button style={{marginTop:"400px"}} onClick={() => dispatch(setBookData({guests: 0, range: [], nights: 0, category: [], fee: 0, room_id: 0}))} >Cancel</Button>
               </Link>
               <Button disabled={!( booking.range[0] && booking.range[1] && booking.guests )} style={{marginTop:"400px"}} onClick={handleClickRooms} type="primary">
                 Next

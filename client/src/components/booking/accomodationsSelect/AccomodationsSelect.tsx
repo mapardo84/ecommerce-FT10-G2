@@ -1,8 +1,8 @@
 import { useDispatch, useSelector } from "react-redux";
-import { Select, Button, Checkbox, Radio } from "antd";
+import { Select, Button, Radio } from "antd";
 import { getCategories } from "../../../actions";
 import { AccomodationsCards } from "./AccomodationsCards";
-import { setBookData, stepChange, finalFilterForRooms } from '../../../actions/Booking/bookingAction';
+import { roomSelected, setBookData, stepChange } from '../../../actions/Booking/bookingAction';
 import { bookingType } from '../guestsForm/GuestsForm';
 import "./AccomodationsSelect.less";
 import { useEffect, useState } from "react";
@@ -36,16 +36,16 @@ const getCategoriesDB = async (value: number | undefined, dispatch: any) => {
 export const AccomodationsSelect = ():JSX.Element => {
   const dispatch = useDispatch();
   const [ userSelection, setUserSelection ] = useState<any>({
-    category: [],
+    category: '',
     type: ''
   });
   const booking:bookingType = useSelector( (state:any) => state.bookings.booking );
-  const categoriesFind = useSelector((state:any)=> state.bookings.categoriesToShow)
-  const categoryPax = useSelector((state:any) => state.bookings.category )
-  const freeRooms = useSelector((state:any) => state.bookings.freeRooms)
+  const categoriesFind = useSelector((state:any)=> state.bookings.categoriesToShow);
+  const freeRooms = useSelector((state:any) => state.bookings.freeRooms);
+  // const categoryPax = useSelector((state:any) => state.bookings.category );
   
   useEffect(() => {
-    console.log(categoriesFind.userCategories);
+
   }, [])
   
   const handleChange = (value: any) => {
@@ -60,21 +60,29 @@ export const AccomodationsSelect = ():JSX.Element => {
 
   const handleClickNext = (e:any) => {
     e.preventDefault();
+    booking.category = userSelection;
+    booking.fee = booking.category.category.price * booking.category.type.beds;
+    const roomSelected = freeRooms.find( (r:roomType) => { 
+      return (r.category_id === booking.category.category.id && r.type_id === booking.category.type.id)
+    })
+    console.log(roomSelected);
+    // console.log(freeRooms);
+    booking.room_id = roomSelected.id; 
     dispatch(setBookData(booking));
     dispatch(stepChange(2));
-    dispatch(finalFilterForRooms(categoryPax,freeRooms))
+    // dispatch(roomSelected(booking.category, freeRooms));
   }
 
   const handleSelectType = (value:any , option:any) => {
     console.log(value);
-    setUserSelection({...userSelection, type: value});
+    const resul = categoriesFind.types.find( (x:any) => x.name === value );
+    setUserSelection({...userSelection, type: resul});
   }
 
   const handleRadioGroup = (e:any) => {
     const { checked, value } = e.target;
-    const [ categ_name, categ_id] = value;
     checked? setUserSelection({...userSelection, category: value}):
-    setUserSelection({...userSelection, category: []});
+    setUserSelection({...userSelection, category: ''});
     // dispatch(setCategory(categorySelected));
   }
 
@@ -99,10 +107,10 @@ export const AccomodationsSelect = ():JSX.Element => {
         </span>
       </div>
       <div className="accomodationsSelect_cards">
-       <Radio.Group onChange={handleRadioGroup} value={userSelection.category[1]}>
+       <Radio.Group onChange={handleRadioGroup} value={userSelection.category}>
           {categoriesFind.userCategories?.map((categ:categoryType, i:number) => (
             <div>
-              <AccomodationsCards categ={categ} booking={booking} key={i} types={categoriesFind.types}/>
+              <AccomodationsCards categ={categ} key={i} types={categoriesFind.types}/>
               <span>
                   <Select key='selectType'
                       placeholder="Select Type"
@@ -115,14 +123,14 @@ export const AccomodationsSelect = ():JSX.Element => {
                           )})
                       }
                   </Select>
-                  <Radio value={[categ.name, categ.id]}></Radio>
+                  <Radio value={categ}></Radio>
               </span>
             </div>
           ))}
        </Radio.Group>
       </div>
       <Button onClick={handleClickBack}>Go back</Button>
-      <Button onClick={handleClickNext}>Next</Button>
+      <Button onClick={handleClickNext} disabled={!(userSelection.type && userSelection.category)}>Next</Button>
     </div>
   );
 };

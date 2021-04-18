@@ -8,7 +8,8 @@ export const CATEGORIES_TO_SHOW="CATEGORIES_TO_SHOW";
 export const FILTER_DATES ="FILTER_DATES";
 export const FREE_ROOMS_SHOW= "FREE_ROOMS_SHOW"
 export const SET_CATEGORY = "SET_CATEGORY";
-export const SELECTED_CATEGORY_ROOMS = "SELECTED_CATEGORY_ROOMS"
+export const SELECTED_CATEGORY_ROOMS = "SELECTED_CATEGORY_ROOMS";
+export const BOOKED_ROOM = "BOOKED_ROOM";
 export interface bookAction {
     type: string,
     payload: any
@@ -32,28 +33,6 @@ export const setCategory = (input:any) =>{
     return{
         type: SET_CATEGORY,
         payload: input
-    }
-}
-
-export const getAvailableCategories = (rooms:any)=>{
-    return async ( dispatch:any ) => {
-        let result:any=[]
-        let categoriesFiltered:any=[]
-        if( rooms && rooms.length ){
-            for(let i=0; i< rooms.length; i++){
-                for(let j=0; j< rooms[i].length; j++){
-                    if(!categoriesFiltered.includes(rooms[i][j].category_id)){
-                          let { data: categories } = await supabase
-                            .from('categories')
-                            .select('*')
-                            .eq("id",rooms[i][j].category_id);
-                            result.push(categories?.pop()); 
-                            categoriesFiltered.push(rooms[i][j].category_id)
-                    }
-                }
-            }
-        }
-        dispatch(categoriesToShow(result));
     }
 }
 
@@ -147,22 +126,20 @@ const freeRoomsToShow = (payload:any) =>{
     }
 } 
 
-export const finalFilterForRooms = (categoryPax:any, freeRooms:any)=>{
-    return  ( dispatch:any ) =>{
-        let roomsAvailable= []
-        for(let i=0; i< freeRooms.length; i++){
-            if(categoryPax[1] === freeRooms[i].id){
-                roomsAvailable.push(freeRooms[i])
-            }
-
-        }
-        dispatch(selectedCategoryRooms(roomsAvailable))
+export const roomSelected = (categoryPax:any, freeRooms:roomType[])=>{
+    return ( dispatch:any ) =>{
+        console.log(categoryPax);
+        console.log(freeRooms);
+        const roomSelected = freeRooms.find( (r:roomType) => { 
+            return (r.category_id === categoryPax.category.id && r.type_id === categoryPax.type.id)
+        })
+        dispatch(bookedRoom(roomSelected?.id));
     }
 }
     
-const selectedCategoryRooms = (payload:any) =>{
+const bookedRoom = (payload:any) =>{
     return{
-        type: SELECTED_CATEGORY_ROOMS,
+        type: BOOKED_ROOM,
         payload
     }
 }
