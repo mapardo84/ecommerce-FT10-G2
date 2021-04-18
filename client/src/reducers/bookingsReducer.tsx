@@ -1,4 +1,4 @@
-import { bookAction, SET_BOOK_DATA, STEP_CHANGE, CATEGORIES_TO_SHOW, FREE_ROOMS_SHOW, SET_CATEGORY, SELECTED_CATEGORY_ROOMS} from '../actions/Booking/bookingAction';
+import { bookAction, SET_BOOK_DATA, STEP_CHANGE, CATEGORIES_TO_SHOW, FREE_ROOMS_SHOW, SET_CATEGORY, BOOKED_ROOM} from '../actions/Booking/bookingAction';
 
 const initialState = {
     step: 0,
@@ -6,9 +6,11 @@ const initialState = {
         guests: 0,
         range: ['', ''],
         nights: 0,
-        freeRooms: [],
+        category: '',
+        fee: 0,
+        room_id: 0,
     },
-    category: [],
+    freeRooms:[],
     categoriesToShow: [],
     roomsAvailable:[]
 }
@@ -26,8 +28,8 @@ export function bookingsReducer (state = initialState, action:bookAction) {
             return{...state, freeRooms:action.payload }
         case SET_CATEGORY:
             return{...state, category: action.payload }  
-        case SELECTED_CATEGORY_ROOMS:
-            return{...state, roomsAvailable: action.payload}  
+        // case BOOKED_ROOM:
+        //     return{...state, bookings.booking.room_id: action.payload}  
         default: return state;
     }
 }

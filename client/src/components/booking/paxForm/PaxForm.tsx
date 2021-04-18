@@ -4,6 +4,8 @@ import { Form, Input, Cascader, Select, DatePicker, Checkbox, Button, Switch } f
 import { sendPax } from '../../../actions/Booking/PaxFormActions';
 import '../paxForm/PaxForm.less'
 import { PaymentBooking } from '../paymentBooking/PaymentBooking';
+import { stepChange } from '../../../actions/Booking/bookingAction';
+import { useDispatch } from 'react-redux';
 const { Option } = Select;
 
 const residences = [
@@ -71,7 +73,11 @@ export interface PaxValues {
 
 export function PaxForm() {
     const [form] = Form.useForm();
-
+    const dispatch = useDispatch();
+    const handleClickBack = (e:any) => {
+        e.preventDefault();
+        dispatch(stepChange(1));
+    } 
     const onFinish = (values: PaxValues) => {
         console.log('Received values of form: ', values);
         sendPax(values)
@@ -94,7 +100,7 @@ export function PaxForm() {
 
     return (
         <div className='paxForm_container'>
-
+            <Button onClick={handleClickBack}>Go back</Button>
             <div className='form'>
                 <div className='paxForm_TitleGuest'>
                     <h3>Guest Information</h3>

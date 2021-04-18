@@ -1,10 +1,11 @@
 import { useDispatch, useSelector } from "react-redux";
-import { Select, Button} from "antd";
+import { Select, Button, Radio } from "antd";
 import { getCategories } from "../../../actions";
 import { AccomodationsCards } from "./AccomodationsCards";
-import { setBookData, stepChange, finalFilterForRooms } from '../../../actions/Booking/bookingAction';
+import { roomSelected, setBookData, stepChange } from '../../../actions/Booking/bookingAction';
 import { bookingType } from '../guestsForm/GuestsForm';
 import "./AccomodationsSelect.less";
+import { useEffect, useState } from "react";
 const { Option } = Select;
 
 export interface roomType {
@@ -34,11 +35,19 @@ const getCategoriesDB = async (value: number | undefined, dispatch: any) => {
 
 export const AccomodationsSelect = ():JSX.Element => {
   const dispatch = useDispatch();
-  //const [ categorySelected, setCategorySelected ] = useState<string[]>([]);
+  const [ userSelection, setUserSelection ] = useState<any>({
+    category: '',
+    type: ''
+  });
   const booking:bookingType = useSelector( (state:any) => state.bookings.booking );
-  const categoriesFind = useSelector((state:any)=> state.bookings.categoriesToShow)
-  const categoryPax = useSelector((state:any) => state.bookings.category )
-  const freeRooms = useSelector((state:any) => state.bookings.freeRooms)
+  const categoriesFind = useSelector((state:any)=> state.bookings.categoriesToShow);
+  const freeRooms = useSelector((state:any) => state.bookings.freeRooms);
+  // const categoryPax = useSelector((state:any) => state.bookings.category );
+  
+  useEffect(() => {
+
+  }, [])
+  
   const handleChange = (value: any) => {
     if (value === "0") getCategoriesDB(undefined, dispatch);
     else getCategoriesDB(value, dispatch);
@@ -51,18 +60,32 @@ export const AccomodationsSelect = ():JSX.Element => {
 
   const handleClickNext = (e:any) => {
     e.preventDefault();
-    //booking.category = categorySelected;
+    booking.category = userSelection;
+    booking.fee = booking.category.category.price * booking.category.type.beds;
+    const roomSelected = freeRooms.find( (r:roomType) => { 
+      return (r.category_id === booking.category.category.id && r.type_id === booking.category.type.id)
+    })
+    console.log(roomSelected);
+    // console.log(freeRooms);
+    booking.room_id = roomSelected.id; 
     dispatch(setBookData(booking));
     dispatch(stepChange(2));
-    dispatch(finalFilterForRooms(categoryPax,freeRooms))
+    // dispatch(roomSelected(booking.category, freeRooms));
   }
- 
-  /*const handleCheckBox = (e:any) => {
-    const { value, checked } = e.target;
-    checked? setCategorySelected([...categorySelected, value]):
-    setCategorySelected(categorySelected.filter( x => { return x !== value}));
-    
-  }*/
+
+  const handleSelectType = (value:any , option:any) => {
+    console.log(value);
+    const resul = categoriesFind.types.find( (x:any) => x.name === value );
+    setUserSelection({...userSelection, type: resul});
+  }
+
+  const handleRadioGroup = (e:any) => {
+    const { checked, value } = e.target;
+    checked? setUserSelection({...userSelection, category: value}):
+    setUserSelection({...userSelection, category: ''});
+    // dispatch(setCategory(categorySelected));
+  }
+
 
   return (
     <div className="accomodationsSelect_container">
@@ -84,15 +107,30 @@ export const AccomodationsSelect = ():JSX.Element => {
         </span>
       </div>
       <div className="accomodationsSelect_cards">
-       
-        {categoriesFind?.map((categ: any, i: number) => (
-          <div>
-            <AccomodationsCards categ={categ} booking={booking} key={i} />
-          </div>
-        ))}
+       <Radio.Group onChange={handleRadioGroup} value={userSelection.category}>
+          {categoriesFind.userCategories?.map((categ:categoryType, i:number) => (
+            <div>
+              <AccomodationsCards categ={categ} key={i} types={categoriesFind.types}/>
+              <span>
+                  <Select key='selectType'
+                      placeholder="Select Type"
+                      onChange={handleSelectType}
+                      className="accomodationsSelect_si"
+                  >
+                      {categoriesFind.types?.map((t:any, i:number) => {
+                          return (
+                            <Option key={i} value={t.name}>{t.name}</Option>
+                          )})
+                      }
+                  </Select>
+                  <Radio value={categ}></Radio>
+              </span>
+            </div>
+          ))}
+       </Radio.Group>
       </div>
       <Button onClick={handleClickBack}>Go back</Button>
-      <Button onClick={handleClickNext}>Next</Button>
+      <Button onClick={handleClickNext} disabled={!(userSelection.type && userSelection.category)}>Next</Button>
     </div>
   );
 };
