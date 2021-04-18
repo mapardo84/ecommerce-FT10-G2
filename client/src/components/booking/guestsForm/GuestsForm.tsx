@@ -4,9 +4,8 @@ import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useDispatch } from 'react-redux'
 import { Space, DatePicker } from 'antd';
-import { setBookData, stepChange, getAvailableCategories, getCategoriesForUser} from '../../../actions/Booking/bookingAction';
+import { setBookData, stepChange, getCategoriesForUser} from '../../../actions/Booking/bookingAction';
 import { Form, InputNumber, Button } from 'antd';
-import { getCategories } from '../../../actions';
 const { RangePicker } = DatePicker;
 const formItemLayout = {
   labelCol: {
@@ -39,6 +38,8 @@ export const GuestsForm = () => {
     const nights= (checkout-checkin)/(1000*60*60*24);
     setBooking({ ...booking, range: dates, nights });
   }
+
+  
   const handleClickRooms = async(e:any) => {
     e.preventDefault();
     dispatch(setBookData(booking));

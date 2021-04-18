@@ -2,14 +2,22 @@ import { Button, Layout, Image, Modal } from 'antd';
 import { useState } from 'react';
 import '../accomodationsSelect/AccomodationsCards.less'
 import { bookingType } from '../guestsForm/GuestsForm';
+import { Checkbox } from "antd";
+import { useDispatch} from "react-redux";
+import { setCategory } from '../../../actions/Booking/bookingAction';
 
 const { Sider, Content } = Layout;
 
 export const AccomodationsCards = ({ categ }:any, key:number, booking:bookingType ): JSX.Element => {
+    const dispatch = useDispatch()
     const [isModalVisible, setIsModalVisible] = useState(false);
     const showModal = () => { setIsModalVisible(true) };
     const handleOk = () => { setIsModalVisible(false) };
     const handleCancel = () => { setIsModalVisible(false) };
+    const handleCheck = (e:any) =>{
+        const { value } = e.target;
+        dispatch(setCategory(value))
+    }
     
     return (
         <div className='categoryContainer'>
@@ -35,9 +43,13 @@ export const AccomodationsCards = ({ categ }:any, key:number, booking:bookingTyp
                             <h6 className='categoryH3'>Rate: ${categ?.price} USD</h6>
                         </div>
                         <div className="AccButtons">
-                             <Button key='learn' style={{marginBottom:"10px",backgroundColor:"white"}} type="dashed" className="accomodationReserveButton" onClick={showModal}>
+                             <Button key='learn' style={{marginBottom:"10px",backgroundColor:"white", marginRight:"20px"}} type="primary" className="accomodationReserveButton" onClick={showModal}>
                                 Learn more..
                             </Button>
+                            <Checkbox.Group name={categ.name} disabled={false}>
+                                 <Checkbox   value={[categ.name,categ.id]} onChange={handleCheck}></Checkbox>
+                            </Checkbox.Group>
+                           
                             {/*<Button key='select' onClick={handleClickRooms} type="primary">
                                     Select
                                 </Button>*/}

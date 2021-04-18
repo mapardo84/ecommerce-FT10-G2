@@ -1,10 +1,9 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Select, Button, Checkbox } from "antd";
-import { initialStateProps } from "../../../reducers/categoriesReducer";
+import { Select, Button} from "antd";
 import { getCategories } from "../../../actions";
 import { AccomodationsCards } from "./AccomodationsCards";
-import { setBookData, stepChange, getAvailableCategories } from '../../../actions/Booking/bookingAction';
+import { setBookData, stepChange, finalFilterForRooms } from '../../../actions/Booking/bookingAction';
 import { bookingType } from '../guestsForm/GuestsForm';
 import "./AccomodationsSelect.less";
 const { Option } = Select;
@@ -36,17 +35,11 @@ const getCategoriesDB = async (value: number | undefined, dispatch: any) => {
 
 export const AccomodationsSelect = ():JSX.Element => {
   const dispatch = useDispatch();
-  const [ categorySelected, setCategorySelected ] = useState<string[]>([]);
+  const [ categorySelected ] = useState<string[]>([]);
   const booking:bookingType = useSelector( (state:any) => state.bookings.booking );
-  // const categoriesState = useSelector( (state: initialStateProps) => state.categories );
-  const availableBookings = useSelector((state:any)=> state.bookings.savedBookings)
   const categoriesFind = useSelector((state:any)=> state.bookings.categoriesToShow)
-
-  // useEffect(()=>{
-    // dispatch(getSomeBookings(rooms))
-    // dispatch(getAvailableCategories(rooms))
-  // },[dispatch,rooms])
-  
+  const categoryPax = useSelector((state:any) => state.bookings.category )
+  const freeRooms = useSelector((state:any) => state.bookings.freeRooms)
   const handleChange = (value: any) => {
     if (value === "0") getCategoriesDB(undefined, dispatch);
     else getCategoriesDB(value, dispatch);
@@ -62,13 +55,15 @@ export const AccomodationsSelect = ():JSX.Element => {
     booking.category = categorySelected;
     dispatch(setBookData(booking));
     dispatch(stepChange(2));
+    dispatch(finalFilterForRooms(categoryPax,freeRooms))
   }
  
-  const handleCheckBox = (e:any) => {
+  /*const handleCheckBox = (e:any) => {
     const { value, checked } = e.target;
     checked? setCategorySelected([...categorySelected, value]):
     setCategorySelected(categorySelected.filter( x => { return x !== value}));
-  }
+    
+  }*/
 
   return (
     <div className="accomodationsSelect_container">
@@ -90,14 +85,12 @@ export const AccomodationsSelect = ():JSX.Element => {
         </span>
       </div>
       <div className="accomodationsSelect_cards">
-        <Checkbox.Group>
+       
         {categoriesFind?.map((categ: any, i: number) => (
           <div>
             <AccomodationsCards categ={categ} booking={booking} key={i} />
-            <Checkbox key={i+7} value={categ.name} onChange={handleCheckBox}>{categ.name}</Checkbox>
           </div>
         ))}
-        </Checkbox.Group>
       </div>
       <Button onClick={handleClickBack}>Go back</Button>
       <Button onClick={handleClickNext}>Next</Button>
