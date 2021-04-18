@@ -7,7 +7,7 @@ export const BYLASTNAME:string="GET_BY_LASTNAME"
 
 export function getByPaxID(id: any){
     id = Number(id)
-    return async (dispatch:any)=>{
+    return async (dispatch:any) => {
         const relacional:any=await supabase
         .from("booking_pax")
         .select(`*, pax_id(*), booking_id(*)`)
