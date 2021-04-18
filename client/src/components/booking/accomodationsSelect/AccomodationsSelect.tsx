@@ -1,4 +1,3 @@
-import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Select, Button} from "antd";
 import { getCategories } from "../../../actions";
@@ -35,7 +34,7 @@ const getCategoriesDB = async (value: number | undefined, dispatch: any) => {
 
 export const AccomodationsSelect = ():JSX.Element => {
   const dispatch = useDispatch();
-  const [ categorySelected ] = useState<string[]>([]);
+  //const [ categorySelected, setCategorySelected ] = useState<string[]>([]);
   const booking:bookingType = useSelector( (state:any) => state.bookings.booking );
   const categoriesFind = useSelector((state:any)=> state.bookings.categoriesToShow)
   const categoryPax = useSelector((state:any) => state.bookings.category )
@@ -52,7 +51,7 @@ export const AccomodationsSelect = ():JSX.Element => {
 
   const handleClickNext = (e:any) => {
     e.preventDefault();
-    booking.category = categorySelected;
+    //booking.category = categorySelected;
     dispatch(setBookData(booking));
     dispatch(stepChange(2));
     dispatch(finalFilterForRooms(categoryPax,freeRooms))

@@ -161,7 +161,7 @@ export const finalFilterForRooms = (categoryPax:any, freeRooms:any)=>{
         console.log(categoryPax)
         console.log(freeRooms)
         console.log(roomsAvailable)
-        selectedCategoryRooms(roomsAvailable)
+        dispatch(selectedCategoryRooms(roomsAvailable))
     }
     
 }

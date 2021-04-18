@@ -10,7 +10,7 @@ const initialState = {
     },
     category: [],
     categoriesToShow: [],
-    roomsAvailableByCategory:[]
+    roomsAvailable:[]
 }
 
 export function bookingsReducer (state = initialState, action:bookAction) {
@@ -27,7 +27,7 @@ export function bookingsReducer (state = initialState, action:bookAction) {
         case SET_CATEGORY:
             return{...state, category: action.payload }  
         case SELECTED_CATEGORY_ROOMS:
-            return{...state, roomsAvailableByCategory: action.payload}  
+            return{...state, roomsAvailable: action.payload}  
         default: return state;
     }
 }
