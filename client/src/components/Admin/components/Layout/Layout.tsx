@@ -1,18 +1,12 @@
-import { Layout, Menu, Breadcrumb, Button } from 'antd';
-import {
-    DesktopOutlined,
-    PieChartOutlined,
-    FileOutlined
-} from '@ant-design/icons';
+import { Layout, Menu, Button } from 'antd';
 import { useState } from 'react';
-import { Link, NavLink } from 'react-router-dom';
+import { NavLink } from 'react-router-dom';
 
 
 
 export const LayoutAdmin = () => {
 
 const { Header, Content, Footer, Sider } = Layout;
-const [page, setPage] = useState("Rooms")
 
 const [collapsed, setCollapsed] = useState<boolean>(false)
 

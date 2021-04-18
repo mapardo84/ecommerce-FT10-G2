@@ -1,4 +1,4 @@
-import { Button, Table } from 'antd'
+import { Table } from 'antd'
 import React, { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { getAllRooms } from '../../../../actions/roomsActions'
@@ -87,17 +87,14 @@ const columns:any = [
 
 
 export const RoomsTable=()=>{
-  
-    const handleChange=(filters:any)=>{
-      
-    }
+
     const {roomsList} = useSelector((state:any) => state?.rooms)
     console.log(roomsList)
     const dispatch = useDispatch()
 
     useEffect(() => {
     getAllRooms().then(res=>dispatch(res))    
-}, [])
+}, [dispatch])
 
     
 

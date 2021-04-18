@@ -1,9 +1,8 @@
-import { Input,Form, Select, Button, Upload } from 'antd'
+import { Input,Form, Button, Upload } from 'antd'
 import React, { useState } from 'react'
 import { CategoryData } from '../../Helpers/addCategory'
 
 const {Item}=Form
-const {Option}=Select
 const {TextArea}=Input
 export const AddCategories=()=>{
     
@@ -43,7 +42,7 @@ export const AddCategories=()=>{
                 </Item>
                 <Item
                 name="capacity"
-                rules={[{ required: true, message: "Please, put the capacity of the rooms in this category !" }]}>
+                rules={[{ required: true, message: "Please, put the capacity of the rooms in this category !" }]}>{img}
                     <Input placeholder="Capacity"></Input>
                 </Item>
                 <Item

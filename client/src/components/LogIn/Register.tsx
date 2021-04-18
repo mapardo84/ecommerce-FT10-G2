@@ -3,7 +3,7 @@ import { Form, Input, Button } from 'antd';
 import { sendRegister } from '../../helpers/register'
 import './Register.less'
 
-export interface Register {
+export interface Registro {
     email: string
     first_name: string
     last_name: string
@@ -13,7 +13,7 @@ export interface Register {
 
 export const Register = () => {
 
-    const onFinish = (values: Register) => {
+    const onFinish = (values: Registro) => {
         sendRegister(values)
         console.log(values)
     };
