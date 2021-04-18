@@ -5,41 +5,29 @@ export const BYBOOKINGID:string="GET_BY_BOOKINGID"
 export const BYFIRSTNAME:string="GET_BY_FIRSTNAME"
 export const BYLASTNAME:string="GET_BY_LASTNAME"
 
-<<<<<<< HEAD
-export function getBooking_Pax(id?:any){
-=======
 export function getByPaxID(id: any){
-    id = Number(id)
->>>>>>> malena
+    id=Number(id)
     return async (dispatch:any)=>{
-        if(id){const relacional:any=await supabase
-        .from("bookings")
-        .select(`*`)
-        dispatch(get_bookingPax(relacional.data))
-    }else{
         const relacional:any=await supabase
         .from("booking_pax")
-<<<<<<< HEAD
-        .select(`*,booking_id(*),pax_id(*))`)
-=======
-        .select(`*, pax_id(*), booking_id(*)`)
+        .select(`*, pax_id(*), booking_id(*,room_id(*))`)
         .eq(`pax_id`, `${id}`)
-        console.log(relacional)
->>>>>>> malena
         dispatch(get_bookingPax(relacional.data))
     }
-    }
+
 }
+
 export function getByBookingID(id: any){
-    id = Number(id)
+    id=Number(id)
     return async (dispatch:any)=>{
         const relacional:any=await supabase
         .from("booking_pax")
-        .select(`*, booking_id(*), pax_id(*)`)
+        .select(`*, booking_id(*,room_id(*)), pax_id(*)`)
         .eq('booking_id', `${id}`)
         console.log(relacional)
         dispatch(get_bookingID(relacional.data))
     }
+    
 }
 
 const get_bookingPax=(payload:any)=>{
@@ -59,24 +47,40 @@ const get_bookingID=(payload:any)=>{
 
 export function getFirstName(firstname: string) {
     return async (dispatch:any)=>{
-        const relacional:any=await supabase
+        const pax:any=await supabase
         .from("paxes")
         .select(`*`)
-        .ilike('first_name', `%${firstname}%`)
-        console.log(relacional)
-        dispatch(getByFirstName(relacional.data))
-    }
+        .ilike('first_name', `%${firstname}%`) 
+        const bookForName=pax.data.map((e:any)=>{
+            return supabase
+            .from("booking_pax")
+            .select('*,booking_id(*,room_id(*)), pax_id(*)')
+            .eq('pax_id',`${e.id}`)
+            })
+
+            const concatenadosporH:any[]=[]
+            Promise.all(bookForName).then(res=>res.forEach((e:any)=>concatenadosporH.push(e.data)))
+            .then(()=>dispatch(getByFirstName(concatenadosporH.flat())))
+                }
 }
+
 
 export function getLastName(lastname: string) {
     return async (dispatch:any)=>{
-        const relacional:any=await supabase
+        const pax:any=await supabase
         .from("paxes")
         .select(`*`)
         .ilike('last_name', `%${lastname}%`)
-        console.log(relacional)
-        dispatch(getByLastName(relacional.data))
-    }
+        const bookForLastName=pax.data.map((e:any)=>{
+            return supabase
+            .from("booking_pax")
+            .select('*,booking_id(*,room_id(*)), pax_id(*)')
+            .eq('pax_id',`${e.id}`)
+            })
+            const concatenadosporH:any[]=[]
+            Promise.all(bookForLastName).then(res=>res.forEach((e:any)=>concatenadosporH.push(e.data)))
+            .then(()=>dispatch(getByLastName(concatenadosporH.flat())))
+                }
 }
 
 const getByFirstName = (payload: any) => {
