@@ -1,5 +1,5 @@
 const { Router } = require('express');
-const { getPreferenceId, getIPN } = require('./controller/mercadopago.js');
+const { getPreferenceId } = require('./controller/mercadopago.js');
 // import all routers;
 
 
@@ -9,6 +9,5 @@ const router = Router();
 // i.e: router.use('/auth', authRouter);
 // router.use('/auth', authRouter);
 router.get('/', getPreferenceId);
-router.post('/ipn',getIPN)
 
 module.exports = router;

@@ -19,11 +19,12 @@ export const SearchBooking = () => {
 
 
     useEffect(() => {
-        if(search.length>0){
-        dispatch(getByBookingID(search))
+        
         dispatch(getByPaxID(search))
+        dispatch(getByBookingID(search))
         dispatch(getFirstName(search))
-        dispatch(getLastName(search))}
+        dispatch(getLastName(search))
+    
     }, [search])
 
     const onChange = (value: any) => {
@@ -52,9 +53,9 @@ export const SearchBooking = () => {
     });
 
     const mapeoByPaxID = (array:any[]) => {
-        return array?array.map(x =>renderItem(x.pax_id?.id)):[]
+        return array?array.map(x => renderItem(x.pax_id?.id)):[]
     }
-    const mapeoByBookingId = (array:any[]) => {
+    const mapeoByBookingId = (array:any[]) => {        
         return array?array.map(x =>renderItem(x.booking_id?.id)):[]
         
     }
@@ -68,11 +69,11 @@ export const SearchBooking = () => {
     const options = [
         {
             label: renderTitle('By Pax'),
-            options: mapeoByPaxID(bookingStore?.bypaxID),
+            options: mapeoByPaxID(bookingStore?.bypaxID)?mapeoByPaxID(bookingStore?.bypaxID):[],
         },
         {
             label: renderTitle('By Booking'),
-            options: mapeoByBookingId(bookingStore?.bybookingID),
+            options: mapeoByBookingId(bookingStore?.bybookingID)?mapeoByBookingId(bookingStore?.bybookingID):[],
         },
         {
             label: renderTitle('By First Name'),

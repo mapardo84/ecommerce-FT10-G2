@@ -14,7 +14,7 @@ import { RoomsLayout } from "../components/Admin/components/Layout/RoomsLayout/R
 import { LayoutAdmin } from "../components/Admin/components/Layout/Layout";
 import { PruebaAuth } from "../components/PruebaAuth";
 import { SearchBooking } from "../components/Admin/SearchBar/SearchBar";
-
+import { Complete } from "../components/Admin/SearchBar/Asd";
 //ACA VAN TODAS LAS RUTAS
 
 export const AppRouter = () => {
@@ -40,6 +40,9 @@ export const AppRouter = () => {
             path="/home/accomodations"
             component={AccomodationLayout}
           />
+          <Route
+          exact path="/asd"
+          component={Complete}/>
           <Redirect to="/" />
         </Switch>
       </div>

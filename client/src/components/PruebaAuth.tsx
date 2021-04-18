@@ -11,7 +11,7 @@ export const PruebaAuth = () => {
         axios.get('http://localhost:4000/mercadopago?quantity=3&unit_price=200&title=dalequeva')
         .then((res)=>{
           setPreferenceId(res.data.preferenceId)
-        })
+        }).catch(e=>console.log("hola"))
 
     },[])
 
