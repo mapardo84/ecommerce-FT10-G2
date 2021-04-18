@@ -1,3 +1,4 @@
+import { type } from 'node:os'
 import {supabase} from '../../SupaBase/conection'
 
 export const BYPAXID:string="GET_BY_PAXID"
@@ -5,20 +6,21 @@ export const BYBOOKINGID:string="GET_BY_BOOKINGID"
 export const BYFIRSTNAME:string="GET_BY_FIRSTNAME"
 export const BYLASTNAME:string="GET_BY_LASTNAME"
 
-export function getByPaxID(id: any){
-    id=Number(id)
-    return async (dispatch:any)=>{
-        const relacional:any=await supabase
-        .from("booking_pax")
-        .select(`*, pax_id(*), booking_id(*,room_id(*))`)
-        .eq(`pax_id`, `${id}`)
-        dispatch(get_bookingPax(relacional.data))
+export function getByPaxID(data: any){
+    let id=Number(data)
+    if(typeof id==="number"){
+        return async (dispatch:any)=>{
+            const relacional:any=await supabase
+            .from("booking_pax")
+            .select(`*, pax_id(*), booking_id(*,room_id(*))`)
+            .eq(`pax_id`, `${id}`)
+            dispatch(get_bookingPax(relacional.data))
+        }
     }
-
 }
 
-export function getByBookingID(id: any){
-    id=Number(id)
+export function getByBookingID(data: any){
+    let id=Number(data)
     return async (dispatch:any)=>{
         const relacional:any=await supabase
         .from("booking_pax")

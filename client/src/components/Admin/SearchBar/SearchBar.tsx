@@ -19,10 +19,11 @@ export const SearchBooking = () => {
 
 
     useEffect(() => {
+        if(search.length>0){
         dispatch(getByBookingID(search))
         dispatch(getByPaxID(search))
         dispatch(getFirstName(search))
-        dispatch(getLastName(search))
+        dispatch(getLastName(search))}
     }, [search])
 
     const onChange = (value: any) => {
@@ -31,33 +32,21 @@ export const SearchBooking = () => {
     }
 
     const renderTitle = (title:string) => (
-        <span>
+        <span key={title}>
             {title}
-            <a
-                style={{
-                    float: 'right',
-                }}
-                href="https://www.google.com/search?q=antd"
-                target="_blank"
-                rel="noopener noreferrer"
-            >
-                more
-          </a>
         </span>
     );
 
     const renderItem = (title:any) => ({
         value: title,
         label: (
-            <div
+            <div key={title}
                 style={{
                     display: 'flex',
                     justifyContent: 'space-between',
                 }}
             >
                 {title}
-                <span>
-                </span>
             </div>
         ),
     });
