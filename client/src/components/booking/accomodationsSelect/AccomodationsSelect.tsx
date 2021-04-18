@@ -2,7 +2,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { Select, Button, Radio } from "antd";
 import { getCategories } from "../../../actions";
 import { AccomodationsCards } from "./AccomodationsCards";
-import { roomSelected, setBookData, stepChange } from '../../../actions/Booking/bookingAction';
+import { setBookData, stepChange } from '../../../actions/Booking/bookingAction';
 import { bookingType } from '../guestsForm/GuestsForm';
 import "./AccomodationsSelect.less";
 import { useEffect, useState } from "react";
@@ -37,7 +37,7 @@ export const AccomodationsSelect = ():JSX.Element => {
   const dispatch = useDispatch();
   const [ userSelection, setUserSelection ] = useState<any>({
     category: '',
-    type: ''
+    type: {beds:1}
   });
   const booking:bookingType = useSelector( (state:any) => state.bookings.booking );
   const categoriesFind = useSelector((state:any)=> state.bookings.categoriesToShow);
@@ -46,7 +46,7 @@ export const AccomodationsSelect = ():JSX.Element => {
   
   useEffect(() => {
 
-  }, [])
+  }, [userSelection])
   
   const handleChange = (value: any) => {
     if (value === "0") getCategoriesDB(undefined, dispatch);
@@ -110,7 +110,8 @@ export const AccomodationsSelect = ():JSX.Element => {
        <Radio.Group onChange={handleRadioGroup} value={userSelection.category}>
           {categoriesFind.userCategories?.map((categ:categoryType, i:number) => (
             <div>
-              <AccomodationsCards categ={categ} key={i} types={categoriesFind.types}/>
+              {console.log(userSelection.type.beds)}
+              <AccomodationsCards beds={userSelection?.type.beds} categ={categ} key={i} types={categoriesFind.types}/>
               <span>
                   <Select key='selectType'
                       placeholder="Select Type"

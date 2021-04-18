@@ -1,21 +1,20 @@
 import { Button, Layout, Image, Modal } from 'antd';
 import { useState, useEffect } from 'react';
 import '../accomodationsSelect/AccomodationsCards.less'
-import { bookingType } from '../guestsForm/GuestsForm';
-import { Checkbox, Select } from "antd";
-import { useDispatch} from "react-redux";
-import { convertToObject } from 'typescript';
 
 const { Sider, Content } = Layout;
 
-export const AccomodationsCards = ({ categ }:any, key:number, types:any ): JSX.Element => {
-    const dispatch = useDispatch()
+export const AccomodationsCards = (props:any): JSX.Element => {
     const [ isModalVisible, setIsModalVisible ] = useState(false);
     const showModal = () => { setIsModalVisible(true) };
     const handleOk = () => { setIsModalVisible(false) };
     const handleCancel = () => { setIsModalVisible(false) };
-   
+   const { categ, key, types,beds} = props
+    useEffect(() => {
+       
+    }, [])
     return (
+        
         <div className='categoryContainer'>
             <Layout className='categoryLayout'>
                 <Content className='categoryContent'>
@@ -37,13 +36,15 @@ export const AccomodationsCards = ({ categ }:any, key:number, types:any ): JSX.E
                     <div key={2} className='categoryButtons'>
                         <div>
                             <h6 className='categoryH3'>Rate: ${categ?.price} USD</h6>
+                            {console.log(beds)}
+                            {beds? <span className="price">Total Fee: ${beds*categ.price} USD</span>: <span></span>}
                         </div>
                         <div className="AccButtons">
                              <Button key='learn' style={{marginBottom:"10px",backgroundColor:"white", marginRight:"20px"}} type="primary" className="accomodationReserveButton" onClick={showModal}>
                                 Learn more..
                             </Button>
                         </div>
-                        <Modal title="Amenities" visible={isModalVisible} onOk={handleOk} onCancel={handleCancel} footer={null}>
+                        <Modal title="Amenities" key={key} visible={isModalVisible} onOk={handleOk} onCancel={handleCancel} footer={null}>
                             <div>
                                 <section>
                                     {categ?.details?.map( (detail:string, i:number) => {
