@@ -68,6 +68,7 @@ export const getCategoriesForUser = (userBooking:bookingType) => {
         .from("types")
         .select("*")
         .gte("capacity",guests);
+        console.log(types);
         
         //Traer los Rooms que pertencen a los types recibidos en el paso anterior
         const rooms:any = [];
@@ -110,21 +111,19 @@ export const getCategoriesForUser = (userBooking:bookingType) => {
             }
         }
 
-         //Seleccionar categorias correspondientes a los rooms libres
-         let result:any=[]
-         //let categoriesFiltered:any = []
-         for(let i = 0; i < freeRooms.length; i++){
-             if(!result.some( (x:categoryType) => x.id === freeRooms[i].category_id )){
-                 let { data: categories } = await supabase
-                 .from('categories')
-                 .select('*')
-                 .eq("id",freeRooms[i].category_id);
-                 result.push(categories?.pop()); 
-                 //categoriesFiltered.push(freeRooms[i].category_id);
-             }
-         }
-        dispatch(categoriesToShow(result));
-        dispatch(freeRoomsToShow(freeRooms))
+        //Seleccionar categorias correspondientes a los rooms libres
+        let result:any=[]
+        for(let i = 0; i < freeRooms.length; i++){
+            if(!result.some( (x:categoryType) => x.id === freeRooms[i].category_id )){
+                let { data: categories } = await supabase
+                .from('categories')
+                .select('*')
+                .eq("id",freeRooms[i].category_id);
+                result.push(categories?.pop());
+            }
+        }
+        dispatch(categoriesToShow({ userCategories: result, types: types }));
+        dispatch(freeRoomsToShow(freeRooms));
     }
 // user                     checkin                   checkout
 // room      ckin   ckout
@@ -134,7 +133,7 @@ export const getCategoriesForUser = (userBooking:bookingType) => {
 // room                                                 ckin            ckout
 }
 
-const categoriesToShow = (payload:categoryType[])=>{
+const categoriesToShow = (payload:any)=>{
     return{
         type: CATEGORIES_TO_SHOW,
         payload
@@ -148,7 +147,6 @@ const freeRoomsToShow = (payload:any) =>{
     }
 } 
 
-
 export const finalFilterForRooms = (categoryPax:any, freeRooms:any)=>{
     return  ( dispatch:any ) =>{
         let roomsAvailable= []
@@ -158,17 +156,10 @@ export const finalFilterForRooms = (categoryPax:any, freeRooms:any)=>{
             }
 
         }
-        console.log(categoryPax)
-        console.log(freeRooms)
-        console.log(roomsAvailable)
         dispatch(selectedCategoryRooms(roomsAvailable))
     }
-    
 }
     
-    
-
-
 const selectedCategoryRooms = (payload:any) =>{
     return{
         type: SELECTED_CATEGORY_ROOMS,
