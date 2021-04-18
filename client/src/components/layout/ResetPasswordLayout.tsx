@@ -122,9 +122,6 @@ export const ResetPasswordLayout = (): JSX.Element => {
                                 sitekey="6LcZXqsaAAAAAN4pWJ2LNrXd68tnxzwHvPclIjex"
                                 onChange={onChange} />
                         </div>
-                        <Divider className="dividerRegister"></Divider>
-
-
                     </div>
                 </Content>
                 <FooterLayout />

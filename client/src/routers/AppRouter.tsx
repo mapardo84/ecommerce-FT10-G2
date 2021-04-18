@@ -8,7 +8,6 @@ import { HomeLayout } from "../components/layout/HomeLayout";
 import { LandingPage } from "../components/Landing Page/LandingPage";
 import { Register } from "../components/LogIn/Register";
 import { LogIn } from "../components/LogIn/LogIn";
-import { Rodrigo } from "../components/LogIn/Rodrigo";
 import { FaqLayout } from "../components/layout/FaqLayout";
 import { BookingLayout } from "../components/layout/BookingLayout";
 import { RoomsLayout } from "../Admin/components/Layout/RoomsLayout/RoomsLayout";
@@ -27,7 +26,6 @@ export const AppRouter = () => {
           <Route exact path="/home" component={HomeLayout} />
           <Route exact path="/form" component={Register} />
           <Route exact path="/logIn" component={LogIn} />
-          <Route exact path="/rodrigo" component={Rodrigo} />
           <Route exact path="/booking" component={BookingLayout} />
           <Route exact path="/faq" component={FaqLayout} />
           <Route path="/admin/rooms" component={RoomsLayout} />

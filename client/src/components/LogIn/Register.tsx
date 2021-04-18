@@ -1,4 +1,5 @@
 import { Form, Input, Button, Divider } from "antd";
+import { useHistory } from "react-router";
 import { sendRegister } from "../../helpers/register";
 import "./Register.less";
 
@@ -11,16 +12,22 @@ export interface IRegister {
 }
 
 export const Register = (): JSX.Element => {
-  const onFinish = (values: IRegister) => {
-    sendRegister(values);
-    console.log(values);
+
+  const history = useHistory();
+
+  const onFinish = async (values: IRegister) => {
+    var status = await sendRegister(values);
+    console.log("Status: " + status)
+    status && setTimeout(() => {
+      history.push("/");
+    }, 2000);
   };
 
   return (
     <div className="register_Container">
       <h1 className="titleRgister">Sign Up</h1>
       <Form name="basic" initialValues={{ remember: true }} onFinish={onFinish} layout="vertical">
-      <Divider orientation="center" className="dividerRegister">Personal information</Divider>
+        <Divider orientation="center" className="dividerRegister">Personal information</Divider>
 
         <Form.Item
           name="firstName"
@@ -101,7 +108,7 @@ export const Register = (): JSX.Element => {
           <Input.Password placeholder="Repeat Password"></Input.Password>
         </Form.Item>
         <p className="footerRegister">By clicking Sign Up, you agree to our Terms and Data Policy</p>
-        <Button className="buttonLogin1" style={{marginBottom:"7px"}} type="primary" htmlType="submit" >
+        <Button className="buttonLogin1" style={{ marginBottom: "7px" }} type="primary" htmlType="submit" >
           Sign Up
         </Button>
       </Form>

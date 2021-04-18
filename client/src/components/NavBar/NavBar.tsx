@@ -1,73 +1,53 @@
-import { Layout, Menu, Row, Col, Button, Modal, Dropdown, message, Divider } from "antd";
-import { DownOutlined, UserOutlined, ImportOutlined, UnorderedListOutlined, CalendarOutlined } from '@ant-design/icons';
+import { Layout, Menu, Row, Col, Button, Modal, Divider, Dropdown } from "antd";
+import { DownOutlined, UserOutlined, ImportOutlined, HeartOutlined, CalendarOutlined } from '@ant-design/icons';
 import LogIn from "../LogIn/LogIn";
 import { useState } from "react";
-import { NavLink } from "react-router-dom";
+import { NavLink, useHistory } from "react-router-dom";
 import "./NavBar.less";
 import hotel from "./hotel.png"
 import { Register } from "../LogIn/Register";
 import { supabase } from '../../SupaBase/conection'
 import { logOut } from "../../helpers/logOut";
-import { useHistory } from "react-router-dom";
-
 
 const { Header } = Layout;
 
-
 export const NavBar = () => {
 
-  var [name, setName] = useState("empty")
   const history = useHistory();
 
-  //log out
-  const logOutSession = () => {
-    logOut()
-     history.push("/");
-  }
-  
-
-
   //Valida si el usuario esta logueado
-  const authValidation = async () => {
+  const authValidation = () => {
     const user: any = supabase.auth.user()
     if (user?.aud === "authenticated") {
-
-      const email = user.email
-
-      var { data, error } = await supabase
-        .from('users')
-        .select('first_name')
-        .eq('email', email)
-
-      setName(data && data[0]?.first_name)
-      console.log(name)
-
-    } else {
-      return false
+      return true
     }
   }
 
-  authValidation()
-
+  const logOutSession = () => {
+    var status = logOut()
+    status && setTimeout(() => {
+      history.push("/");
+    }, 1000);
+  }
 
   const menu = (
     <Menu className="dropMenuNav">
-      <Menu.Item key="1" icon={<UserOutlined />}>
-        Account
+      <Menu.Item key="1" icon={<HeartOutlined />}>
+        Wish List
       </Menu.Item>
-      <Menu.Item key="2" icon={<CalendarOutlined />}>
+      <Menu.Item key="1" icon={<CalendarOutlined />}>
         Reservations
       </Menu.Item>
       <Divider className="dividerNav"></Divider>
-      <Menu.Item key="3" onClick={() => logOutSession() } icon={<ImportOutlined />}>
+      <Menu.Item key="2" onClick={() => logOutSession()} icon={<ImportOutlined />}>
         Log Out
       </Menu.Item>
     </Menu>
   );
 
+
   const [visible, setVisible] = useState<boolean>(false);
   const [regOrLog, setRegOrLog] = useState<string>("logIn")
-
   return (
     <>
       <Header className="headd">
@@ -95,17 +75,17 @@ export const NavBar = () => {
                   </NavLink>
                   <div className="navLoginButton">
                     {
-                      name !== "empty" ?
-
-                        <Dropdown.Button
-                          type="primary"
+                      authValidation() ?
+                        <Dropdown
                           className="DropNavButton"
                           overlay={menu}
-                          placement="bottomCenter"
-                          icon={<DownOutlined style={{ fontSize: "14px", marginTop: "6px" }} />}>
-                          <UserOutlined />
-                          {name}
-                        </Dropdown.Button>
+                          trigger={['click']}
+                          placement="bottomCenter">
+                          <Button className="btn-nav" type="primary">
+                            <UserOutlined />Account <DownOutlined />
+                          </Button>
+                        </Dropdown>
+
                         :
                         <Button
                           onClick={() => setVisible(true)}
@@ -113,7 +93,6 @@ export const NavBar = () => {
                           type="text">
                           Log In
                          </Button>
-
                     }
                   </div>
                   <NavLink to="/booking">

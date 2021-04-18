@@ -2,13 +2,7 @@ import { supabase } from '../SupaBase/conection'
 import { message } from 'antd'
 
 export const success = () => {
-    message.success({
-        content: "Log-In success",
-        className: "custom-class",
-        style: {
-            marginTop: "20vh",
-        },
-    });
+    message.success("Log-In success");
 };
 
 const errorMsg = () => {
@@ -26,7 +20,7 @@ export const loginWith = async (provider: any) => {
             redirectTo: 'http://localhost:3000/home'
         })
         if (!error) {
-            success()
+            // success()
 
         } else {
             errorMsg()
@@ -37,15 +31,13 @@ export const loginWith = async (provider: any) => {
 //user login with email provider
 export const classicLogIn = async (email: string, password: string) => {
     try {
-        const { user, error } = await supabase.auth.signIn({
+        const {error } = await supabase.auth.signIn({
             email,
             password
         }, {
             redirectTo: 'http://localhost:3000/home'
         })
         if (!error) {
-            console.log(user)
-            success()
             return true
 
         } else {
@@ -76,24 +68,28 @@ export const getUserData = async () => {
 //get current session
 export const getSession = async (session: any) => {
 
-    const { data } = await supabase
-        .from('users')
-        .select('email')
-        .eq('email', session.user?.email)
+    console.log(session)
+    if (session !== null) {
 
-    //user register if data is empty
-    if (data?.length === 0) {
-        if (session.user) { var name = (session.user.user_metadata.full_name)?.split(" ") }
-        await supabase.from("users").insert([
-            {
-                uuid: session.user?.id,
-                email: session.user?.email,
-                first_name: name[0],
-                last_name: name[1]
-            },
-        ]);
-        console.log("USUARIO NUEVO REGISTRADO")
-    } else {
-        console.log("USUARIO YA EXISTE")
+        const { data } = await supabase
+            .from('users')
+            .select('email')
+            .eq('email', session.user?.email)
+
+        //user register if data is empty
+        if (data?.length === 0) {
+            if (session.user) { var name = (session.user.user_metadata.full_name)?.split(" ") }
+            await supabase.from("users").insert([
+                {
+                    uuid: session.user?.id,
+                    email: session.user?.email,
+                    first_name: name[0],
+                    last_name: name[1]
+                },
+            ]);
+            console.log("USUARIO NUEVO REGISTRADO")
+        } else {
+            console.log("USUARIO YA EXISTE")
+        }
     }
 }

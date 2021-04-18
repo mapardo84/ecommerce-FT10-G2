@@ -3,18 +3,28 @@
 
 .container {
   position: relative;
+  overflow-x: hidden;
 }
 .welcomeBox {
-  background-color: #5296a5;
-  font-size: 30px;
-  color: white;
+  background-color: #ffffffe0;
+  border-radius: 2px;
+  font-size: 27px;
+  color: #000000;
   position: absolute;
   top: 130px;
-  // left: 20PX;
   right: 10px;
-  z-index: 1;
+  z-index: 1; 
   width: auto;
-}
+  padding-left: 10px;
+  padding-right: 10px;
+  animation-name: example;
+  animation-duration: 0.8s ;
+  }
+  @keyframes example {
+    0%   {right:-250px; top:130px;}
+    100% {right:10px; top:130px;}
+  }
+
 .text {
   width: 100%;
   display: flex;
