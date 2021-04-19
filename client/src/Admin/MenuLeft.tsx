@@ -2,12 +2,17 @@ import { Menu } from "antd";
 import {
     PieChartOutlined,
 } from "@ant-design/icons";
-import hotelImg from './hotel.png'
+//import hotelImg from './hotel.png'
 import { useDispatch, useSelector } from 'react-redux';
 import { initialStateProps } from '../reducers/adminReducer';
-import { changePage, sidebarChange } from "./actions/adminUi";
+import { changePage, loginUser, sidebarChange } from "./actions/adminUi";
 import { Layout } from "antd";
-import { NavLink } from "react-router-dom";
+import { NavLink, useHistory } from "react-router-dom";
+import { FaHotel, FaDoorClosed, FaUserAlt } from "react-icons/fa";
+import { IoIosBed } from "react-icons/io";
+import { GiBedLamp } from "react-icons/gi";
+import './panel.less';
+import { useEffect } from 'react';
 
 // type MenuProps = {
 //     page: string,
@@ -33,10 +38,19 @@ import { NavLink } from "react-router-dom";
 //////////////////////////////////////////////////////////////
 
 
-const paginas = ['Inicio', 'Rooms']
+const paginas = ['Inicio', 'Rooms', 'Categories', 'Types', 'Users']
 
 export const MenuLeft = () => {
     const dispatch = useDispatch()
+    const history = useHistory()
+    useEffect(() => {
+        loginUser()
+            .then(r => {
+                if (!r) {
+                    history.push('/')
+                }
+            })
+    }, [history])
 
     const { sidebarColapsed, page } = useSelector((state: initialStateProps) => state.adminui)
 
@@ -50,6 +64,8 @@ export const MenuLeft = () => {
 
     const { Sider } = Layout;
 
+
+
     return (
         <>
             <Sider collapsible collapsed={sidebarColapsed} onCollapse={onCollapse}>
@@ -58,20 +74,36 @@ export const MenuLeft = () => {
                     defaultSelectedKeys={[page]}
                     mode="vertical-left"
                 >
-                    <div style={{ height: '60px' }}>
-                        <img
+                    <div style={{ height: '60px' }} className="panel_name">
+                        <div >
+                            <FaHotel size="40" />
+
+                            {/* <img
                             src={hotelImg}
                             style={{ height: "55px", marginLeft: '10px' }}
-                            alt="Hotel logo" />
-                        {
-                            !sidebarColapsed && 'Hotel Admin'
-                        }
+                            alt="Hotel logo" /> */}
+                        </div>
+                        <div>
+                            {
+                                !sidebarColapsed && 'Hotel Admin'
+                            }
+
+                        </div>
                     </div>
                     <Menu.Item key={paginas[0]} icon={<PieChartOutlined />} onClick={() => setPage(paginas[0])}>
                         <NavLink to="/admin">{paginas[0]}</NavLink>
                     </Menu.Item>
-                    <Menu.Item key={paginas[1]} icon={<PieChartOutlined />} onClick={() => setPage(paginas[1])}>
+                    <Menu.Item key={paginas[1]} icon={<FaDoorClosed />} onClick={() => setPage(paginas[1])}>
                         <NavLink to="/admin/rooms">{paginas[1]}</NavLink>
+                    </Menu.Item>
+                    <Menu.Item key={paginas[2]} icon={<GiBedLamp />} onClick={() => setPage(paginas[2])}>
+                        <NavLink to="/admin/categories">{paginas[2]}</NavLink>
+                    </Menu.Item>
+                    <Menu.Item key={paginas[3]} icon={<IoIosBed />} onClick={() => setPage(paginas[3])}>
+                        <NavLink to="/admin/types">{paginas[3]}</NavLink>
+                    </Menu.Item>
+                    <Menu.Item key={paginas[4]} icon={<FaUserAlt />} onClick={() => setPage(paginas[4])}>
+                        <NavLink to="/admin/users">{paginas[4]}</NavLink>
                     </Menu.Item>
 
 

@@ -4,6 +4,8 @@ import { categoriesReducer } from "./categoriesReducer";
 import { loginReducer } from "./loginReducer";
 import { roomsReducer } from "./roomsReducer";
 import { bookingsReducer } from "./bookingsReducer";
+import { typesReducer } from './typesReducer';
+import { usersReducer } from './usersReducer';
 
 //ACA SE AGREGA CADA REDUCER QUE UTILICEN
 export const rootReducer = combineReducers({
@@ -12,5 +14,7 @@ export const rootReducer = combineReducers({
   login: loginReducer,
   rooms: roomsReducer,
   adminui: adminReducer,
-  bookings: bookingsReducer
+  bookings: bookingsReducer,
+  types: typesReducer,
+  users: usersReducer
 });
