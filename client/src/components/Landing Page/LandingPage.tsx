@@ -4,6 +4,7 @@ import LogIn from "../LogIn/LogIn";
 import { useLocation } from "react-router-dom";
 import { useHistory } from "react-router-dom";
 import { supabase } from "../../SupaBase/conection";
+import {NavLink} from 'react-router-dom'
 
 
 const { Title, Text } = Typography;
@@ -31,8 +32,10 @@ export const LandingPage = () => {
                         <Text className='landingText' >
                             A luxurious hotel, open the door to a whole new world. Feel the difference and prepare for a beautiful traveling experience.
                         </Text><br />
-
-                        <Button onClick={async ()=> await supabase.auth.signOut()} className='lanButton' type="primary" href="/home" size="large">Continue as guest</Button>
+                        <NavLink to="/home">
+                            <Button className='lanButton' type="primary" size="large">Continue as guest</Button>
+                        </NavLink>
+                        
                     </div>
                 </Col>
 
