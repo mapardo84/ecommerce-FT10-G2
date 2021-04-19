@@ -16,12 +16,12 @@ async function getPreferenceId(req,res){
     let {unit_price,quantity,title}=req.query
     unit_price=Number(unit_price)
     quantity=Number(quantity)
-    console.log(req.query.form)
+    // console.log(req.query.form)
     // { userId: req.userId, productId: req.body.productId }
 
     mercadopago.preferences.create({
-        external_reference:"4",
-        notification_url:'http://localhost:4000/mercadopago/ipn',
+        // external_reference:"4",
+        // notification_url:'http://localhost:4000/mercadopago/ipn',
         items:[{
                 title,
                 unit_price,
@@ -29,50 +29,51 @@ async function getPreferenceId(req,res){
                 currency_id:'USD'
         }]
     }).then(preference=> {
+        console.log(preference)
         return res.json({preferenceId:preference.body.id})
     }).catch(e=>console.log(e))
 }
 
-async function postPax(req,res){
-    const { uuid, first_name, last_name, phone, country, birth_date, address } = req.body;
-    const { data } = await supabase.from('paxes').insert([
-        {
-            uuid,
-            first_name,
-            last_name,
-            phone,
-            country: country[0],
-            birth_date: birth_date,
-            address,
-            titular: true,                              // esto no sirve si es admin 
-        }
-    ])  
-    res.json(data)
-}
+// async function postPax(req,res){
+//     const { uuid, first_name, last_name, phone, country, birth_date, address } = req.body;
+//     const { data } = await supabase.from('paxes').insert([
+//         {
+//             uuid,
+//             first_name,
+//             last_name,
+//             phone,
+//             country: country[0],
+//             birth_date: birth_date,
+//             address,
+//             titular: true,                              // esto no sirve si es admin 
+//         }
+//     ])  
+//     res.json(data)
+// }
 
-async function postBooking(req,res){
-    const {checkin,checkout,room_id}=req.body
-    const { data } = await supabase.from('paxes').insert([
-        {
-            checkin,
-            checkout,
-            room_id
-        }
-    ])
-    res.json(data)
-}
+// async function postBooking(req,res){
+//     const {checkin,checkout,room_id}=req.body
+//     const { data } = await supabase.from('paxes').insert([
+//         {
+//             checkin,
+//             checkout,
+//             room_id
+//         }
+//     ])
+//     res.json(data)
+// }
 
 
-async function getIPN(req,res){
-    const {type}=req.params
-    if(type==="payment"){
-        const paymentId=req.params.data.id
-        console.log(paymentId)
-    }
-    res.status(200)
+// async function getIPN(req,res){
+//     const {type}=req.params
+//     if(type==="payment"){
+//         const paymentId=req.params.data.id
+//         console.log(paymentId)
+//     }
+//     res.status(200)
     
-}
+// }
 
 
 
-module.exports={getPreferenceId,getIPN,postPax,postBooking}
+module.exports={getPreferenceId}

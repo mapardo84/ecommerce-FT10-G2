@@ -11,25 +11,15 @@ export const MercadoPago = (props:any) => {
     const [preferenceId, setPreferenceId] = useState<any>(null)
 
     const bookings = useSelector((state:any) => state?.bookings)
-    const {category,booking,form}=bookings
-    const createBooking={
-      checkin:booking.range[0],
-      checkout:booking.range[1],
-      room_id:2
-    }
+    const {booking}=bookings
 
-    const precio=async()=>{
-      const hola:any=supabase.from("categories").select('*').eq("id",`${category[1]}`).then((res:any)=>res.data[0].price)
-      return hola
-    }
     
     useEffect(() => {
-        axios.post('http://localhost:4000/mercadopago/postPax',form).then(()=>axios.post('http://localhost:4000/mercadopago/postBooking',createBooking)).then(()=>precio().then(res=>axios.get(`http://localhost:4000/mercadopago?quantity=${booking.nights}&unit_price=${res}&title=${category[0]}&form=${form}&order=`))
-        .then((res)=>{
-          setPreferenceId(res.data.preferenceId)
-        }).catch(e=>console.log("hola")))
-        
-
+        // axios.post('http://localhost:4000/mercadopago/postPax',form)
+        //   .then(()=>axios.post('http://localhost:4000/mercadopago/postBooking',createBooking))
+            axios.get(`http://localhost:4000/mercadopago?quantity=${booking.nights}&unit_price=${booking.fee}&title=HotelHenry`)
+              .then((res)=>{setPreferenceId(res.data.preferenceId)})
+                .catch(e=>console.log("hola"))
     },[])
 
 
@@ -71,7 +61,7 @@ export const MercadoPago = (props:any) => {
 
 
     return (
-        <form id={FORM_ID} method="GET" />
+        <form style={{display:"flex",justifyContent:"center"}} id={FORM_ID} method="GET" />
     )
 
 }
