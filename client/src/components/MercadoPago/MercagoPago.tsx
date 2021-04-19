@@ -1,17 +1,34 @@
 import axios from 'axios'
 import React, { useEffect, useState } from 'react'
+import { useSelector } from 'react-redux';
+import { bookingsReducer } from '../../reducers/bookingsReducer';
+import { supabase } from '../../SupaBase/conection';
 
 
-export const PruebaAuth = () => {
+export const MercadoPago = (props:any) => {
     const FORM_ID = 'payment-form';
 
     const [preferenceId, setPreferenceId] = useState<any>(null)
 
+    const bookings = useSelector((state:any) => state?.bookings)
+    const {category,booking,form}=bookings
+    const createBooking={
+      checkin:booking.range[0],
+      checkout:booking.range[1],
+      room_id:2
+    }
+
+    const precio=async()=>{
+      const hola:any=supabase.from("categories").select('*').eq("id",`${category[1]}`).then((res:any)=>res.data[0].price)
+      return hola
+    }
+    
     useEffect(() => {
-        axios.get('http://localhost:4000/mercadopago?quantity=3&unit_price=200&title=dalequeva')
+        axios.post('http://localhost:4000/mercadopago/postPax',form).then(()=>axios.post('http://localhost:4000/mercadopago/postBooking',createBooking)).then(()=>precio().then(res=>axios.get(`http://localhost:4000/mercadopago?quantity=${booking.nights}&unit_price=${res}&title=${category[0]}&form=${form}&order=`))
         .then((res)=>{
           setPreferenceId(res.data.preferenceId)
-        }).catch(e=>console.log("hola"))
+        }).catch(e=>console.log("hola")))
+        
 
     },[])
 

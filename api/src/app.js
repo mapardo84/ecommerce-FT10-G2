@@ -23,7 +23,6 @@ server.use((req, res, next) => {
 });
 
 server.use('/mercadopago', routes);
-server.use('/ipn',getIPN)
 
 // Error catching endware.
 server.use((err, req, res, next) => { // eslint-disable-line no-unused-vars
