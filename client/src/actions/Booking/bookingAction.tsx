@@ -8,11 +8,10 @@ export const CATEGORIES_TO_SHOW="CATEGORIES_TO_SHOW";
 export const FILTER_DATES ="FILTER_DATES";
 export const FREE_ROOMS_SHOW= "FREE_ROOMS_SHOW"
 export const SET_CATEGORY = "SET_CATEGORY";
-export const SELECTED_CATEGORY_ROOMS = "SELECTED_CATEGORY_ROOMS"
 export const POST_FORM = 'GET_PAX_FROM_FORM';
 export const BOOKING_FORM = 'GET_BOOKING_FROM_FORM'
-
-
+export const SELECTED_CATEGORY_ROOMS = "SELECTED_CATEGORY_ROOMS";
+export const BOOKED_ROOM = "BOOKED_ROOM";
 export interface bookAction {
     type: string,
     payload: any
@@ -122,20 +121,33 @@ export const getCategoriesForUser = (userBooking:bookingType) => {
         }
 
          //Seleccionar categorias correspondientes a los rooms libres
-         let result:any=[]
-         //let categoriesFiltered:any = []
-         for(let i = 0; i < freeRooms.length; i++){
-             if(!result.some( (x:categoryType) => x.id === freeRooms[i].category_id )){
-                 let { data: categories } = await supabase
-                 .from('categories')
-                 .select('*')
-                 .eq("id",freeRooms[i].category_id);
-                 result.push(categories?.pop()); 
-                 //categoriesFiltered.push(freeRooms[i].category_id);
-             }
-         }
-        dispatch(categoriesToShow(result));
-        dispatch(freeRoomsToShow(freeRooms))
+        //  let result:any=[]
+        //  //let categoriesFiltered:any = []
+        //  for(let i = 0; i < freeRooms.length; i++){
+        //      if(!result.some( (x:categoryType) => x.id === freeRooms[i].category_id )){
+        //          let { data: categories } = await supabase
+        //          .from('categories')
+        //          .select('*')
+        //          .eq("id",freeRooms[i].category_id);
+        //          result.push(categories?.pop()); 
+        //          //categoriesFiltered.push(freeRooms[i].category_id);
+        //      }
+        //  }
+        // dispatch(categoriesToShow(result));
+        // dispatch(freeRoomsToShow(freeRooms))
+        //Seleccionar categorias correspondientes a los rooms libres
+        let result:any=[]
+        for(let i = 0; i < freeRooms.length; i++){
+            if(!result.some( (x:categoryType) => x.id === freeRooms[i].category_id )){
+                let { data: categories } = await supabase
+                .from('categories')
+                .select('*')
+                .eq("id",freeRooms[i].category_id);
+                result.push(categories?.pop());
+            }
+        }
+        dispatch(categoriesToShow({ userCategories: result, types: types }));
+        dispatch(freeRoomsToShow(freeRooms));
     }
 // user                     checkin                   checkout
 // room      ckin   ckout
@@ -145,7 +157,7 @@ export const getCategoriesForUser = (userBooking:bookingType) => {
 // room                                                 ckin            ckout
 }
 
-const categoriesToShow = (payload:categoryType[])=>{
+const categoriesToShow = (payload:any)=>{
     return{
         type: CATEGORIES_TO_SHOW,
         payload
@@ -192,6 +204,24 @@ export const paxTitular = (payload:any) => {
 const selectedCategoryRooms = (payload:any) =>{
     return{
         type: SELECTED_CATEGORY_ROOMS,
+        payload
+    }
+}
+
+export const roomSelected = (categoryPax:any, freeRooms:roomType[])=>{
+    return ( dispatch:any ) =>{
+        console.log(categoryPax);
+        console.log(freeRooms);
+        const roomSelected = freeRooms.find( (r:roomType) => { 
+            return (r.category_id === categoryPax.category.id && r.type_id === categoryPax.type.id)
+        })
+        dispatch(bookedRoom(roomSelected?.id));
+    }
+}
+    
+const bookedRoom = (payload:any) =>{
+    return{
+        type: BOOKED_ROOM,
         payload
     }
 }

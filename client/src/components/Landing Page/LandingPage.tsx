@@ -1,4 +1,3 @@
-import React from 'react'
 import { Row, Col, Button, Typography } from "antd";
 import './styles.less'
 import LogIn from "../LogIn/LogIn";

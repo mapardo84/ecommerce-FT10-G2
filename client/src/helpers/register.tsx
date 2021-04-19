@@ -1,4 +1,4 @@
-import {Registro } from "../components/LogIn/Register";
+import { IRegister } from "../components/LogIn/Register";
 import { supabase } from "../SupaBase/conection";
 import { message } from "antd";
 
@@ -16,7 +16,7 @@ const errorMsg = (msg:any) => {
     message.error(msg);
 };
 
-export const sendRegister = async (formData: Registro) => {
+export const sendRegister = async (formData: IRegister) => {
     try{const results = await supabase.auth.signUp({
         email: formData.email,
         password: formData.password,

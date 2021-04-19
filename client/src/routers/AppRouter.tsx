@@ -13,6 +13,7 @@ import { AccomodationDetailsLayout } from "../components/layout/AccomodationsDet
 import { RoomsLayout } from "../components/Admin/components/Layout/RoomsLayout/RoomsLayout";
 import { LayoutAdmin } from "../components/Admin/components/Layout/Layout";
 import { SearchBooking } from "../components/Admin/SearchBar/SearchBar";
+import { Plantilla } from "../Admin/Plantilla";
 
 //ACA VAN TODAS LAS RUTAS
 
@@ -28,16 +29,14 @@ export const AppRouter = () => {
           <Route exact path="/admin" component={LayoutAdmin}/>
           <Route exact path="/admin/rooms" component={RoomsLayout} />
           <Route exact path="/searchBar" component={SearchBooking} />
+          <Route exact path="/accomodations" component={AccomodationLayout} />
+
           <Route
             exact
-            path="/home/accomodations/:id"
+            path="/accomodations/:id"
             component={AccomodationDetailsLayout}
           />
-          <Route
-            exact
-            path="/home/accomodations"
-            component={AccomodationLayout}
-          />
+
           <Redirect to="/" />
         </Switch>
       </div>

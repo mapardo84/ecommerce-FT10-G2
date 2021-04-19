@@ -1,9 +1,9 @@
-import React, { useState } from "react";
 import { Form, Button, Input, Result } from "antd";
 import { classicLogIn } from "../../helpers/logIn";
 import "./LogIn.less";
 import { UserOutlined, LockOutlined, GoogleOutlined } from "@ant-design/icons";
 import Modal from "antd/lib/modal/Modal";
+import { useState } from "react";
 
 interface logIn {
   email: string;

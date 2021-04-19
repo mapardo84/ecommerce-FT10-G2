@@ -1,8 +1,10 @@
 import { combineReducers } from "redux";
+import { adminReducer } from "./adminReducer";
 import { categoriesReducer } from "./categoriesReducer";
 import { loginReducer } from "./loginReducer";
 import { roomsReducer } from "./roomsReducer";
 import { searchBookingReducer } from "./searchBookingReducer";
+import { bookingsReducer } from "./bookingsReducer";
 
 //ACA SE AGREGA CADA REDUCER QUE UTILICEN
 export const rootReducer = combineReducers({
@@ -10,5 +12,7 @@ export const rootReducer = combineReducers({
   categories: categoriesReducer,
   login: loginReducer,
   rooms: roomsReducer,
-  booking_pax:searchBookingReducer
+  booking_pax:searchBookingReducer,
+  adminui: adminReducer,
+  bookings: bookingsReducer
 });

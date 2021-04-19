@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { Modal, Button,Form,Input } from 'antd';
+import { useState } from 'react';
+
 import { classicLogIn } from '../../helpers/logIn';
 import LogIn from './LogIn';
 
@@ -9,7 +9,7 @@ interface logIn{
 }
 
 export const Rodrigo = () => {
-  const [visible, setVisible] = useState(false);
+  const [visible, setVisible] = useState<boolean>(false);
 
   const onFinish=(values:logIn)=>{
 
@@ -23,4 +23,5 @@ export const Rodrigo = () => {
       <LogIn/>
     </>
   );
+  
 };
