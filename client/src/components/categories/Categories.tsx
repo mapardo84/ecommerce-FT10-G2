@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { Button, Select } from "antd";
 import "./Category.less";
 import { initialStateProps } from "./../../reducers/categoriesReducer";
-import { getCategories } from "../../actions";
+import { getCategories } from "../../actions/index";
 import Category from "./Category";
 import "./../accomodations/accomodations.less";
 import "./../layout/homeLayout.less";
