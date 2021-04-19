@@ -37,7 +37,8 @@ export const LogIn = () => {
   const onFinish = async (values: logIn) => {
     if (captchaData.isVerified) {
       var status = await classicLogIn(values.email, values.password);
-      status && history.push("/home"); window.location.reload()
+      status && history.push("/home");
+      status && window.location.reload()
     } else {
       errorMsgcaptcha()
     }
