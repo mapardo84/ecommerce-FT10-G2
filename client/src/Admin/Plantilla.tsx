@@ -8,9 +8,10 @@ import { Inicio } from "./components/Inicio";
 //////////////////////////////////////////////////////////
 //          ESTA ES LA PLANTILLA ADMINISTRATIVA         //
 //                                                      //
-//  1. Copiar este archivo en su respectiva carpeta:    //
-//          src/Admin/components                        //
+//  1. Copiar este archivo en:                          //
+//          src/Admin/components/                       //
 //  2. Renombrarlo como se va a llamar su componente    //
+//          ej: CategoriasLayout                        //
 //  3. Revisar las primeras lineas que si este bien     //
 //     importados los archivos (lineas 2,3,4,5)         //
 //  4. Agregar nombre de la pagina en el manu lateral   //

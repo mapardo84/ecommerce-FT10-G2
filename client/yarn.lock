@@ -3802,6 +3802,11 @@
     "path-type" "^4.0.0"
     "yaml" "^1.10.0"
 
+"countries-list@^2.6.1":
+  "integrity" "sha512-jXM1Nv3U56dPQ1DsUSsEaGmLHburo4fnB7m+1yhWDUVvx5gXCd1ok/y3gXCjXzhqyawG+igcPYcAl4qjkvopaQ=="
+  "resolved" "https://registry.npmjs.org/countries-list/-/countries-list-2.6.1.tgz"
+  "version" "2.6.1"
+
 "craco-less@^1.17.1":
   "integrity" "sha512-T6V1aF3+eQZ22gUigHInX/i+ExPbWrnmdAhtuEXc4mOyhneDifmEzZFseq/BdRy1aUEs9s4z26jTxP+1I6P//g=="
   "resolved" "https://registry.npmjs.org/craco-less/-/craco-less-1.17.1.tgz"

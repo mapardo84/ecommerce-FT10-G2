@@ -1,8 +1,9 @@
 
 import { GET_ALL_TYPES, FILTER_TYPE, ADD_TYPE, UPDATE_TYPE } from '../Admin/actions/typesActions';
+import { IType } from '../Admin/components/Types/Types';
 
 interface IState {
-    types: any[],
+    types: IType[],
 }
 
 interface actionProps {

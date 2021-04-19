@@ -43,7 +43,7 @@ export const Types = () => {
             title: 'Type Name',
             dataIndex: 'name',
             key: 'name',
-            sorter: (a: ISort, b: ISort) => a.name - b.name,
+            sorter: (a: IType, b: IType) => a.name.length - b.name.length,
         },
         {
             title: 'Capacity',
@@ -82,11 +82,12 @@ export const Types = () => {
     }, [dispatch])
 
     const closeModal = () => {
+        setFields(campos)
+        setEditId(null)
         setIsModalVisible(false)
     }
 
     const onFinish = (values: IType) => {
-
         if (editId) {
             const data = { ...values, id: editId.id }
             dispatch(updateType(data))
@@ -96,14 +97,12 @@ export const Types = () => {
             dispatch(addType(values))
             setIsModalVisible(false)
         }
-
     }
 
     const handleDelete = (id: number) => {
         const index = types.find((type: IType) => type.id === id)
         dispatch(deleteType(index.id))
     };
-
 
     const handleEdit = (id: number) => {
         setIsModalVisible(true)
@@ -115,7 +114,6 @@ export const Types = () => {
             { name: ['beds'], value: index.beds },
         ])
     }
-
 
     return (
         <div>

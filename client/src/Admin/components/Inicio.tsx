@@ -3,7 +3,7 @@
 export const Inicio = () => {
     return (
         <div>
-            Pagina de inicio
+            Panel Administrativo, Pagina inicial
         </div>
     )
 }

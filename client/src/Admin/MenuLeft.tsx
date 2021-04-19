@@ -1,18 +1,18 @@
 import { Menu } from "antd";
 import {
     PieChartOutlined,
-    WalletOutlined,
 } from "@ant-design/icons";
 //import hotelImg from './hotel.png'
 import { useDispatch, useSelector } from 'react-redux';
 import { initialStateProps } from '../reducers/adminReducer';
-import { changePage, sidebarChange } from "./actions/adminUi";
+import { changePage, loginUser, sidebarChange } from "./actions/adminUi";
 import { Layout } from "antd";
-import { NavLink } from "react-router-dom";
-import { FaHotel, FaDoorClosed } from "react-icons/fa";
+import { NavLink, useHistory } from "react-router-dom";
+import { FaHotel, FaDoorClosed, FaUserAlt } from "react-icons/fa";
 import { IoIosBed } from "react-icons/io";
 import { GiBedLamp } from "react-icons/gi";
 import './panel.less';
+import { useEffect } from 'react';
 
 // type MenuProps = {
 //     page: string,
@@ -38,10 +38,19 @@ import './panel.less';
 //////////////////////////////////////////////////////////////
 
 
-const paginas = ['Inicio', 'Rooms', 'Categories', 'Types']
+const paginas = ['Inicio', 'Rooms', 'Categories', 'Types', 'Users']
 
 export const MenuLeft = () => {
     const dispatch = useDispatch()
+    const history = useHistory()
+    useEffect(() => {
+        loginUser()
+            .then(r => {
+                if (!r) {
+                    history.push('/')
+                }
+            })
+    }, [history])
 
     const { sidebarColapsed, page } = useSelector((state: initialStateProps) => state.adminui)
 
@@ -54,6 +63,8 @@ export const MenuLeft = () => {
     }
 
     const { Sider } = Layout;
+
+
 
     return (
         <>
@@ -90,6 +101,9 @@ export const MenuLeft = () => {
                     </Menu.Item>
                     <Menu.Item key={paginas[3]} icon={<IoIosBed />} onClick={() => setPage(paginas[3])}>
                         <NavLink to="/admin/types">{paginas[3]}</NavLink>
+                    </Menu.Item>
+                    <Menu.Item key={paginas[4]} icon={<FaUserAlt />} onClick={() => setPage(paginas[4])}>
+                        <NavLink to="/admin/users">{paginas[4]}</NavLink>
                     </Menu.Item>
 
 
