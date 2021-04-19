@@ -1,5 +1,3 @@
-
-
 import { AutoComplete, Button, Input, Table } from 'antd'
 import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
@@ -19,28 +17,33 @@ export const SearchBooking = () => {
 
 
     useEffect(() => {
-        if(search.length>0){
-        dispatch(getByBookingID(search))
+        
         dispatch(getByPaxID(search))
+        dispatch(getByBookingID(search))
         dispatch(getFirstName(search))
-        dispatch(getLastName(search))}
-    }, [search])
+        dispatch(getLastName(search))
+    
+    }, [dispatch, search])
 
     const onChange = (value: any) => {
         setSearch(value)
 
     }
 
+
     const renderTitle = (title:string) => (
         <span key={title}>
             {title}
         </span>
     );
-
-    const renderItem = (title:any) => ({
-        value: title,
+    
+    let i =0;
+    const renderItem = (title:any) => {
+        i++
+        return({
+        value: `${i}.${title}`,
         label: (
-            <div key={title}
+            <div 
                 style={{
                     display: 'flex',
                     justifyContent: 'space-between',
@@ -50,29 +53,30 @@ export const SearchBooking = () => {
             </div>
         ),
     });
+    }
+    
 
     const mapeoByPaxID = (array:any[]) => {
-        return array?array.map(x =>renderItem(x.pax_id?.id)):[]
+        return array?array.map((x) => renderItem(x.pax_id?.id)):[]
     }
-    const mapeoByBookingId = (array:any[]) => {
-        return array?array.map(x =>renderItem(x.booking_id?.id)):[]
-        
+    const mapeoByBookingId = (array:any[]) => {        
+        return array?array.map((x) =>renderItem(x.booking_id?.id)):[]   
     }
     const mapeoByFirstName = (array:any[]) => {
-        return array?array.map(x =>renderItem(x.pax_id?.first_name)):[]
-        }
+        return array?array.map((x) =>renderItem(x.pax_id?.first_name)):[]
+    }
     const mapeoByLastName = (array:any[]) => {
-        return array?array.map(x => renderItem(x.pax_id?.last_name)):[]
+        return array?array.map((x) => renderItem(x.pax_id?.last_name)):[]
     }
 
     const options = [
         {
             label: renderTitle('By Pax'),
-            options: mapeoByPaxID(bookingStore?.bypaxID),
+            options: mapeoByPaxID(bookingStore?.bypaxID)?mapeoByPaxID(bookingStore?.bypaxID):[],
         },
         {
             label: renderTitle('By Booking'),
-            options: mapeoByBookingId(bookingStore?.bybookingID),
+            options: mapeoByBookingId(bookingStore?.bybookingID)?mapeoByBookingId(bookingStore?.bybookingID):[],
         },
         {
             label: renderTitle('By First Name'),
@@ -130,8 +134,6 @@ export const SearchBooking = () => {
         </AutoComplete>
     );
 };
-
-
 // -------------------------------------------------------------------------------------------------------
 
 /* <input style={{ display: "flex", margin: "auto", width: 200 }} onChange={onChange}></input>
