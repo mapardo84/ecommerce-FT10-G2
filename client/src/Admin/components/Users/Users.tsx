@@ -1,10 +1,11 @@
-import { Button, Table, Form, Modal, Input, Tooltip, Popconfirm, Select } from 'antd';
+import { Button, Table, Form, Modal, Input, Tooltip, Popconfirm, Select, Space } from 'antd';
 import { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { getAllUsers, updateUser, checkEmail, checkUuid, resetPWD, deletUser } from '../../actions/usersActions';
 import { FaTrashAlt, FaPencilAlt } from 'react-icons/fa';
 import countries from "countries-list";
 import './users.less'
+import { SearchOutlined } from '@ant-design/icons';
 
 export interface IUser {
     id: number,
@@ -54,6 +55,77 @@ export const Users = () => {
 
     const dispatch = useDispatch()
 
+    const handleSearch = (selectedKeys: string, confirm: Function, dataIndex: string) => {
+        confirm();
+    };
+
+    const handleReset = (clearFilters: Function) => {
+        clearFilters();
+    };
+
+    const getColumnSearchProps = (dataIndex: string) => ({
+        filterDropdown: ({
+            setSelectedKeys,
+            selectedKeys,
+            confirm,
+            clearFilters,
+        }: {
+            setSelectedKeys: Function;
+            selectedKeys: string;
+            confirm: Function;
+            clearFilters: Function;
+        }) => (
+            <div style={{ padding: 8 }}>
+                <Input
+                    placeholder={`Search ${dataIndex}`}
+                    value={selectedKeys[0]}
+                    onChange={(e) =>
+                        setSelectedKeys(e.target.value ? [e.target.value] : [])
+                    }
+                    onPressEnter={() => handleSearch(selectedKeys, confirm, dataIndex)}
+                    style={{ width: 188, marginBottom: 8, display: "block" }}
+                />
+                <Space>
+                    <Button
+                        type="primary"
+                        onClick={() => handleSearch(selectedKeys, confirm, dataIndex)}
+                        icon={<SearchOutlined />}
+                        size="small"
+                        style={{ width: 30 }}
+                    ></Button>
+                    <Button
+                        onClick={() => handleReset(clearFilters)}
+                        size="small"
+                        style={{ width: 60, marginLeft: "52px" }}
+                    >
+                        Reset
+              </Button>
+                    <Button
+                        type="link"
+                        size="small"
+                        style={{ marginLeft: "120px" }}
+                        onClick={() => {
+                            confirm({ closeDropdown: false });
+                        }}
+                    >
+                        Filter
+              </Button>
+                </Space>
+            </div>
+        ),
+        filterIcon: (filtered: boolean) => (
+            <SearchOutlined style={{ color: filtered ? "#1890ff" : undefined }} />
+        ),
+        onFilter: (value: string, record: any) =>
+            record[dataIndex]
+                ? record[dataIndex]
+                    .toString()
+                    .toLowerCase()
+                    .includes(value.toLowerCase())
+                : "",
+        render: (text: string) => text,
+    });
+
     const columns: any = [
         {
             title: 'UUID',
@@ -63,11 +135,13 @@ export const Users = () => {
             title: 'e-mail',
             dataIndex: 'email',
             key: 'email',
+            ...getColumnSearchProps("email"),
             sorter: (a: IUser, b: IUser) => a.email.localeCompare(b.email),
         }, {
             title: 'Name',
             dataIndex: 'first_name',
             key: 'first_name',
+            ...getColumnSearchProps("first_name"),
             render: (first_name: string) => (<>{first_name} {users.find((user: IUser) => user.first_name === first_name).last_name}</>),
         }, {
             title: 'Birth Date',
