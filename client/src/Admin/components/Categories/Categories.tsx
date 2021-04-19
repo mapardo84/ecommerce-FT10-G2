@@ -23,7 +23,6 @@ import { FaPencilAlt, FaTrashAlt } from "react-icons/fa";
 import Modal from "antd/lib/modal/Modal";
 import "./categories.less";
 
-
 export interface Category {
   id: number;
   name: string;
@@ -32,8 +31,10 @@ export interface Category {
   price: number;
   images: string[];
 }
-
-
+interface IFields {
+  name: string[],
+  value: string | number
+}
 
 const campos = [
   { name: ["name"], value: "" },
@@ -44,22 +45,16 @@ const campos = [
 ];
 
 export const Categories = () => {
-  const handleSearch = (selectedKeys: any, confirm: any, dataIndex: any) => {
-    confirm();
-    setState({
-      searchText: selectedKeys[0],
-      searchedColumn: dataIndex,
-    });
+  const handleSearch = (selectedKeys: string, confirm: Function, dataIndex: string) => {
+    confirm();    
   };
 
-  const handleReset = (clearFilters: any) => {
-    clearFilters();
-    setState({ searchText: "" });
+  const handleReset = (clearFilters: Function) => {
+    clearFilters();    
   };
-
-  const [state, setState] = useState<any>("");
+  
   const [isModalVisible, setIsModalVisible] = useState<boolean>(false);
-  const [fields, setFields] = useState<any[]>(campos);
+  const [fields, setFields] = useState<IFields[]>(campos);
   const [editId, setEditId] = useState(null);
 
   const { categories } = useSelector((state: any) => state?.categories);
@@ -83,9 +78,8 @@ export const Categories = () => {
     ]);
   };
 
-  const onFinish = (values: any) => {
-    const data = { ...values, id: editId };
-    /* console.log('Success:', data); */
+  const onFinish = (values: Category) => {
+    const data = { ...values, id: editId };    
     if (editId) {
       dispatch(updateCategory(data));
     } else {
@@ -105,17 +99,17 @@ export const Categories = () => {
     dispatch(getAllCategories());
   }, [dispatch]);
 
-  const getColumnSearchProps = (dataIndex: any) => ({
+  const getColumnSearchProps = (dataIndex: string) => ({
     filterDropdown: ({
       setSelectedKeys,
       selectedKeys,
       confirm,
       clearFilters,
     }: {
-      setSelectedKeys: any;
-      selectedKeys: any;
-      confirm: any;
-      clearFilters: any;
+      setSelectedKeys: Function;
+      selectedKeys: string;
+      confirm: Function;
+      clearFilters: Function;
     }) => (
       <div style={{ padding: 8 }}>
         <Input
@@ -147,11 +141,7 @@ export const Categories = () => {
             size="small"
             style={{ marginLeft: "120px" }}
             onClick={() => {
-              confirm({ closeDropdown: false });
-              setState({
-                searchText: selectedKeys[0],
-                searchedColumn: dataIndex,
-              });
+              confirm({ closeDropdown: false });             
             }}
           >
             Filter
@@ -159,17 +149,17 @@ export const Categories = () => {
         </Space>
       </div>
     ),
-    filterIcon: (filtered: any) => (
+    filterIcon: (filtered: string) => (
       <SearchOutlined style={{ color: filtered ? "#1890ff" : undefined }} />
     ),
-    onFilter: (value: any, record: any) =>
+    onFilter: (value: string, record: any) =>
       record[dataIndex]
         ? record[dataIndex]
             .toString()
             .toLowerCase()
             .includes(value.toLowerCase())
         : "",
-    render: (text: any) => text,
+    render: (text: string) => text,
   });
 
   const columns: any = [
@@ -178,10 +168,8 @@ export const Categories = () => {
       dataIndex: "id",
       key: "id",      
       defaultSortOrder: "descend",
-      sorter: (a: any, b: any) => a.id - b.id,
-      width: 70
-    
-      
+      sorter: (a: Category, b: Category) => a.id - b.id,
+      width: 70      
     },
     {
       title: "Category name",
@@ -195,8 +183,7 @@ export const Categories = () => {
       dataIndex: "description",
       key: "description",
       ...getColumnSearchProps("description"),
-      width:500
-      
+      width:500      
     },
     {
       title: "Details",
@@ -217,22 +204,8 @@ export const Categories = () => {
       title: "Price",
       dataIndex: "price",
       key: "price",
-      sorter: (a: any, b: any) => a.id - b.id,
-    },
-    /* {
-        title: "Images",
-        dataIndex: "images",
-        key: "images",
-        render: (images: string[]) => (
-          <>
-            {images?.map((image: string) => (
-              <Tag color="green" key={image}>
-                {image}
-              </Tag>
-            ))}
-          </>
-        ),
-      }, */
+      sorter: (a: Category, b: Category) => a.id - b.id,
+    },    
     {
       title: "Action",
       dataIndex: "operation",
