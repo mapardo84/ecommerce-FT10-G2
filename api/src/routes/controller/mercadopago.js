@@ -20,8 +20,6 @@ async function getPreferenceId(req,res){
     // { userId: req.userId, productId: req.body.productId }
 
     mercadopago.preferences.create({
-        // external_reference:"4",
-        // notification_url:'http://localhost:4000/mercadopago/ipn',
         items:[{
                 title,
                 unit_price,

@@ -9,7 +9,6 @@ const router = Router();
 // i.e: router.use('/auth', authRouter);
 // router.use('/auth', authRouter);
 router.get('/', getPreferenceId);
-// router.get('/ipn', getIPN)
 // router.post('/postpax',postPax)
 // router.post('/postBooking',postBooking)
 
