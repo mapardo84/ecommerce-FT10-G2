@@ -7,6 +7,7 @@ import { Faq } from "../Faq/Faq";
 const { Content } = Layout;
 
 export const FaqLayout: FunctionComponent = () => {
+
   return (
     <>
       <Layout>

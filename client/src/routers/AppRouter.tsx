@@ -8,8 +8,6 @@ import { HomeLayout } from "../components/layout/HomeLayout";
 import { LandingPage } from "../components/Landing Page/LandingPage";
 import { Register } from "../components/LogIn/Register";
 import { LogIn } from "../components/LogIn/LogIn";
-import { LogOut } from "../components/LogIn/LogOut";
-import { Rodrigo } from "../components/LogIn/Rodrigo";
 import { FaqLayout } from "../components/layout/FaqLayout";
 import { BookingLayout } from "../components/layout/BookingLayout";
 import { AccomodationLayout } from "./../components/layout/AccomodationLayout";
@@ -19,6 +17,7 @@ import { RoomsLayout } from "../Admin/components/RoomsLayout";
 import { CategoriesLayout } from "../Admin/components/CategoriesLayout";
 import { TypesLayout } from "../Admin/components/TypesLayout";
 import { UsersLayout } from "../Admin/components/UsersLayout";
+import ResetPasswordLayout from "../components/layout/ResetPasswordLayout";
 
 //ACA VAN TODAS LAS RUTAS
 
@@ -31,8 +30,6 @@ export const AppRouter = () => {
           <Route exact path="/home" component={HomeLayout} />
           <Route exact path="/form" component={Register} />
           <Route exact path="/logIn" component={LogIn} />
-          <Route exact path="/logOut" component={LogOut} />
-          <Route exact path="/rodrigo" component={Rodrigo} />
           <Route exact path="/booking" component={BookingLayout} />
           <Route exact path="/faq" component={FaqLayout} />
 
@@ -50,7 +47,7 @@ export const AppRouter = () => {
             path="/accomodations/:id"
             component={AccomodationDetailsLayout}
           />
-
+          <Route exact path="/password-reset/:token" component={ResetPasswordLayout} />
           <Redirect to="/" />
         </Switch>
       </div>

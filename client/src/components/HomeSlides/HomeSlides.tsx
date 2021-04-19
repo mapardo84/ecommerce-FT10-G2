@@ -1,7 +1,11 @@
 import { Carousel } from 'antd';
 import "./HomeSlides.less"
 
+
+
 export const HomeSlides = () => {
+    
+
 
     const settings = {
         dots: true,
@@ -9,9 +13,11 @@ export const HomeSlides = () => {
         autoplay: true,
         autoplaySpeed: 4000
     };
-
+    
     return (
+  
         <div className="containerSlide">
+
             <Carousel {...settings} className="HomeCarousel">
 
                 <div className="slideContainer">

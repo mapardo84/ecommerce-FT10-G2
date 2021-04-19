@@ -1,13 +1,51 @@
-import { Layout, Menu, Row, Col, Button, Modal } from "antd";
+import { Layout, Menu, Row, Col, Button, Modal, Divider, Dropdown } from "antd";
+import { DownOutlined, UserOutlined, ImportOutlined, HeartOutlined, CalendarOutlined } from '@ant-design/icons';
 import LogIn from "../LogIn/LogIn";
 import { useState } from "react";
-import { NavLink } from "react-router-dom";
+import { NavLink, useHistory } from "react-router-dom";
 import "./NavBar.less";
 import hotel from "./hotel.png"
 import { Register } from "../LogIn/Register";
+import { supabase } from '../../SupaBase/conection'
+import { logOut } from "../../helpers/logOut";
+
 const { Header } = Layout;
 
 export const NavBar = () => {
+
+  const history = useHistory();
+
+  //Valida si el usuario esta logueado
+  const authValidation = () => {
+    const user: any = supabase.auth.user()
+    if (user?.aud === "authenticated") {
+      return true
+    }
+  }
+
+  const logOutSession = () => {
+    var status = logOut()
+    status && setTimeout(() => {
+      history.push("/");
+    }, 1000);
+  }
+
+  const menu = (
+    <Menu className="dropMenuNav">
+      <Menu.Item key="1" icon={<HeartOutlined />}>
+        Wish List
+      </Menu.Item>
+      <Menu.Item key="1" icon={<CalendarOutlined />}>
+        Reservations
+      </Menu.Item>
+      <Divider className="dividerNav"></Divider>
+      <Menu.Item key="2" onClick={() => logOutSession()} icon={<ImportOutlined />}>
+        Log Out
+      </Menu.Item>
+    </Menu>
+  );
+
+
   const [visible, setVisible] = useState<boolean>(false);
   const [regOrLog, setRegOrLog] = useState<string>("logIn")
   return (
@@ -19,7 +57,7 @@ export const NavBar = () => {
               <Col span={12}>
                 <div className="navLeft">
                   <img className="imagen" src={hotel} alt="IMG NOT FOUND" />
-                  <h1 className="navTitle">HENRY HOTEL</h1>
+                  <NavLink className="navTitle" to="/home">HENRY HOTEL</NavLink>
                 </div>
               </Col>
 
@@ -35,24 +73,32 @@ export const NavBar = () => {
                       Accomodations
                     </Button>
                   </NavLink>
-                  <div className="loginButton">
-                    <Button
-                      onClick={() => setVisible(true)}
-                      className="navButton"
-                      size="large"
-                      type="text"
-                    >
-                      Log In
-                    </Button>
+                  <div className="navLoginButton">
+                    {
+                      authValidation() ?
+                        <Dropdown
+                          className="DropNavButton"
+                          overlay={menu}
+                          trigger={['click']}
+                          placement="bottomCenter">
+                          <Button className="btn-nav" type="primary">
+                            <UserOutlined />Account <DownOutlined />
+                          </Button>
+                        </Dropdown>
+
+                        :
+                        <Button
+                          onClick={() => setVisible(true)}
+                          className="navButton"
+                          type="text">
+                          Log In
+                         </Button>
+                    }
                   </div>
                   <NavLink to="/booking">
                     <Button
-                      style={{
-                        backgroundColor: "#5296A5",
-                        color: "white",
-                        border: "1px solid white",
-                      }}
                       size="large"
+                      className="btnNavbar"
                     >
                       Book Now
                     </Button>
@@ -63,17 +109,19 @@ export const NavBar = () => {
           </Row>
         </Menu>
       </Header>
+
       <Modal
         visible={visible}
+        width={450}
+        destroyOnClose={true}
         footer={[
           <div>{regOrLog === "logIn" ?
-            <div>
-              Don't have an account?
-              <Button onClick={() => setRegOrLog("signIn")}>Sign In</Button>
+            <div>Don't have an account?
+              <Button style={{ marginLeft: "8px" }} onClick={() => setRegOrLog("signIn")}> Sign Up</Button>
             </div> :
             <div>
               If you have an account
-              <Button onClick={() => setRegOrLog("logIn")}>Log In</Button>
+              <Button style={{ marginLeft: "8px" }} onClick={() => setRegOrLog("logIn")}>Log In</Button>
             </div>
           }
           </div>,

@@ -1,4 +1,5 @@
-import { Form, Input, Button } from "antd";
+import { Form, Input, Button, Divider } from "antd";
+import { useHistory } from "react-router";
 import { sendRegister } from "../../helpers/register";
 import "./Register.less";
 
@@ -11,53 +12,65 @@ export interface IRegister {
 }
 
 export const Register = (): JSX.Element => {
-  const onFinish = (values: IRegister) => {
-    sendRegister(values);
-    console.log(values);
+
+  const history = useHistory();
+
+  const onFinish = async (values: IRegister) => {
+    var status = await sendRegister(values);
+    console.log("Status: " + status)
+    status && setTimeout(() => {
+      history.push("/");
+    }, 2000);
   };
 
   return (
     <div className="register_Container">
-      <div className="register_Title">Register</div>
-      <Form name="basic" initialValues={{ remember: true }} onFinish={onFinish}>
+      <h1 className="titleRgister">Sign Up</h1>
+      <Form name="basic" initialValues={{ remember: true }} onFinish={onFinish} layout="vertical">
+        <Divider orientation="center" className="dividerRegister">Personal information</Divider>
+
         <Form.Item
-          label="First Name"
           name="firstName"
           rules={[{ required: true, message: "Please, put your first name!" }]}
+          style={{ display: 'inline-block', width: 'calc(50% - 8px)' }}
+
         >
-          <Input></Input>
+          <Input placeholder="First Name"></Input>
         </Form.Item>
+
         <Form.Item
           name="lastName"
-          label="Last Name"
           rules={[
-            { required: true, message: "Please, insert your last name!" },
-          ]}
-        >
-          <Input></Input>
+            { required: true, message: "Please, insert your last name!" }]}
+          style={{ display: 'inline-block', width: 'calc(50% - 8px)', margin: '0 0 0 16px' }}>
+          <Input placeholder="Last Name"></Input>
         </Form.Item>
+
         <Form.Item
           name="DNI"
-          label="D.N.I / identity code"
           rules={[
             { required: true, message: "Please insert your identity code!" },
           ]}
         >
-          <Input></Input>
+          <Input placeholder="D.N.I / identity code"></Input>
         </Form.Item>
+
+        <Divider orientation="center" className="dividerRegister">Access information</Divider>
+
+
         <Form.Item
           name="email"
-          label="Email"
+          // label="Email"
           rules={[
             { required: true, message: "Please insert your e-mail!" },
             { type: "email", message: "The input is not valid e-mail!" },
           ]}
         >
-          <Input></Input>
+          <Input placeholder="Email"></Input>
         </Form.Item>
+
         <Form.Item
           name="password"
-          label="Password"
           rules={[
             { required: true, message: "Please insert password" },
             {
@@ -69,11 +82,10 @@ export const Register = (): JSX.Element => {
             },
           ]}
         >
-          <Input.Password></Input.Password>
+          <Input.Password placeholder="Password"></Input.Password>
         </Form.Item>
         <Form.Item
           name="repeatPsw"
-          label="Repeat Password"
           dependencies={["password"]}
           hasFeedback
           rules={[
@@ -93,10 +105,11 @@ export const Register = (): JSX.Element => {
             }),
           ]}
         >
-          <Input.Password></Input.Password>
+          <Input.Password placeholder="Repeat Password"></Input.Password>
         </Form.Item>
-        <Button type="primary" htmlType="submit" className="register_Btn">
-          Register
+        <p className="footerRegister">By clicking Sign Up, you agree to our Terms and Data Policy</p>
+        <Button className="buttonLogin1" style={{ marginBottom: "7px" }} type="primary" htmlType="submit" >
+          Sign Up
         </Button>
       </Form>
     </div>
