@@ -23,6 +23,7 @@ import { FaPencilAlt, FaTrashAlt } from "react-icons/fa";
 import Modal from "antd/lib/modal/Modal";
 import "./categories.less";
 
+
 export interface Category {
   id: number;
   name: string;
@@ -31,6 +32,8 @@ export interface Category {
   price: number;
   images: string[];
 }
+
+
 
 const campos = [
   { name: ["name"], value: "" },
@@ -58,8 +61,6 @@ export const Categories = () => {
   const [isModalVisible, setIsModalVisible] = useState<boolean>(false);
   const [fields, setFields] = useState<any[]>(campos);
   const [editId, setEditId] = useState(null);
-
- 
 
   const { categories } = useSelector((state: any) => state?.categories);
   const dispatch = useDispatch();
@@ -98,12 +99,12 @@ export const Categories = () => {
     setFields(campos);
     setIsModalVisible(false);
     setEditId(null);
-  };
+  }; 
 
   useEffect(() => {
     dispatch(getAllCategories());
   }, [dispatch]);
-  
+
   const getColumnSearchProps = (dataIndex: any) => ({
     filterDropdown: ({
       setSelectedKeys,
@@ -133,12 +134,11 @@ export const Categories = () => {
             icon={<SearchOutlined />}
             size="small"
             style={{ width: 30 }}
-          >           
-          </Button>
+          ></Button>
           <Button
             onClick={() => handleReset(clearFilters)}
             size="small"
-            style={{ width: 60, marginLeft:"52px"}}
+            style={{ width: 60, marginLeft: "52px" }}
           >
             Reset
           </Button>
@@ -176,21 +176,27 @@ export const Categories = () => {
     {
       title: "Id",
       dataIndex: "id",
-      key: "id",
+      key: "id",      
       defaultSortOrder: "descend",
       sorter: (a: any, b: any) => a.id - b.id,
+      width: 70
+    
+      
     },
     {
       title: "Category name",
       dataIndex: "name",
       key: "name",
       ...getColumnSearchProps("name"),
+      width: 200
     },
     {
       title: "Description",
       dataIndex: "description",
       key: "description",
       ...getColumnSearchProps("description"),
+      width:500
+      
     },
     {
       title: "Details",
@@ -248,10 +254,10 @@ export const Categories = () => {
                 title="Sure to delete?"
                 onConfirm={() => handleDelete(record.id)}
               >
-                <div>
+                <span>
                   {" "}
                   <FaTrashAlt size="18" color="red" />
-                </div>
+                </span>
               </Popconfirm>
             </Tooltip>
           </>
@@ -335,8 +341,9 @@ export const Categories = () => {
               Save
             </Button>
           </div>
-        </Form>
+        </Form>        
       </Modal>
+      ;
     </div>
   );
 };
