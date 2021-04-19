@@ -5,7 +5,9 @@ import { AccomodationsCards } from "./AccomodationsCards";
 import { setBookData, stepChange } from '../../../actions/Booking/bookingAction';
 import { bookingType } from '../guestsForm/GuestsForm';
 import "./AccomodationsSelect.less";
-import { useEffect, useState } from "react";
+import { useState } from "react";
+import { copyFile } from "node:fs";
+import { type } from "node:os";
 const { Option } = Select;
 
 export interface roomType {
@@ -44,10 +46,6 @@ export const AccomodationsSelect = ():JSX.Element => {
   const freeRooms = useSelector((state:any) => state.bookings.freeRooms);
   // const categoryPax = useSelector((state:any) => state.bookings.category );
   
-  useEffect(() => {
-
-  }, [userSelection])
-  
   const handleChange = (value: any) => {
     if (value === "0") getCategoriesDB(undefined, dispatch);
     else getCategoriesDB(value, dispatch);
@@ -64,17 +62,17 @@ export const AccomodationsSelect = ():JSX.Element => {
     booking.fee = booking.category.category.price * booking.category.type.beds;
     const roomSelected = freeRooms.find( (r:roomType) => { 
       return (r.category_id === booking.category.category.id && r.type_id === booking.category.type.id)
-    })
+    });
+    console.log(freeRooms);
     console.log(roomSelected);
-    // console.log(freeRooms);
-    booking.room_id = roomSelected.id; 
+    roomSelected? booking.room_id = roomSelected.id:
+    booking.room_id = -1;
     dispatch(setBookData(booking));
     dispatch(stepChange(2));
     // dispatch(roomSelected(booking.category, freeRooms));
   }
 
   const handleSelectType = (value:any , option:any) => {
-    console.log(value);
     const resul = categoriesFind.types.find( (x:any) => x.name === value );
     setUserSelection({...userSelection, type: resul});
   }
@@ -86,11 +84,10 @@ export const AccomodationsSelect = ():JSX.Element => {
     // dispatch(setCategory(categorySelected));
   }
 
-
   return (
     <div className="accomodationsSelect_container">
       <div className="accomodationsSelect_select">
-        <span>
+        {/*<span>
           <Select key='selectCategory'
             placeholder="Select Category"
             onChange={handleChange}
@@ -104,7 +101,7 @@ export const AccomodationsSelect = ():JSX.Element => {
             <Option key={5} value="3">Suite 4 Persons</Option>
             <Option key={6} value="6">Penthouse 6 Persons</Option>
           </Select>
-        </span>
+        </span>*/}
       </div>
       <div className="accomodationsSelect_cards">
        <Radio.Group onChange={handleRadioGroup} value={userSelection.category}>
@@ -118,11 +115,16 @@ export const AccomodationsSelect = ():JSX.Element => {
                       onChange={handleSelectType}
                       className="accomodationsSelect_si"
                   >
-                      {categoriesFind.types?.map((t:any, i:number) => {
-                          return (
-                            <Option key={i} value={t.name}>{t.name}</Option>
-                          )})
-                      }
+                  {categoriesFind.types?.map((t:any, i:number) => {
+                      if (freeRooms.find( (r:any) => {
+                        return ( r.category_id === categ.id && r.type_id === t.id )
+                      })){
+                        return (
+                          <Option key={i} value={t.name}>{t.name}</Option>
+                        )
+                      } else { return <Option key={i} value={t.name} disabled>-</Option>}
+                    })
+                  }
                   </Select>
                   <Radio value={categ}></Radio>
               </span>

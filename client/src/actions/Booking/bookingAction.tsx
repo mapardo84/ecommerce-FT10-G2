@@ -47,7 +47,6 @@ export const getCategoriesForUser = (userBooking:bookingType) => {
         .from("types")
         .select("*")
         .gte("capacity",guests);
-        console.log(types);
         
         //Traer los Rooms que pertencen a los types recibidos en el paso anterior
         const rooms:any = [];
