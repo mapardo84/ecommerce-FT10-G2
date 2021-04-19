@@ -1,18 +1,21 @@
 import { Layout, Menu, Row, Col, Button, Modal, Divider, Dropdown } from "antd";
 import { DownOutlined, UserOutlined, ImportOutlined, HeartOutlined, CalendarOutlined } from '@ant-design/icons';
 import LogIn from "../LogIn/LogIn";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { NavLink, useHistory } from "react-router-dom";
 import "./NavBar.less";
 import hotel from "./hotel.png"
 import { Register } from "../LogIn/Register";
 import { supabase } from '../../SupaBase/conection'
 import { logOut } from "../../helpers/logOut";
+import { useDispatch, useSelector } from "react-redux";
+import { setModalState } from "../../actions/loginActions";
 
 const { Header } = Layout;
 
 export const NavBar = () => {
 
+  const dispatch = useDispatch();
   const history = useHistory();
 
   //Valida si el usuario esta logueado
@@ -23,11 +26,11 @@ export const NavBar = () => {
     }
   }
 
+  const number = useSelector((state: any) => state.login.number);
+
   const logOutSession = () => {
     var status = logOut()
-    status && setTimeout(() => {
-      history.push("/");
-    }, 1000);
+    status && history.push("/");
   }
 
   const menu = (
@@ -45,9 +48,16 @@ export const NavBar = () => {
     </Menu>
   );
 
-
   const [visible, setVisible] = useState<boolean>(false);
   const [regOrLog, setRegOrLog] = useState<string>("logIn")
+
+  useEffect(() => {
+    if (number === 1) {
+      setVisible(false)
+      dispatch(setModalState(0))
+    }
+  },[number, dispatch])
+
   return (
     <>
       <Header className="headd">

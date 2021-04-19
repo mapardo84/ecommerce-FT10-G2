@@ -6,6 +6,8 @@ import ReCAPTCHA from "react-google-recaptcha";
 import { errorMsgcaptcha } from "../../helpers/logIn"
 import { useState } from "react";
 import { supabase } from "../../SupaBase/conection";
+import { useDispatch, useSelector } from "react-redux";
+import { setModalState } from "../../actions/loginActions";
 import "./LogIn.less";
 
 interface log {
@@ -18,8 +20,13 @@ interface logIn {
 
 //Login component
 export const LogIn = () => {
+  const dispatch = useDispatch();
   const [form] = Form.useForm();
   const history = useHistory();
+
+  const number = useSelector((state:any) => state.login.number);
+  console.log("number: "+ number)
+
 
   let captchaData = {
     isVerified: false,
@@ -38,9 +45,10 @@ export const LogIn = () => {
     if (captchaData.isVerified) {
       var status = await classicLogIn(values.email, values.password);
       status && history.push("/home");
-      status && window.location.reload()
+      status && dispatch(setModalState(1));
     } else {
       errorMsgcaptcha()
+      dispatch(setModalState(0));
     }
   };
 
