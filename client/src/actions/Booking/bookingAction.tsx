@@ -10,6 +10,7 @@ export const FREE_ROOMS_SHOW= "FREE_ROOMS_SHOW"
 export const SET_CATEGORY = "SET_CATEGORY";
 export const SELECTED_CATEGORY_ROOMS = "SELECTED_CATEGORY_ROOMS";
 export const BOOKED_ROOM = "BOOKED_ROOM";
+export const SET_LOADING = 'SET_LOADING';
 export interface bookAction {
     type: string,
     payload: any
@@ -139,6 +140,13 @@ export const roomSelected = (categoryPax:any, freeRooms:roomType[])=>{
 const bookedRoom = (payload:any) =>{
     return{
         type: BOOKED_ROOM,
+        payload
+    }
+}
+
+export const setLoading = (payload:boolean) => {
+    return {
+        type: SET_LOADING,
         payload
     }
 }

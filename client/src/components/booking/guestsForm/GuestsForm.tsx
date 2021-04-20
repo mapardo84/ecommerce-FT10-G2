@@ -4,7 +4,7 @@ import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useDispatch } from 'react-redux'
 import { Space, DatePicker } from 'antd';
-import { setBookData, stepChange, getCategoriesForUser} from '../../../actions/Booking/bookingAction';
+import { setBookData, stepChange, getCategoriesForUser, setLoading} from '../../../actions/Booking/bookingAction';
 import { Form, InputNumber, Button } from 'antd';
 const { RangePicker } = DatePicker;
 const formItemLayout = {
@@ -48,6 +48,7 @@ export const GuestsForm = () => {
     e.preventDefault();
     dispatch(setBookData(booking));
     dispatch(getCategoriesForUser(booking));
+    dispatch(setLoading(true));
     dispatch(stepChange(1));
   } 
 
