@@ -21,7 +21,7 @@ export const HomeLayout = (): JSX.Element => {
     })
   }, [])
 
-  
+
   const showName = async () => {
     const user: any = supabase.auth.user()
     if (user?.aud === "authenticated") {

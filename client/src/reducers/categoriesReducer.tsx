@@ -1,4 +1,4 @@
-import { GET_CATEGORIES } from "./../actions/index";
+import { GET_CATEGORIES, GET_CATEGORIES_NAMES } from "./../actions/index";
 import {
   GET_ADMIN_CATEGORIES,
   FILTER_CATEGORY,
@@ -8,9 +8,11 @@ import {
 import { Category } from "../Admin/components/Categories/Categories";
 export interface initialStateProps {
   categories: any;
+  
 }
 interface IState {
   categories: Category[];
+  categoriesNames:any
 }
 
 interface actionProps {
@@ -20,6 +22,7 @@ interface actionProps {
 
 const initialState: IState = {
   categories: [],
+  categoriesNames:[]
 };
 
 export function categoriesReducer(
@@ -65,6 +68,12 @@ export function categoriesReducer(
         ...state,
         categories: state.categories.concat(action.payload),
       };
+    case GET_CATEGORIES_NAMES:
+      return{
+        ...state,
+        categoriesNames: action.payload
+      }  
+      
 
     default:
       return state;
