@@ -1,5 +1,5 @@
 import { Provider } from 'react-redux';
-import { AppRouter } from './routers/AppRouter';
+import { AppRouter } from '../src/routers/AppRouter'
 import { store } from './store/store';
 import "antd/dist/antd.less";
 import './App.less';

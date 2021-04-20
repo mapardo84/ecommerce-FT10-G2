@@ -13,6 +13,7 @@ import { AccomodationDetailsLayout } from "../components/layout/AccomodationsDet
 import { RoomsLayout } from "../components/Admin/components/Layout/RoomsLayout/RoomsLayout";
 import { LayoutAdmin } from "../components/Admin/components/Layout/Layout";
 import { SearchBooking } from "../components/Admin/SearchBar/SearchBar";
+import { SuccessPayment } from "../components/MercadoPago/SuccessPayment";
 
 //ACA VAN TODAS LAS RUTAS
 
@@ -28,6 +29,7 @@ export const AppRouter = () => {
           <Route exact path="/admin" component={LayoutAdmin}/>
           <Route exact path="/admin/rooms" component={RoomsLayout} />
           <Route exact path="/searchBar" component={SearchBooking} />
+          <Route exact path="/success" component={SuccessPayment} />
           <Route
             exact
             path="/home/accomodations/:id"

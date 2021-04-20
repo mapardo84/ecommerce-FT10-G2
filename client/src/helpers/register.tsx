@@ -1,4 +1,4 @@
-import {Registro } from "../components/LogIn/Register";
+import {Registro} from "../components/LogIn/Register";
 import { supabase } from "../SupaBase/conection";
 import { message } from "antd";
 

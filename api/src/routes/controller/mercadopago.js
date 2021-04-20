@@ -20,6 +20,7 @@ async function getPreferenceId(req,res){
     // { userId: req.userId, productId: req.body.productId }
 
     mercadopago.preferences.create({
+        back_urls:{success:"http://localhost:3000/success"},
         items:[{
                 title,
                 unit_price,

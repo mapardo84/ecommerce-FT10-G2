@@ -1,0 +1,16 @@
+.form {
+  display: flex;
+  flex-direction: column;
+}
+.paxForm_container {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
+.paxForm_TitleGuest {
+  margin-left: 30%;
+}
+.mercado_pago {
+  display: flex;
+  justify-content: center;
+}
