@@ -21,6 +21,6 @@ export const rootReducer = combineReducers({
   users: usersReducer,
   idByMail: getIdByEmailReducer,  
   reviews:reviewsReducer,
-  getCheckOut
+  getCheckOut,
   login: loginReducer,
 });
