@@ -1,43 +1,39 @@
-import { Register } from "../components/LogIn/Register";
+import { IRegister } from "../components/LogIn/Register";
 import { supabase } from "../SupaBase/conection";
 import { message } from "antd";
 
 const success = () => {
-    message.success({
-        content: "Success register",
-        className: "custom-class",
-        style: {
-            marginTop: "20vh",
-        },
-    });
+    message.success("Confirmation email sent, please check it");
 };
 
-const errorMsg = (msg:any) => {
+const errorMsg = (msg: any) => {
     message.error(msg);
 };
 
-export const sendRegister = async (formData: Register) => {
-    try{const results = await supabase.auth.signUp({
-        email: formData.email,
-        password: formData.password,
-    });
-    
-    if (!results.error) {
-        const { data, error } = await supabase.from("users").insert([
-            {
-                uuid: formData.DNI,
-                email: formData.email,
-                first_name: formData.firstName,
-                last_name: formData.lastName,
-            },
-        ]);
-        if (!error) {
-            success();
+export const sendRegister = async (formData: IRegister) => {
+    try {
+        const results = await supabase.auth.signUp({
+            email: formData.email,
+            password: formData.password,
+        });
+
+        if (!results.error) {
+            const {error } = await supabase.from("users").insert([
+                {
+                    uuid: formData.DNI,
+                    email: formData.email,
+                    first_name: formData.firstName,
+                    last_name: formData.lastName,
+                },
+            ]);
+            if (!error) {
+                success();
+                return true
+            } else {
+                errorMsg(JSON.stringify(error))
+            }
         } else {
-            errorMsg(JSON.stringify(error))
+            errorMsg('A user with this email address has already been registered')
         }
-    }else{
-        errorMsg(JSON.stringify(results.error))
-    }
-    }catch(error){console.log(error)}
+    } catch (error) { console.log(error) }
 };

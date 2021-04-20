@@ -1,49 +1,34 @@
-import React, { useState, FunctionComponent } from 'react';
-import 'antd/dist/antd.css';
+import { FunctionComponent } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import '../booking/StepsBooking.less'
 import { Steps } from 'antd';
 import { PaxForm } from './paxForm/PaxForm';
 import { AccomodationsSelect } from './accomodationsSelect/AccomodationsSelect';
-import { MyCalendar } from '../Calendar/MyCalendar';
-import '../booking/StepsBooking.less'
 import { GuestsForm } from './guestsForm/GuestsForm';
+import { stepChange } from '../../actions/Booking/bookingAction';
 
 const { Step } = Steps;
 
 export const StepsBooking: FunctionComponent = () => {
+  const selectedStep:number = useSelector( (state:any) => state.bookings.step );
+  const dispatch = useDispatch();
+  return (
+    <>
+      <Steps
+        type="navigation"
+        size="default"
+        current={selectedStep}
+        onChange={ s => dispatch(stepChange(s)) }
+        className="site-navigation-steps"
+      >
+        <Step status={0 < selectedStep ? "finish" : "process"} title="Guests" description='' />
+        <Step status={1 < selectedStep ? "finish" : "wait"} title="Accomodations" />
+        <Step status={2 < selectedStep ? "finish" : "wait"} title="Payment" />
+      </Steps>
 
-  const [currentStep, setCurrentStep] = useState({
-    current: 0
-  })
-
-
-  const onChange = (current: number) => {
-    console.log('onChange:', current);
-    setCurrentStep({ current });
-  };
-
-
-    return (
-      <>
-        <Steps
-          type="navigation"
-          size="default"
-          current= {currentStep.current}
-          onChange={onChange}
-          className="site-navigation-steps"
-        >
-          
-          <Step status={0 < currentStep.current ? "finish" : "process"} title="Guests" description = '' />
-          <Step status={1 < currentStep.current ? "finish" : "wait"} title="Dates Of Stay" />
-          <Step status={2 < currentStep.current ? "finish" : "wait"} title="Accomodations" />
-          <Step status={3 < currentStep.current ? "finish" : "wait"} title="Payment" />
-        </Steps>
-
-        { currentStep.current === 0? <GuestsForm/>: null}
-        { currentStep.current === 1? <MyCalendar/>: null}
-        { currentStep.current === 2? <AccomodationsSelect/>: null}
-        { currentStep.current === 3? <PaxForm/>: null}
-        
-        
-      </>
-    );
-  }
+      { selectedStep === 0 ? <GuestsForm /> : null}
+      { selectedStep === 1 ? <AccomodationsSelect /> : null}
+      { selectedStep === 2 ? <PaxForm /> : null}
+    </>
+  );
+}

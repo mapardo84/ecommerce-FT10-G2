@@ -1,16 +1,17 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Button, Layout, Image, Select } from "antd";
+import { Button, Select } from "antd";
 import "./Category.less";
-import { initialStateProps } from "./../../reducers/categoriesReducer";
-import { getCategories } from "../../actions";
+import { categoriesReducer, initialStateProps } from "./../../reducers/categoriesReducer";
+import { getCategories, getCategoriesNames } from "../../actions";
 import Category from "./Category";
 import "./../accomodations/accomodations.less";
 import "./../layout/homeLayout.less";
 import { NavLink } from "react-router-dom";
 
 const { Option } = Select;
-const { Content, Header } = Layout;
+
+
 const Categories = ({ data }: any): JSX.Element => {
   const dispatch = useDispatch();
   const cat = useSelector((state: initialStateProps) => state.categories);
@@ -19,13 +20,24 @@ const Categories = ({ data }: any): JSX.Element => {
     const resolve = await getCategories(value);
     dispatch(resolve);
   };
+  const getCategoriesNamesDB = async () => {
+    const resolve = await getCategoriesNames();
+    dispatch(resolve);
+  };
 
   useEffect(() => {
     getCategoriesDB(undefined);
-  }, []);
+    getCategoriesNamesDB()
+  }, [dispatch]);
+
+
   const handleChange = (value: any) => {
     console.log(value);
-    getCategoriesDB(value);
+    if (value === '0') {
+      getCategoriesDB(undefined);
+    } else {
+      getCategoriesDB(value);
+    }
   };
 
   return (
@@ -38,23 +50,23 @@ const Categories = ({ data }: any): JSX.Element => {
               style={{ width: 200 }}
               onChange={handleChange}
             >
-              <Option value="0">No Filter</Option>
-              <Option value="5">Economic 1 Person</Option>
-              <Option value="1">Standard 2 Persons</Option>
-              <Option value="2">Standard 4 Persons</Option>
-              <Option value="4">Suite 2 Persons</Option>
-              <Option value="3">Suite 4 Persons</Option>
-              <Option value="6">Penthouse 6 Persons</Option>
+              <Option value="0">All Categories</Option>
+
+              { cat?.categoriesNames.map((category: any, i: number) => {
+                return(
+                  <Option value = {category.id} key = {i}>{category.name}</Option>
+                )
+              })}
             </Select>
           </span>
           <span>
             <NavLink to="/booking">
-            <Button
-              size="large"
-              type="primary"
-              className="accomodationReserveButton"
-            >
-              Book now!
+              <Button
+                size="large"
+                type="primary"
+                className="accomodationReserveButton"
+              >
+                Book now!
             </Button>
             </NavLink>
           </span>

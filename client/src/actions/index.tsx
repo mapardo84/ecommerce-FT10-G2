@@ -1,6 +1,7 @@
 import {supabase} from './../SupaBase/conection'
 
 export const GET_CATEGORIES='GET_CATEGORIES';
+export const GET_CATEGORIES_NAMES='GET_CATEGORIES_NAMES';
 
   
 /* export const getCategories= ()=>{
@@ -13,7 +14,7 @@ export const GET_CATEGORIES='GET_CATEGORIES';
 
 export const getCategories = async (id?:number) => { 
     if(!id){
-        let { data: categories, error } = await supabase
+        let { data: categories } = await supabase
             .from('categories')
             .select('*') 
             return {
@@ -21,7 +22,7 @@ export const getCategories = async (id?:number) => {
                 payload:categories
             }
     }else if(id){
-        let { data: categories, error } = await supabase
+        let { data: categories } = await supabase
         .from('categories')
         .select('*') 
         .eq('id', id) 
@@ -34,6 +35,15 @@ export const getCategories = async (id?:number) => {
     
    
 }
+export const getCategoriesNames = async () => { 
+        let { data: categories } = await supabase
+            .from('categories')
+            .select('*') 
+            return {
+                type:GET_CATEGORIES_NAMES,
+                payload:categories
+            }
+}
 
 
 
@@ -41,5 +51,3 @@ export const getCategories = async (id?:number) => {
     type:GET_CATEGORIES,
     payload
 }) */
-
-

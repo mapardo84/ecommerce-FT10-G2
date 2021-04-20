@@ -1,10 +1,20 @@
-const initialState={
-    rodrigo:""
+import { SET_MODAL_STATE } from '../actions/loginActions';
+
+const initialState = {
+    number: 0,
 }
 
-export const loginReducer=(state=initialState,action:any)=>{
-    switch(action.type){
-        default:
-            return state
+interface modalState {
+    type: string,
+    payload: number
+}
+
+
+export function loginReducer (state = initialState, action:modalState) {
+
+    switch ( action.type ) {
+        case SET_MODAL_STATE:
+            return { ...state, number: action.payload };
+        default: return state;
     }
 }
