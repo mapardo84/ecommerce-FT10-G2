@@ -38,8 +38,8 @@ export const NavBar = () => {
       <Menu.Item key="1" icon={<HeartOutlined />}>
         Wish List
       </Menu.Item>
-      <Menu.Item key="1" icon={<CalendarOutlined />}>
-        Reservations
+    <Menu.Item key="1" onClick={()=>  history.push("/myBookings")} icon={<CalendarOutlined />}>
+        Bookings
       </Menu.Item>
       <Divider className="dividerNav"></Divider>
       <Menu.Item key="2" onClick={() => logOutSession()} icon={<ImportOutlined />}>
@@ -56,7 +56,7 @@ export const NavBar = () => {
       setVisible(false)
       dispatch(setModalState(0))
     }
-  },[number, dispatch])
+  }, [number, dispatch])
 
   return (
     <>

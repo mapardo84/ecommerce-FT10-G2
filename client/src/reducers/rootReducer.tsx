@@ -9,6 +9,7 @@ import {getIdByEmailReducer} from './getIdByEmailReducer'
 import {reviewsReducer} from './ReviewsReducer'
 import {getCheckOut} from './getCheckOut';
 import { loginReducer } from "./loginReducer";
+import { userBookingReducer } from "./userBookingsReducer";
 
 //ACA SE AGREGA CADA REDUCER QUE UTILICEN
 export const rootReducer = combineReducers({
@@ -23,4 +24,5 @@ export const rootReducer = combineReducers({
   reviews:reviewsReducer,
   getCheckOut,
   login: loginReducer,
+  userBookings: userBookingReducer,
 });

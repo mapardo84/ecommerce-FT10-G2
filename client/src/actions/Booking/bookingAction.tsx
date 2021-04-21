@@ -68,7 +68,9 @@ export const getCategoriesForUser = (userBooking:bookingType) => {
                 let { data: bookingRoom } = await supabase
                 .from('bookings')
                 .select('*')
-                .eq("room_id", rooms[i][j].id);
+                .eq("room_id", rooms[i][j].id)
+                .neq("status", true)
+
                 if ( !bookingRoom?.length ) freeRooms.push(rooms[i][j]);
                 else {
                     if ( bookingRoom[0].checkout <= checkin ) {
