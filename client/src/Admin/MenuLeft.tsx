@@ -38,7 +38,7 @@ import { useEffect } from 'react';
 //////////////////////////////////////////////////////////////
 
 
-const paginas = ['Inicio', 'Rooms', 'Categories', 'Types', 'Users', 'Checkin/Checkout']
+const paginas = ['Inicio', 'Rooms', 'Categories', 'Types', 'Users', 'Checkin/Checkout','Paxes']
 
 export const MenuLeft = () => {
     const dispatch = useDispatch()
@@ -107,6 +107,9 @@ export const MenuLeft = () => {
                     </Menu.Item>
                     <Menu.Item key={paginas[5]} icon={<FaConciergeBell />} onClick={() => setPage(paginas[5])}>
                         <NavLink to="/admin/checkin">{paginas[5]}</NavLink>
+                    </Menu.Item>
+                    <Menu.Item key={paginas[6]} icon={<FaUserAlt />} onClick={() => setPage(paginas[6])}>
+                        <NavLink to="/admin/paxes">{paginas[6]}</NavLink>
                     </Menu.Item>
 
 
