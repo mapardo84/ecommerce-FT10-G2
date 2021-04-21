@@ -18,6 +18,7 @@ import { CategoriesLayout } from "../Admin/components/CategoriesLayout";
 import { TypesLayout } from "../Admin/components/TypesLayout";
 import { UsersLayout } from "../Admin/components/UsersLayout";
 import ResetPasswordLayout from "../components/layout/ResetPasswordLayout";
+import { SuccessLayout } from "../components/layout/SuccesLayout";
 
 //ACA VAN TODAS LAS RUTAS
 
@@ -46,6 +47,11 @@ export const AppRouter = () => {
             exact
             path="/accomodations/:id"
             component={AccomodationDetailsLayout}
+          />
+          <Route
+            exact
+            path="/booking/success"
+            component={SuccessLayout}
           />
           <Route exact path="/password-reset/:token" component={ResetPasswordLayout} />
           <Redirect to="/" />

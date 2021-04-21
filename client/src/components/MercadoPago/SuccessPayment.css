@@ -1,0 +1,17 @@
+.scc {
+  background-color: white;
+  padding: 10vw;
+  margin: auto;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+.pre_booking_title {
+  display: flex;
+  justify-content: center;
+}
+.pre_booking_confirm {
+  display: flex;
+  justify-content: center;
+}
