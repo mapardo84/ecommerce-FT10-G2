@@ -1,7 +1,7 @@
 import { Row, Col, Button, Typography } from "antd";
 import './styles.less'
 import LogIn from "../LogIn/LogIn";
-import { NavLink, useLocation } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 import { useHistory } from "react-router-dom";
 
 const { Title, Text } = Typography;
@@ -9,12 +9,8 @@ const { Title, Text } = Typography;
 export const LandingPage = () => {
 
     const history = useHistory();
-    const location = useLocation();
-
-    if (JSON.stringify(location.hash).indexOf("type=recovery") !== -1) {
-        var acces_token = location.hash.substring(14).split("&")[0]
-        history.push("/password-reset/" + acces_token);
-    } 
+    const params = new URLSearchParams(window.location.hash)
+    params.get('type') === "recovery" && history.push("/password-reset/" + params.get('#access_token'));
 
     return (
         <div className='LandingPage'>
