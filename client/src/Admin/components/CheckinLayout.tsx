@@ -3,6 +3,8 @@ import { MenuLeft } from "../MenuLeft";
 import { HeaderAdmin } from "../HeaderAdmin";
 import { FooterAdmin } from "../FooterAdmin";
 import { Checkin } from './Checkin/Checkin';
+import { useState } from "react";
+import { CheckinRoom } from "./Checkin/CheckinRoom";
 
 
 //////////////////////////////////////////////////////////
@@ -26,6 +28,7 @@ import { Checkin } from './Checkin/Checkin';
 
 
 export const CheckinLayout = () => {
+    const [step, setStep] = useState(0)
 
 
     const { Content } = Layout;
@@ -39,7 +42,8 @@ export const CheckinLayout = () => {
                 <Content style={{ margin: "0 16px" }}>
 
                     {/* aca va el componente */}
-                    <Checkin />
+                    {step === 0 && <Checkin steps={setStep} />}
+                    {step === 1 && <CheckinRoom steps={setStep} />}
 
 
 

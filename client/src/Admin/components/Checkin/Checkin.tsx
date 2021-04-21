@@ -1,14 +1,14 @@
-import { Button, Input, InputNumber, Select, Table, Form, Popconfirm, Tooltip } from 'antd'
+import { Button, Input, InputNumber, Select, Table, Form, Tag } from 'antd';
 import Modal from 'antd/lib/modal/Modal'
 import { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { addRoom, deleteRoom, getAllRooms, updateRoom } from '../../actions/roomsActions';
-import { FaPencilAlt, FaTrashAlt } from "react-icons/fa";
+import { addRoom, getAllRooms, updateRoom } from '../../actions/roomsActions';
 import './checkin.less'
 import { Category } from '../Categories/Categories';
 import { getAllCategories } from '../../actions/categoriesActions';
 import { getAllTypes } from '../../actions/typesActions';
 import { IType } from '../Types/Types';
+import { saveRoomSelected } from '../../actions/checkinActions';
 
 export interface Room {
     id: number;
@@ -26,9 +26,6 @@ interface IFields {
     value: string | number
 }
 
-interface ISort {
-    name: number
-}
 
 const campos: IFields[] = [
     { name: ['name'], value: '' },
@@ -44,13 +41,6 @@ const filterData = (data: Category[]) => {
     })
 }
 
-// const numberBeds = (rooms: Room[]) => {
-//     let beds = rooms.map((room) => {
-//         return room.beds
-//     });
-//     return Array.from(new Set([...beds])).map((bed) => ({ text: bed === 1 ? `1 bed` : `${bed} beds`, value: bed }));
-// }
-
 const numberFloor = (rooms: Room[]) => {
     let floors = rooms.map((floor) => {
         return floor.floor
@@ -59,7 +49,7 @@ const numberFloor = (rooms: Room[]) => {
 }
 
 
-export const Checkin = () => {
+export const Checkin = ({ steps }: { steps: Function }): JSX.Element => {
 
     const [isModalVisible, setIsModalVisible] = useState<boolean>(false);
     const [fields, setFields] = useState<IFields[]>(campos);
@@ -80,23 +70,17 @@ export const Checkin = () => {
                 //console.log(record)
                 if (record.availability === 'available') {
                     return (
-                        <span className="checkin_available">{record.name}</span>
+                        <Tag className="checkin_pinter" color='green' key={record.id} onClick={() => { steps(1); dispatch(saveRoomSelected(record.id)) }}>
+                            {record.name}
+                        </Tag>
                     )
                 } else if (record.availability === 'not available') {
                     return (
-                        <span className="checkin_not-available">{record.name}</span>
+                        <Tag className="checkin_pinter" color='red' key={record.id} onClick={() => { steps(1); dispatch(saveRoomSelected(record.id)) }}>
+                            {record.name}
+                        </Tag>
                     )
                 }
-            }
-        },
-        {
-            title: 'Floor',
-            dataIndex: 'floor',
-            key: 'floor',
-            filters: numberFloor(roomsList),
-            filterMultiple: false,
-            onFilter: (value: number, rooms: Room) => {
-                return rooms.floor === value
             }
         },
         {
@@ -110,6 +94,16 @@ export const Checkin = () => {
             filterMultiple: false,
             onFilter: (value: string, rooms: Room) => {
                 return rooms.availability === value
+            }
+        },
+        {
+            title: 'Floor',
+            dataIndex: 'floor',
+            key: 'floor',
+            filters: numberFloor(roomsList),
+            filterMultiple: false,
+            onFilter: (value: number, rooms: Room) => {
+                return rooms.floor === value
             }
         },
         {
@@ -133,6 +127,22 @@ export const Checkin = () => {
             onFilter: (value: number, rooms: Room) => {
                 return rooms.category_id === value
             }
+        },
+        {
+            title: 'Price per night',
+            dataIndex: 'category_id',
+            key: 'price',
+            //filters: filterPrice(roomsList, categories, types),
+            //filterMultiple: false,
+            // onFilter: (value: any) => {
+            //     //console.log(a)
+            //     return rooms.category_id === value
+            // },
+            render: (_: any, record: any) => {
+                const categoryPrice = categories.find((category: Category) => category.id === record.category_id).price
+                const roomType = types.find((type: IType) => type.id === record.type_id)?.beds
+                return (<>USD {categoryPrice * roomType}</>)
+            },
         },
         {
             title: 'Action',
@@ -184,25 +194,6 @@ export const Checkin = () => {
         }
     };
 
-    const handleDelete = (id: number) => {
-        const index = roomsList.find((room: Room) => room.id === id)
-        dispatch(deleteRoom(index.id))
-    };
-
-
-    const handleEdit = (id: number) => {
-        setIsModalVisible(true)
-        const index = roomsList.find((room: Room) => room.id === id)
-        setEditId(index)
-        setFields([
-            { name: ['name'], value: index.name },
-            { name: ['floor'], value: index.floor },
-            { name: ['availability'], value: index.availability },
-            { name: ['category_id'], value: categories.find((category: Category) => category.id === index.category_id)?.name },
-            { name: ['type_id'], value: types.find((type: IType) => type.id === index.type_id)?.name },
-        ])
-    }
-
     const closeModal = () => {
         setFields(campos)
         setEditId(null)
@@ -213,7 +204,7 @@ export const Checkin = () => {
     return (
         <div>
             <div className="adminRooms_upbar">
-                <Button type="primary" onClick={() => setIsModalVisible(true)} >Add Room</Button>
+                {/* <Button type="primary" onClick={() => setIsModalVisible(true)} >Add Room</Button> */}
             </div>
             <Table
                 dataSource={roomsList}
