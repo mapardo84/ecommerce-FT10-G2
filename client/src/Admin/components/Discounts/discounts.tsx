@@ -5,16 +5,22 @@ import { getAllDiscounts, updateDiscounts, checkId, deleteDiscount,addDiscount }
 import { FaTrashAlt, FaPencilAlt } from 'react-icons/fa';
 import './discounts.less'
 import { supabase } from '../../../SupaBase/conection'
+import {getAllCategories} from "../../actions/categoriesActions"
 
 import { SearchOutlined } from '@ant-design/icons';
+import { categoryType } from '../../../components/booking/accomodationsSelect/AccomodationsSelect';
+import { promotionType } from '../../../actions/Promotions/promotionsAction';
 
-const idToName = async (id: number) =>{
-    var  data:any  = await supabase
-    .from('categories')
-    .select('name')
-    .eq('id', id)
-   console.log(data.data[0].name) 
-}
+// const idToName = async (id: number) =>{
+//     var  data:any  = await supabase
+//     .from('categories')
+//     .select('name')
+//     .eq('id', id)
+//    console.log(data.data[0].name) 
+// }
+
+
+
 
 
 export interface IDiscounts {
@@ -47,6 +53,29 @@ const campos: IFields[] = [
 
 export const Discounts = () =>{
     const { Option } = Select;
+    const promotions:promotionType =  useSelector((state:any) => 
+state.adminDiscounts.discounts
+)
+console.log(promotions)
+const dispatch = useDispatch()
+    useEffect(() => {
+       dispatch(getAllCategories()) 
+       
+    }, [promotions,dispatch])
+
+
+    const categories =  useSelector((state:any) => 
+    state.categories.categories
+)
+console.log(categories)
+
+// const cateFound =  categories.find((c:any) => { 
+//     c.id === record.categoryToApply
+// })
+
+
+
+
 
     const [isModalVisible, setIsModalVisible] = useState<boolean>(false);
     const [editId, setEditId] = useState<IDiscounts | null>(null)
@@ -57,7 +86,7 @@ export const Discounts = () =>{
 
     const  adminDiscounts  = useSelector((state: any) => state?.adminDiscounts.discounts)
 
-    const dispatch = useDispatch()
+    
 
     const handleSearch = (selectedKeys: string, confirm: Function, dataIndex: string) => {
         confirm();
@@ -148,15 +177,25 @@ export const Discounts = () =>{
             title: 'Category to apply',
             dataIndex: 'categoryToApply',
             key: 'categoryToApply',
-            // render: (_: undefined, record:any) =>{
-            //    if (record.categoryToApply){
-            //     return (
-            //         <span>
-            //          {idToName(record.id)}
-            //         </span>
-            //     )
-            //    }
-            // }
+            render: (_: undefined, record:any) =>{
+                console.log(categories)
+                const x = categories?.find((c:any) => 
+                 c.id === record?.categoryToApply
+             )
+             console.log(x)
+                   if(x){
+                    return <span>{x.name}</span>
+                  }
+                  else{
+                    return (<span>-</span>)
+                                      }
+                }
+
+                
+                
+             
+    //    }
+           
         },{
             title: 'Release date',
             dataIndex: 'releaseDate',
