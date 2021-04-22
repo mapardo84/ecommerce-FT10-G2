@@ -80,7 +80,6 @@ export const getPaimentsOfBooking = (bookingId: number) => {
 }
 
 export const checkout = async (roomId: number) => {
-    console.log("Entra")
     try {
         const { error } = await supabase
             .from('rooms')
@@ -123,6 +122,8 @@ export const createPayment = async (newData: any) => {
     }
 
 }
+
+
 
 
 export const saveRoomSelected = (data: any) => ({
