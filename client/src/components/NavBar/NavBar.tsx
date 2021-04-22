@@ -2,7 +2,6 @@ import { Layout, Menu, Row, Col, Button, Modal, Divider, Dropdown } from "antd";
 import { DownOutlined, UserOutlined, ImportOutlined, HeartOutlined, CalendarOutlined } from '@ant-design/icons';
 import LogIn from "../LogIn/LogIn";
 import { useEffect, useState } from "react";
-import { NavLink, useHistory } from "react-router-dom";
 import "./NavBar.less";
 import hotel from "./hotel.png"
 import { Register } from "../LogIn/Register";
@@ -10,6 +9,7 @@ import { supabase } from '../../SupaBase/conection'
 import { logOut } from "../../helpers/logOut";
 import { useDispatch, useSelector } from "react-redux";
 import { setModalState } from "../../actions/loginActions";
+import { NavLink, useHistory } from "react-router-dom";
 
 const { Header } = Layout;
 
@@ -38,7 +38,7 @@ export const NavBar = () => {
       <Menu.Item key="1" icon={<HeartOutlined />}>
         Wish List
       </Menu.Item>
-    <Menu.Item key="1" onClick={()=>  history.push("/myBookings")} icon={<CalendarOutlined />}>
+      <Menu.Item key="1" onClick={() => history.push("/myBookings")} icon={<CalendarOutlined />}>
         Bookings
       </Menu.Item>
       <Divider className="dividerNav"></Divider>

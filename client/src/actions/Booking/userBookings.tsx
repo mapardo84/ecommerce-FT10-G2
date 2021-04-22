@@ -4,10 +4,14 @@ import { Dispatch } from "redux";
 import { supabase } from "../../SupaBase/conection";
 
 export const GET_USER_BOOKINGS = 'GET_USER_BOOKINGS';
+export const SET_LOADING = 'SET_LOADING';
+
 
 export const getUserBookings = () => {
 
     return async (dispatch: Dispatch<any>) => {
+
+        dispatch(setLoading(true))
 
         const user: any = supabase.auth.user()
 
@@ -26,48 +30,50 @@ export const getUserBookings = () => {
             let paxBookingsId: any = await supabase
                 .from('booking_pax')
                 .select('booking_id')
-                .eq("pax_id", paxes.data[0].id)
+                .eq("pax_id", paxes.data[0]?.id)
 
             let userBookings: any = []
 
-            const bx: any = paxBookingsId.data.map((booking: any) => {
+            if (paxBookingsId.data !== null) {
 
-                return (
-                    supabase
-                        .from('bookings')
-                        .select('*, payments(totalPrice, payment_method), room_id(name, category_id(name, price), type_id(name, beds))')
-                        .eq("id", booking.booking_id)
-                )
-            })
+                const bx: any = paxBookingsId.data.map((booking: any) => {
 
-            Promise.all(bx).then((r: any) => {
-
-                r.forEach((bookings: any) => {
-
-                    console.log("BOOKINGS:", bookings)
-
-                    if (bookings.data[0].status) {
-                        const bookingDetails = {
-                            bookingId: bookings.data[0]?.id,
-                            checkin: bookings.data[0]?.checkin,
-                            checkout: bookings.data[0]?.checkout,
-                            roomNumber: bookings.data[0]?.room_id.name,
-                            category: bookings.data[0]?.room_id.category_id.name,
-                            type: bookings.data[0]?.room_id.type_id.name,
-                            totalPrice: bookings.data[0]?.payments[0]?.totalPrice,
-                            paymentMethod: bookings.data[0]?.payments[0]?.payment_method,
-                            paxes: bookings.data[0]?.paxes_amount,
-                            actual: false,
-                            userId: userEmail.data[0]?.id
-                        }
-                        userBookings.push(bookingDetails)
-                    }
+                    return (
+                        supabase
+                            .from('bookings')
+                            .select('*, payments(totalPrice, payment_method), room_id(name, category_id(name, price), type_id(name, beds))')
+                            .eq("id", booking.booking_id)
+                    )
                 })
 
-                dispatch(saveUserBookings(userBookings))
-                console.log(userBookings)
+                Promise.all(bx).then((r: any) => {
+
+                    r.forEach((bookings: any) => {
+
+                        if (bookings.data[0].status) {
+                            const bookingDetails = {
+                                bookingId: bookings.data[0]?.id,
+                                checkin: bookings.data[0]?.checkin,
+                                checkout: bookings.data[0]?.checkout,
+                                roomNumber: bookings.data[0]?.room_id.name,
+                                category: bookings.data[0]?.room_id.category_id.name,
+                                type: bookings.data[0]?.room_id.type_id.name,
+                                totalPrice: bookings.data[0]?.payments[0]?.totalPrice,
+                                paymentMethod: bookings.data[0]?.payments[0]?.payment_method,
+                                paxes: bookings.data[0]?.paxes_amount,
+                                actual: false,
+                                userId: userEmail.data[0]?.id
+                            }
+                            userBookings.push(bookingDetails)
+                        }
+                    })
+                    dispatch(saveUserBookings(userBookings))
+                    dispatch(setLoading(false))
+                }
+                )
+            } else {
+                dispatch(setLoading(false))
             }
-            )
         }
     }
 }
@@ -75,6 +81,13 @@ export const getUserBookings = () => {
 const saveUserBookings = (params: any) => {
     return {
         type: GET_USER_BOOKINGS,
+        payload: params
+    }
+}
+
+export const setLoading = (params: any) => {
+    return {
+        type: SET_LOADING,
         payload: params
     }
 }

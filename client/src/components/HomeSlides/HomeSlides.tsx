@@ -11,7 +11,8 @@ export const HomeSlides = () => {
         dots: true,
         infinite: true,
         autoplay: true,
-        autoplaySpeed: 4000
+        autoplaySpeed: 4000,
+        pauseOnHover: false,
     };
     
     return (
