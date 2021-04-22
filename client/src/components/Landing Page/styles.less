@@ -8,22 +8,43 @@
     display: flex;      
     font-family: 'Montserrat', sans-serif;
     overflow: hidden;
+  
+
 }
 
-//Left Column
 
-.landingleft{
-    width: 35vw;
-    margin-left: 15vw;
-    margin-right: 10vw;
-    
-}
 
 .landingTitle{
     color: white !important;
     font-size: 85px !important;
-    margin-left: 0px;
+    margin-left: 0px !important;
     text-shadow: 1px 1px 10px rgba(44, 44, 44, 0.37);
+
+    @media screen and (max-width:765px){
+    
+        color:white;   
+        font-size: 38px !important;
+        display: flex !important;
+        margin-top:30px !important ;
+        margin-left: 50px !important;
+        width: 300px;
+
+
+        }
+
+        @media screen and (min-width:768px){
+            margin-top: 300px !important;
+            margin-left: 10px !important;
+
+        }
+        @media screen and (min-width:1280px){
+          font-size: 90px;
+            
+
+        }
+
+        
+    
 }
 
 .landingText{
@@ -31,17 +52,64 @@
    font-size: 18px !important;
    text-align: center;
    text-shadow: 1px 1px 10px rgba(44, 44, 44, 0.37);
+  
+  
+   @media screen and (max-width:765px){
+    color: rgba(255, 255, 255, 0.733) !important;   
+    font-size: 12px !important;
+    text-shadow: 1px 1px 10px rgba(44, 44, 44, 0.37);
+    display: flex !important;
+    margin-left: 40px !important;
+    width: 300px;
+
+    }
+    @media screen and (min-width:768px){
+        width: 400px !important;  
+        display: flex;
+        margin-left: 10px;
+
+    }
+    
 }
 
 .lanButton{
     margin-top: 40px;
     border: 0 !important;
     background-color: #5296A5 !important;
+    @media screen and (max-width:765px){
+        display: flex !important;
+        margin-top: 550px !important;  
+        
+}
+@media screen and (min-width:768px){
+    display: flex;
+    margin-right: 10px !important;
+
+ }
+    
+}
+.ant-btn ant-btn-primary ant-btn-lg {
+    width: 100px !important;
+    height: 100px !important;
+}
+
+.containbtn{
+    @media screen and (max-width:765px){
+        display: flex !important; 
+        width: 100px !important;
+        height: 100px !important;
+
+    }
+  
+    
 }
 .lanButton:hover{
     background-color: #82DDF0 !important;
     border: 0 !important;
+    
 }
+
+
 
 //Righ Column
 
@@ -56,7 +124,38 @@
  margin-left: 100px;
  display: flex;
  padding-left: 7.7%;
- padding-top: 5%;
+ padding-top: 5%; 
+
+  @media screen and (max-width:765px){
+   display: flex !important;
+   height: 340px !important;
+   width: 320px !important;
+   margin-right: -80px;
+    margin-left: -300px;
+    margin-top: 160px;
+
+  }
+
+  @media screen and (min-width:768px){
+    display: flex !important;
+    justify-content: start !important;
+    align-items: flex-start !important;
+     margin-top: 230px;
+     margin-left: -110px;
+     margin-right: -90px;
+
+}
+@media screen and (min-width:1280px){
+    display: flex !important;
+    align-items: center !important;
+    margin-left: 80px !important;
+     margin-right: -90px !important;
+
+      
+
+  }
+
+ 
 
 }
 
