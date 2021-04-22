@@ -22,6 +22,7 @@ const success = (mensaje: string) => {
 };
 
 export const getAllRooms = () => {
+    
     return async (dispatch: Dispatch<any>) => {
         try {
             const { data, error } = await supabase.from('rooms').select('*,categories(name)')

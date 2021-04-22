@@ -38,10 +38,11 @@ import { useEffect } from 'react';
 //////////////////////////////////////////////////////////////
 
 
-const paginas = ['Inicio', 'Rooms', 'Categories', 'Types', 'Users', 'Checkin/Checkout','Paxes']
+const paginas = ['Inicio', 'Rooms', 'Categories', 'Types', 'Users', 'Checkin/Checkout','Paxes','Bookings']
 
 export const MenuLeft = () => {
     const dispatch = useDispatch()
+
     const history = useHistory()
     useEffect(() => {
         loginUser()
@@ -110,6 +111,9 @@ export const MenuLeft = () => {
                     </Menu.Item>
                     <Menu.Item key={paginas[6]} icon={<FaUserAlt />} onClick={() => setPage(paginas[6])}>
                         <NavLink to="/admin/paxes">{paginas[6]}</NavLink>
+                    </Menu.Item>
+                    <Menu.Item key={paginas[7]} icon={<FaUserAlt />} onClick={() => setPage(paginas[7])}>
+                        <NavLink to="/admin/bookings">{paginas[7]}</NavLink>
                     </Menu.Item>
 
 
