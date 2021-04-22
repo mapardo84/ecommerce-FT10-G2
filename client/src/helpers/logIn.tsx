@@ -13,14 +13,17 @@ export const errorMsgcaptcha = () => {
 };
 //Sign in using third-party providers.
 export const loginWith = async (provider: any) => {
+    
     try {
+     
         const { error } = await supabase.auth.signIn({
             provider
         }, {
             redirectTo: 'http://localhost:3000/home'
         })
         if (!error) {
-            // success()
+            //ACA AGARRAR MAIL
+             success()
 
         } else {
             errorMsg()
@@ -30,19 +33,31 @@ export const loginWith = async (provider: any) => {
 
 //user login with email provider
 export const classicLogIn = async (email: string, password: string) => {
-    try {
-        const {error } = await supabase.auth.signIn({
-            email,
-            password
-        }, {
-            redirectTo: 'http://localhost:3000/home'
-        })
-        if (!error) {
-            return true
 
-        } else {
+    try {
+        var  data:any  = await supabase
+        .from('users')
+        .select('active')
+        .eq('email', email)
+        
+        if(data.data[0].active === 1){
+            const {error } = await supabase.auth.signIn({
+                email,
+                password
+            }, {
+                redirectTo: 'http://localhost:3000/home'
+            })
+            if (!error) {
+                return true
+    
+            } else {
+                errorMsg()
+            }
+        }
+        else {
             errorMsg()
         }
+  
     } catch (err) { console.log(err) }
 }
 
