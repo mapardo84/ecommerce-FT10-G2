@@ -54,6 +54,7 @@ export const Checkin = ({ steps }: { steps: Function }): JSX.Element => {
     const [isModalVisible, setIsModalVisible] = useState<boolean>(false);
     const [fields, setFields] = useState<IFields[]>(campos);
     const [editId, setEditId] = useState<null | Room>(null)
+    const [loaded, setLoaded] = useState(false)
 
     const { roomsList } = useSelector((state: any) => state?.rooms)
     const { categories } = useSelector((state: any) => state?.categories)
@@ -80,6 +81,12 @@ export const Checkin = ({ steps }: { steps: Function }): JSX.Element => {
                             {record.name}
                         </Tag>
                     )
+                } else if (record.availability === 'cleaning') {
+                    return (
+                        <Tag className="checkin_pinter" color='blue' key={record.id} onClick={() => { steps(1); dispatch(saveRoomSelected(record.id)) }}>
+                            {record.name}
+                        </Tag>
+                    )
                 }
             }
         },
@@ -89,6 +96,7 @@ export const Checkin = ({ steps }: { steps: Function }): JSX.Element => {
             key: 'availability',
             filters: [
                 { text: 'Availble', value: "available" },
+                { text: 'Cleaning', value: "cleaning" },
                 { text: 'Not available', value: "not available" },
             ],
             filterMultiple: false,
@@ -170,8 +178,14 @@ export const Checkin = ({ steps }: { steps: Function }): JSX.Element => {
         dispatch(getAllRooms())
         dispatch(getAllCategories())
         dispatch(getAllTypes())
-
     }, [dispatch])
+
+    useEffect(() => {
+        if (categories.length > 0 && types.length > 0 && roomsList.length > 0) {
+            setLoaded(true)
+        }
+
+    }, [categories, types, roomsList])
 
     const onFinish = (values: Room) => {
 
@@ -206,13 +220,15 @@ export const Checkin = ({ steps }: { steps: Function }): JSX.Element => {
             <div className="adminRooms_upbar">
                 {/* <Button type="primary" onClick={() => setIsModalVisible(true)} >Add Room</Button> */}
             </div>
-            <Table
-                dataSource={roomsList}
-                columns={columns}
-                pagination={{ position: ['bottomCenter'] }}
-                rowKey="name"
+            {loaded &&
+                <Table
+                    dataSource={roomsList}
+                    columns={columns}
+                    pagination={{ position: ['bottomCenter'] }}
+                    rowKey="name"
 
-            />
+                />
+            }
             <Modal title="Add Room" visible={isModalVisible} onCancel={closeModal} footer={null} >
                 <Form onFinish={onFinish} fields={fields}>
                     <Form.Item

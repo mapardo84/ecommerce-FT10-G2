@@ -12,15 +12,15 @@ const errorMsg = (msg: string, time: number = 3) => {
     message.error(msg, time);
 };
 
-// const success = (mensaje: string) => {
-//     message.success({
-//         content: mensaje,
-//         className: "custom-class",
-//         style: {
-//             marginTop: "20vh",
-//         },
-//     });
-// };
+const success = (mensaje: string) => {
+    message.success({
+        content: mensaje,
+        className: "custom-class",
+        style: {
+            marginTop: "20vh",
+        },
+    });
+};
 
 export const nextBookingRoom = (roomId: number) => {
     //const today = new Date()
@@ -77,6 +77,51 @@ export const getPaimentsOfBooking = (bookingId: number) => {
             errorMsg("Internal server error. Try again")
         }
     }
+}
+
+export const checkout = async (roomId: number) => {
+    console.log("Entra")
+    try {
+        const { error } = await supabase
+            .from('rooms')
+            .update({
+                availability: 'cleaning',
+                curent_pax: null,
+                curent_booking: null
+            })
+            .eq('id', roomId)
+        if (!error) {
+            success('Check-Out success')
+            //dispatch(roomPayments(data))
+        } else {
+            errorMsg(JSON.stringify(error))
+        }
+    } catch (err) {
+        errorMsg("Internal server error. Try again")
+    }
+}
+
+export const createPayment = async (newData: any) => {
+
+    try {
+        const { error } = await supabase
+            .from('payments')
+            .insert([{
+                totalPrice: newData.totalPrice,
+                booking_id: newData.booking_id,
+                payment_method: newData.payment_method,
+                payment_status: 'Approved',
+                preference_id: newData.booking_id
+            },
+            ])
+        if (error) {
+            console.log(error)
+            errorMsg("Checkout error. Try again")
+        }
+    } catch (err) {
+        errorMsg("Internal server error. Try again")
+    }
+
 }
 
 

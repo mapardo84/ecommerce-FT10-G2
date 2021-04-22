@@ -1,7 +1,7 @@
-import { PageHeader, Descriptions, Tag, Row, Card, Col, Input, InputNumber, Button, Select } from 'antd';
+import { PageHeader, Descriptions, Tag, Row, Card, Col, Button, Select, Checkbox } from 'antd';
 import { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { nextBookingRoom, getRoomBooking, getPaimentsOfBooking, roomPayments } from '../../actions/checkinActions';
+import { nextBookingRoom, getRoomBooking, getPaimentsOfBooking, checkout, createPayment } from '../../actions/checkinActions';
 import { Category } from '../Categories/Categories';
 import { Room } from '../Rooms/Rooms';
 import { IType } from '../Types/Types';
@@ -18,9 +18,11 @@ export const CheckinNotAvailable = ({ steps }: { steps: Function }): JSX.Element
     const [roomType, setRoomType] = useState<IType>()
     const [price, setPrice] = useState<number>()
     const [nights, setNights] = useState(0)
-    const [lateCheckout, setLateCheckout] = useState(0)
     const [payments, setPayments] = useState(0)
-    const [paymentMethod, setPaymentMethod] = useState('')
+    const [paymentMethod, setPaymentMethod] = useState('Cash')
+    const [earlyCheckin, setEarlyCheckin] = useState(true)
+    const [lateCheckout, setLateCheckout] = useState(true)
+    const [balance, setBalance] = useState(0)
 
     const { categories } = useSelector((state: any) => state.categories)
     const { types } = useSelector((state: any) => state.types)
@@ -45,14 +47,17 @@ export const CheckinNotAvailable = ({ steps }: { steps: Function }): JSX.Element
             dispatch(getRoomBooking(roomSelected.curent_booking))
             dispatch(getPaimentsOfBooking(roomSelected.curent_booking))
         }
-    }, [roomSelected, types, categories])
+    }, [dispatch, roomSelected, types, categories])
 
     useEffect(() => {
-        if (roomCategory && roomType) {
+        //valor de la habitacion
+        if (roomCategory?.price && roomType?.beds) {
             setPrice(roomCategory?.price * roomType?.beds)
         }
-        setNights(moment().diff(moment(bookingData.checkin), 'days'))
+    }, [roomCategory, roomType])
 
+    useEffect(() => {
+        //valor total de payments realizados
         let total = 0
         roomPayments.forEach((payment: any) => {
             if (payment.payment_status === 'Approved') {
@@ -60,17 +65,73 @@ export const CheckinNotAvailable = ({ steps }: { steps: Function }): JSX.Element
             }
         })
         setPayments(total)
+        setBalance((e: number) => e - total)
+    }, [roomPayments])
 
-    }, [roomType, roomCategory, bookingData, roomPayments])
+    useEffect(() => {
+        //nights
+        const nights = moment().diff(moment(bookingData.checkin), 'days')
+        let sum = 0
+        if (price) {
+            sum = price * nights
+        }
+        //valor del late y early
+        if (bookingData.early_check && price) {
+            sum = sum + (price / 2)
+        }
+        if (bookingData.late_check && price) {
+            sum = sum + (price / 2)
+        }
+        setBalance((e: number) => e + sum)
+
+        //setear numero de noches y try o false en checks
+        if (bookingData !== '') {
+            setNights(nights)
+            setEarlyCheckin(bookingData.early_check)
+            setLateCheckout(bookingData.late_check)
+        }
+    }, [bookingData, price])
 
     const handleChange = (value: string) => {
         setPaymentMethod(value)
     }
 
     const handleCheckout = () => {
-        //quitar el current_pax y el current_booking cambiar de not available a cleaning
+        //quitar el current_pax y el current_booking cambiar de not available a cleaning en Room
+        if (roomSelected) {
+            checkout(roomSelected?.id)
+        }
+
+        //crear un payment si debe dinero
+        if (balance > 0) {
+            createPayment({
+                totalPrice: balance,
+                booking_id: roomSelected?.curent_booking,
+                payment_method: paymentMethod
+            })
+        }
+
+        steps(0)
 
     }
+
+    const onChangeEarly = (e: any) => {
+        if (e.target.checked && price) {
+            setBalance((e: number) => e + (price / 2))
+        } else {
+            price && setBalance((e: number) => e - (price / 2))
+        }
+        setEarlyCheckin((e: boolean) => !e)
+    }
+    const onChangeLate = (e: any) => {
+        if (e.target.checked && price) {
+            setBalance((e: number) => e + (price / 2))
+        } else {
+            price && setBalance((e: number) => e - (price / 2))
+        }
+        setLateCheckout((e: boolean) => !e)
+    }
+
 
 
 
@@ -83,13 +144,13 @@ export const CheckinNotAvailable = ({ steps }: { steps: Function }): JSX.Element
                 title={roomSelected?.name}
                 subTitle={`Floor Number ${roomSelected?.floor}`}
                 extra={[
-                    <>State: {
+                    <span key="3">State: {
                         roomSelected?.availability === 'not available' &&
                         <Tag color='red' key='available' >
                             Not Available
                         </Tag>
                     }
-                    </>
+                    </span>
                 ]}
             >
                 <Descriptions size="small" column={3}>
@@ -111,21 +172,36 @@ export const CheckinNotAvailable = ({ steps }: { steps: Function }): JSX.Element
                         <Row>
                             <Col span={6}>Price Per Night</Col>
                             <Col span={6}>Nights</Col>
-                            <Col span={6}>Late Checkout</Col>
+                            <Col span={6}></Col>
                             <Col span={6}>Balance</Col>
                         </Row>
                         <Row>
                             <Col span={6}>{price}</Col>
                             <Col span={6}>{nights}</Col>
-                            <Col span={6}><InputNumber min={0} value={lateCheckout} onChange={(v) => setLateCheckout(v)} /> </Col>
-                            <Col span={6}>{price && (price * nights) + lateCheckout}</Col>
+                            <Col span={6}></Col>
+                            <Col span={6}>{price && (price * nights)}</Col>
+                        </Row>
+                        <br />
+                        <h3>Additional services</h3>
+                        <br />
+                        <Row>
+                            <Col span={6}><Checkbox checked={earlyCheckin} onChange={onChangeEarly}></Checkbox>Early check-in</Col>
+                            <Col span={6}></Col>
+                            <Col span={6}></Col>
+                            <Col span={6}>{earlyCheckin && price && (price / 2)}</Col>
+                        </Row>
+                        <Row>
+                            <Col span={6}><Checkbox checked={lateCheckout} onChange={onChangeLate}></Checkbox>Late Check-out</Col>
+                            <Col span={6}></Col>
+                            <Col span={6}></Col>
+                            <Col span={6}>{lateCheckout && price && (price / 2)}</Col>
                         </Row>
                         <br />
                         <h3>Payments</h3>
                         <br />
                         <Row>
                             <Col span={6}>Payment ID</Col>
-                            <Col span={6}>quantity</Col>
+                            <Col span={6}></Col>
                             <Col span={6}>Status</Col>
                             <Col span={6}></Col>
                         </Row>
@@ -134,9 +210,9 @@ export const CheckinNotAvailable = ({ steps }: { steps: Function }): JSX.Element
                                 return (
                                     <Row key={payment.id}>
                                         <Col span={6}>{payment.id}</Col>
-                                        <Col span={6}>{payment.totalPrice}</Col>
-                                        <Col span={6}>{payment.payment_status}</Col>
                                         <Col span={6}></Col>
+                                        <Col span={6}>{payment.payment_status}</Col>
+                                        <Col span={6}>-{payment.totalPrice}</Col>
                                     </Row>
                                 )
                             })
@@ -146,7 +222,7 @@ export const CheckinNotAvailable = ({ steps }: { steps: Function }): JSX.Element
                             <Col span={6}></Col>
                             <Col span={6}></Col>
                             <Col span={6}>Total:</Col>
-                            <Col span={6}><Text strong>{price && ((price * nights) + lateCheckout) - payments}</Text></Col>
+                            <Col span={6}><Text strong>{balance}</Text></Col>
                         </Row>
                         <br />
                         <Row>
