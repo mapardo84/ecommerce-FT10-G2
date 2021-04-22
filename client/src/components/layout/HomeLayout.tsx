@@ -3,25 +3,29 @@ import { Layout } from "antd";
 import { NavBar } from "../NavBar/NavBar";
 import { FooterLayout } from '../footer/Footer'
 import { HomeSlides } from "../HomeSlides/HomeSlides";
+import { PromotionsViewer} from '../Promotions/PromotionsViewer';
 import { supabase } from "../../SupaBase/conection";
 import { getSession } from "../../helpers/logIn"
 import "./homeLayout.less";
+import { useDispatch, useSelector } from "react-redux";
+import { getPromotions } from "../../actions/Promotions/promotionsAction";
+import '../Promotions/PromotionsViewer.less';
 
 const { Content } = Layout;
 
-
 export const HomeLayout = (): JSX.Element => {
 
-  var [name, setName] = useState("empty")
+  var [name, setName] = useState("empty");
+  const dispatch = useDispatch();
+  const promotions = useSelector( (state:any) => state.promotions )
 
-  useEffect(() => {
+  useEffect( () => {
     window.scrollTo(0, 0);
     supabase.auth.onAuthStateChange((event, session) => {
-      getSession(session)
-    })
-  }, [])
-
-
+      getSession(session);
+    });
+    dispatch(getPromotions());
+  }, [dispatch]);
   const showName = async () => {
     const user: any = supabase.auth.user()
     if (user?.aud === "authenticated") {
@@ -38,8 +42,6 @@ export const HomeLayout = (): JSX.Element => {
 
   return (
     <>
-
-
       <Layout className="container">
         <NavBar />
         {
@@ -90,6 +92,7 @@ export const HomeLayout = (): JSX.Element => {
             </h4>
           </div>
         </Content>
+        { promotions?  <PromotionsViewer promo={promotions}/> : <p>No hay promociones vigentes</p> }
         <FooterLayout />
       </Layout>
     </>
