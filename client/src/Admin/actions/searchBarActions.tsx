@@ -4,7 +4,7 @@ export const BYPAXID:string="GET_BY_PAXID"
 export const BYBOOKINGID:string="GET_BY_BOOKINGID"
 export const BYFIRSTNAME:string="GET_BY_FIRSTNAME"
 export const BYLASTNAME:string="GET_BY_LASTNAME"
-
+export const BYPAXUUID:string='BYPAXUUID'
 
 
 export function getByPaxID(id: any) {
@@ -56,6 +56,36 @@ export function getByBookingID(id: any){
     }
 }
     
+
+
+export function getByPaxUuid(uuid: string) {
+    if(uuid.length<1){
+        return async (dispatch:any)=>{
+            dispatch(get_paxUuid([]))
+        }
+        }else{
+        return async (dispatch:any)=>{
+            
+            console.log('byuuid')
+            const pax:any=await supabase
+            .from("paxes")
+            .select(`*`)
+            .ilike('uuid', `%${uuid}%`) 
+            .limit(4)
+            console.log(pax.data)
+            dispatch(get_paxUuid(pax.data))
+        }
+                    
+    }
+}
+
+const get_paxUuid=(payload:any)=>{
+    return {
+        type:BYPAXUUID,
+        payload
+    }
+}
+
 
 const get_bookingPax=(payload:any)=>{
     return{

@@ -139,7 +139,7 @@ export const Checkin = ({ steps }: { steps: Function }): JSX.Element => {
             //     return rooms.category_id === value
             // },
             render: (_: any, record: any) => {
-                const categoryPrice = categories.find((category: Category) => category.id === record.category_id).price
+                const categoryPrice = categories?.find((category: Category) => category.id === record.category_id).price
                 const roomType = types.find((type: IType) => type.id === record.type_id)?.beds
                 return (<>USD {categoryPrice * roomType}</>)
             },
