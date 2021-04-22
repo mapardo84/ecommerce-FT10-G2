@@ -19,8 +19,7 @@ import { TypesLayout } from "../Admin/components/TypesLayout";
 import { UsersLayout } from "../Admin/components/UsersLayout";
 import ResetPasswordLayout from "../components/layout/ResetPasswordLayout";
 import { MyBookingsLayout } from "../components/layout/MyBookingsLayout";
-import BookingCard from "../components/myBookings/BookingCard";
-import BokingDetails from "../components/myBookings/BookingDetails";
+import { MyProfileLayout } from "../components/layout/MyProfileLayout";
 
 //ACA VAN TODAS LAS RUTAS
 
@@ -35,6 +34,7 @@ export const AppRouter = () => {
           <Route exact path="/logIn" component={LogIn} />
           <Route exact path="/booking" component={BookingLayout} />
           <Route exact path="/faq" component={FaqLayout} />
+          <Route exact path="/myProfile" component={MyProfileLayout} />
           <Route exact path="/myBookings" component={MyBookingsLayout} />
 
           {/* Parte administrativa */}

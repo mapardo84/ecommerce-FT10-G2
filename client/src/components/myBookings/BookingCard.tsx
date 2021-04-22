@@ -11,7 +11,7 @@ import { useDispatch } from 'react-redux';
 const BookingCard = (userData: any) => {
 
     const dispatch = useDispatch()
-    var { bookingId, checkin, checkout, roomNumber, category, type, totalPrice, actual, userId } = userData.userData
+    var { bookingId, checkin, checkout, roomNumber, category, type, totalPrice, actual, userId, moneyBack } = userData.userData
 
     const [isModalVisible, setIsModalVisible] = useState(false);
     const [isCancelModalVisible, setIsCancelModalVisible] = useState(false);
@@ -33,7 +33,7 @@ const BookingCard = (userData: any) => {
     }
 
     const bookingCancel = () => {
-        dispatch(cancelUserBooking(bookingId, totalPrice, userId))
+        dispatch(cancelUserBooking(bookingId, totalPrice, userId, moneyBack))
         setIsCancelModalVisible(false)
     }
 
@@ -81,7 +81,13 @@ const BookingCard = (userData: any) => {
                 visible={isCancelModalVisible}
                 onCancel={handleCancelModal}>
                 <h2>WARNING!</h2>
-                <div>Are you sure you want to cancel this booking? The payment done will be added to your postive balance, this will be used in your next booking. This action cannot be undone. </div>
+                {
+                    moneyBack ?
+
+                        <div>Are you sure you want to cancel this booking? The payment done will be added to your postive balance, this will be used in your next booking. This action cannot be undone. </div>
+                        :
+                        <div>Are you sure you want to cancel this booking? We will not refund any payment done. You are elegible to recieve the payment as positive balance if you cancel the reservation more than 7 days before the checkin date.</div>
+                }
             </Modal>
         </div>
     )

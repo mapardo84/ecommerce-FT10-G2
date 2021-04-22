@@ -1,5 +1,5 @@
 import { Layout, Menu, Row, Col, Button, Modal, Divider, Dropdown } from "antd";
-import { DownOutlined, UserOutlined, ImportOutlined, HeartOutlined, CalendarOutlined } from '@ant-design/icons';
+import { DownOutlined, UserOutlined, ImportOutlined, HeartOutlined, CalendarOutlined, PicLeftOutlined } from '@ant-design/icons';
 import LogIn from "../LogIn/LogIn";
 import { useEffect, useState } from "react";
 import "./NavBar.less";
@@ -35,14 +35,17 @@ export const NavBar = () => {
 
   const menu = (
     <Menu className="dropMenuNav">
-      <Menu.Item key="1" icon={<HeartOutlined />}>
+      <Menu.Item key="1" onClick={() => history.push("/myProfile")} icon={<PicLeftOutlined />}>
+        My Profile
+      </Menu.Item>
+      <Menu.Item key="2" icon={<HeartOutlined />}>
         Wish List
       </Menu.Item>
-      <Menu.Item key="1" onClick={() => history.push("/myBookings")} icon={<CalendarOutlined />}>
+      <Menu.Item key="3" onClick={() => history.push("/myBookings")} icon={<CalendarOutlined />}>
         Bookings
       </Menu.Item>
       <Divider className="dividerNav"></Divider>
-      <Menu.Item key="2" onClick={() => logOutSession()} icon={<ImportOutlined />}>
+      <Menu.Item key="4" onClick={() => logOutSession()} icon={<ImportOutlined />}>
         Log Out
       </Menu.Item>
     </Menu>

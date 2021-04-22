@@ -50,6 +50,12 @@ export const getUserBookings = () => {
 
                     r.forEach((bookings: any) => {
 
+
+                        let checkinDate: any = new Date(bookings.data[0]?.checkin.replaceAll("-", ","));
+
+                        let resta = checkinDate - Date.now()
+                        resta = Math.round(resta / (1000 * 60 * 60 * 24))
+
                         if (bookings.data[0].status) {
                             const bookingDetails = {
                                 bookingId: bookings.data[0]?.id,
@@ -62,6 +68,7 @@ export const getUserBookings = () => {
                                 paymentMethod: bookings.data[0]?.payments[0]?.payment_method,
                                 paxes: bookings.data[0]?.paxes_amount,
                                 actual: false,
+                                moneyBack: (resta + 1) > 7 ? true : false,
                                 userId: userEmail.data[0]?.id
                             }
                             userBookings.push(bookingDetails)
@@ -93,7 +100,7 @@ export const setLoading = (params: any) => {
 }
 
 
-export const cancelUserBooking = (bookingId: number, price: number, userId: number) => {
+export const cancelUserBooking = (bookingId: number, price: number, userId: number, moneyBack: boolean) => {
 
     return async (dispatch: Dispatch<any>) => {
 
@@ -103,15 +110,16 @@ export const cancelUserBooking = (bookingId: number, price: number, userId: numb
             .eq("id", bookingId)
         dispatch(getUserBookings())
 
-        let positiveBalance: any = await supabase
-            .from('users')
-            .select('positive_balance')
-            .eq('id', userId)
-
-        await supabase
-            .from('users')
-            .update({ positive_balance: positiveBalance.data[0].positive_balance + price })
-            .eq("id", userId)
+        if (moneyBack) {
+            let positiveBalance: any = await supabase
+                .from('users')
+                .select('positive_balance')
+                .eq('id', userId)
+            await supabase
+                .from('users')
+                .update({ positive_balance: positiveBalance.data[0].positive_balance + price })
+                .eq("id", userId)
+        }
     }
 }
 
