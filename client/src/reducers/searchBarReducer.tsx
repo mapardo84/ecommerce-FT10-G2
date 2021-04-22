@@ -1,4 +1,6 @@
-import {BYPAXID, BYBOOKINGID, BYFIRSTNAME, BYLASTNAME} from '../actions/SearchBookings/action_searchBookings'
+import {BYPAXID, BYBOOKINGID, BYFIRSTNAME, BYLASTNAME} from '../Admin/actions/searchBarActions'
+
+
 
 const initialState={
     bypaxID:[],

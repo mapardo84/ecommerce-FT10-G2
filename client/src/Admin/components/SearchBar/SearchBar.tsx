@@ -1,17 +1,13 @@
 import { AutoComplete, Input } from 'antd'
 import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { getByBookingID, getByPaxID, getFirstName, getLastName } from '../../../actions/SearchBookings/action_searchBookings'
+import { getByBookingID, getByPaxID, getFirstName, getLastName } from '../../actions/searchBarActions'
 
 export const SearchBooking = () => {
 
     const dispatch = useDispatch()
     const bookingStore = useSelector((state: any) => state.booking_pax)
-    // const bookingStore={
-    //     byFirstName:[{name:"Elba"},{name:"gila"}],
-    //     byID:[{name:5},{name:10}],
-    //     byLastName:[{name:"Gallo"},{name:"deMierda"}]
-    // }
+    
     const [search, setSearch] = useState("")
 
 
@@ -25,9 +21,8 @@ export const SearchBooking = () => {
     
     }, [dispatch, search])
 
-    const onChange = (value: any) => {
+    const onChange = (value: string) => {
         setSearch(value)
-
     }
 
 
@@ -39,17 +34,12 @@ export const SearchBooking = () => {
     
     
     let i =0;
-    const renderItem = (title:any) => {
+    const renderItem = (title:string | number) => {
         i++
         return({
         value: `${i}.${title}`,
         label: (
-            <div 
-                style={{
-                    display: 'flex',
-                    justifyContent: 'space-between',
-                }}
-            >
+            <div style={{display: 'flex', justifyContent: 'space-between'}}>
                 {title}
             </div>
         ),
@@ -90,11 +80,13 @@ export const SearchBooking = () => {
     ];
 
 
-    const onSelect = (value: any) => {
+    const onSelect = (value: string) => {
         console.log('onSelect', value);
+
         let selected = value.split('.')
         setSearch(selected[1])
-        console.log('onSelect', value);
+
+        console.log('onSelect', search);
     };
 
     return (
@@ -106,8 +98,9 @@ export const SearchBooking = () => {
             options={options}
             onSelect={onSelect}
             onSearch={onChange}
+            value={search}
         >
-            <Input.Search size="large" placeholder="input here" onSearch={onSelect}  enterButton />
+            <Input.Search size="large" placeholder="Search Booking" onSearch={onSelect} enterButton />
         </AutoComplete>
     );
 };
