@@ -5,6 +5,8 @@ import { setBookData, stepChange } from '../../../actions/Booking/bookingAction'
 import { bookingType } from '../guestsForm/GuestsForm';
 import "./AccomodationsSelect.less";
 import { useState } from "react";
+import { promotionType } from "../../../actions/Promotions/promotionsAction";
+import { ConsoleSqlOutlined } from "@ant-design/icons";
 const { Option } = Select;
 
 export interface roomType {
@@ -29,6 +31,7 @@ export interface categoryType {
 
 export const AccomodationsSelect = ():JSX.Element => {
   const dispatch = useDispatch();
+  const promo = useSelector( (state:any) => state.promotions )
   const [ userSelection, setUserSelection ] = useState<any>({
     category: '',
     type: {beds:1}
@@ -46,12 +49,14 @@ export const AccomodationsSelect = ():JSX.Element => {
   const handleClickNext = (e:any) => {
     e.preventDefault();
     booking.category = userSelection;
+    const foundPromo:promotionType = promo.find( (p:promotionType) => p.categoryToApply === booking.category.category.id );
+    
+    foundPromo? booking.fee = booking.category.category.price * booking.category.type.beds * foundPromo.value/100:
     booking.fee = booking.category.category.price * booking.category.type.beds;
+    
     const roomSelected = freeRooms.find( (r:roomType) => { 
       return (r.category_id === booking.category.category.id && r.type_id === booking.category.type.id)
     });
-    console.log(freeRooms);
-    console.log(roomSelected);
     roomSelected? booking.room_id = roomSelected.id:
     booking.room_id = -1;
     dispatch(setBookData(booking));
@@ -77,8 +82,7 @@ export const AccomodationsSelect = ():JSX.Element => {
          <Radio.Group onChange={handleRadioGroup} value={userSelection.category}>
             {categoriesFind.userCategories?.map((categ:categoryType, i:number) => (
               <div>
-                {console.log(userSelection.type.beds)}
-                <AccomodationsCards beds={userSelection?.type.beds} categ={categ} key={i} types={categoriesFind.types}/>
+                <AccomodationsCards prom={promo} beds={userSelection?.type.beds} categ={categ} key={i} types={categoriesFind.types}/>
                 <span>
                     <Select key='selectType'
                         placeholder="Select Type"

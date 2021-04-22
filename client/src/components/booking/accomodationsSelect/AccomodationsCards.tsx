@@ -1,5 +1,6 @@
 import { Button, Layout, Image, Modal } from 'antd';
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
+import { promotionType } from '../../../actions/Promotions/promotionsAction';
 import '../accomodationsSelect/AccomodationsCards.less'
 
 const { Sider, Content } = Layout;
@@ -9,10 +10,8 @@ export const AccomodationsCards = (props:any): JSX.Element => {
     const showModal = () => { setIsModalVisible(true) };
     const handleOk = () => { setIsModalVisible(false) };
     const handleCancel = () => { setIsModalVisible(false) };
-   const { categ, key, types,beds} = props
-    useEffect(() => {
-       
-    }, [])
+    const { categ, key, prom ,beds} = props;
+    const foundProm:promotionType = prom.find( (p:promotionType) => p.categoryToApply === categ.id);
     return (
         
         <div className='categoryContainer'>
@@ -22,9 +21,13 @@ export const AccomodationsCards = (props:any): JSX.Element => {
                 </Content>
                 <Sider width={290} className='categorySider'>
                     <div>
+                        {foundProm?
+                        <h3 className='categoryH3-Promo'>
+                            {categ.name} con descuento de {foundProm.value}%
+                        </h3>:
                         <h3 className='categoryH3'>
                             {categ.name}
-                        </h3>
+                        </h3>}
                     </div>
 
                     <div>
@@ -36,7 +39,6 @@ export const AccomodationsCards = (props:any): JSX.Element => {
                     <div key={2} className='categoryButtons'>
                         <div>
                             <h6 className='categoryH3'>Rate: ${categ?.price} USD</h6>
-                            {console.log(beds)}
                             {beds? <span className="price">Total Fee: ${beds*categ.price} USD</span>: <span></span>}
                         </div>
                         <div className="AccButtons">
