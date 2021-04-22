@@ -1,4 +1,4 @@
-import { GET_ALL_PAXES,UPDATE_PAXES,DELETE_PAXES, ADD_PAXES } from '../Admin/actions/paxesActions';
+import { GET_ALL_PAXES, UPDATE_PAXES, DELETE_PAXES, ADD_PAXES, GET_ONE_PAX } from '../Admin/actions/paxesActions';
 
 interface actionProps {
     type: string,
@@ -7,10 +7,12 @@ interface actionProps {
 
 interface IState {
     paxes: any[],
+    pax: any
 }
 
 const InitialState: IState = {
-    paxes: []
+    paxes: [],
+    pax: ''
 }
 
 export function paxesReducer(state: IState = InitialState, action: actionProps) {
@@ -38,7 +40,12 @@ export function paxesReducer(state: IState = InitialState, action: actionProps) 
         case ADD_PAXES:
             return {
                 ...state,
-                paxes: [...state.paxes,action.payload[0]]
+                paxes: [...state.paxes, action.payload[0]]
+            }
+        case GET_ONE_PAX:
+            return {
+                ...state,
+                pax: action.payload
             }
 
 

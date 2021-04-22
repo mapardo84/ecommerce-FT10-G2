@@ -1,19 +1,24 @@
-import { ROOM_SELECTED, ROOM_NEXT_BOOKING, nextBooking } from '../Admin/actions/checkinActions';
+import { ROOM_SELECTED, ROOM_NEXT_BOOKING, ROOM_BOOKING, ROOM_PAYMENTS } from '../Admin/actions/checkinActions';
 
 
 interface IState {
     roomId: number,
-    nextBooking: string
+    nextBooking: string,
+    bookingData: any,
+    roomPayments: any[]
 }
 
 interface actionProps {
     type: string,
-    payload: any
+    payload: any,
+
 }
 
 const InitialState: IState = {
     roomId: 0,
-    nextBooking: 'N/A'
+    nextBooking: 'N/A',
+    bookingData: '',
+    roomPayments: []
 }
 
 export function checkinReducer(state: IState = InitialState, action: actionProps) {
@@ -27,6 +32,16 @@ export function checkinReducer(state: IState = InitialState, action: actionProps
             return {
                 ...state,
                 nextBooking: action.payload
+            }
+        case ROOM_BOOKING:
+            return {
+                ...state,
+                bookingData: action.payload
+            }
+        case ROOM_PAYMENTS:
+            return {
+                ...state,
+                roomPayments: action.payload
             }
 
 

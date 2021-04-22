@@ -2,6 +2,7 @@ import { useEffect, useState } from "react"
 import { useSelector } from "react-redux"
 import { Room } from './Checkin';
 import { CheckinAvailable } from './CheckinAvailable';
+import { CheckinNotAvailable } from './CheckinNotAvailable';
 
 export const CheckinRoom = ({ steps }: { steps: Function }): JSX.Element => {
 
@@ -17,6 +18,8 @@ export const CheckinRoom = ({ steps }: { steps: Function }): JSX.Element => {
     switch (roomSelected?.availability) {
         case 'available':
             return <CheckinAvailable steps={steps} />
+        case 'not available':
+            return <CheckinNotAvailable steps={steps} />
         default:
             break;
     }
