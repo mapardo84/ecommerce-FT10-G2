@@ -73,7 +73,7 @@ const get_bookingID=(payload:any)=>{
 }
 
 export function getFirstName(firstname: string) {
-    if(firstname.length===0){
+    if(firstname.length<1){
         return async (dispatch:any)=>{
             dispatch(getByFirstName([]))
         }
@@ -85,24 +85,44 @@ export function getFirstName(firstname: string) {
             .from("paxes")
             .select(`*`)
             .ilike('first_name', `%${firstname}%`) 
-            const bookForName=pax.data.map((e:any)=>{
-                return supabase
-                .from("booking_pax")
-                .select('*,booking_id(*,room_id(*)), pax_id(*)')
-                .eq('pax_id',`${e.id}`)
-                .limit(4)
-                })
-                const concatenadosporH:any[]=[]
-                Promise.all(bookForName).then(res=>res.forEach((e:any)=>concatenadosporH.push(e.data)))
-                .then(()=>dispatch(getByFirstName(concatenadosporH.flat())))
-                    }
+            .limit(4)
+            console.log(pax.data)
+            dispatch(getByFirstName(pax.data))
+        }
                     
     }
 }
+// export function getFirstName(firstname: string) {
+//     if(firstname.length<1){
+//         return async (dispatch:any)=>{
+//             dispatch(getByFirstName([]))
+//         }
+//         }else{
+//         return async (dispatch:any)=>{
+            
+//             console.log('byfirstname')
+//             const pax:any=await supabase
+//             .from("paxes")
+//             .select(`*`)
+//             .ilike('first_name', `%${firstname}%`) 
+//             const bookForName=pax.data.map((e:any)=>{
+//                 return supabase
+//                 .from("booking_pax")
+//                 .select('*,booking_id(*,room_id(*)), pax_id(*)')
+//                 .eq('pax_id',`${e.id}`)
+//                 .limit(4)
+//                 })
+//                 const concatenadosporH:any[]=[]
+//                 Promise.all(bookForName).then(res=>res.forEach((e:any)=>concatenadosporH.push(e.data)))
+//                 .then(()=>dispatch(getByFirstName(concatenadosporH.flat())))
+//         }
+                    
+//     }
+// }
 
 
 export function getLastName(lastname: string) {
-    if(lastname.length===0){
+    if(lastname.length<1){
         return async (dispatch:any)=>{
             dispatch(getByLastName([]))
         }
@@ -113,19 +133,36 @@ export function getLastName(lastname: string) {
         .from("paxes")
         .select(`*`)
         .ilike('last_name', `%${lastname}%`)
-        const bookForLastName=pax?.data?.map((e:any)=>{
-            return supabase
-            .from("booking_pax")
-            .select('*,booking_id(*,room_id(*)), pax_id(*)')
-            .eq('pax_id',`${e.id}`)
-            .limit(4)
-            })
-            const concatenadosporH:any[]=[]
-            Promise.all(bookForLastName).then(res=>res.forEach((e:any)=>concatenadosporH.push(e.data)))
-            .then(()=>dispatch(getByLastName(concatenadosporH.flat())))
+        .limit(4)
+        dispatch(getByLastName(pax.data))
     }
     }
 }  
+// export function getLastName(lastname: string) {
+//     if(lastname.length<1){
+//         return async (dispatch:any)=>{
+//             dispatch(getByLastName([]))
+//         }
+//     }else{
+//     return async (dispatch:any)=>{
+//         console.log('bylastname')
+//         const pax:any=await supabase
+//         .from("paxes")
+//         .select(`*`)
+//         .ilike('last_name', `%${lastname}%`)
+//         const bookForLastName=pax?.data?.map((e:any)=>{
+//             return supabase
+//             .from("booking_pax")
+//             .select('*,booking_id(*,room_id(*)), pax_id(*)')
+//             .eq('pax_id',`${e.id}`)
+//             .limit(4)
+//             })
+//             const concatenadosporH:any[]=[]
+//             Promise.all(bookForLastName).then(res=>res.forEach((e:any)=>concatenadosporH.push(e.data)))
+//             .then(()=>dispatch(getByLastName(concatenadosporH.flat())))
+//     }
+//     }
+// }  
 
 
 const getByFirstName = (payload: any) => {

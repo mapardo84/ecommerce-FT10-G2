@@ -54,10 +54,10 @@ export const SearchBooking = () => {
         return array?array.map((x) =>renderItem(x.booking_id?.id)):[]   
     }
     const mapeoByFirstName = (array:any[]) => {
-        return array?array.map((x) =>renderItem(x.pax_id?.first_name)):[]
+        return array?array.map((x) =>renderItem(x?.first_name)):[]
     }
     const mapeoByLastName = (array:any[]) => {
-        return array?array.map((x) => renderItem(x.pax_id?.last_name)):[]
+        return array?array.map((x) => renderItem(x?.last_name)):[]
     }
 
     const options = [
@@ -82,10 +82,8 @@ export const SearchBooking = () => {
 
     const onSelect = (value: string) => {
         console.log('onSelect', value);
-
         let selected = value.split('.')
         setSearch(selected[1])
-
         console.log('onSelect', search);
     };
 
