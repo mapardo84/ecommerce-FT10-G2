@@ -150,6 +150,7 @@ export const Rooms = () => {
         dispatch(getAllRooms())
         dispatch(getAllCategories())
         dispatch(getAllTypes())
+        console.log(roomsList)
 
     }, [dispatch])
 
