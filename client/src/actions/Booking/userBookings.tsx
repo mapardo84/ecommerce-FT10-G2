@@ -48,34 +48,45 @@ export const getUserBookings = () => {
 
                 Promise.all(bx).then((r: any) => {
 
-                    r.forEach((bookings: any) => {
+                    try {
+                        r.forEach((bookings: any) => {
 
+                            let checkinDate: any
 
-                        let checkinDate: any = new Date(bookings.data[0]?.checkin.replaceAll("-", ","));
-
-                        let resta = checkinDate - Date.now()
-                        resta = Math.round(resta / (1000 * 60 * 60 * 24))
-
-                        if (bookings.data[0].status) {
-                            const bookingDetails = {
-                                bookingId: bookings.data[0]?.id,
-                                checkin: bookings.data[0]?.checkin,
-                                checkout: bookings.data[0]?.checkout,
-                                roomNumber: bookings.data[0]?.room_id.name,
-                                category: bookings.data[0]?.room_id.category_id.name,
-                                type: bookings.data[0]?.room_id.type_id.name,
-                                totalPrice: bookings.data[0]?.payments[0]?.totalPrice,
-                                paymentMethod: bookings.data[0]?.payments[0]?.payment_method,
-                                paxes: bookings.data[0]?.paxes_amount,
-                                actual: false,
-                                moneyBack: (resta + 1) > 7 ? true : false,
-                                userId: userEmail.data[0]?.id
+                            if (bookings?.data[0]?.checkin) {
+                                checkinDate = new Date(bookings?.data[0]?.checkin?.replaceAll("-", ","));
                             }
-                            userBookings.push(bookingDetails)
-                        }
-                    })
-                    dispatch(saveUserBookings(userBookings))
-                    dispatch(setLoading(false))
+
+                            let resta = checkinDate - Date.now()
+                            resta = Math.round(resta / (1000 * 60 * 60 * 24))
+
+                            if (bookings.data[0].status) {
+                                const bookingDetails = {
+                                    bookingId: bookings.data[0]?.id,
+                                    checkin: bookings.data[0]?.checkin,
+                                    checkout: bookings.data[0]?.checkout,
+                                    roomNumber: bookings.data[0]?.room_id.name,
+                                    category: bookings.data[0]?.room_id.category_id.name,
+                                    type: bookings.data[0]?.room_id.type_id.name,
+                                    totalPrice: bookings.data[0]?.payments[0]?.totalPrice,
+                                    paymentMethod: bookings.data[0]?.payments[0]?.payment_method,
+                                    paxes: bookings.data[0]?.paxes_amount,
+                                    actual: false,
+                                    moneyBack: (resta + 1) > 7 ? true : false,
+                                    userId: userEmail.data[0]?.id
+                                }
+                                userBookings.push(bookingDetails)
+                            }
+                        })
+                        dispatch(saveUserBookings(userBookings))
+                        dispatch(setLoading(false))
+
+                    } catch (error) {
+                        console.log(error)
+                    }
+
+
+
                 }
                 )
             } else {

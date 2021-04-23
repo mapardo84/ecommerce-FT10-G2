@@ -1,15 +1,15 @@
-import { Layout, Menu, Row, Col, Button, Modal, Divider, Dropdown } from "antd";
-import { DownOutlined, UserOutlined, ImportOutlined, HeartOutlined, CalendarOutlined, PicLeftOutlined } from '@ant-design/icons';
+import { Layout, Menu, Row, Col, Button, Modal, Divider, Dropdown, Drawer } from "antd";
+import { DownOutlined, UserOutlined, ImportOutlined, HeartOutlined, CalendarOutlined, PicLeftOutlined, MenuOutlined } from '@ant-design/icons';
 import LogIn from "../LogIn/LogIn";
 import { useEffect, useState } from "react";
 import "./NavBar.less";
-import hotel from "./hotel.png"
 import { Register } from "../LogIn/Register";
 import { supabase } from '../../SupaBase/conection'
 import { logOut } from "../../helpers/logOut";
 import { useDispatch, useSelector } from "react-redux";
 import { setModalState } from "../../actions/loginActions";
-import { NavLink, useHistory } from "react-router-dom";
+import { NavLink, useHistory, Link } from "react-router-dom";
+import hotel from "./logoHotel.png"
 
 const { Header } = Layout;
 
@@ -54,6 +54,16 @@ export const NavBar = () => {
   const [visible, setVisible] = useState<boolean>(false);
   const [regOrLog, setRegOrLog] = useState<string>("logIn")
 
+
+  //Resposive Nav
+  const [resNavVisivle, setResNavVisivle] = useState<boolean>(false)
+  const handleNavResponsive = () => {
+    setResNavVisivle(true)
+  }
+
+  //--------
+
+
   useEffect(() => {
     if (number === 1) {
       setVisible(false)
@@ -63,65 +73,111 @@ export const NavBar = () => {
 
   return (
     <>
-      <Header className="headd">
-        <Menu className="headd">
-          <Row className="header" justify="center">
-            <div className="colContainer">
-              <Col span={12}>
-                <div className="navLeft">
-                  <img className="imagen" src={hotel} alt="IMG NOT FOUND" />
-                  <NavLink className="navTitle" to="/home">HENRY HOTEL</NavLink>
-                </div>
-              </Col>
-
-              <Col span={12}>
-                <div className="navRight">
-                  <NavLink to="/home">
-                    <Button className="navButton" size="large" type="text">
-                      Home
+      <div className="NavBarLayout">
+        {/* Normal navBar content */}
+        <div className="navBarMenu">
+          <div className="colContainer">
+            <Col span={12}>
+              <div className="navLeft">
+                <img className="imagen" src={hotel} alt="IMG NOT FOUND" />
+                {/* <NavLink className="navTitle" to="/home">HENRY HOTEL</NavLink> */}
+              </div>
+            </Col>
+            <Col span={12}>
+              <div className="navRight">
+                <NavLink to="/home">
+                  <Button className="navButton" size="large" type="text">
+                    Home
                     </Button>
-                  </NavLink>
-                  <NavLink to="/accomodations">
-                    <Button className="navButton" size="large" type="text">
-                      Accomodations
+                </NavLink>
+                <NavLink to="/accomodations">
+                  <Button className="navButton" size="large" type="text">
+                    Accomodations
                     </Button>
-                  </NavLink>
-                  <div className="navLoginButton">
-                    {
-                      authValidation() ?
-                        <Dropdown
-                          className="DropNavButton"
-                          overlay={menu}
-                          trigger={['click']}
-                          placement="bottomCenter">
-                          <Button className="btn-nav" type="primary">
-                            <UserOutlined />Account <DownOutlined />
-                          </Button>
-                        </Dropdown>
+                </NavLink>
+                <div className="navLoginButton">
+                  {
+                    authValidation() ?
+                      <Dropdown
+                        className="DropNavButton"
+                        overlay={menu}
+                        trigger={['click']}
+                        placement="bottomCenter">
+                        <Button className="btn-nav" type="primary">
+                          <UserOutlined />Account <DownOutlined />
+                        </Button>
+                      </Dropdown>
 
-                        :
-                        <Button
-                          onClick={() => setVisible(true)}
-                          className="navButton"
-                          type="text">
-                          Log In
+                      :
+                      <Button
+                        onClick={() => setVisible(true)}
+                        className="navButton"
+                        type="text">
+                        Log In
                          </Button>
-                    }
-                  </div>
-                  <NavLink to="/booking">
-                    <Button
-                      size="large"
-                      className="btnNavbar"
-                    >
-                      Book Now
-                    </Button>
-                  </NavLink>
+                  }
                 </div>
-              </Col>
-            </div>
-          </Row>
-        </Menu>
-      </Header>
+                <NavLink to="/booking">
+                  <Button
+                    size="large"
+                    className="btnNavbar"
+                  >
+                    Book Now
+                    </Button>
+                </NavLink>
+              </div>
+            </Col>
+          </div>
+        </div>
+
+
+        {/* Responsive Navbar Content */}
+        <div className="navResponsiveMenu" >
+
+          <img className="imagen" src={hotel} alt="IMG NOT FOUND" />
+
+          <Button className="navButton"  type="text" onClick={handleNavResponsive} >
+            <MenuOutlined style={{ fontSize: '25px', color: 'white' }} />
+          </Button>
+
+        </div>
+      </div>
+      {/* ----------------------- */}
+
+      <Drawer
+        placement="right"
+        closable={false}
+        onClose={() => setResNavVisivle(false)}
+        visible={resNavVisivle}
+        key="top"
+        width="300px"
+        zIndex={1200}
+        drawerStyle={{ backgroundColor: "rgb(231, 231, 231)"}}
+      >
+        <div className="navDrawerContent">
+
+          <NavLink to="/booking">
+            <Button
+              size="large"
+              className="btnNavbar" >
+              Book Now
+            </Button>
+          </NavLink>
+          <NavLink to="/accomodations">
+            <Button className="navButton" size="large" type="text">
+              Accomodations
+            </Button>
+          </NavLink>
+          <NavLink to="/home">
+            <Button className="navButton" size="large" type="text">
+              Home
+            </Button>
+          </NavLink>
+
+
+
+        </div>
+      </Drawer>
 
       <Modal
         visible={visible}
