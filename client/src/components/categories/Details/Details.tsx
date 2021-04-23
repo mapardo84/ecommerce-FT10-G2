@@ -7,9 +7,9 @@ import {Reviews} from '../../Reviews/Reviews'
 //import "antd/dist/antd.css";
 import "./Details.less";
 import AddReview from "../../addReview/AddReview";
-import {getUserIdByMail} from './../../../actions/getUserIdByMail/index';
+import {getUserIdByMail, checkoutValidation} from './../../../actions/getUserIdByMail/index';
 import { supabase } from "../../../SupaBase/conection";
-import {checkoutValidation} from './../../../actions/getUserIdByMail/index';
+import { getCategories } from '../../../actions/index'
 
 
 let date:any = new Date()
@@ -34,6 +34,11 @@ const getCheckout = async (valor:any, dispatch:any)=>{
   const x =await checkoutValidation(valor);
   dispatch(x)
 }
+
+const getCategoriesDB = async (value: number | undefined, dispatch:any) => {
+  const resolve = await getCategories(value);
+  dispatch(resolve);
+};
 
 
 interface category {
@@ -82,6 +87,11 @@ const Details = ({ data }: any): JSX.Element => {
     getCheckout(idUser?.userId[0]?.uuid,dispatch)
   },[idUser])
 
+  useEffect(()=>{
+    if(cat.length < 1){
+      getCategoriesDB(id,dispatch)
+    }
+  },[dispatch])
   
 
   const handleOnClick = (e: any) => {
