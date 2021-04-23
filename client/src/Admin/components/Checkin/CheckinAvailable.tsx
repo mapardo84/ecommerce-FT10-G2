@@ -1,10 +1,10 @@
-import { Button, Descriptions, PageHeader, Tag, Row, Col, Card, DatePicker, Modal, AutoComplete, Input } from 'antd';
+import { Button, Descriptions, PageHeader, Tag, Row, Col, Card, DatePicker, Modal, AutoComplete, Input, List, Typography, Tooltip } from 'antd';
 import { useEffect, useState } from "react"
 import { useDispatch, useSelector } from "react-redux"
 import { Room } from './Checkin';
 import { IType } from '../Types/Types';
 import { Category } from '../Categories/Categories';
-import { nextBookingRoom } from '../../actions/checkinActions';
+import { nextBookingRoom, checkout, updatePaxRoom, createBookingAndUpdateRoom } from '../../actions/checkinActions';
 import moment from 'moment';
 import { getByPaxUuid } from '../../actions/searchBarActions'
 import { CheckinAddPaxes } from './CheckinAddPaxes';
@@ -27,6 +27,8 @@ export const CheckinAvailable = ({ steps }: { steps: Function }): JSX.Element =>
     const [search, setSearch] = useState("")
     const [created, setCreated] = useState('')
     const [modalForPaxes, setModalForPaxes] = useState(false)
+    const [dateSelected, setDateSelected] = useState<any>()
+    const [booking, setBooking] = useState<any>(null)
 
     const dispatch = useDispatch()
 
@@ -34,7 +36,7 @@ export const CheckinAvailable = ({ steps }: { steps: Function }): JSX.Element =>
     const { roomsList } = useSelector((state: any) => state?.rooms)
     const { categories } = useSelector((state: any) => state?.categories)
     const { types } = useSelector((state: any) => state?.types)
-    const { roomId, nextBooking } = useSelector((state: any) => state?.checkin)
+    const { roomId, nextBooking, nextBookingData } = useSelector((state: any) => state?.checkin)
     const bookingStore = useSelector((state: any) => state.booking_pax)
 
     useEffect(() => {
@@ -62,6 +64,7 @@ export const CheckinAvailable = ({ steps }: { steps: Function }): JSX.Element =>
         //console.log(date, dateString)
         const days = date.diff(moment(), 'days')
         setCheckoutDate(dateString)
+        setDateSelected(date)
         setTotalPrice(price ? price * (days + 1) : 0)
     }
 
@@ -78,6 +81,24 @@ export const CheckinAvailable = ({ steps }: { steps: Function }): JSX.Element =>
         if (checkoutDate === 0) {
             setErrors('Should select checkout date')
             return
+        }
+        //room asignada...
+        // console.log("Id de la habiacion: ", roomSelected?.id)
+        // console.log("Pasajero: ", mainPax)
+        // console.log("Current booking", booking)
+        // console.log("checkout", checkoutDate)
+        console.log("paxes:", paxes)
+
+        //si existe booking no se crea... solo se modifica el room (availability, current pax y booking )
+        if (booking && roomSelected) {
+            updatePaxRoom({ room_id: roomSelected.id, curent_pax: mainPax, curent_booking: booking, paxes: paxes })
+            steps(0)
+        } else {
+            //si no existe booking toca crearlo.
+            if (roomSelected) {
+                createBookingAndUpdateRoom({ room_id: roomSelected.id, curent_pax: mainPax, checkout: checkoutDate, paxes: paxes })
+                steps(0)
+            }
         }
     }
 
@@ -140,6 +161,26 @@ export const CheckinAvailable = ({ steps }: { steps: Function }): JSX.Element =>
         setModalCreateVisible(true)
     }
 
+    const handleRemove = (item: number) => {
+        //console.log("Remove: ", item)
+        setPaxes((e) => e.filter((pax: any) => pax.id !== item))
+    }
+    const handleRemoveMain = () => {
+        setMainPax(0)
+    }
+
+    const loadBookingData = () => {
+        //setting booking data
+        setMainPax(nextBookingData.paxTitular_id.id)
+        setMainPaxName(nextBookingData.paxTitular_id.first_name)
+        setDateSelected(nextBookingData.checkout)
+        setCheckoutDate(nextBookingData.checkout)
+        const days = moment(nextBookingData.checkout).diff(moment(), 'days')
+        setTotalPrice(price ? price * (days + 1) : 0)
+        setBooking(nextBookingData.id)
+
+    }
+
 
     return (
         <div>
@@ -161,13 +202,20 @@ export const CheckinAvailable = ({ steps }: { steps: Function }): JSX.Element =>
             >
                 <Descriptions size="small" column={3}>
                     <Descriptions.Item label="Price">{price}</Descriptions.Item>
-                    <Descriptions.Item label="Type">
-                        {roomType?.name}
-                    </Descriptions.Item>
+                    <Descriptions.Item label="Type"> {roomType?.name}</Descriptions.Item>
                     <Descriptions.Item label="Category">{roomCategory?.name}</Descriptions.Item>
-                    <Descriptions.Item label="Next Booking">{nextBooking}</Descriptions.Item>
-                    <Descriptions.Item label="Details">{roomCategory?.description}
+                    <Descriptions.Item label="Next Booking">
+                        <Tooltip title="Load booking data">
+                            {
+                                nextBookingData ?
+                                    <span className="checkin_charge" onClick={loadBookingData}>
+                                        {nextBooking}
+                                    </span> :
+                                    nextBooking
+                            }
+                        </Tooltip>
                     </Descriptions.Item>
+                    <Descriptions.Item label="Details">{roomCategory?.description}</Descriptions.Item>
                 </Descriptions>
             </PageHeader>
             <br />
@@ -176,33 +224,54 @@ export const CheckinAvailable = ({ steps }: { steps: Function }): JSX.Element =>
                     <Card title="Pax Information">
                         <Card type="inner" title="Main pax" extra={<span onClick={() => setIsModalVisible(true)} className='checkin_search'>Search/Add</span>} >
                             {
-                                mainPax ? mainPaxName : 'Not selected'
+                                mainPax ? <Tag
+                                    closable
+                                    onClose={handleRemoveMain}
+                                >
+                                    {mainPaxName}
+                                </Tag> : 'Not selected'
                             }
                         </Card>
                         <Card
-                            style={{ marginTop: 16 }}
+                            style={{ marginTop: 16, minHeight: '300px' }}
                             type="inner"
                             title="Extra Paxes"
                             extra={<span onClick={() => setModalForPaxes(true)} className='checkin_search'>Search/Add</span>}
                         >
                             {
-                                paxes ?
-                                    paxes.map((pax: any) => {
-                                        return (<span key={pax.id}>{pax.firstName} {pax.lastName}<br /></span>)
-                                    })
-                                    :
-                                    'Not selected'
+                                paxes.map((item: any, key: number) => {
+                                    return (
+                                        <span key={key} >
+                                            <span className="checkin_tag" onClick={() => handleRemove(item.id)}>
+                                                {/* <Tag
+                                                closable
+                                                onClose={() => handleRemove(item.id)}
+                                            > */}
+                                                {item.firstName} {item.lastName}
+                                                {/* </Tag> */} <span className="checkin_x">X</span>
+                                            </span ><br /></span>
+                                    )
+                                })
                             }
                         </Card>
+
                     </Card>
                 </Col>
                 <Col span={12}>
                     <Card title="Booking Information">
                         Checkout:
-                        <DatePicker
-                            disabledDate={disabledDate}
-                            onChange={onDatePick}
-                        />
+                        {
+                            dateSelected ?
+                                <DatePicker
+                                    onChange={onDatePick}
+                                    value={moment(dateSelected)}
+                                />
+                                :
+                                <DatePicker
+                                    disabledDate={disabledDate}
+                                    onChange={onDatePick}
+                                />
+                        }
                         <br />
                         <br />
                         Total price: {totalPrice}

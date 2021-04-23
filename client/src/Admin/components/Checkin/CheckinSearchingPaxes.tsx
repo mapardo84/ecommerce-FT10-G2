@@ -2,7 +2,7 @@ import { AutoComplete, Button, Input, message } from 'antd';
 import { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { getByPaxUuid } from '../../actions/searchBarActions';
-export const CheckinSearchingPaxes = ({ setModal, bookingStore, setModalCreateVisible, setPaxes, created }: { setModal: Function, bookingStore: any, setModalCreateVisible: Function, setPaxes: Function, created: string }): JSX.Element => {
+export const CheckinSearchingPaxes = ({ setModal, bookingStore, setModalCreateVisible, setPaxes, created }: { setModal: Function, bookingStore: any, setModalCreateVisible: Function, setPaxes: Function, created: string, }): JSX.Element => {
 
     const [search, setSearch] = useState("")
 
@@ -44,10 +44,11 @@ export const CheckinSearchingPaxes = ({ setModal, bookingStore, setModalCreateVi
     }, [dispatch, search])
 
     const onSelect = (value: string) => {
-        //console.log('onSelect', value);
+        console.log('onSelect', value);
         let selected = value.split('.')
-        setPaxes((e: any) => [...e, { id: bookingStore?.byLastUuid[0]?.id, firstName: bookingStore?.byLastUuid[0]?.first_name, lastName: bookingStore?.byLastUuid[0]?.last_name }])
-        message.success('Added ' + bookingStore?.byLastUuid[0]?.first_name)
+        const personita = bookingStore?.byLastUuid.find((cual: any) => cual.uuid === selected[1])
+        setPaxes((e: any) => [...e, { id: personita?.id, firstName: personita?.first_name, lastName: personita?.last_name }])
+        message.success('Added ' + personita?.first_name)
         //setModal(false)
     };
 
