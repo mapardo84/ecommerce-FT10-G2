@@ -25,7 +25,6 @@ export const getDataBooking = (param: string) => {
                     const {data}:any=await supabase
                     .from("booking_pax")
                     .select(`*`)
-                    console.log('hola',data)
                     dispatch(dataBookingPax(data))
                 }
     }
@@ -64,7 +63,6 @@ export const getDataBooking = (param: string) => {
                 Promise.all(booksPax)
                 .then(res=>res.forEach((e:any)=>dataConcatenada.push(e.data)))
                 .then(()=>dispatch(dataBookingPax(dataConcatenada.flat())))
-                .then(res => console.log(res))
         }
     }
 }
@@ -91,7 +89,6 @@ export const getDataBooking = (param: string) => {
                 const {data}:any=await supabase
                 .from("bookings")
                 .select(`*, rooms(name, category_id(name), type_id(name))`)
-                console.log(data)
                 dispatch(dataBookingId(data))
             } catch (e) {
               console.log(e)
@@ -104,7 +101,6 @@ export const getPaxId = () => {
             const {data}:any=await supabase
             .from("paxes")
             .select(`*`)
-            console.log(data)
             dispatch(dataPaxes(data))
         } catch (e) {
           console.log(e)
@@ -112,13 +108,13 @@ export const getPaxId = () => {
     }
 }
 
+
 export const getPayments = () => {
     return async (dispatch:any)=>{
         try {
             const {data}:any=await supabase
             .from("payments")
             .select(`*`)
-            console.log(data)
             dispatch(dataPayments(data))
         } catch (e) {
           console.log(e)
@@ -133,12 +129,6 @@ const dataBookingPax = (payload:any) => {
         payload
     }
 }
-// const dataNextBookings = (payload:any) => {
-//     return {
-//         type: DATA_BOOKING,
-//         payload
-//     }
-// }
 
 const dataPaxes = (payload:any) => {
     return {

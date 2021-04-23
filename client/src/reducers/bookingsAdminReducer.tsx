@@ -1,12 +1,16 @@
 import { DATA_BOOKING, BOOKING_ID, DATA_PAYMENTS, DATA_PAXES } from "../Admin/actions/bookingsActions"
-import { GET_ALL_ROOMS } from "../Admin/actions/roomsActions"
+import { FREE_ROOMS, GET_CATEGORIES_AD, GET_PAX_INFO, GET_TYPES_AD } from "../Admin/actions/createBookAdmin"
 
 export interface IFinitialState {
     bookingPax: any[],
     bookings: any[],
     roomsId: any[],
     payments: any[],
-    paxes: any[]
+    paxes: any[],
+    categories: any[],
+    types: any[],
+    paxInfo: any[]
+    freeRooms: any[]
 }
 
 interface actions {
@@ -19,7 +23,11 @@ const InitialState: IFinitialState = {
     bookings: [],
     roomsId: [],
     payments: [],
-    paxes: []
+    paxes: [],
+    categories: [],
+    types: [],
+    paxInfo: [],
+    freeRooms: []
 
 }
 
@@ -45,6 +53,27 @@ export function bookingsAdminReducer(state: IFinitialState = InitialState, actio
             return {
                 ...state,
                 paxes: action.payload
+            }
+        case GET_CATEGORIES_AD:
+            
+            return {
+                ...state,
+                categories: action.payload
+            }
+        case GET_TYPES_AD:
+            return {
+                ...state,
+                types: action.payload
+            }
+        case GET_PAX_INFO:
+            return {
+                ...state,
+                paxInfo: action.payload
+            }
+        case FREE_ROOMS:
+            return {
+                ...state,
+                freeRooms: action.payload
             }
         default:
             return state

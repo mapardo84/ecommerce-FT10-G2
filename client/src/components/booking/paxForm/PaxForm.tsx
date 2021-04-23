@@ -8,7 +8,22 @@ import { stepChange } from '../../../actions/Booking/bookingAction';
 import { useDispatch } from 'react-redux';
 const { Option } = Select;
 
-const residences = [
+export const prefixSelector = (
+    <Form.Item name="prefix" noStyle>
+        <Select
+            style={{
+                width: 70,
+            }}
+        >
+            <Option value="86">+86</Option>
+            <Option value="87">+87</Option>
+            <Option value="54">+54</Option>
+            <Option value="1">+1</Option>
+        </Select>
+    </Form.Item>
+);
+
+export const residences = [
     {
         value: 'zhejiang',
         label: 'Zhejiang',
@@ -83,20 +98,7 @@ export function PaxForm() {
         sendPax(values)
     };
 
-    const prefixSelector = (
-        <Form.Item name="prefix" noStyle>
-            <Select
-                style={{
-                    width: 70,
-                }}
-            >
-                <Option value="86">+86</Option>
-                <Option value="87">+87</Option>
-                <Option value="54">+54</Option>
-                <Option value="1">+1</Option>
-            </Select>
-        </Form.Item>
-    );
+   
 
     return (
         <div className='paxForm_container'>
