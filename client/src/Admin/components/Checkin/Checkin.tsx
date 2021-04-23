@@ -8,7 +8,8 @@ import { Category } from '../Categories/Categories';
 import { getAllCategories } from '../../actions/categoriesActions';
 import { getAllTypes } from '../../actions/typesActions';
 import { IType } from '../Types/Types';
-import { saveRoomSelected } from '../../actions/checkinActions';
+import { saveRoomSelected} from '../../actions/checkinActions';
+import { changeRoomAvailable } from '../../actions/roomsActions';
 
 export interface Room {
     id: number;
@@ -52,13 +53,14 @@ const numberFloor = (rooms: Room[]) => {
 export const Checkin = ({ steps }: { steps: Function }): JSX.Element => {
 
     const [isModalVisible, setIsModalVisible] = useState<boolean>(false);
-    const [fields, setFields] = useState<IFields[]>(campos);
     const [editId, setEditId] = useState<null | Room>(null)
     const [loaded, setLoaded] = useState(false)
 
     const { roomsList } = useSelector((state: any) => state?.rooms)
     const { categories } = useSelector((state: any) => state?.categories)
     const { types } = useSelector((state: any) => state?.types)
+    const { roomId } =useSelector((state:any)=> state?.checkin )
+
     const dispatch = useDispatch()
 
     const columns: any = [
@@ -83,7 +85,8 @@ export const Checkin = ({ steps }: { steps: Function }): JSX.Element => {
                     )
                 } else if (record.availability === 'cleaning') {
                     return (
-                        <Tag className="checkin_pinter" color='blue' key={record.id} onClick={() => { steps(1); dispatch(saveRoomSelected(record.id)) }}>
+                        <Tag className="checkin_pinter" color='blue' key={record.id} onClick={() => {setIsModalVisible(true)
+                         dispatch(saveRoomSelected(record.id))}}>
                             {record.name}
                         </Tag>
                     )
@@ -187,30 +190,12 @@ export const Checkin = ({ steps }: { steps: Function }): JSX.Element => {
 
     }, [categories, types, roomsList])
 
-    const onFinish = (values: Room) => {
-
-        if (editId) {
-            //chequear que lo que llega en los select si sea numeros... culpa de ant!
-            if (categories.some((category: Category) => category.name === values.category_id)) {
-                values.category_id = categories.find((category: Category) => category.name === values.category_id)?.id
-            }
-            if (types.some((type: IType) => type.name === values.type_id)) {
-                values.type_id = types.find((type: IType) => type.name === values.type_id)?.id
-            }
-
-            const data = { ...values, category_id: Number(values.category_id), type_id: Number(values.type_id), id: editId.id }
-            dispatch(updateRoom(data))
-            setIsModalVisible(false)
-            setEditId(null)
-        } else {
-            dispatch(addRoom(values))
-            setIsModalVisible(false)
-        }
-    };
+    const changeToAvailable=() =>{
+        dispatch(changeRoomAvailable(roomId))
+        setIsModalVisible(false)
+    }
 
     const closeModal = () => {
-        setFields(campos)
-        setEditId(null)
         setIsModalVisible(false)
     }
 
@@ -229,66 +214,21 @@ export const Checkin = ({ steps }: { steps: Function }): JSX.Element => {
 
                 />
             }
-            <Modal title="Add Room" visible={isModalVisible} onCancel={closeModal} footer={null} >
-                <Form onFinish={onFinish} fields={fields}>
-                    <Form.Item
-                        label="Name"
-                        name="name"
-                        rules={[{ required: true, message: 'Please input a name!' }]}>
-                        <Input placeholder="Room Name"></Input>
-                    </Form.Item>
-                    <Form.Item
-                        label="Floor"
-                        name="floor"
-                        rules={[{ required: true, message: 'Please input a floor!' }]}>
-                        <InputNumber placeholder="Floor"></InputNumber>
-                    </Form.Item>
-                    <Form.Item
-                        label="Availability"
-                        name="availability"
-                        rules={[{ required: true, message: 'Please input an availability!' }]}>
-                        <Select style={{ width: "200px" }} placeholder="Select an availability">
-                            <Select.Option value="available">Available</Select.Option>
-                            <Select.Option value="not available">Not available</Select.Option>
-                        </Select>
-                    </Form.Item>
-                    <Form.Item
-                        label="Category"
-                        name="category_id"
-                        //valuePropName='option'
-                        //defaultValue={[{id: editId?.category_id, name:'nombre'}]} 
-                        rules={[{ required: true, message: 'Please input a category!' }]}>
-                        <Select style={{ width: "200px" }} >
-                            {
-                                categories.map((category: Category) => {
-                                    return (<Select.Option key={category.id} value={category.id.toString()}>{category.name}</Select.Option>)
-                                })
-                            }
-                        </Select>
-                    </Form.Item>
-                    <Form.Item
-                        label="Type"
-                        name="type_id"
-                        rules={[{ required: true, message: 'Please input a type!' }]}>
-                        <Select style={{ width: "200px" }} placeholder="Select a type" >
-                            {
-                                types.map((type: IType) => {
-                                    return (<Select.Option key={type.id} value={type.id.toString()}>{type.name}</Select.Option>)
-                                })
-                            }
-                        </Select>
-                    </Form.Item>
-
-                    <div className="adminrooms_btn">
-                        <Button onClick={closeModal}>
-                            Cancel
-                        </Button>
-                        <Button type="primary" htmlType="submit">
-                            Save
-                        </Button>
-                    </div>
-
-                </Form>
+            <Modal title="Change Availability" visible={isModalVisible} onCancel={closeModal} footer={null} >
+            <Button 
+                onClick={changeToAvailable}
+                type='primary'
+                className='types_upbar'
+                >
+                Change to Available
+            </Button>
+            <div>
+            <Button onClick={closeModal}
+            className='types_upbar'
+            >
+            Cancel
+            </Button>
+            </div>
             </Modal>
         </div>
     )
