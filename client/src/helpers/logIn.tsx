@@ -22,9 +22,14 @@ export const loginWith = async (provider: any) => {
             redirectTo: 'http://localhost:3000/home'
         })
         if (!error) {
-            //ACA AGARRAR MAIL
+           
+            var  data:any  = await supabase
+            .from('users')
+            .select('email')
+            .eq('email', data.data)
+            console.log(data)
              success()
-
+//aca deberia capturar el mail
         } else {
             errorMsg()
         }

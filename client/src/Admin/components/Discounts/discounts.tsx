@@ -4,22 +4,8 @@ import { useSelector, useDispatch } from 'react-redux';
 import { getAllDiscounts, updateDiscounts, checkId, deleteDiscount,addDiscount } from '../../actions/discountsActions';
 import { FaTrashAlt, FaPencilAlt } from 'react-icons/fa';
 import './discounts.less'
-import { supabase } from '../../../SupaBase/conection'
 import {getAllCategories} from "../../actions/categoriesActions"
-
-import { SearchOutlined } from '@ant-design/icons';
-import { categoryType } from '../../../components/booking/accomodationsSelect/AccomodationsSelect';
 import { promotionType } from '../../../actions/Promotions/promotionsAction';
-
-// const idToName = async (id: number) =>{
-//     var  data:any  = await supabase
-//     .from('categories')
-//     .select('name')
-//     .eq('id', id)
-//    console.log(data.data[0].name) 
-// }
-
-
 
 
 
@@ -49,8 +35,6 @@ const campos: IFields[] = [
 ]
 
 
-
-
 export const Discounts = () =>{
     const { Option } = Select;
     const promotions:promotionType =  useSelector((state:any) => 
@@ -60,104 +44,18 @@ console.log(promotions)
 const dispatch = useDispatch()
     useEffect(() => {
        dispatch(getAllCategories()) 
-       
     }, [promotions,dispatch])
-
-
     const categories =  useSelector((state:any) => 
     state.categories.categories
 )
 console.log(categories)
 
-// const cateFound =  categories.find((c:any) => { 
-//     c.id === record.categoryToApply
-// })
-
-
-
-
-
     const [isModalVisible, setIsModalVisible] = useState<boolean>(false);
     const [editId, setEditId] = useState<IDiscounts | null>(null)
     const [fields, setFields] = useState<IFields[]>(campos);
     const [form] = Form.useForm();
-
-  
-
     const  adminDiscounts  = useSelector((state: any) => state?.adminDiscounts.discounts)
 
-    
-
-    const handleSearch = (selectedKeys: string, confirm: Function, dataIndex: string) => {
-        confirm();
-    };
-
-    const handleReset = (clearFilters: Function) => {
-        clearFilters();
-    };
-
-    const getColumnSearchProps = (dataIndex: string) => ({
-        filterDropdown: ({
-            setSelectedKeys,
-            selectedKeys,
-            confirm,
-            clearFilters,
-        }: {
-            setSelectedKeys: Function;
-            selectedKeys: string;
-            confirm: Function;
-            clearFilters: Function;
-        }) => (
-            <div style={{ padding: 8 }}>
-                <Input
-                    placeholder={`Search ${dataIndex}`}
-                    value={selectedKeys[0]}
-                    onChange={(e) =>
-                        setSelectedKeys(e.target.value ? [e.target.value] : [])
-                    }
-                    onPressEnter={() => handleSearch(selectedKeys, confirm, dataIndex)}
-                    style={{ width: 188, marginBottom: 8, display: "block" }}
-                />
-                <Space>
-                    <Button
-                        type="primary"
-                        onClick={() => handleSearch(selectedKeys, confirm, dataIndex)}
-                        icon={<SearchOutlined />}
-                        size="small"
-                        style={{ width: 30 }}
-                    ></Button>
-                    <Button
-                        onClick={() => handleReset(clearFilters)}
-                        size="small"
-                        style={{ width: 60, marginLeft: "52px" }}
-                    >
-                        Reset
-              </Button>
-                    <Button
-                        type="link"
-                        size="small"
-                        style={{ marginLeft: "120px" }}
-                        onClick={() => {
-                            confirm({ closeDropdown: false });
-                        }}
-                    >
-                        Filter
-              </Button>
-                </Space>
-            </div>
-        ),
-        filterIcon: (filtered: boolean) => (
-            <SearchOutlined style={{ color: filtered ? "#1890ff" : undefined }} />
-        ),
-        onFilter: (value: string, record: any) =>
-            record[dataIndex]
-                ? record[dataIndex]
-                    .toString()
-                    .toLowerCase()
-                    .includes(value.toLowerCase())
-                : "",
-        render: (text: string) => text,
-    });
   
     const columns: any = [
         {
@@ -189,13 +87,7 @@ console.log(categories)
                   else{
                     return (<span>-</span>)
                                       }
-                }
-
-                
-                
-             
-    //    }
-           
+                }           
         },{
             title: 'Release date',
             dataIndex: 'releaseDate',
@@ -223,7 +115,6 @@ console.log(categories)
                     
                 }
             }
-            // render: (_: undefined, record: { id: number }) =><Checkbox onChange={onChange}></Checkbox>
         },{
             title: 'Action',
             dataIndex: 'operation',

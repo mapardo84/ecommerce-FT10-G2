@@ -6,6 +6,8 @@ import { useHistory } from "react-router-dom";
 
 const { Title, Text } = Typography;
 
+    // eslint-disable-next-line no-restricted-globals
+ 
 export const LandingPage = () => {
 
     const history = useHistory();
@@ -17,7 +19,9 @@ export const LandingPage = () => {
     } 
 
     return (
+        
         <div className='LandingPage'>
+            
             <Row align="middle" justify="space-around">
 
                 <Col span={14}>
@@ -29,8 +33,10 @@ export const LandingPage = () => {
                         <Text className='landingText' >
                             A luxurious hotel, open the door to a whole new world. Feel the difference and prepare for a beautiful traveling experience.
                         </Text><br />
+                       
 
-                        <NavLink to="/home"><Button className='lanButton' type="primary" size="large">Continue</Button></NavLink>
+
+                        <NavLink to="/home"> <Button className='lanButton' type="primary" size="large">Continue</Button></NavLink>
                     </div>
                 </Col>
 
@@ -39,8 +45,9 @@ export const LandingPage = () => {
                         <LogIn />
                     </div>
                 </Col>
-
+               
             </Row>
+            
         </div>
     )
 }
