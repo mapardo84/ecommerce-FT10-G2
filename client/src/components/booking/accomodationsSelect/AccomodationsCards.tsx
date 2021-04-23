@@ -13,7 +13,6 @@ export const AccomodationsCards = (props:any): JSX.Element => {
     const { categ, key, prom ,beds} = props;
     const foundProm:promotionType = prom.find( (p:promotionType) => p.categoryToApply === categ.id);
     return (
-        
         <div className='categoryContainer'>
             <Layout className='categoryLayout'>
                 <Content className='categoryContent'>
@@ -35,7 +34,6 @@ export const AccomodationsCards = (props:any): JSX.Element => {
                             {categ.description}
                         </p>
                     </div>
--
                     <div key={2} className='categoryButtons'>
                         <div>
                             <h6 className='categoryH3'>Rate: ${categ?.price} USD</h6>

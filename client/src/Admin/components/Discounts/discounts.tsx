@@ -1,28 +1,12 @@
-import { Button, Table, Form, Modal, Input, Tooltip, Popconfirm, Select, Space,Checkbox  } from 'antd';
+import { Button, Table, Form, Modal, Input, Tooltip, Popconfirm, Select, Space } from 'antd';
 import { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { getAllDiscounts, updateDiscounts, checkId, deleteDiscount,addDiscount } from '../../actions/discountsActions';
 import { FaTrashAlt, FaPencilAlt } from 'react-icons/fa';
-import './discounts.less'
-import { supabase } from '../../../SupaBase/conection'
 import {getAllCategories} from "../../actions/categoriesActions"
-
 import { SearchOutlined } from '@ant-design/icons';
-import { categoryType } from '../../../components/booking/accomodationsSelect/AccomodationsSelect';
 import { promotionType } from '../../../actions/Promotions/promotionsAction';
-
-// const idToName = async (id: number) =>{
-//     var  data:any  = await supabase
-//     .from('categories')
-//     .select('name')
-//     .eq('id', id)
-//    console.log(data.data[0].name) 
-// }
-
-
-
-
-
+import './discounts.less'
 export interface IDiscounts {
     id: number,
     description: string,
@@ -48,116 +32,92 @@ const campos: IFields[] = [
     { name: ['published'], value: '' },
 ]
 
-
-
-
 export const Discounts = () =>{
     const { Option } = Select;
-    const promotions:promotionType =  useSelector((state:any) => 
-state.adminDiscounts.discounts
-)
-console.log(promotions)
-const dispatch = useDispatch()
-    useEffect(() => {
-       dispatch(getAllCategories()) 
-       
-    }, [promotions,dispatch])
-
-
-    const categories =  useSelector((state:any) => 
-    state.categories.categories
-)
-console.log(categories)
-
-// const cateFound =  categories.find((c:any) => { 
-//     c.id === record.categoryToApply
-// })
-
-
-
-
-
+    const dispatch = useDispatch();
+    const promotions:promotionType =  useSelector((state:any) => state.adminDiscounts.discounts)
+    const categories =  useSelector((state:any) => state.categories.categories);
     const [isModalVisible, setIsModalVisible] = useState<boolean>(false);
-    const [editId, setEditId] = useState<IDiscounts | null>(null)
+    const [editId, setEditId] = useState<IDiscounts | null>(null);
     const [fields, setFields] = useState<IFields[]>(campos);
     const [form] = Form.useForm();
-
-  
-
-    const  adminDiscounts  = useSelector((state: any) => state?.adminDiscounts.discounts)
-
+    const  adminDiscounts  = useSelector((state: any) => state?.adminDiscounts.discounts);
     
+    useEffect(() => {
+        dispatch(getAllCategories()) 
+    
+    }, [promotions, dispatch])
+    
+    // const handleSearch = (selectedKeys: string, confirm: Function, dataIndex: string) => {
+    //     confirm();
+    // };
 
-    const handleSearch = (selectedKeys: string, confirm: Function, dataIndex: string) => {
-        confirm();
-    };
+    // const handleReset = (clearFilters: Function) => {
+    //     clearFilters();
+    // };
 
-    const handleReset = (clearFilters: Function) => {
-        clearFilters();
-    };
-
-    const getColumnSearchProps = (dataIndex: string) => ({
-        filterDropdown: ({
-            setSelectedKeys,
-            selectedKeys,
-            confirm,
-            clearFilters,
-        }: {
-            setSelectedKeys: Function;
-            selectedKeys: string;
-            confirm: Function;
-            clearFilters: Function;
-        }) => (
-            <div style={{ padding: 8 }}>
-                <Input
-                    placeholder={`Search ${dataIndex}`}
-                    value={selectedKeys[0]}
-                    onChange={(e) =>
-                        setSelectedKeys(e.target.value ? [e.target.value] : [])
-                    }
-                    onPressEnter={() => handleSearch(selectedKeys, confirm, dataIndex)}
-                    style={{ width: 188, marginBottom: 8, display: "block" }}
-                />
-                <Space>
-                    <Button
-                        type="primary"
-                        onClick={() => handleSearch(selectedKeys, confirm, dataIndex)}
-                        icon={<SearchOutlined />}
-                        size="small"
-                        style={{ width: 30 }}
-                    ></Button>
-                    <Button
-                        onClick={() => handleReset(clearFilters)}
-                        size="small"
-                        style={{ width: 60, marginLeft: "52px" }}
-                    >
-                        Reset
-              </Button>
-                    <Button
-                        type="link"
-                        size="small"
-                        style={{ marginLeft: "120px" }}
-                        onClick={() => {
-                            confirm({ closeDropdown: false });
-                        }}
-                    >
-                        Filter
-              </Button>
-                </Space>
-            </div>
-        ),
-        filterIcon: (filtered: boolean) => (
-            <SearchOutlined style={{ color: filtered ? "#1890ff" : undefined }} />
-        ),
-        onFilter: (value: string, record: any) =>
-            record[dataIndex]
-                ? record[dataIndex]
-                    .toString()
-                    .toLowerCase()
-                    .includes(value.toLowerCase())
-                : "",
-        render: (text: string) => text,
-    });
+    // const getColumnSearchProps = (dataIndex: string) => ({
+    //     filterDropdown: ({
+    //         setSelectedKeys,
+    //         selectedKeys,
+    //         confirm,
+    //         clearFilters,
+    //     }: {
+    //         setSelectedKeys: Function;
+    //         selectedKeys: string;
+    //         confirm: Function;
+    //         clearFilters: Function;
+    //     }) => (
+    //         <div style={{ padding: 8 }}>
+    //             <Input
+    //                 placeholder={`Search ${dataIndex}`}
+    //                 value={selectedKeys[0]}
+    //                 onChange={(e) =>
+    //                     setSelectedKeys(e.target.value ? [e.target.value] : [])
+    //                 }
+    //                 onPressEnter={() => handleSearch(selectedKeys, confirm, dataIndex)}
+    //                 style={{ width: 188, marginBottom: 8, display: "block" }}
+    //             />
+    //             <Space>
+    //                 <Button
+    //                     type="primary"
+    //                     onClick={() => handleSearch(selectedKeys, confirm, dataIndex)}
+    //                     icon={<SearchOutlined />}
+    //                     size="small"
+    //                     style={{ width: 30 }}
+    //                 ></Button>
+    //                 <Button
+    //                     onClick={() => handleReset(clearFilters)}
+    //                     size="small"
+    //                     style={{ width: 60, marginLeft: "52px" }}
+    //                 >
+    //                     Reset
+    //           </Button>
+    //                 <Button
+    //                     type="link"
+    //                     size="small"
+    //                     style={{ marginLeft: "120px" }}
+    //                     onClick={() => {
+    //                         confirm({ closeDropdown: false });
+    //                     }}
+    //                 >
+    //                     Filter
+    //           </Button>
+    //             </Space>
+    //         </div>
+    //     ),
+    //     filterIcon: (filtered: boolean) => (
+    //         <SearchOutlined style={{ color: filtered ? "#1890ff" : undefined }} />
+    //     ),
+    //     onFilter: (value: string, record: any) =>
+    //         record[dataIndex]
+    //             ? record[dataIndex]
+    //                 .toString()
+    //                 .toLowerCase()
+    //                 .includes(value.toLowerCase())
+    //             : "",
+    //     render: (text: string) => text,
+    // });
   
     const columns: any = [
         {
@@ -178,24 +138,10 @@ console.log(categories)
             dataIndex: 'categoryToApply',
             key: 'categoryToApply',
             render: (_: undefined, record:any) =>{
-                console.log(categories)
-                const x = categories?.find((c:any) => 
-                 c.id === record?.categoryToApply
-             )
-             console.log(x)
-                   if(x){
-                    return <span>{x.name}</span>
-                  }
-                  else{
-                    return (<span>-</span>)
-                                      }
-                }
-
-                
-                
-             
-    //    }
-           
+                const x = categories?.find((c:any) => c.id === record?.categoryToApply);
+                if ( x ) return <span>{x.name}</span>
+                else return <span>-</span>
+            }
         },{
             title: 'Release date',
             dataIndex: 'releaseDate',
@@ -223,7 +169,6 @@ console.log(categories)
                     
                 }
             }
-            // render: (_: undefined, record: { id: number }) =><Checkbox onChange={onChange}></Checkbox>
         },{
             title: 'Action',
             dataIndex: 'operation',
@@ -247,40 +192,38 @@ console.log(categories)
     ]
 
     useEffect(() => {
-        dispatch(getAllDiscounts())
-        console.log(adminDiscounts)
-    }, [dispatch])
-    
+        dispatch(getAllDiscounts());
+    }, [dispatch]);
 
     const closeModal = () => {
-        setFields(campos)
-        setEditId(null)
+        setFields(campos);
+        setEditId(null);
         form.resetFields();
-        setIsModalVisible(false)
+        setIsModalVisible(false);
     }
 
     const onFinish = (values: IDiscounts) => {
         if (editId) {
             const data = { ...values, id: editId.id, lastDescription: editId.description}
-            dispatch(updateDiscounts(data))
-            setIsModalVisible(false)
-            setEditId(null)
+            dispatch(updateDiscounts(data));
+            setIsModalVisible(false);
+            setEditId(null);
         }
         else{
-            dispatch(addDiscount(values))
-            setIsModalVisible(false)
+            dispatch(addDiscount(values));
+            setIsModalVisible(false);
         }
     }
 
     const handleDelete = (id: number) => {
-        const index = adminDiscounts.find((type: IDiscounts) => type.id === id)
-        dispatch(deleteDiscount(index.id))
+        const index = adminDiscounts.find((type: IDiscounts) => type.id === id);
+        dispatch(deleteDiscount(index.id));
     }
 
     const handleEdit = (id: number) => {
-        setIsModalVisible(true)
-        const index = adminDiscounts.find((discount: IDiscounts) => discount.id === id)
-        setEditId(index)
+        setIsModalVisible(true);
+        const index = adminDiscounts.find((discount: IDiscounts) => discount.id === id);
+        setEditId(index);
         setFields([
             { name: ['id'], value: index.id },
             { name: ['description'], value: index.description },
@@ -289,7 +232,6 @@ console.log(categories)
             { name: ['releaseDate'], value: index.releaseDate },
             { name: ['expirationDate'], value: index.expirationDate },
             { name: ['published'], value: index.published},
-           
         ])
     }
 

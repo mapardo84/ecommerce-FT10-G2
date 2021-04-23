@@ -92,7 +92,7 @@ export const HomeLayout = (): JSX.Element => {
             </h4>
           </div>
         </Content>
-        { promotions?  <PromotionsViewer promo={promotions}/> : <p>No hay promociones vigentes</p> }
+        { promotions? <PromotionsViewer promo={promotions}/> : <p>There are not current promotions</p> }
         <FooterLayout />
       </Layout>
     </>
