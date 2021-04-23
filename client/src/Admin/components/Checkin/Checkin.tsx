@@ -133,7 +133,7 @@ export const Checkin = ({ steps }: { steps: Function }): JSX.Element => {
             filters: filterData(types),
             filterMultiple: false,
             onFilter: (value: number, rooms: Room) => {
-                return rooms.category_id === value
+                return rooms.type_id === value
             }
         },
         {
