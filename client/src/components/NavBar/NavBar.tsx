@@ -11,6 +11,19 @@ import { setModalState } from "../../actions/loginActions";
 import { NavLink, useHistory, Link } from "react-router-dom";
 import hotel from "./logoHotel.png"
 
+import { SiHotelsDotCom } from "react-icons/si";
+import { MdHotel } from "react-icons/md";
+import { AiFillHome, AiFillStar, AiFillCalendar } from "react-icons/ai";
+import { FaUserCircle } from "react-icons/fa";
+import { RiLogoutBoxFill, RiLoginBoxFill } from "react-icons/ri";
+import { IconContext } from "react-icons/lib";
+
+
+
+
+
+
+
 const { Header } = Layout;
 
 export const NavBar = () => {
@@ -73,135 +86,186 @@ export const NavBar = () => {
 
   return (
     <>
-      <div className="NavBarLayout">
-        {/* Normal navBar content */}
-        <div className="navBarMenu">
-          <div className="colContainer">
-            <Col span={12}>
-              <div className="navLeft">
-                <img className="imagen" src={hotel} alt="IMG NOT FOUND" />
-                {/* <NavLink className="navTitle" to="/home">HENRY HOTEL</NavLink> */}
-              </div>
-            </Col>
-            <Col span={12}>
-              <div className="navRight">
-                <NavLink to="/home">
-                  <Button className="navButton" size="large" type="text">
-                    Home
-                    </Button>
-                </NavLink>
-                <NavLink to="/accomodations">
-                  <Button className="navButton" size="large" type="text">
-                    Accomodations
-                    </Button>
-                </NavLink>
-                <div className="navLoginButton">
-                  {
-                    authValidation() ?
-                      <Dropdown
-                        className="DropNavButton"
-                        overlay={menu}
-                        trigger={['click']}
-                        placement="bottomCenter">
-                        <Button className="btn-nav" type="primary">
-                          <UserOutlined />Account <DownOutlined />
-                        </Button>
-                      </Dropdown>
-
-                      :
-                      <Button
-                        onClick={() => setVisible(true)}
-                        className="navButton"
-                        type="text">
-                        Log In
-                         </Button>
-                  }
+      <IconContext.Provider value={{ size: '24px', style: { verticalAlign: 'middle', marginRight: "8px" } }}>
+        <div className="NavBarLayout">
+          {/* Normal navBar content */}
+          <div className="navBarMenu">
+            <div className="colContainer">
+              <Col span={12}>
+                <div className="navLeft">
+                  <NavLink to="/home"><img className="imagen" src={hotel} alt="IMG NOT FOUND" /></NavLink>
                 </div>
-                <NavLink to="/booking">
-                  <Button
-                    size="large"
-                    className="btnNavbar"
-                  >
-                    Book Now
+              </Col>
+              <Col span={12}>
+                <div className="navRight">
+                  <NavLink to="/home">
+                    <Button className="navButton" size="large" type="text">
+                      Home
                     </Button>
-                </NavLink>
-              </div>
-            </Col>
+                  </NavLink>
+                  <NavLink to="/accomodations">
+                    <Button className="navButton" size="large" type="text">
+                      Accomodations
+                    </Button>
+                  </NavLink>
+                  <div className="navLoginButton">
+                    {
+                      authValidation() ?
+                        <Dropdown
+                          className="DropNavButton"
+                          overlay={menu}
+                          trigger={['click']}
+                          placement="bottomCenter">
+                          <Button className="btn-nav" type="primary">
+                            <UserOutlined />Account <DownOutlined />
+                          </Button>
+                        </Dropdown>
+
+                        :
+                        <Button
+                          onClick={() => setVisible(true)}
+                          className="navButton"
+                          type="text">
+                          Log In
+                         </Button>
+                    }
+                  </div>
+                  <NavLink to="/booking">
+                    <Button
+                      size="large"
+                      className="btnNavbar"
+                    >
+                      Book Now
+                    </Button>
+                  </NavLink>
+                </div>
+              </Col>
+            </div>
+          </div>
+
+
+          {/* Responsive Navbar Content */}
+          <div className="navResponsiveMenu" >
+
+            <div className="navImageContainer">
+              <NavLink to="/home"><img className="imagen" src={hotel} alt="IMG NOT FOUND" /></NavLink>
+            </div>
+
+            <div className="navButtonMenu">
+              <Button type="text" onClick={handleNavResponsive} >
+                <MenuOutlined style={{ fontSize: '25px', color: 'white' }} />
+              </Button>
+            </div>
+
           </div>
         </div>
+        {/* ----------------------- */}
 
+        <Drawer
+          placement="right"
+          closable={true}
+          onClose={() => setResNavVisivle(false)}
+          visible={resNavVisivle}
+          key="top"
+          width="270px"
+          height="100px"
 
-        {/* Responsive Navbar Content */}
-        <div className="navResponsiveMenu" >
+          zIndex={1200}
+          drawerStyle={{ backgroundColor: "rgb(231, 231, 231)" }}
+        >
+          <div className="navDrawerContent">
+            <Divider style={{ color: "grey" }} orientation="left">MAIN</Divider>
 
-          <img className="imagen" src={hotel} alt="IMG NOT FOUND" />
-
-          <Button className="navButton"  type="text" onClick={handleNavResponsive} >
-            <MenuOutlined style={{ fontSize: '25px', color: 'white' }} />
-          </Button>
-
-        </div>
-      </div>
-      {/* ----------------------- */}
-
-      <Drawer
-        placement="right"
-        closable={false}
-        onClose={() => setResNavVisivle(false)}
-        visible={resNavVisivle}
-        key="top"
-        width="300px"
-        zIndex={1200}
-        drawerStyle={{ backgroundColor: "rgb(231, 231, 231)"}}
-      >
-        <div className="navDrawerContent">
-
-          <NavLink to="/booking">
-            <Button
-              size="large"
-              className="btnNavbar" >
-              Book Now
+            <NavLink to="/booking">
+              <Button size="large" className="navButton" type="text">
+                <SiHotelsDotCom /> Book Now
             </Button>
-          </NavLink>
-          <NavLink to="/accomodations">
-            <Button className="navButton" size="large" type="text">
-              Accomodations
+            </NavLink>
+            <NavLink to="/accomodations">
+              <Button className="navButton" size="large" type="text">
+                <MdHotel />Accomodations
             </Button>
-          </NavLink>
-          <NavLink to="/home">
-            <Button className="navButton" size="large" type="text">
-              Home
+            </NavLink>
+            <NavLink to="/home">
+              <Button className="navButton" size="large" type="text">
+                <AiFillHome /> Home
             </Button>
-          </NavLink>
+            </NavLink>
+
+            {
+              authValidation() ?
+
+                <div className="authenticationResponsive">
+                  <Divider style={{ color: "grey" }} orientation="left">USER</Divider>
+                  <NavLink to="/myProfile">
+                    <Button className="navButton" size="large" type="text">
+                      <FaUserCircle /> My Profile
+                  </Button>
+                  </NavLink>
+                  <NavLink to="/wishlist">
+                    <Button className="navButton" size="large" type="text">
+                      <AiFillStar /> WishList
+                  </Button>
+                  </NavLink>
+                  <NavLink to="/myBookings">
+                    <Button className="navButton" size="large" type="text">
+                      <AiFillCalendar />  Bookings
+                  </Button>
+                  </NavLink>
+                  <Button style={{ marginTop: "5px" }} onClick={() => logOutSession()} className="navButton" size="large" type="text">
+                    <RiLogoutBoxFill /> Log Out
+                 </Button>
 
 
+                </div>
+                :
+                <div>
+                  <Divider style={{ color: "grey" }} orientation="left">USER</Divider>
 
-        </div>
-      </Drawer>
+                  <Button
+                    onClick={() => {
+                      setVisible(true)
+                      setResNavVisivle(false)
+                    }}
+                    className="navButton"
+                    type="text">
+                    <RiLoginBoxFill />Log In
+                </Button>
 
-      <Modal
-        visible={visible}
-        width={450}
-        destroyOnClose={true}
-        footer={[
-          <div>{regOrLog === "logIn" ?
-            <div>Don't have an account?
+                </div>
+
+
+            }
+
+          </div>
+
+        </Drawer>
+
+        <Modal
+          visible={visible}
+          width={450}
+          destroyOnClose={true}
+          footer={[
+            <div>{regOrLog === "logIn" ?
+              <div>Don't have an account?
               <Button style={{ marginLeft: "8px" }} onClick={() => setRegOrLog("signIn")}> Sign Up</Button>
-            </div> :
-            <div>
-              If you have an account
+              </div> :
+              <div>
+                If you have an account
               <Button style={{ marginLeft: "8px" }} onClick={() => setRegOrLog("logIn")}>Log In</Button>
-            </div>
-          }
-          </div>,
-        ]}
-        onCancel={() => {
-          setRegOrLog("logIn")
-          setVisible(false)
-        }}
-      >
-        {regOrLog === "logIn" ? <LogIn /> : <Register />}
-      </Modal>
+              </div>
+            }
+            </div>,
+          ]}
+          onCancel={() => {
+            setRegOrLog("logIn")
+            setVisible(false)
+          }}
+        >
+          {regOrLog === "logIn" ? <LogIn /> : <Register />}
+        </Modal>
+
+      </IconContext.Provider>
     </>
   );
 };

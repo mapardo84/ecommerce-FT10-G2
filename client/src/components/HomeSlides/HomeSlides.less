@@ -13,14 +13,63 @@
     align-content: center;
     justify-content: center;
     position: absolute;
-    font-size: 4.5vw;
+    font-size: 5vw;
     color: white;
     bottom: 30vh;
     left: 18vw;
-
 }
 .slideContainer{
     position: relative;
     margin-top: 40px !important;
 
+}
+
+@media only screen and (max-width: 767px) {
+    .slidesImages{
+        height: 50vh;
+        width: 100vw;
+        object-fit: cover;
+        filter: brightness(75%);
+    }
+
+    .slidesText{
+      display: flex;
+      align-content: center;
+      justify-content: center;
+      position: absolute;
+      font-size: 40px;
+      color: white;
+      bottom: 200px;
+      text-align: center;
+    }
+
+    .slideContainer{
+      position: relative;
+      margin-top: 70px !important;
+    }
+}
+
+@media only screen and (max-width: 500px) {
+    .slidesImages{
+        height: 50vh;
+        width: 100vw;
+        object-fit: cover;
+        filter: brightness(75%);
+    }
+
+    .slidesText{
+      display: flex;
+      align-content: center;
+      justify-content: center;
+      position: absolute;
+      font-size: 30px;
+      color: white;
+      bottom: 100px;
+      text-align: center;
+    }
+
+    .slideContainer{
+      position: relative;
+      margin-top: 70px !important;
+    }
 }
