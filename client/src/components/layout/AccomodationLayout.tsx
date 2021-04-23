@@ -1,4 +1,4 @@
-import { Layout } from "antd";
+import { Layout, BackTop } from "antd";
 import { NavBar } from "../NavBar/NavBar";
 import { FooterLayout } from "../footer/Footer";
 import { FunctionComponent } from "react";
@@ -10,11 +10,12 @@ const { Content } = Layout;
 export const AccomodationLayout: FunctionComponent = () => {
   return (
     <>
-      <Layout>
+      <Layout style={{ overflowX: "hidden" }}>
         <NavBar />
         <Content>
-         <Accomodations />
+          <Accomodations />
         </Content>
+        <BackTop />
         <FooterLayout />
       </Layout>
     </>

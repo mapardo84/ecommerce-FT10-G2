@@ -41,6 +41,8 @@
 }
 
 .titleHotel {
+  display: flex;
+  justify-content: center;
   margin-top: 3%;
   font-family: "Montserrat", sans-serif;
   font-size: 70px;
@@ -50,7 +52,10 @@
   @media screen and (max-width:767px){
     font-size: 40px;
     padding: 20px;
+  }
 
+  @media screen and (max-width:500px){
+    font-size: 30px;
   }
 }
 
@@ -82,10 +87,20 @@
   }
 }
 .description {
-  font-size: 14px;
-  margin-left: 17vw;
-  margin-right: 17vw;
+  font-size: 16px;
+  margin-left: 13vw;
+  margin-right: 13vw;
   word-spacing: 5px;
   font-family: "Merriweather", serif;
   margin-bottom: 3%;
 }
+
+
+@media only screen and (max-width: 500px) {
+
+  .description {
+    margin-left: 15vw;
+    margin-right: 15vw;
+  }
+}
+
