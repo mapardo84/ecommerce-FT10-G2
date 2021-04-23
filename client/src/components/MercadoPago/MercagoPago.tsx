@@ -30,10 +30,12 @@ export const MercadoPago = (props: any) => {
         console.log(data.email, res)
 
 
-        supabase.from("pre_booking").insert([{
-          preference_id: res,
-          user_email: data.email
-        }]).then(res => console.log(res))
+        supabase
+        .from("pre_booking")
+        .update({
+          preference_id: `${res}`,
+        })
+        .eq("user_email",`${data.email}`).then(res => console.log(res))
       })
 
       .catch(e => console.log("hola"))

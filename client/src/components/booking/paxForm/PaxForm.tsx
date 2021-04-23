@@ -1,11 +1,12 @@
-import React from 'react';
+import React, { useState } from 'react';
 //import 'antd/dist/antd.css';
 import { Form, Input, Cascader, Select, DatePicker, Checkbox, Button, Switch } from 'antd';
 import { sendPax } from '../../../actions/Booking/PaxFormActions';
 import '../paxForm/PaxForm.less'
-import { PaymentBooking } from '../paymentBooking/PaymentBooking';
 import { stepChange } from '../../../actions/Booking/bookingAction';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import { MercadoPago } from '../../MercadoPago/MercagoPago';
+import {supabase} from '../../../SupaBase/conection'
 const { Option } = Select;
 
 const residences = [
@@ -63,19 +64,22 @@ export interface PaxValues {
     first_name: string,
     last_name: string,
     uuid: string,
-    birth_date: string,
+    birth_date: Date,
     address: string,
     phone: string,
-    country: String[],
-    titular: boolean
-
+    country: string
 }
 
 export function PaxForm() {
     const [form] = Form.useForm();
     const dispatch = useDispatch();
+
+    const bookings = useSelector((state:any) => state?.bookings)
+    const {booking}=bookings
+    const [mp, setMp] = useState<any>(false)
     const handleClickBack = (e:any) => {
         e.preventDefault();
+        localStorage.removeItem("Accomodation")
         dispatch(stepChange(1));
     } 
     const onFinish = (values: PaxValues) => {
@@ -98,6 +102,42 @@ export function PaxForm() {
         </Form.Item>
     );
 
+    const onChange=async(value:any,allvalues:any)=>{
+        
+        console.log(booking)
+        for (let i in allvalues){
+            if(!allvalues[i]){
+                return setMp(false)
+            }else{
+                continue
+            }
+        }
+        const {uuid,first_name,last_name,phone,country,address,birth_date}=allvalues
+
+
+        let bookingInfo={
+            checkin:booking.range[0],
+            checkout:booking.range[1],
+            category:booking.category[0].category.name,
+            type:booking.category[0].type.name,
+            nights:booking.nights,
+            unit_price:booking.fee,
+            room_id:booking.room_id,
+            uuid,
+            first_name,
+            last_name,
+            paxes:booking.guests,
+            phone,
+            country,
+            birth_date,
+            address,                
+        }
+        await localStorage.setItem("BookingInfo",JSON.stringify(bookingInfo))        
+        if(supabase.auth.user()){
+            setMp(true)
+        }
+    }
+
     return (
         <div className='paxForm_container'>
             <Button onClick={handleClickBack}>Go back</Button>
@@ -109,6 +149,7 @@ export function PaxForm() {
                     {...formItemLayout}
                     form={form}
                     name="register"
+                    onValuesChange={onChange}
                     onFinish={onFinish}
                     initialValues={{
                         country: ['United States'],
@@ -224,17 +265,6 @@ export function PaxForm() {
                         />
                     </Form.Item>
 
-
-                    <Form.Item
-                        name='titular'
-                        label='Titular'
-                    >
-                        <Switch
-                            defaultChecked={true}
-                            checked={true}
-                        />
-                    </Form.Item>
-
                     <Form.Item
                         name="agreement"
                         valuePropName="checked"
@@ -250,18 +280,10 @@ export function PaxForm() {
                             I have read the <a href="https://memegenerator.net/img/instances/64451727/i-believe-we-have-an-agreement.jpg">agreement</a>  {/* hacer modal con foto*/}
                         </Checkbox>
                     </Form.Item>
-
-                    <Form.Item {...tailFormItemLayout}>
-                        <Button type="primary" htmlType="submit">
-                            CONFIRM BOOKING
-                </Button>
-                    </Form.Item>
+                    {mp?<MercadoPago/>:null}
+                    
 
                 </Form>
-            </div>
-
-            <div>
-                <PaymentBooking />
             </div>
         </div>
     );

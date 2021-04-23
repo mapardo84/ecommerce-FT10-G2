@@ -36,7 +36,7 @@ export const AccomodationsCards = (props:any): JSX.Element => {
                     <div key={2} className='categoryButtons'>
                         <div>
                             <h6 className='categoryH3'>Rate: ${categ?.price} USD</h6>
-                            {console.log(beds)}
+                            {/* {console.log(beds)} */}
                             {beds? <span className="price">Total Fee: ${beds*categ.price} USD</span>: <span></span>}
                         </div>
                         <div className="AccButtons">

@@ -5,6 +5,8 @@ import { setBookData, stepChange } from '../../../actions/Booking/bookingAction'
 import { bookingType } from '../guestsForm/GuestsForm';
 import "./AccomodationsSelect.less";
 import { useState } from "react";
+import { supabase } from "../../../SupaBase/conection";
+import { setGuests } from "../../../actions/Booking/pre_booking_action";
 const { Option } = Select;
 
 export interface roomType {
@@ -40,21 +42,38 @@ export const AccomodationsSelect = ():JSX.Element => {
 
   const handleClickBack = (e:any) => {
     e.preventDefault();
+    localStorage.removeItem("Check&Guests")
     dispatch(stepChange(0));
   } 
+  
+
 
   const handleClickNext = (e:any) => {
     e.preventDefault();
-    booking.category = userSelection;
-    booking.fee = booking.category.category.price * booking.category.type.beds;
+    booking.category = [userSelection];
+    booking.fee = booking.category[0].category.price * booking.category[0].type.beds;
     const roomSelected = freeRooms.find( (r:roomType) => { 
-      return (r.category_id === booking.category.category.id && r.type_id === booking.category.type.id)
+      return (r.category_id === booking.category[0].category.id && r.type_id === booking.category[0].type.id)
     });
     console.log(freeRooms);
     console.log(roomSelected);
     roomSelected? booking.room_id = roomSelected.id:
     booking.room_id = -1;
+    console.log(booking)
     dispatch(setBookData(booking));
+    localStorage.setItem("Accomodation",JSON.stringify({
+      room_id:roomSelected.id,
+      category_type:userSelection,
+      total_price:booking.fee,
+      }))
+      if(supabase.auth.user()){
+        // dispatch(setGuests("hola","dale"))
+        dispatch(setGuests(supabase.auth.user()?.email,undefined,JSON.stringify({
+          room_id:roomSelected.id,
+          category_type:userSelection,
+          total_price:booking.fee,
+          })))
+      }
     dispatch(stepChange(2));
   }
 
@@ -77,7 +96,7 @@ export const AccomodationsSelect = ():JSX.Element => {
          <Radio.Group onChange={handleRadioGroup} value={userSelection.category}>
             {categoriesFind.userCategories?.map((categ:categoryType, i:number) => (
               <div>
-                {console.log(userSelection.type.beds)}
+                {/* {console.log(userSelection.type.beds)} */}
                 <AccomodationsCards beds={userSelection?.type.beds} categ={categ} key={i} types={categoriesFind.types}/>
                 <span>
                     <Select key='selectType'

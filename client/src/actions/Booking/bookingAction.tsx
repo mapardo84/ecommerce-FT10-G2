@@ -1,3 +1,4 @@
+import { Dispatch } from 'react';
 import { categoryType, roomType } from '../../components/booking/accomodationsSelect/AccomodationsSelect';
 import { bookingType } from '../../components/booking/guestsForm/GuestsForm';
 import { supabase } from '../../SupaBase/conection';
@@ -78,13 +79,13 @@ export const getCategoriesForUser = (userBooking:bookingType) => {
                         freeRooms.push(rooms[i][j]);
                     }
                     else if ( bookingRoom[0].checkin < checkin && bookingRoom[0].checkout > checkin ) {
-                        console.log('se descarta');
+                        // console.log('se descarta');
                     }
                     else if ( bookingRoom[0].checkin >= checkin && bookingRoom[0].checkout <= checkout ) {
-                        console.log('se descarta');
+                        // console.log('se descarta');
                     }
                     else if ( bookingRoom[0].checkin <= checkout && bookingRoom[0].checkout >= checkout ) {
-                        console.log('se descarta');
+                        // console.log('se descarta');
                     }
                 }
             }
@@ -128,8 +129,8 @@ const freeRoomsToShow = (payload:any) =>{
 
 export const roomSelected = (categoryPax:any, freeRooms:roomType[])=>{
     return ( dispatch:any ) =>{
-        console.log(categoryPax);
-        console.log(freeRooms);
+        // console.log(categoryPax);
+        // console.log(freeRooms);
         const roomSelected = freeRooms.find( (r:roomType) => { 
             return (r.category_id === categoryPax.category.id && r.type_id === categoryPax.type.id)
         })
@@ -150,3 +151,6 @@ export const setLoading = (payload:boolean) => {
         payload
     }
 }
+
+
+
