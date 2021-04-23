@@ -1,4 +1,4 @@
-import { Button, Table, Form, Modal, Input, Tooltip, Popconfirm, Select, Space,Checkbox  } from 'antd';
+import { Button, Table, Form, Modal, Input, Tooltip, Popconfirm, Select, Space } from 'antd';
 import { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { getAllDiscounts, updateDiscounts, checkId, deleteDiscount,addDiscount } from '../../actions/discountsActions';
@@ -9,6 +9,10 @@ import { promotionType } from '../../../actions/Promotions/promotionsAction';
 
 
 
+import {getAllCategories} from "../../actions/categoriesActions"
+import { SearchOutlined } from '@ant-design/icons';
+import { promotionType } from '../../../actions/Promotions/promotionsAction';
+import './discounts.less'
 export interface IDiscounts {
     id: number,
     description: string,
@@ -51,7 +55,7 @@ const dispatch = useDispatch()
 console.log(categories)
 
     const [isModalVisible, setIsModalVisible] = useState<boolean>(false);
-    const [editId, setEditId] = useState<IDiscounts | null>(null)
+    const [editId, setEditId] = useState<IDiscounts | null>(null);
     const [fields, setFields] = useState<IFields[]>(campos);
     const [form] = Form.useForm();
     const  adminDiscounts  = useSelector((state: any) => state?.adminDiscounts.discounts)
@@ -138,40 +142,38 @@ console.log(categories)
     ]
 
     useEffect(() => {
-        dispatch(getAllDiscounts())
-        console.log(adminDiscounts)
-    }, [dispatch])
-    
+        dispatch(getAllDiscounts());
+    }, [dispatch]);
 
     const closeModal = () => {
-        setFields(campos)
-        setEditId(null)
+        setFields(campos);
+        setEditId(null);
         form.resetFields();
-        setIsModalVisible(false)
+        setIsModalVisible(false);
     }
 
     const onFinish = (values: IDiscounts) => {
         if (editId) {
             const data = { ...values, id: editId.id, lastDescription: editId.description}
-            dispatch(updateDiscounts(data))
-            setIsModalVisible(false)
-            setEditId(null)
+            dispatch(updateDiscounts(data));
+            setIsModalVisible(false);
+            setEditId(null);
         }
         else{
-            dispatch(addDiscount(values))
-            setIsModalVisible(false)
+            dispatch(addDiscount(values));
+            setIsModalVisible(false);
         }
     }
 
     const handleDelete = (id: number) => {
-        const index = adminDiscounts.find((type: IDiscounts) => type.id === id)
-        dispatch(deleteDiscount(index.id))
+        const index = adminDiscounts.find((type: IDiscounts) => type.id === id);
+        dispatch(deleteDiscount(index.id));
     }
 
     const handleEdit = (id: number) => {
-        setIsModalVisible(true)
-        const index = adminDiscounts.find((discount: IDiscounts) => discount.id === id)
-        setEditId(index)
+        setIsModalVisible(true);
+        const index = adminDiscounts.find((discount: IDiscounts) => discount.id === id);
+        setEditId(index);
         setFields([
             { name: ['id'], value: index.id },
             { name: ['description'], value: index.description },
@@ -180,7 +182,6 @@ console.log(categories)
             { name: ['releaseDate'], value: index.releaseDate },
             { name: ['expirationDate'], value: index.expirationDate },
             { name: ['published'], value: index.published},
-           
         ])
     }
 

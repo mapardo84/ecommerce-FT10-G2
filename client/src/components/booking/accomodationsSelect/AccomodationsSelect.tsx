@@ -6,7 +6,6 @@ import { bookingType } from '../guestsForm/GuestsForm';
 import "./AccomodationsSelect.less";
 import { useState } from "react";
 import { promotionType } from "../../../actions/Promotions/promotionsAction";
-import { ConsoleSqlOutlined } from "@ant-design/icons";
 const { Option } = Select;
 
 export interface roomType {
