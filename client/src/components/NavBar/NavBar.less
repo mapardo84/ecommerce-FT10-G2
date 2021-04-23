@@ -123,6 +123,8 @@
   padding-right: 10px !important;
 }
 
+
+
 .navBarMenu{
   display: contents;
 }
@@ -131,20 +133,45 @@
 }
 
 
+.authenticationResponsive{
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
 @media only screen and (max-width: 700px) {
 
   .NavBarLayout{
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
     z-index: 900;
-    padding-inline: 50px;
+    // padding-left: 25px;
+    // padding-right: 10px;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    // grid-template-rows: 90px;
+    grid-template-areas: 
+    ". imagen1 menu" 
   }
 
+  .navImageContainer{
+    grid-area: imagen1;
+    display: flex;
+    justify-content: center;
+  }
+
+
+  .navButton {
+    background-color: #2e323300 !important;
+    color: rgb(0, 0, 0) !important;
+    font-size: 18px !important;
+    margin-right: 10px;
+  }
+
+    
   .imagen {
+    margin-top: -45px;
     height: 170px;
-    margin-right: 20px;
-    margin-left: 28vw;
+    margin-right: 0px;
+
   }
 
   .navDrawerContent{
@@ -152,7 +179,7 @@
     display: flex;
     flex-direction: column;
     justify-content: center;
-    align-items: center;
+    align-items: flex-start;
   }
 
   .navDrawerContent a{
@@ -162,8 +189,10 @@
   .navBarMenu{
     display: none;
   }
+
   .navResponsiveMenu{
     display: contents;
+
   }
   .navTitleRes{
     display: contents;
@@ -174,10 +203,13 @@
     justify-content: flex-end;
   }
 
-  .navButton {
-    background-color: #2e323300 !important;
-    color: rgb(0, 0, 0) !important;
+  .navButtonMenu {
+    grid-area: menu;
     font-size: 18px !important;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    height: 90px !important;
     margin-right: 10px;
   }
 }
@@ -190,7 +222,8 @@
     justify-content: space-between;
     align-items: center;
     z-index: 900;
-    padding-inline: 50px;
+     padding-left: 25px;
+    padding-right: 10px;
   }
 
   .navButton {
@@ -212,7 +245,7 @@
     display: flex;
     flex-direction: column;
     justify-content: center;
-    align-items: center;
+    align-items: flex-start;
   }
   
   .navBarMenu{

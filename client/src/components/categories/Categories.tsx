@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { Button, Select } from "antd";
 import "./Category.less";
 import {initialStateProps } from "./../../reducers/categoriesReducer";
-import { getCategories } from "../../actions";
+import { getCategories, getCategoriesNames } from "../../actions";
 import Category from "./Category";
 import "./../accomodations/accomodations.less";
 import "./../layout/homeLayout.less";
@@ -22,10 +22,15 @@ const Categories = ({ data }: any): JSX.Element => {
     dispatch(resolve);
   };
 
+  const getCategoriesNamesDB = async () => {
+    const resolve = await getCategoriesNames();
+    dispatch(resolve);
+  };
+
   useEffect(() => {
     getCategoriesDB(undefined);
+    getCategoriesNamesDB()
   }, [dispatch]);
-
 
   const handleChange = (value: any) => {
     console.log(value);
