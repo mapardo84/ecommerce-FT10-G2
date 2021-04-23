@@ -48,7 +48,7 @@ export const HomeLayout = (): JSX.Element => {
         <Content>
           <HomeSlides />
           <div className="text">
-            <div className="titleHotel">HOTEL HENRY</div>
+            <div className="titleHotel">HENRY HOTEL</div>
             <h3 className="subtitle">
               {" "}
               A luxurious hotel, open the door to a whole new world.

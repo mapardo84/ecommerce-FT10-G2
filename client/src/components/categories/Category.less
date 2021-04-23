@@ -1,53 +1,209 @@
-.categoriesContainer {
-  margin-bottom: 200px;
-  margin-top: 50px;
+//Categories
+
+
+.categoryContainer{
   display: flex;
   flex-direction: column;
-  justify-content: center;
-  align-items: center;
 }
+
 .categories_options {
- margin-left: 250px;
- margin-right: 100px;
   display: flex;
-  justify-content: space-between;
+  justify-content: space-around;
 }
-.categoryContainer {
-  width: 44%;
-  margin-top: 40px;
+
+
+//Category
+
+.newGlobalCategory{
+   display: flex !important;
+   justify-content: center !important;
+} 
+
+.newCategory_Container{
+  display: grid;
+  grid-template-columns: 1fr 0.4fr;
+  grid-template-areas: 
+  "image description";
+  margin: 30px;
 }
-.categorySider {
-  display: flex;
-  margin-bottom: 6px;
-  background-color: #b88b61 !important;
+
+.newImageCategory{
+  grid-area: image;
+  width: 55vw;
+  height: 60vh;
+  object-fit: cover;
+}
+
+.newDescription{
+  grid-area: description;
+  background-color: #332926;
+  width: 450px;
+  padding-left: 20px;
+  padding-right: 20px;
+  padding-top: 3vh;
+}
+
+.newDescriptionCategory{
+color: white;
+font-size: 40px;
+font-weight: 500;  
+text-align: center;
+}
+
+.newDescriptionText{
   color: white;
-  position: relative;
-}
-.categoryH3 {
-  padding: 10px 15px;
   font-size: 20px;
-  color: white;
+  margin-top: 25px;
+  font-weight: 200;
 }
-.categoryP {
-  padding-left: 10px;
-  padding-right: 10px;
+
+.containerCategory1{
+height: 47vh;
 }
-.categoryButtons {
+
+.containerCategory2{
+  height: 10vh;
   display: flex;
-  margin-top: 50px;
-  position: absolute;
-  bottom: 0;
-  justify-content: space-evenly;
-  margin-bottom: 20px;
-  margin-left: 5%;
+  justify-content: flex-start;
 }
-.categoryReserveButton {
-  margin: auto;
+
+.ant-back-top{
+  right: 15px !important;
 }
-.categoryMoreInfoButton {
-  color: black;
-  margin-left: 5%;
-  &:hover{
-    color: white
+
+.buttonContainerCategory1{
+  color: rgb(0, 0, 0) !important;
+  font-size: 19px !important;
+  margin-left: 10px;
+  background-color: white !important;
+  border: 1px solid white !important;
+  border-radius: 5px !important;
+}
+
+.buttonContainerCategory1:hover{
+  background-color: #332926 !important;
+  color: rgb(255, 255, 255) !important;
+}
+
+
+.buttonContainerCategory2{
+  color: white !important;
+  font-size: 19px !important;
+  margin-left: 10px;
+}
+
+.buttonContainerCategory2:hover{
+  background-color: rgb(255, 255, 255) !important;
+  color: rgb(0, 0, 0) !important;
+}
+
+
+@media only screen and (max-width: 1000px) {
+
+  .newCategory_Container{
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-template-rows: 50vh 32vh;
+    grid-template-areas: 
+    "image" 
+    "description";
+    margin: 30px;
   }
+
+  .newImageCategory{
+    grid-area: image;
+    width: 80vw;
+    height: 50vh;
+    object-fit: cover;
+  }
+
+  .newDescription{
+    grid-area: description;
+    background-color: #332926;
+    width: 80vw;
+    padding-left: 20px;
+    padding-right: 20px;
+    padding-top: 3vh;
+  }
+
+  .containerCategory1{
+    height: 22vh;
+    }
+    
+    .containerCategory2{
+      height: 4vh;
+      display: flex;
+      justify-content: flex-start;
+    }
+    
+
+}
+
+@media only screen and (max-width: 767px) {
+
+  .newCategory_Container{
+    grid-template-rows: 35vh 70vh;
+    margin-top: 20px;
+  }
+
+  .newImageCategory{
+    width: 95vw;
+    height: 35vh;
+    object-fit: cover;
+  }
+
+  .newDescription{
+    background-color: #332926;
+    width: 95vw;
+    padding-left: 20px;
+    padding-right: 20px;
+    padding-top: 3vh;
+  }
+
+  .containerCategory1{
+    height: 60vh;
+    }
+    
+    .containerCategory2{
+      height: 10vh;
+      display: flex;
+      justify-content: flex-start;
+    }
+
+
+}
+
+@media only screen and (max-width: 360px) {
+
+
+  .newCategory_Container{
+    grid-template-rows: 30vh 85vh;
+    margin-top: 20px;
+  }
+
+  .newImageCategory{
+    width: 95vw;
+    height: 30vh;
+    object-fit: cover;
+  }
+
+  .newDescription{
+    background-color: #332926;
+    width: 95vw;
+    padding-left: 20px;
+    padding-right: 20px;
+    padding-top: 3vh;
+  }
+
+  .containerCategory1{
+    height: 70vh;
+    }
+    
+    .containerCategory2{
+      height: 15vh;
+      display: flex;
+      justify-content: flex-start;
+    }
+
+
 }

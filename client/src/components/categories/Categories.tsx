@@ -37,8 +37,7 @@ const Categories = ({ data }: any): JSX.Element => {
   };
 
   return (
-    <div>
-      <div>
+    <div className="categoryContainer">
         <div className="categories_options">
           <span>
             <Select
@@ -67,8 +66,7 @@ const Categories = ({ data }: any): JSX.Element => {
             </NavLink>
           </span>
         </div>
-      </div>
-      <div className="categoriesContainer">
+      <div>
         {cat.categories?.map((categ: any, key: number) => (
           <Category categ={categ} key={key} />
         ))}
