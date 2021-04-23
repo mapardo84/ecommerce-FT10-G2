@@ -17,6 +17,7 @@ import { RoomsLayout } from "../Admin/components/RoomsLayout";
 import { CategoriesLayout } from "../Admin/components/CategoriesLayout";
 import { TypesLayout } from "../Admin/components/TypesLayout";
 import { UsersLayout } from "../Admin/components/UsersLayout";
+import Wishlist from "../components/WishList/Wishlist";
 import ResetPasswordLayout from "../components/layout/ResetPasswordLayout";
 
 //ACA VAN TODAS LAS RUTAS
@@ -32,6 +33,7 @@ export const AppRouter = () => {
           <Route exact path="/logIn" component={LogIn} />
           <Route exact path="/booking" component={BookingLayout} />
           <Route exact path="/faq" component={FaqLayout} />
+          <Route exact path="/wishlist" component={Wishlist} />
 
           {/* Parte administrativa */}
           <Route exact path="/admin" component={Plantilla} />

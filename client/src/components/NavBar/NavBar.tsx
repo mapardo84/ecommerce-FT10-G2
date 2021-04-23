@@ -35,9 +35,12 @@ export const NavBar = () => {
 
   const menu = (
     <Menu className="dropMenuNav">
-      <Menu.Item key="1" icon={<HeartOutlined />}>
+      <NavLink to="/wishlist">
+          <Menu.Item key="1" icon={<HeartOutlined />}>
         Wish List
       </Menu.Item>
+      </NavLink>
+    
       <Menu.Item key="1" icon={<CalendarOutlined />}>
         Reservations
       </Menu.Item>
