@@ -15,7 +15,7 @@ export const addReview = (review?: string, catId?: number, userId?:number,rate?:
     return async(dispatch: Dispatch<any>)=>{
         try{
             console.log('entreeeee')
-            const {data,error} = await supabase .from('reviews').insert([
+            const {data,error} = await supabase.from('reviews').insert([
                 {
                     review: review,
                     category_id: catId,
