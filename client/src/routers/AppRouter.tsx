@@ -21,6 +21,10 @@ import Wishlist from "../components/WishList/Wishlist";
 import ResetPasswordLayout from "../components/layout/ResetPasswordLayout";
 import { MyBookingsLayout } from "../components/layout/MyBookingsLayout";
 import { MyProfileLayout } from "../components/layout/MyProfileLayout";
+import { SearchBooking } from "../Admin/components/SearchBar/SearchBar";
+import { CheckinLayout } from '../Admin/components/CheckinLayout';
+import {PaxesLayout} from '../Admin/components/PaxesLayout';
+import { BookingsLayout } from "../Admin/components/BookingsLayout";
 
 //ACA VAN TODAS LAS RUTAS
 
@@ -45,6 +49,9 @@ export const AppRouter = () => {
           <Route exact path="/admin/categories" component={CategoriesLayout} />
           <Route exact path="/admin/types" component={TypesLayout} />
           <Route exact path="/admin/users" component={UsersLayout} />
+          <Route exact path="/admin/checkin" component={CheckinLayout} />
+          <Route exact path="/admin/paxes" component={PaxesLayout} />
+          <Route exact path="/admin/bookings" component={BookingsLayout} />
           {/* Parte administrativa */}
 
           <Route exact path="/accomodations" component={AccomodationLayout} />

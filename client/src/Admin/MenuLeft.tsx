@@ -8,7 +8,7 @@ import { initialStateProps } from '../reducers/adminReducer';
 import { changePage, loginUser, sidebarChange } from "./actions/adminUi";
 import { Layout } from "antd";
 import { NavLink, useHistory } from "react-router-dom";
-import { FaHotel, FaDoorClosed, FaUserAlt } from "react-icons/fa";
+import { FaHotel, FaDoorClosed, FaUserAlt, FaConciergeBell } from "react-icons/fa";
 import { IoIosBed } from "react-icons/io";
 import { GiBedLamp } from "react-icons/gi";
 import './panel.less';
@@ -38,10 +38,11 @@ import { useEffect } from 'react';
 //////////////////////////////////////////////////////////////
 
 
-const paginas = ['Inicio', 'Rooms', 'Categories', 'Types', 'Users']
+const paginas = ['Inicio', 'Rooms', 'Categories', 'Types', 'Users', 'Checkin/Checkout','Paxes','Bookings']
 
 export const MenuLeft = () => {
     const dispatch = useDispatch()
+
     const history = useHistory()
     useEffect(() => {
         loginUser()
@@ -104,6 +105,15 @@ export const MenuLeft = () => {
                     </Menu.Item>
                     <Menu.Item key={paginas[4]} icon={<FaUserAlt />} onClick={() => setPage(paginas[4])}>
                         <NavLink to="/admin/users">{paginas[4]}</NavLink>
+                    </Menu.Item>
+                    <Menu.Item key={paginas[5]} icon={<FaConciergeBell />} onClick={() => setPage(paginas[5])}>
+                        <NavLink to="/admin/checkin">{paginas[5]}</NavLink>
+                    </Menu.Item>
+                    <Menu.Item key={paginas[6]} icon={<FaUserAlt />} onClick={() => setPage(paginas[6])}>
+                        <NavLink to="/admin/paxes">{paginas[6]}</NavLink>
+                    </Menu.Item>
+                    <Menu.Item key={paginas[7]} icon={<FaUserAlt />} onClick={() => setPage(paginas[7])}>
+                        <NavLink to="/admin/bookings">{paginas[7]}</NavLink>
                     </Menu.Item>
 
 

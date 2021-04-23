@@ -74,10 +74,10 @@ export interface PaxValues {
 export function PaxForm() {
     const [form] = Form.useForm();
     const dispatch = useDispatch();
-    const handleClickBack = (e:any) => {
+    const handleClickBack = (e: any) => {
         e.preventDefault();
         dispatch(stepChange(1));
-    } 
+    }
     const onFinish = (values: PaxValues) => {
         console.log('Received values of form: ', values);
         sendPax(values)

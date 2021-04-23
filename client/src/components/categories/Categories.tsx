@@ -33,7 +33,6 @@ const Categories = ({ data }: any): JSX.Element => {
   }, [dispatch]);
 
   const handleChange = (value: any) => {
-    console.log(value);
     if (value === '0') {
       getCategoriesDB(undefined);
     } else {

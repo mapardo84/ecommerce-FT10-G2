@@ -1,43 +1,40 @@
 import { Button, Table, Form, Modal, Input, Tooltip, Popconfirm, Select, Space } from 'antd';
 import { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { getAllUsers, updateUser, checkEmail, checkUuid, resetPWD, deletUser } from '../../actions/usersActions';
+import { getAllPaxes, updatePaxes, deletPaxes,checkUuid, addPaxes } from '../../actions/paxesActions'
 import { FaTrashAlt, FaPencilAlt } from 'react-icons/fa';
 import countries from "countries-list";
-import './users.less'
 import { SearchOutlined } from '@ant-design/icons';
 
-export interface IUser {
+export interface IPaxes {
     id: number,
     uuid: string | number,
-    email: string,
     first_name: string,
     last_name: string,
     phone: string,
     country: string,
     birth_date: string,
     address: string,
-    role: string,
+    titular: boolean
 }
 
 interface IFields {
     name: string[],
-    value: string | number
+    value: string | number 
 }
 
 const campos: IFields[] = [
     { name: ['uuid'], value: '' },
-    { name: ['email'], value: '' },
     { name: ['first_name'], value: '' },
     { name: ['last_name'], value: '' },
     { name: ['phone'], value: '' },
     { name: ['country'], value: '' },
     { name: ['birth_date'], value: '' },
     { name: ['address'], value: '' },
-    { name: ['role'], value: '' },
+    { name: ['titular'], value: '' },
 ]
 
-const { Option } = Select;
+const { Option } =Select;
 const paises: any = countries.countries;
 const countryCodes: string[] = Object.keys(paises);
 const countryUnsortedNames: string[] = countryCodes.map(
@@ -45,15 +42,15 @@ const countryUnsortedNames: string[] = countryCodes.map(
 );
 const countryNames = countryUnsortedNames.sort();
 
-export const Users = () => {
+export const Paxes = () => {
     const [isModalVisible, setIsModalVisible] = useState<boolean>(false);
-    const [editId, setEditId] = useState<IUser | null>(null)
+    const [editId, setEditId] = useState<IPaxes | null>(null)
     const [fields, setFields] = useState<IFields[]>(campos);
     const [form] = Form.useForm();
+    
+    const { paxes } = useSelector((state: any) => state?.paxes)
 
-    const { users } = useSelector((state: any) => state?.users)
-
-    const dispatch = useDispatch()
+    const dispatch = useDispatch();
 
     const handleSearch = (selectedKeys: string, confirm: Function, dataIndex: string) => {
         confirm();
@@ -132,17 +129,12 @@ export const Users = () => {
             dataIndex: 'uuid',
             key: 'uuid'
         }, {
-            title: 'e-mail',
-            dataIndex: 'email',
-            key: 'email',
-            ...getColumnSearchProps("email"),
-            sorter: (a: IUser, b: IUser) => a.email.localeCompare(b.email),
-        }, {
             title: 'Name',
             dataIndex: 'first_name',
             key: 'first_name',
             ...getColumnSearchProps("first_name"),
-            render: (first_name: string) => (<>{first_name} {users.find((user: IUser) => user.first_name === first_name).last_name}</>),
+            render: (first_name: string) => (<>{first_name} {paxes.find((pax: IPaxes) => pax.first_name === first_name).last_name}</>),
+            sorter: (a:IPaxes , b: IPaxes) => a.first_name.localeCompare(b.first_name) 
         }, {
             title: 'Birth Date',
             dataIndex: 'birth_date',
@@ -159,16 +151,30 @@ export const Users = () => {
             title: 'Address',
             dataIndex: 'address',
             key: 'address',
-        }, {
-            title: 'Role',
-            dataIndex: 'role',
-            key: 'role',
-        }, {
+        }/* , {
+            title: 'Titular',
+            dataIndex: 'titular',
+            key: 'titular',
+            render: (_: undefined, record:any) =>{
+                if(record.titular){
+                    return (
+                        <span>
+                            True
+                        </span>
+                    )
+                }else{
+                    return(
+                        <span>False</span>
+                    )
+                    
+                }
+            }
+        } */, {
             title: 'Action',
             dataIndex: 'operation',
             key: 'name',
             render: (_: undefined, record: { id: number }) =>
-                users.length >= 1 ? (
+                paxes.length >= 1 ? (
                     <>
                         <Tooltip title="Edit">
                             <span className='adminrooms_options' onClick={() => handleEdit(record.id)}><FaPencilAlt size="18" color="orange" /> </span>
@@ -186,7 +192,7 @@ export const Users = () => {
     ]
 
     useEffect(() => {
-        dispatch(getAllUsers())
+        dispatch(getAllPaxes())
     }, [dispatch])
 
     const closeModal = () => {
@@ -196,57 +202,63 @@ export const Users = () => {
         setIsModalVisible(false)
     }
 
-    const onFinish = (values: IUser) => {
+    const onFinish = (values: IPaxes) => {
         if (editId) {
-            const data = { ...values, lastUUID: editId.uuid, lastEmail: editId.email, id: editId.id }
-            console.log(data)
-            dispatch(updateUser(data))
+            const data = { ...values, lastUUID: editId.uuid, id: editId.id }
+            
+            dispatch(updatePaxes(data))
             setIsModalVisible(false)
             setEditId(null)
+        }else{
+            dispatch(addPaxes(values))
+            setIsModalVisible(false)
         }
     }
 
     const handleDelete = (id: number) => {
-        const index = users.find((type: IUser) => type.id === id)
-        dispatch(deletUser(index.id))
+        const index = paxes.find((type: IPaxes) => type.id === id)
+        dispatch(deletPaxes(index.id))
     }
 
     const handleEdit = (id: number) => {
         setIsModalVisible(true)
-        const index = users.find((user: IUser) => user.id === id)
+        const index = paxes.find((user: IPaxes) => user.id === id)
         setEditId(index)
         setFields([
             { name: ['uuid'], value: index.uuid },
-            { name: ['email'], value: index.email },
             { name: ['first_name'], value: index.first_name },
             { name: ['last_name'], value: index.last_name },
             { name: ['birth_date'], value: index.birth_date },
             { name: ['phone'], value: index.phone },
             { name: ['country'], value: index.country },
             { name: ['address'], value: index.address },
-            { name: ['role'], value: index.role },
+            { name: ['titular'], value: index.titular },
         ])
 
     }
-
-    const resetPw = () => {
-        //console.log(editId?.email)
-        resetPWD(editId ? editId.email : '')
-    }
-
-
-
-
+    
+ 
     return (
         <div>
-            <div className="types_upbar">
+            <div>
+                <Button 
+                type='primary'
+                onClick = {()=> setIsModalVisible(true)}
+                className='types_upbar'
+                >
+                    Create Pax
+                </Button>
+            </div>
+
+             <div className="types_upbar">
             </div>
             <Table
-                dataSource={users}
+                dataSource={paxes}
                 columns={columns}
                 pagination={{ position: ['bottomCenter'] }}
-                rowKey="email"
+                rowKey="uuid"
             />
+    
             <Modal title="Add Type" visible={isModalVisible} onCancel={closeModal} footer={null} >
                 <Form onFinish={onFinish} fields={fields} form={form} autoComplete="off">
                     <Form.Item
@@ -257,7 +269,7 @@ export const Users = () => {
                                 if (e.length > 3 && e !== fields[0].value) {
                                     const q = await checkUuid(e)
                                     if (q === "existe") {
-                                        return Promise.reject(new Error('UUID already registered'));
+                                        return Promise.reject(new Error('ID already registered'));
                                     }
                                 }
                             },
@@ -277,24 +289,6 @@ export const Users = () => {
                         rules={[{ required: true, message: 'Please input a last name!' }]}>
                         <Input placeholder="Last Name"></Input>
                     </Form.Item>
-                    <span style={{ position: 'relative', minWidth: '100%' }}>
-                        <Form.Item
-                            label="Email"
-                            name="email"
-                            rules={[{
-                                validator: async (_, e) => {
-                                    if (e.includes("@") && e.includes(".") && e !== fields[1].value) {
-                                        const q = await checkEmail(e)
-                                        if (q === "existe") {
-                                            return Promise.reject(new Error('Email already registered'));
-                                        }
-                                    }
-                                },
-                                required: true,
-                            }]}>
-                            <Input placeholder="Email" disabled></Input>
-                        </Form.Item>
-                    </span>
                     <Form.Item
                         label="Phone Number"
                         name="phone"
@@ -305,17 +299,9 @@ export const Users = () => {
                         label="Country"
                         name="country"
                     >
-                        {/* <Input placeholder="Select Country"></Input> */}
                         <Select
-                            //showSearch={true}
                             placeholder="Select a country"
-                            // defaultValue="default"
                             style={{ width: 190 }}
-                        // optionFilterProp="children"
-                        // filterOption={(input, option: any) =>
-                        //     option.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
-                        // }
-                        /* onChange={handleChange} */
                         >
                             <Option value="default">---Select a country---</Option>
                             {countryNames.map((country: string, key: number) => (
@@ -338,18 +324,7 @@ export const Users = () => {
                     >
                         <Input placeholder="Address"></Input>
                     </Form.Item>
-                    <Form.Item
-                        label="Role"
-                        name="role"
-                    >
-                        <Select
-                            placeholder="Select a role"
-                            style={{ width: 190 }}
-                        >
-                            <Option value='user' key='1'>User</Option>
-                            <Option value='admin' key='2'>Admin</Option>
-                        </Select>
-                    </Form.Item>
+
 
                     <div className="users_btn">
                         <Button onClick={closeModal}>
@@ -358,13 +333,10 @@ export const Users = () => {
                         <Button type="primary" htmlType="submit">
                             Save
                         </Button>
-                        <Button type="dashed" onClick={resetPw}>
-                            Reset password
-                        </Button>
                     </div>
 
                 </Form>
             </Modal>
-        </div >
+        </div>
     )
 }
