@@ -1,4 +1,4 @@
-import { Row, Col, Button, Typography } from "antd";
+import {  Button, Typography } from "antd";
 import './styles.less'
 import LogIn from "../LogIn/LogIn";
 import { NavLink } from "react-router-dom";
@@ -14,9 +14,6 @@ export const LandingPage = () => {
 
     return (
         <div className='LandingPage'>
-            <Row align="middle" justify="space-around">
-
-                <Col span={14}>
 
                     <div className='landingleft'>
 
@@ -28,15 +25,14 @@ export const LandingPage = () => {
 
                         <NavLink to="/home"><Button className='lanButton' type="primary" size="large">Continue</Button></NavLink>
                     </div>
-                </Col>
+                
 
-                <Col span={10}>
+                
                     <div className='lanForm'>
                         <LogIn />
                     </div>
-                </Col>
-
-            </Row>
+               
+           
         </div>
     )
 }

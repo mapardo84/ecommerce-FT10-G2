@@ -1,0 +1,65 @@
+.bodyWishlist {
+    margin-top: 30px;
+    font-family: sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+   
+  }
+  
+  .containerWishlist {
+    
+    justify-content: center;
+    align-items: center;
+    margin: 10vmin;
+    overflow: hidden;
+    transform: skew(5deg);
+    flex-grow: row wrap;
+  
+    .card-wishlist {
+      flex: 1;
+      transition: all 1s ease-in-out;
+      height: 720px;
+      position: relative;
+      .card__head {
+        color: #ffff;
+        background: #A57548;
+        padding: 0.5em;
+        transform: rotate(-90deg);
+        transform-origin: 0% 0%;
+        transition: all 0.5s ease-in-out;
+        min-width: 100%;
+        text-align: center;
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        font-size: 1em;
+        white-space: nowrap;
+      }
+  
+      &:hover {
+        flex-grow: 10;
+        .imagesWishlist {
+          filter: grayscale(0);
+        }
+        .card__head {
+          text-align: center;
+          top: calc(100% - 2em);
+          color: white;
+          background: rgba(0, 0, 0, 0.5);
+          font-size: 2em;
+          transform: rotate(0deg) skew(-5deg);
+        }
+      }
+      .imagesWishlist {
+        width: 100% !important;
+        height: 100% !important;
+        object-fit: cover;
+        transition: all 1s ease-in-out;
+        filter: grayscale(100%);
+      }
+      &:not(:nth-child(5)) {
+        margin-right: 1em;
+      }
+    }
+  }
