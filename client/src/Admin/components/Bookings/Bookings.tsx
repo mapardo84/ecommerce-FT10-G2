@@ -180,6 +180,8 @@ export const Bookings = () => {
     
     const closeModal = () => {
         setIsModalVisible(false)
+        setOpenForm(false)
+        dispatch(searchOrCreatePax(null))
     }
 
     const onChangeSelect = (value:any) => {
@@ -251,28 +253,22 @@ export const Bookings = () => {
         </div>
         
         <div>
-        <Modal title="Create Booking" visible={isModalVisible} onCancel={closeModal} footer={null} >
+        <Modal title="Create Booking" visible={isModalVisible} onCancel={closeModal} footer={null} destroyOnClose = {true} >
+                <Form name="time_related_controls" {...formItemLayout} onFinish={onFinish} initialValues={{country: ['United States'], prefix: '1', remember: true }} scrollToFirstError>
             <div>
             {/* UUID */}
-            <Form  >
             <Form.Item name="uuid" label="ID/DNI/Passport" rules={[{required: true,message:'Please input a pax identification!', whitespace: true}]}>
                 {/* <Input onChange= {e => onChangeUUID(e)} /> */}
                 <Input.Search onSearch={onFinishUUID} enterButton />
             </Form.Item>
             {/* <Button type="primary" htmlType="submit" >Search Pax</Button> */}
-            </Form>
             </div>
-            { openForm?<Form name="time_related_controls" {...formItemLayout} onFinish={onFinish} >
+            { openForm?<div>
+                {/* <Form name="time_related_controls" {...formItemLayout} onFinish={onFinish} > */}
+
                 { storeBooking?.paxInfo.length > 0? storeBooking?.paxInfo.map((p:any, i:number) => (
                         <><p key={i}>Pax: {p.first_name} {p.last_name} | {p.country}</p></>
-                    )):<Form
-                    {...formItemLayout}
-                    name="register"
-                    // onFinish={onFinish}
-                    initialValues={{country: ['United States'], prefix: '1', remember: true }}
-                    scrollToFirstError
-                    className='form'
-                >
+                    )):<div>
                     <Form.Item name="first_name" label="Name" rules={[{ required: true, message: 'Please input your name!',
                     whitespace: true}]}>
                         <Input className='paxForm_input' />
@@ -355,26 +351,15 @@ export const Bookings = () => {
                     </Form.Item>
 
 
-                    <Form.Item
-                        name='titular'
-                        label='Titular'
-                    >
-                        <Switch
-                            defaultChecked={true}
-                            checked={true}
-                        /> 
-                        <div>Esto no va</div>
-                    </Form.Item>
-
-
                     {/* <Form.Item {...tailFormItemLayout}>
                         <Button type="primary" htmlType="submit">
                             CONFIRM BOOKING
                 </Button> 
                      </Form.Item> */}
 
-                </Form>
+                </div>
                 }
+
                 {/* Guests */}
                 <Form.Item  
                 label="Guests" 
@@ -414,13 +399,27 @@ export const Bookings = () => {
                     </Select>
                     </Form.Item>
 
-                   
+                    <Form.Item
+                        name='early_check'
+                        label='Early Checkin'
+                    >
+                        <Switch
+                            defaultChecked={false}
+                        /> 
+                    </Form.Item>
+
+                    <Form.Item
+                        name='late_check'
+                        label='Late Checkout'
+                    >
+                        <Switch
+                            defaultChecked={false}
+                        /> 
+                    </Form.Item>
 
                     <div className="adminrooms_btn">
-                        <Button onClick={closeModal}>Cancel</Button>
-                    <Form.Item
-                        wrapperCol={{
-                        xs: {
+                        <Button onClick={closeModal} >Cancel</Button>
+                    <Form.Item wrapperCol={{xs: {
                             span: 24,
                             offset: 0,
                         },
@@ -433,8 +432,9 @@ export const Bookings = () => {
                         <Button type="primary" htmlType="submit">Next</Button>
                     </Form.Item>
                     </div>
-                    </Form>: <div></div>}
-        
+                    {/* </Form>: <div></div>} */}
+                    </div>: <div></div>}
+                </Form>
         </Modal>
         </div>
         </>

@@ -19,6 +19,33 @@ export const searchOrCreatePax = (iden: any ) => {
             dispatch(getPaxInfo(data))
     }
 }
+// address: "Avenida General Paz 7142 entre Av Mosconi y Benito Juarez"
+// birth_date: Moment {_isAMomentObject: true, _isUTC: false, _pf: {…}, _locale: Locale, _d: Mon Apr 05 2021 14:15:49 GMT-0300 (hora estándar de Argentina), …}
+// category: "Business"
+// country: ["argentina"]
+// first_name: "Malena"
+// guests: 2
+// last_name: "Goñi"
+// phone: "65468942"
+// prefix: "54"
+// range-picker: (2) ["2021-04-30", "2021-05-01"]
+// titular: undefined
+// type: "Classic"
+// uuid: 
+
+export const finalCreateBooking = (infoBookPax:any) => {
+    const { uuid, first_name, last_name, phone, prefix, country, address, birth_date, guests, category, type } = infoBookPax
+    const checkin = infoBookPax['range-picker'][0]
+    const checkout = infoBookPax['range-picker'][0]
+
+    // return async (dispatch:Dispatch<any>) {
+    //     const {data}:any = await supabase
+    //             .from('pax')
+    //             .insert()
+
+    // }
+
+}
 
 const getPaxInfo = (payload: any) => {
     return {

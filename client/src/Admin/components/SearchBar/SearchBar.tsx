@@ -10,21 +10,18 @@ export const SearchBooking = () => {
     
     const [search, setSearch] = useState("")
 
-
-
     useEffect(() => {
         
         dispatch(getByPaxID(search))
         dispatch(getByBookingID(search))
         dispatch(getFirstName(search))
         dispatch(getLastName(search))
-    
+        
     }, [dispatch, search])
 
     const onChange = (value: string) => {
         setSearch(value)
     }
-
 
     const renderTitle = (title:string) => (
         <span key={title}>
