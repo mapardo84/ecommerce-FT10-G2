@@ -36,8 +36,6 @@ export const StepsBooking: FunctionComponent = () => {
     if(supabase.auth.session()){
       console.log(supabase.auth.session())
       dispatch(get_pre(supabase.auth.user()?.email))
-      localStorage.removeItem("Check&Guest  s")
-      localStorage.removeItem("Accomodation")
     }
   }, [])
 
@@ -58,7 +56,10 @@ export const StepsBooking: FunctionComponent = () => {
         nights:local_Guests.nights, 
         category:[local_Rooms.category_type],
         fee:local_Rooms.total_price,
-        room_id:local_Rooms.room_id
+        room_id:local_Rooms.room_id,
+        early_checkin:local_Guests.early_check,
+        late_checkout:local_Guests.late_check
+
       }
       dispatch(getCategoriesForUser(obj))
       dispatch(setBookData(obj))
@@ -75,6 +76,8 @@ export const StepsBooking: FunctionComponent = () => {
         category:[],
         fee:0,
         room_id:0,
+        early_checkin:local.early_check,
+        late_checkout:local.late_check
       }
       dispatch(setBookData(obj))
       dispatch(getCategoriesForUser(obj))
@@ -89,14 +92,13 @@ export const StepsBooking: FunctionComponent = () => {
   useEffect(()=>{
     if (inProgress.continue===true){
       if(inProgress.continue){
-        console.log("entre")
         localStorage.setItem("Check&Guests",pre_booking[0].guests_nights)
         if(pre_booking[0].acomodation_step===null){
         localStorage.removeItem("Accomodation")
-        }
-      }else{
+        }else{
         localStorage.setItem("Accomodation",pre_booking[0].acomodation_step)
     }
+  }
   }
 },[inProgress])
 

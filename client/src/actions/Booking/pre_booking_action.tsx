@@ -7,6 +7,7 @@ import { supabase } from "../../SupaBase/conection"
 export const GET_PRE_BOOKING = "GET_PREBOOKING"
 export const GET_INPROGRESS ="GET_INPROGRESS"
 export const SET_EMPTY = "SET_EMPTY"
+export const GET_USER_BALANCE ="GET_USER_BALANCE"
 
 
 export const post_pax_booking_payment = (pax: PaxValues, booking: BookingValues, payment: PaymentValues) => {
@@ -188,5 +189,23 @@ export const delete_pre_booking=(user_email:string|undefined)=>{
         .from("pre_booking")
         .delete()
         .eq("user_email",`${user_email}`)
+    }
+}
+
+export const getUserBalance=(email:string | undefined)=>{
+    return async(dispatch:Dispatch<any>)=>{
+        console.log(email)
+        const {data:balance}:any=await supabase
+        .from("users")
+        .select("*")
+        .eq("user_email",`${email}`)
+        dispatch(user_balance(balance))
+    }
+}
+
+const user_balance=(payload:any)=>{
+    return {
+        type:GET_USER_BALANCE,
+        payload,
     }
 }

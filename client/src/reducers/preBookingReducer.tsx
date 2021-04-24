@@ -1,7 +1,8 @@
-import { GET_INPROGRESS, GET_PRE_BOOKING, SET_EMPTY } from "../actions/Booking/pre_booking_action";
+import { GET_INPROGRESS, GET_PRE_BOOKING, GET_USER_BALANCE, SET_EMPTY } from "../actions/Booking/pre_booking_action";
 
 const initialState={
-    pre_booking:[]
+    pre_booking:[],
+    user_data:[]
 }
 
 interface Pre_Booking{
@@ -30,6 +31,11 @@ export const pre_booking_reducer=(state=initialState,action:Pre_Booking)=>{
             return{
                 ...state,
                 pre_booking:action.payload
+            }
+        case GET_USER_BALANCE:
+            return{
+                ...state,
+                user_data:action.payload
             }
         default:
             return state

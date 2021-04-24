@@ -26,6 +26,8 @@ export interface bookingType {
   category:any
   fee:number
   room_id:number
+  early_checkin:boolean
+  late_checkout?:boolean
 }
 
 export const GuestsForm = () => {
@@ -37,6 +39,8 @@ export const GuestsForm = () => {
     category: [],
     fee: 0,
     room_id: 0,
+    early_checkin:false,
+    late_checkout:false
   });
   const handleChangePaxs = ( inputs:number ) => { setBooking({...booking, guests: inputs}) };
   const handleChangeDates = (_a:any, dates:string[], _c:any) => {
@@ -52,10 +56,10 @@ export const GuestsForm = () => {
     dispatch(setBookData(booking));
     dispatch(getCategoriesForUser(booking));
     dispatch(setLoading(true));
-    localStorage.setItem("Check&Guests",JSON.stringify({paxes:booking.guests,in_out:booking.range,nights:booking.nights,}))
+    localStorage.setItem("Check&Guests",JSON.stringify({paxes:booking.guests,in_out:booking.range,nights:booking.nights,early_check:booking.early_checkin,late_check:booking.late_checkout}))    
     if(supabase.auth.user()){
       // dispatch(setGuests("hola","dale"))
-      dispatch(setGuests(supabase.auth.user()?.email,JSON.stringify({paxes:booking.guests,in_out:booking.range,nights:booking.nights})))
+      dispatch(setGuests(supabase.auth.user()?.email,JSON.stringify({paxes:booking.guests,in_out:booking.range,nights:booking.nights,early_check:booking.early_checkin,late_check:booking.late_checkout})))
     }
     dispatch(stepChange(1));
   } 
@@ -64,10 +68,12 @@ export const GuestsForm = () => {
     console.log('Received values of form: ', values);
   };
 
-  const onCheckin=(checkin:boolean)=>{
+  const onCheckin=(early_checkin:boolean)=>{
+    setBooking({...booking,early_checkin})
   }
 
-  const onCheckout=async(checkout:boolean)=>{
+  const onCheckout=async(late_checkout:boolean)=>{
+    await setBooking({...booking,late_checkout})
   }
   return (
     <div className='conteiner'>
@@ -110,7 +116,7 @@ export const GuestsForm = () => {
               
 
               <Link to='/home'>
-                <Button style={{marginTop:"400px"}} onClick={() => dispatch(setBookData({guests: 0, range: [], nights: 0, category: [], fee: 0, room_id: 0}))} >Cancel</Button>
+                <Button style={{marginTop:"400px"}} onClick={() => dispatch(setBookData({guests: 0, range: [], nights: 0, category: [], fee: 0, room_id: 0,early_checkin:false,late_checkout:false}))} >Cancel</Button>
               </Link>
               
               <Button disabled={!( booking.range[0] && booking.range[1] && booking.guests )} style={{marginTop:"400px"}} onClick={handleClickRooms} type="primary">

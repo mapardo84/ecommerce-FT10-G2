@@ -12,6 +12,9 @@ export const MercadoPago = (props: any) => {
 
   const bookings = useSelector((state: any) => state?.bookings)
   const { booking } = bookings
+  console.log(booking)
+  const original_price=booking.fee
+  
 
 
 
@@ -19,6 +22,12 @@ export const MercadoPago = (props: any) => {
   useEffect(() => {
     // axios.post('http://localhost:4000/mercadopago/postPax',form)
     //   .then(()=>axios.post('http://localhost:4000/mercadopago/postBooking',createBooking))
+    // if(booking.early_checkin){
+    //   booking.fee=booking.fee+(original_price/2)
+    // }
+    // if(booking.late_checkout){
+    //   booking.fee=booking.fee+(original_price/2)
+    // }
     axios.get(`http://localhost:4000/mercadopago?quantity=${booking.nights}&unit_price=${booking.fee}&title=HotelHenry`)
       .then((res) => {
         setPreferenceId(res?.data?.preferenceId)
