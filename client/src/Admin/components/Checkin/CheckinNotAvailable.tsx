@@ -61,7 +61,6 @@ export const CheckinNotAvailable = ({ steps }: { steps: Function }): JSX.Element
     const [roomType, setRoomType] = useState<IType>()
     const [price, setPrice] = useState<number>()
     const [nights, setNights] = useState(0)
-    const [payments, setPayments] = useState(0)
     const [paymentMethod, setPaymentMethod] = useState('Cash')
     const [earlyCheckin, setEarlyCheckin] = useState(true)
     const [lateCheckout, setLateCheckout] = useState(true)
@@ -107,7 +106,6 @@ export const CheckinNotAvailable = ({ steps }: { steps: Function }): JSX.Element
                 total = total + payment.totalPrice
             }
         })
-        setPayments(total)
         setBalance((e: number) => e - total)
     }, [roomPayments])
 

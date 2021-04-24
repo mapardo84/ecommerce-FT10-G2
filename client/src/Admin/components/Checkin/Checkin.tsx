@@ -22,20 +22,6 @@ export interface Room {
     categories: { name: string }[];
 }
 
-interface IFields {
-    name: string[],
-    value: string | number
-}
-
-
-const campos: IFields[] = [
-    { name: ['name'], value: '' },
-    { name: ['floor'], value: '' },
-    { name: ['availability'], value: '' },
-    { name: ['category'], value: '' },
-    { name: ['beds'], value: '' },
-]
-
 const filterData = (data: Category[]) => {
     return data.map((category: Category) => {
         return { text: category.name, value: category.id }
@@ -53,7 +39,6 @@ const numberFloor = (rooms: Room[]) => {
 export const Checkin = ({ steps }: { steps: Function }): JSX.Element => {
 
     const [isModalVisible, setIsModalVisible] = useState<boolean>(false);
-    const [editId, setEditId] = useState<null | Room>(null)
     const [loaded, setLoaded] = useState(false)
 
     const { roomsList } = useSelector((state: any) => state?.rooms)

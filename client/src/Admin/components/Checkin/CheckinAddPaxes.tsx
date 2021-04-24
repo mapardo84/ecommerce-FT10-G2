@@ -1,6 +1,4 @@
 import { Button, Form, Input, Select } from "antd";
-//import { Option } from "antd/lib/mentions";
-import Modal from "antd/lib/modal/Modal"
 import countries from "countries-list";
 import { useState } from "react";
 import { addPaxes, checkUuid } from "../../actions/paxesActions";
@@ -31,7 +29,7 @@ const countryUnsortedNames: string[] = countryCodes.map(
 const countryNames = countryUnsortedNames.sort();
 
 export const CheckinAddPaxes = ({ setModal, setPax, setPaxName, firstModal, created }: { setModal: Function, setPax: Function, setPaxName: Function, firstModal: Function, created: Function }): JSX.Element => {
-    const [fields, setFields] = useState<IFields[]>(campos);
+    const [fields] = useState<IFields[]>(campos);
     const [form] = Form.useForm();
 
     const dispatch = useDispatch()
@@ -49,7 +47,7 @@ export const CheckinAddPaxes = ({ setModal, setPax, setPaxName, firstModal, crea
     }
 
     return (
-        <Form onFinish={onFinish} fields={fields} form={form} autoComplete="off">
+        <Form onFinish={onFinish} form={form} autoComplete="off">
             <Form.Item
                 label="UUID"
                 name="uuid"

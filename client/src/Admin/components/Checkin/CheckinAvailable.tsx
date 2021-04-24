@@ -1,10 +1,10 @@
-import { Button, Descriptions, PageHeader, Tag, Row, Col, Card, DatePicker, Modal, AutoComplete, Input, List, Typography, Tooltip } from 'antd';
+import { Button, Descriptions, PageHeader, Tag, Row, Col, Card, DatePicker, Modal, AutoComplete, Input, Tooltip } from 'antd';
 import { useEffect, useState } from "react"
 import { useDispatch, useSelector } from "react-redux"
 import { Room } from './Checkin';
 import { IType } from '../Types/Types';
 import { Category } from '../Categories/Categories';
-import { nextBookingRoom, checkout, updatePaxRoom, createBookingAndUpdateRoom } from '../../actions/checkinActions';
+import { nextBookingRoom, updatePaxRoom, createBookingAndUpdateRoom } from '../../actions/checkinActions';
 import moment from 'moment';
 import { getByPaxUuid } from '../../actions/searchBarActions'
 import { CheckinAddPaxes } from './CheckinAddPaxes';
