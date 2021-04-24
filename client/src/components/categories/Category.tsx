@@ -13,10 +13,8 @@ const Category = (props:any): JSX.Element => {
 console.log("PROPS",props)
   var {categ, num} = props
 
-
   const dispatch = useDispatch()
   const [isModalVisible, setIsModalVisible] = useState(false);
-
 
   const handleOk = () => {
     setIsModalVisible(false);
@@ -53,8 +51,6 @@ console.log("PROPS",props)
 
         <img className="newImageCategory" src={categ.images[0]} />
 
-
-
         <div className="newDescription">
 
           <div className="containerCategory1">
@@ -88,52 +84,6 @@ console.log("PROPS",props)
 
       </div>
     </div >
-
-
-
-
-
-
-
-    //   <div className='categoryContainer'>
-    //       <Layout className='categoryLayout'>
-
-    //           <Content className='categoryContent'>
-    //               <Image src={categ.images[0]} width={600} />
-    //           </Content>
-
-    //           <Sider width={250} className='categorySider'>
-    //               <div>
-    //                   <h3 className='categoryH3'>
-    //                     {categ.name}
-    //                   </h3>
-    //               </div>
-    //               <div>
-    //                   <p className='categoryP'>
-    //                       {categ.description}
-    //                   </p>
-    //               </div>
-    //               <div className="categoryButtons">    
-    //                <Button onClick={handleClick} type="primary" ><StarOutlined /></Button>
-    //                   <Link to={`/accomodations/${categ.id}`}>
-    //                       <Button type='primary' style={{display:"flex",alignItems:"center",justifyContent:"center"}} className='categoryMoreInfoButton'>
-    //                           More Info...
-    //                       </Button>
-
-    //                   </Link></div>
-
-
-    //                   <Modal title="Confirmation" visible={isModalVisible} onOk={handleOk} onCancel={handleCancel}>
-    //   <p>Do you want to add this category to your Wishlist?</p>
-
-    // </Modal>
-
-    //           </Sider>
-    //       </Layout>
-
-
-    //   </div>  
-
   )
 }
 

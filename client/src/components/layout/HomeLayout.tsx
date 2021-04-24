@@ -83,11 +83,12 @@ export const HomeLayout = (): JSX.Element => {
               magic of cenotes, our Dive Center has been open for more than 35
               years. meet friendly people in the city.
             </h4>
-            <h4 className="description">
+            <div className="description">
+              Accommodations
               Whether visiting for work or relaxation, The Henry Hotel offers a
               wide range of comfort and convenience to accommodate our valued
               guests.
-            </h4>
+            </div>
           </div>
         </Content>
         <FooterLayout />

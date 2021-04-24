@@ -1,67 +1,72 @@
-import { Button, Layout, Image, Modal } from 'antd';
-import { useState, useEffect } from 'react';
+import { Button, Layout, Image, Modal, Tooltip } from 'antd';
+import React, { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
 import '../accomodationsSelect/AccomodationsCards.less'
 
 const { Sider, Content } = Layout;
 
-export const AccomodationsCards = (props:any): JSX.Element => {
-    const [ isModalVisible, setIsModalVisible ] = useState(false);
+export const AccomodationsCards = (props: any): JSX.Element => {
+
+
+    const [isModalVisible, setIsModalVisible] = useState(false);
     const showModal = () => { setIsModalVisible(true) };
     const handleOk = () => { setIsModalVisible(false) };
     const handleCancel = () => { setIsModalVisible(false) };
-   const { categ, key, types,beds} = props
+
+    const { categ, key, types, beds } = props
+
     useEffect(() => {
-       
     }, [])
     return (
-        
-        <div className='categoryContainer'>
-            <Layout className='categoryLayout'>
-                <Content className='categoryContent'>
-                    <Image src={categ.images[0]} width={600} />
-                </Content>
-                <Sider width={290} className='categorySider'>
-                    <div>
-                        <h3 className='categoryH3'>
-                            {categ.name}
-                        </h3>
-                    </div>
 
-                    <div>
-                        <p className='categoryP'>
-                            {categ.description}
-                        </p>
-                    </div>
--
-                    <div key={2} className='categoryButtons'>
-                        <div>
-                            <h6 className='categoryH3'>Rate: ${categ?.price} USD</h6>
-                            {console.log(beds)}
-                            {beds? <span className="price">Total Fee: ${beds*categ.price} USD</span>: <span></span>}
-                        </div>
-                        <div className="AccButtons">
-                             <Button key='learn' style={{marginBottom:"10px",backgroundColor:"white", marginRight:"20px"}} type="primary" className="accomodationReserveButton" onClick={showModal}>
-                                Learn more..
-                            </Button>
-                        </div>
-                        <Modal title="Amenities" key={key} visible={isModalVisible} onOk={handleOk} onCancel={handleCancel} footer={null}>
-                            <div>
-                                <section>
-                                    {categ?.details?.map( (detail:string, i:number) => {
-                                        return (
-                                            <p>
-                                                <span key={i+20}>
-                                                    - {detail}
-                                                </span>
-                                            </p>
-                                        );
-                                    })}
-                                </section>
+        <div>
+            <div className="newGlobalCategory">
+
+                <div className="newCategory_Container">
+
+                    <img className="newImageCategory" src={categ.images[0]} />
+
+                    <div className="newDescription">
+
+                        <div className="containerCategory1">
+                            <div className="newDescriptionCategory">
+                                {categ.name}
                             </div>
-                        </Modal>
+
+                            <div className="newDescriptionText">
+                                {categ.description}
+                            </div>
+                        </div>
+
+                        <div className="containerCategory2">
+                            <div className="containerCategoryBookingSpecial">
+
+                                <div style={{display:"flex", alignItems:"center", marginBottom:"5px"}}>
+                                    <div className='categoryBookingPrice'>Rate: ${categ?.price} USD</div>
+                                    <Button key='learn' style={{ marginBottom: "10px", marginRight: "20px" }} type="primary" onClick={showModal}>
+                                        Learn more..
+                                    </Button>
+                                </div>
+
+                                <div className="AccButtons">
+                                    <div className="">{beds ? <div className="categoryBookingFee">Total Fee: ${beds * categ.price} USD</div> : <span></span>}</div>
+                                </div>
+                            </div>
+
+                        </div>
                     </div>
-                </Sider>
-            </Layout>
+                </div>
+            </div >
+
+            <Modal title="Amenities" key={key} visible={isModalVisible} onOk={handleOk} onCancel={handleCancel} footer={null}>
+                {categ?.details?.map((detail: string, i: number) => {
+                    return (
+                        <p key={i} className="p-features">
+                            <div style={{ display: "flex" }}><div className="numDetailCategory">{i}</div><div className="featuresText">{detail}</div></div>
+                        </p>
+                    );
+                })}
+            </Modal>
         </div>
     )
 }

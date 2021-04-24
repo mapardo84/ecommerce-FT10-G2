@@ -4,7 +4,7 @@ import '../booking/StepsBooking.less'
 import { Steps } from 'antd';
 import { PaxForm } from './paxForm/PaxForm';
 import { AccomodationsSelect } from './accomodationsSelect/AccomodationsSelect';
-import { GuestsForm } from './guestsForm/GuestsForm';
+import { GuestsForm } from '../booking/guestsForm/GuestsForm';
 import { stepChange } from '../../actions/Booking/bookingAction';
 
 const { Step } = Steps;
