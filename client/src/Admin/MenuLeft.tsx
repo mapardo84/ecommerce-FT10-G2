@@ -11,6 +11,7 @@ import { NavLink, useHistory } from "react-router-dom";
 import { FaHotel, FaDoorClosed, FaUserAlt } from "react-icons/fa";
 import { IoIosBed } from "react-icons/io";
 import { GiBedLamp } from "react-icons/gi";
+import { SiCashapp } from "react-icons/si";
 import './panel.less';
 import { useEffect } from 'react';
 
@@ -38,7 +39,7 @@ import { useEffect } from 'react';
 //////////////////////////////////////////////////////////////
 
 
-const paginas = ['Inicio', 'Rooms', 'Categories', 'Types', 'Users']
+const paginas = ['Inicio', 'Rooms', 'Categories', 'Types', 'Users','Discounts']
 
 export const MenuLeft = () => {
     const dispatch = useDispatch()
@@ -104,6 +105,9 @@ export const MenuLeft = () => {
                     </Menu.Item>
                     <Menu.Item key={paginas[4]} icon={<FaUserAlt />} onClick={() => setPage(paginas[4])}>
                         <NavLink to="/admin/users">{paginas[4]}</NavLink>
+                    </Menu.Item>
+                    <Menu.Item key={paginas[5]} icon={<SiCashapp />} onClick={() => setPage(paginas[5])}>
+                        <NavLink to="/admin/discounts">{paginas[5]}</NavLink>
                     </Menu.Item>
 
 

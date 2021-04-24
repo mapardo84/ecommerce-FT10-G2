@@ -6,6 +6,7 @@ import { useDispatch } from 'react-redux'
 import { Space, DatePicker, Switch } from 'antd';
 import { setBookData, stepChange, getCategoriesForUser, setLoading} from '../../../actions/Booking/bookingAction';
 import { Form, InputNumber, Button } from 'antd';
+import moment from 'moment';
 import { supabase } from '../../../SupaBase/conection';
 import { setGuests } from '../../../actions/Booking/pre_booking_action';
 import Checkbox from 'antd/lib/checkbox/Checkbox';
@@ -50,6 +51,9 @@ export const GuestsForm = () => {
     setBooking({ ...booking, range: dates, nights });
   }
 
+  const disabledDate = ((current:any) => {
+    return current && current < moment().subtract(1, 'd');
+  });
   
   const handleClickRooms = async(e:any) => {
     e.preventDefault();
@@ -99,7 +103,7 @@ export const GuestsForm = () => {
         <div className='backgroundPage'>
           <Space direction="vertical" size={12}>
             <div className='Calendar'>
-              <RangePicker onCalendarChange={handleChangeDates} className='backgroundPageA' open={true} />
+              <RangePicker disabledDate={disabledDate} onCalendarChange={handleChangeDates} className='backgroundPageA' open={true} />
             </div>
           </Space>
         </div>

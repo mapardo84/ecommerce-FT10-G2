@@ -1,6 +1,6 @@
 import { supabase } from '../SupaBase/conection'
 import { message } from 'antd'
-
+//test
 export const success = () => {
     message.success("Log-In success");
 };
@@ -13,14 +13,17 @@ export const errorMsgcaptcha = () => {
 };
 //Sign in using third-party providers.
 export const loginWith = async (provider: any) => {
+    
     try {
+     
         const { error } = await supabase.auth.signIn({
             provider
         }, {
             redirectTo: 'http://localhost:3000/home'
         })
         if (!error) {
-            // success()
+            //ACA AGARRAR MAIL
+             success()
 
         } else {
             errorMsg()
@@ -36,7 +39,7 @@ export const classicLogIn = async (email: string, password: string) => {
         .from('users')
         .select('active')
         .eq('email', email)
-
+        
         if(data.data[0].active === 1){
             const {error } = await supabase.auth.signIn({
                 email,
@@ -46,7 +49,7 @@ export const classicLogIn = async (email: string, password: string) => {
             })
             if (!error) {
                 return true
-
+    
             } else {
                 errorMsg()
             }
@@ -54,7 +57,7 @@ export const classicLogIn = async (email: string, password: string) => {
         else {
             errorMsg()
         }
-
+  
     } catch (err) { console.log(err) }
 }
 
