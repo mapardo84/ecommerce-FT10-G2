@@ -1,4 +1,4 @@
-import { Button, Form, Input, Select } from "antd";
+import { Button, Form, Input, Select, DatePicker } from 'antd';
 import countries from "countries-list";
 import { useState } from "react";
 import { addPaxes, checkUuid } from "../../actions/paxesActions";
@@ -103,7 +103,7 @@ export const CheckinAddPaxes = ({ setModal, setPax, setPaxName, firstModal, crea
                 label="Birth Date"
                 name="birth_date"
                 rules={[{ required: true, message: 'Please input a birth date!' }]}>
-                <Input placeholder="Birth Date"></Input>
+                <DatePicker placeholder='Birth Date' format='YYYY-MM-DD' />
             </Form.Item>
             <Form.Item
                 label="Address"
