@@ -102,6 +102,7 @@ export function PaxForm() {
     const handleClickBack = (e: any) => {
         e.preventDefault();
         localStorage.removeItem("Accomodation")
+        setMp(false)
         setSetInfo(false)
         dispatch(stepChange(1));
     }
@@ -178,6 +179,7 @@ export function PaxForm() {
                         width="120px"
                         onSearch={(value, event) => {
                             setSetInfo(true)
+                            setMp(false)
                             dispatch(getPax(value))
                         }}>
                     </Input.Search>
@@ -192,12 +194,10 @@ export function PaxForm() {
                         <div>First name : {pax_data.first_name}</div>
                         <div>Last name : {pax_data.last_name}</div>
                         <div>Uuid : {pax_data.uuid}</div>
-                        <div>Birth Day : {pax_data.birth_date}</div>
-                        <div>Country : {pax_data.country}</div>
-                        <div>Phone : {pax_data.phone}</div>
-                        <div>Address :{pax_data.address}</div>
+                        <div>Country : {pax_data.country}</div>                       
                     </ul>
-                    <Button onClick={confirm_pax}>Confirm</Button>
+                    <Button onClick={()=>setMp(true)}>Confirm</Button>
+                    {mp ? <MercadoPago /> : null}
                 </>
 
                 : !pax_data && setInfo? //----------------------------------------------------
