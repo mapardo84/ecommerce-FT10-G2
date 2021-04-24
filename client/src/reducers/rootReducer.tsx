@@ -11,6 +11,7 @@ import {getCheckOut} from './getCheckOut';
 import { loginReducer } from "./loginReducer";
 import {discountsAdminReducer} from "./discountsAdminReducer"
 import { promotionsReducer } from './promotionsReducer';
+import { pre_booking_reducer } from "./preBookingReducer";
 
 //ACA SE AGREGA CADA REDUCER QUE UTILICEN
 export const rootReducer = combineReducers({
@@ -26,5 +27,6 @@ export const rootReducer = combineReducers({
   getCheckOut,
   login: loginReducer,
   adminDiscounts:discountsAdminReducer,
-  promotions: promotionsReducer
+  promotions: promotionsReducer,
+  pre_booking:pre_booking_reducer
 });

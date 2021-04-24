@@ -3,10 +3,10 @@ import { bookingType } from '../../components/booking/guestsForm/GuestsForm';
 import { supabase } from '../../SupaBase/conection';
 export const STEP_CHANGE = 'STEP_CHANGE';
 export const SET_BOOK_DATA = 'SET_BOOK_DATA'
-export const GET_SOME_BOOKINGS="GET_SOME_BOOKINGS";
-export const CATEGORIES_TO_SHOW="CATEGORIES_TO_SHOW";
-export const FILTER_DATES ="FILTER_DATES";
-export const FREE_ROOMS_SHOW= "FREE_ROOMS_SHOW"
+export const GET_SOME_BOOKINGS = "GET_SOME_BOOKINGS";
+export const CATEGORIES_TO_SHOW = "CATEGORIES_TO_SHOW";
+export const FILTER_DATES = "FILTER_DATES";
+export const FREE_ROOMS_SHOW = "FREE_ROOMS_SHOW"
 export const SET_CATEGORY = "SET_CATEGORY";
 export const SELECTED_CATEGORY_ROOMS = "SELECTED_CATEGORY_ROOMS";
 export const BOOKED_ROOM = "BOOKED_ROOM";
@@ -16,135 +16,143 @@ export interface bookAction {
     payload: any
 }
 
-export const stepChange = (inputs:number) => {
+export const stepChange = (inputs: number) => {
     return {
         type: STEP_CHANGE,
         payload: inputs
     }
 }
 
-export const setBookData = (booking:bookingType) => {
+export const setBookData = (booking: bookingType) => {
     return {
         type: SET_BOOK_DATA,
         payload: { booking }
     }
 }
 
-export const setCategory = (input:any) =>{
-    return{
+export const setCategory = (input: any) => {
+    return {
         type: SET_CATEGORY,
         payload: input
     }
 }
 
 // ACTION EJECUTADA POR EL BOTON NEXT DEL COMPONENTE GUEST FORM
-export const getCategoriesForUser = (userBooking:bookingType) => {
-    return async ( dispatch:any ) => {
+export const getCategoriesForUser = (userBooking: bookingType) => {
+    return async (dispatch: any) => {
         const { guests, range } = userBooking;
-        const [ checkin, checkout ] = range;
-        
+        const [checkin, checkout] = range;
+
         //Traer los Types que cumple con el criterio de guests
         const { data: types } = await supabase
-        .from("types")
-        .select("*")
-        .gte("capacity",guests);
-        
+            .from("types")
+            .select("*")
+            .gte("capacity", guests);
+
         //Traer los Rooms que pertencen a los types recibidos en el paso anterior
-        const rooms:any = [];
-        if( types?.length ) {
-            for ( let i = 0; i < types.length; i++ ) {
+        let rooms: any = [];
+        if (types?.length) {
+            for (let i = 0; i < types.length; i++) {
                 const { data: room } = await supabase
-                .from("rooms")
-                .select('*')
-                .eq("type_id",types[i].id);
-                rooms.push(room);
+                    .from("rooms")
+                    .select('*')
+                    .eq("type_id", types[i].id);
+                if (!room) return
+                rooms = [...rooms, ...room]
             }
         }
 
-        //Trae los Rooms que están disponibles en las fechas dadas por el usuario
-        let freeRooms:roomType[] = [];
-        for (let i:number = 0; i < rooms.length; i ++) {
-            for (let j:number = 0; j < rooms[i].length; j ++) {
-                let { data: bookingRoom } = await supabase
-                .from('bookings')
-                .select('*')
-                .eq("room_id", rooms[i][j].id);
-                if ( !bookingRoom?.length ) freeRooms.push(rooms[i][j]);
-                else {
-                    if ( bookingRoom[0].checkout <= checkin ) {
-                        freeRooms.push(rooms[i][j]);
-                    }
-                    else if ( bookingRoom[0].checkin >= checkout ) {
-                        freeRooms.push(rooms[i][j]);
-                    }
-                    else if ( bookingRoom[0].checkin < checkin && bookingRoom[0].checkout > checkin ) {
-                        console.log('se descarta');
-                    }
-                    else if ( bookingRoom[0].checkin >= checkin && bookingRoom[0].checkout <= checkout ) {
-                        console.log('se descarta');
-                    }
-                    else if ( bookingRoom[0].checkin <= checkout && bookingRoom[0].checkout >= checkout ) {
-                        console.log('se descarta');
-                    }
-                }
+
+        //bookings entre las 2 fechas
+
+        const { data: booki } = await supabase
+            .from("bookings")
+            .select('*')
+            .gte('checkout', checkin)
+            .lte('checkin', checkout)
+        let habitacionesDescartadas: any = []
+        booki?.forEach((book: any) => {
+            if (!habitacionesDescartadas.includes(book.room_id)) {
+                habitacionesDescartadas.push(book.room_id)
             }
-        }
+        })
+
+        const freeRooms = rooms?.filter((room: any) => {
+            if (!habitacionesDescartadas.includes(room.id)) {
+                return room
+            }
+        })
+
+
+
+        if (!freeRooms) return
+
 
         //Seleccionar categorias correspondientes a los rooms libres
-        let result:any=[]
-        for(let i = 0; i < freeRooms.length; i++){
-            if(!result.some( (x:categoryType) => x.id === freeRooms[i].category_id )){
+        let result: any = []
+        let checkingR: any = []
+        for (let i = 0; i < freeRooms.length; i++) {
+            // if (!checkingR.includes(freeRooms[i].category_id)) {
+            //     let { data: categories } = await supabase
+            //         .from('categories')
+            //         .select('*')
+            //         .eq("id", freeRooms[i].category_id);
+            //     console.log('categories',categories)
+            //     result.push(categories?.pop());
+            //     checkingR.push(categories?.pop().id)
+            // }
+
+            if (!result.some((x: categoryType) => x.id === freeRooms[i].category_id)) {
                 let { data: categories } = await supabase
-                .from('categories')
-                .select('*')
-                .eq("id",freeRooms[i].category_id);
+                    .from('categories')
+                    .select('*')
+                    .eq("id", freeRooms[i].category_id);
+                //console.log('Categories: ', categories?.pop())
                 result.push(categories?.pop());
             }
         }
         dispatch(categoriesToShow({ userCategories: result, types: types }));
         dispatch(freeRoomsToShow(freeRooms));
     }
-// user                     checkin                   checkout
-// room      ckin   ckout
-// room             ckin               ckout
-// room                         ckin            ckout
-// room                                ckin                    ckout
-// room                                                 ckin            ckout
+    // user                     checkin                   checkout
+    // room      ckin   ckout
+    // room             ckin               ckout
+    // room                         ckin            ckout
+    // room                                ckin                    ckout
+    // room                                                 ckin            ckout
 }
 
-const categoriesToShow = (payload:any)=>{
-    return{
+const categoriesToShow = (payload: any) => {
+    return {
         type: CATEGORIES_TO_SHOW,
         payload
     }
 }
 
-const freeRoomsToShow = (payload:any) =>{
-    return{
+const freeRoomsToShow = (payload: any) => {
+    return {
         type: FREE_ROOMS_SHOW,
         payload
     }
-} 
+}
 
-export const roomSelected = (categoryPax:any, freeRooms:roomType[])=>{
-    return ( dispatch:any ) =>{
-        console.log(categoryPax);
-        console.log(freeRooms);
-        const roomSelected = freeRooms.find( (r:roomType) => { 
+export const roomSelected = (categoryPax: any, freeRooms: roomType[]) => {
+    return (dispatch: any) => {
+        const roomSelected = freeRooms.find((r: roomType) => {
             return (r.category_id === categoryPax.category.id && r.type_id === categoryPax.type.id)
         })
         dispatch(bookedRoom(roomSelected?.id));
     }
 }
-    
-const bookedRoom = (payload:any) =>{
-    return{
+
+const bookedRoom = (payload: any) => {
+    return {
         type: BOOKED_ROOM,
         payload
     }
 }
 
-export const setLoading = (payload:boolean) => {
+export const setLoading = (payload: boolean) => {
     return {
         type: SET_LOADING,
         payload

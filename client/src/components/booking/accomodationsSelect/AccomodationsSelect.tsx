@@ -6,6 +6,8 @@ import { bookingType } from '../guestsForm/GuestsForm';
 import "./AccomodationsSelect.less";
 import { useState } from "react";
 import { promotionType } from "../../../actions/Promotions/promotionsAction";
+import { supabase } from "../../../SupaBase/conection";
+import { setGuests } from "../../../actions/Booking/pre_booking_action";
 const { Option } = Select;
 
 export interface roomType {
@@ -42,8 +44,11 @@ export const AccomodationsSelect = ():JSX.Element => {
 
   const handleClickBack = (e:any) => {
     e.preventDefault();
+    localStorage.removeItem("Check&Guests")
     dispatch(stepChange(0));
   } 
+  
+
 
   const handleClickNext = (e:any) => {
     e.preventDefault();
@@ -52,13 +57,29 @@ export const AccomodationsSelect = ():JSX.Element => {
     
     foundPromo? booking.fee = booking.category.category.price * booking.category.type.beds * foundPromo.value/100:
     booking.fee = booking.category.category.price * booking.category.type.beds;
-    
+    console.log(booking.fee);
+    booking.category = [userSelection];
     const roomSelected = freeRooms.find( (r:roomType) => { 
-      return (r.category_id === booking.category.category.id && r.type_id === booking.category.type.id)
+      return (r.category_id === booking.category[0].category.id && r.type_id === booking.category[0].type.id)
     });
     roomSelected? booking.room_id = roomSelected.id:
     booking.room_id = -1;
+    console.log(booking.fee);
+
     dispatch(setBookData(booking));
+    localStorage.setItem("Accomodation",JSON.stringify({
+      room_id:roomSelected.id,
+      category_type:userSelection,
+      total_price:booking.fee,
+      }))
+      if(supabase.auth.user()){
+        // dispatch(setGuests("hola","dale"))
+        dispatch(setGuests(supabase.auth.user()?.email,undefined,JSON.stringify({
+          room_id:roomSelected.id,
+          category_type:userSelection,
+          total_price:booking.fee,
+          })))
+      }
     dispatch(stepChange(2));
   }
 

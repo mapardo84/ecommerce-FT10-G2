@@ -10,6 +10,7 @@ import { supabase } from '../../SupaBase/conection'
 import { logOut } from "../../helpers/logOut";
 import { useDispatch, useSelector } from "react-redux";
 import { setModalState } from "../../actions/loginActions";
+import { get_pre, pre_booking_empty} from "../../actions/Booking/pre_booking_action";
 
 const { Header } = Layout;
 
@@ -31,6 +32,9 @@ export const NavBar = () => {
   const logOutSession = () => {
     var status = logOut()
     status && history.push("/");
+    localStorage.removeItem("Check&Guests")
+    localStorage.removeItem("Accomodation")
+    dispatch(pre_booking_empty())
   }
 
   const menu = (
