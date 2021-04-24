@@ -1,4 +1,4 @@
-import { Button, message, } from 'antd';
+import { Button, Divider, message, } from 'antd';
 import { WalletOutlined, UserOutlined, CalendarOutlined, PicLeftOutlined } from '@ant-design/icons';
 import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux';
@@ -36,9 +36,10 @@ const MyProfile = () => {
                     <div className="myProfileRow" ><div className="myProfileSubTitles">First Name: </div >{userProfile.first_name}</div>
                     <div className="myProfileRow" ><div className="myProfileSubTitles">Last Name: </div>{userProfile.last_name}</div>
                     <div className="myProfileRow" ><div className="myProfileSubTitles">ID: </div>{userProfile.uuid}</div>
-                    <div className="myProfileRow" ><div className="myProfileSubTitles">Email: </div>{userProfile.email}</div>
+                    <div className="myProfileRow" ><div className="myProfileSubTitles">Email: </div><div className="emailResponsive">{userProfile.email}</div></div>
                     <Button onClick={handlePassword} style={{ width: "200px" }} type="primary">RESET PASSWORD</Button>
                 </div>
+                {/* <div className="dividerProfile"><Divider></Divider></div> */}
 
             </div>
             <div className="myProfileDiv2">

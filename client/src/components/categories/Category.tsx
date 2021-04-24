@@ -65,7 +65,7 @@ const Category = ({ categ }: any): JSX.Element => {
           </div>
 
           <div className="containerCategory2">
-            <Tooltip title="Add to favorites">
+            <Tooltip title="Add to WishList">
               <Button className="buttonContainerCategory1" size="large" onClick={handleClick} type="primary" ><StarOutlined /></Button>
             </Tooltip>
 

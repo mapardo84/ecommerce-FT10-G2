@@ -19,7 +19,7 @@ export const HomeSlides = () => {
   
         <div className="containerSlide">
 
-            <Carousel {...settings} className="HomeCarousel">
+            <Carousel {...settings} >
 
                 <div className="slideContainer">
                     <img className="slidesImages" src='./images/slide3.jpg' alt="Img not found"/>

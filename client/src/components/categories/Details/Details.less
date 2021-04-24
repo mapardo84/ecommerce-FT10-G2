@@ -1,85 +1,124 @@
 @import url('https://fonts.googleapis.com/css2?family=Merriweather:ital,wght@0,300;1,300&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@500&display=swap');
 
-.details_Container{
-    margin-top: 100px ;
-    width: 80%;
-    margin: auto;
-}
 
-.details-conteiner {
-    margin: 0 auto;
-    display: flex;
-    flex-direction: column;
-    font-family: 'Montserrat', sans-serif;
-}
-.details_left{
-    display: flex;
-    flex-direction: column;
-}
-.details_main{
-    align-items: center;
-    display: flex;
-    flex-direction: row;
-    margin: 0 auto;
-    justify-content: center;
+//clases nuevas
 
+.slidesDetailsImages{
+    margin-top: 90px;
+    height: 50vh;
+    width: 100vw;
+    object-fit: cover;
+    filter: brightness(90%);
 }
-
-.header-slider {
-    margin-top: 130px;
-    height: 25%;
-    width: 100%;
-    text-align: center;
-    background-color: transparent;
-}
-
-.title-category {
-    width: 100%;
+.categoryResponsiveDetails{
+    padding-top: 30px;
+    font-size: 50px;
     display: flex;
-    flex-direction: column;
     justify-content: center;
 }
-.content-description {
-    height: 100%;
+
+.categoryResponsiveDescription{
+    font-size: 22px;
+    display: flex;
+    justify-content: center;
+    margin-left: 7vw;
+    margin-right: 7vw;
+    margin-top: 30px;
+}
+
+.numDetailCategory{
+    width: 25px;
+    height: 25px;
+    color: white;
+    background-color: #5296a5;
     display: flex;
     justify-content: center;
     align-items: center;
-    font-family: 'Montserrat', sans-serif;
-    color: black;
-}
-#description {
-    text-align: center;
-}
-.content-features {
-    width: 100%;
-    height: 100%;
-    color: black;
-    font-family: 'Merriweather', serif;
-    padding: 10px 30px;
+    border-radius: 50px;
+    margin-right: 10px;
 }
 
-#features-section {
-    padding: 25px;
+.categoryDetailFeaturesGlobal{
+    display: flex;
+    justify-content: center;
+}
+.categoryDetailFeatures{
+    margin-top: 30px;
+    background-color: white;
+    width: 830px;
     display: grid;
-    grid-gap: 9px;
-    grid-template-columns: 50% 50%;
-    color:black;
-    border: solid 1px rgb(180, 175, 175);
-    border-radius: 10px;
-    margin: 20px 0;
+    grid-template-columns: 415px 415px;
+    padding-top: 50px;
+    padding-bottom: 50px;
+    padding-right: 40px;
+    padding-left: 40px;
+    border-radius: 7px;
+    box-shadow: 0 10px 10px 0 rgba(0, 0, 0, 0.048);
+
 }
 
-.aside-book {    
-    height: 200px;
-    width: 150px;
-    color: black;
-    font-family: 'Merriweather', serif;
+.reviewsContainerGlobal{
     display: flex;
-    flex-direction: column;
-    align-items: center;
     justify-content: center;
-    border: solid 1px rgb(180, 175, 175);
-    border-radius: 10px;
-   
+    align-items: center;
+    border-radius: 7px;
+    flex-direction: column;
+    margin-top: 30px;
+}
+
+.reviewsContainer{
+    margin-bottom: 100px;
+    height: auto;
+    display: flex;
+    justify-content: center;
+}
+
+.addReviewContainer{
+    margin-top: 20px;
+    display: flex;
+    justify-content: center;
+    
+}
+
+.categoryDetailsBackground{
+        background-image: linear-gradient(
+            to bottom,
+            rgba(255, 255, 255, 0.938),
+            #f0f2f5
+          ),
+          url("../../accomodations/images/palmTree.jpg");
+        background-repeat: no-repeat;
+        background-size: cover;
+}
+
+@media only screen and (max-width: 860px) {
+
+    .categoryDetailFeatures{
+        width: 600px;
+        grid-template-columns: 415px;
+        padding-left: 100px;
+    }
+}
+
+@media only screen and (max-width: 620px) {
+
+    .categoryDetailFeatures{
+        width: 500px;
+        grid-template-columns: 415px;
+        padding-left: 50px;
+    }
+}
+
+@media only screen and (max-width: 450px) {
+
+    .categoryDetailFeatures{
+        width: 400px;
+        grid-template-columns: 415px;
+        padding-left: 50px;
+    }
+
+   .featuresText{
+       font-size: 12px;
+   }
 }
