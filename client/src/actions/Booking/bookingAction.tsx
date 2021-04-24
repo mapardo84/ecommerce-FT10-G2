@@ -1,3 +1,4 @@
+import { Dispatch } from 'redux';
 import { categoryType, roomType } from '../../components/booking/accomodationsSelect/AccomodationsSelect';
 import { bookingType } from '../../components/booking/guestsForm/GuestsForm';
 import { supabase } from '../../SupaBase/conection';
@@ -11,6 +12,7 @@ export const SET_CATEGORY = "SET_CATEGORY";
 export const SELECTED_CATEGORY_ROOMS = "SELECTED_CATEGORY_ROOMS";
 export const BOOKED_ROOM = "BOOKED_ROOM";
 export const SET_LOADING = 'SET_LOADING';
+export const GET_PAX_DATA='GET_PAX_DATA'
 export interface bookAction {
     type: string,
     payload: any
@@ -68,6 +70,7 @@ export const getCategoriesForUser = (userBooking: bookingType) => {
         const { data: booki } = await supabase
             .from("bookings")
             .select('*')
+            .eq('status',true)
             .gte('checkout', checkin)
             .lte('checkin', checkout)
         let habitacionesDescartadas: any = []
@@ -156,5 +159,21 @@ export const setLoading = (payload: boolean) => {
     return {
         type: SET_LOADING,
         payload
+    }
+}
+
+export const getPax=(uuid:string | undefined)=>{
+    return async(dispatch:Dispatch<any>)=>{
+        const {data:pax}:any = await supabase
+        .from("paxes")
+        .select("*")
+        .eq("uuid",`${uuid}`) 
+        dispatch(get_pax_data(pax[0]))
+    }
+}
+const get_pax_data=(payload:any)=>{
+    return{
+        type:GET_PAX_DATA,
+        payload,
     }
 }

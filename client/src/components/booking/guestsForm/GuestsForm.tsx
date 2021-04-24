@@ -28,7 +28,7 @@ export interface bookingType {
   fee:number
   room_id:number
   early_checkin:boolean
-  late_checkout?:boolean
+  late_checkout:boolean
 }
 
 export const GuestsForm = () => {

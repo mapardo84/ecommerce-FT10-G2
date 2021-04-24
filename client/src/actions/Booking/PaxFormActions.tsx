@@ -17,3 +17,4 @@ export const sendPax = async (value: PaxValues) => {
     console.log(`Se ha guardado el pax ${data}`);
 }
 
+

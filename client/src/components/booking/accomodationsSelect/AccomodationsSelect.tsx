@@ -55,7 +55,7 @@ export const AccomodationsSelect = ():JSX.Element => {
     booking.category = userSelection;
     const foundPromo:promotionType = promo.find( (p:promotionType) => p.categoryToApply === booking.category.category.id );
     
-    foundPromo? booking.fee = booking.category.category.price * booking.category.type.beds * foundPromo.value/100:
+    foundPromo? booking.fee = (booking.category.category.price * booking.category.type.beds * (1-foundPromo.value/100)):
     booking.fee = booking.category.category.price * booking.category.type.beds;
     console.log(booking.fee);
     booking.category = [userSelection];

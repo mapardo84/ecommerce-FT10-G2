@@ -1,17 +1,29 @@
 import { Button, Layout, Image, Modal } from 'antd';
-import { useState } from 'react';
-import { promotionType } from '../../../actions/Promotions/promotionsAction';
+import { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { getPromotions, promotionType } from '../../../actions/Promotions/promotionsAction';
 import '../accomodationsSelect/AccomodationsCards.less'
 
 const { Sider, Content } = Layout;
 
 export const AccomodationsCards = (props:any): JSX.Element => {
+    
+    const dispatch=useDispatch()
+    
+    useEffect(() => {
+        dispatch(getPromotions());
+    }, [])
+
+
     const [ isModalVisible, setIsModalVisible ] = useState(false);
+    const promo = useSelector( (state:any) => state.promotions )
     const showModal = () => { setIsModalVisible(true) };
     const handleOk = () => { setIsModalVisible(false) };
     const handleCancel = () => { setIsModalVisible(false) };
-    const { categ, key, prom ,beds} = props;
-    const foundProm:promotionType = prom.find( (p:promotionType) => p.categoryToApply === categ.id);
+    const { categ, key, beds} = props;
+    const foundProm:promotionType = promo?.find( (p:promotionType) => p.categoryToApply === categ.id);
+
+    
     return (
         <div className='categoryContainer'>
             <Layout className='categoryLayout'>

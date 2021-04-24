@@ -193,12 +193,11 @@ export const delete_pre_booking=(user_email:string|undefined)=>{
 }
 
 export const getUserBalance=(email:string | undefined)=>{
-    return async(dispatch:Dispatch<any>)=>{
-        console.log(email)
+    return async(dispatch:Dispatch<any>)=>{        
         const {data:balance}:any=await supabase
         .from("users")
         .select("*")
-        .eq("user_email",`${email}`)
+        .eq("email",`${email}`)
         dispatch(user_balance(balance))
     }
 }
