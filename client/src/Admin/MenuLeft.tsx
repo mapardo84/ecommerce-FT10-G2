@@ -38,7 +38,7 @@ import { useEffect } from 'react';
 //////////////////////////////////////////////////////////////
 
 
-const paginas = ['Inicio', 'Rooms', 'Categories', 'Types', 'Users', 'Checkin/Checkout','Paxes','Bookings']
+const paginas = ['Inicio', 'Rooms', 'Categories', 'Types', 'Users', 'Checkin/Checkout', 'Paxes', 'Bookings']
 
 export const MenuLeft = () => {
     const dispatch = useDispatch()

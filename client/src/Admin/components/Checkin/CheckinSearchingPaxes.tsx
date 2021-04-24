@@ -2,6 +2,7 @@ import { AutoComplete, Button, Input, message } from 'antd';
 import { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { getByPaxUuid } from '../../actions/searchBarActions';
+import { IPaxes } from '../Paxes/Paxes';
 export const CheckinSearchingPaxes = ({ setModal, bookingStore, setModalCreateVisible, setPaxes, created }: { setModal: Function, bookingStore: any, setModalCreateVisible: Function, setPaxes: Function, created: string, }): JSX.Element => {
 
     const [search, setSearch] = useState("")
@@ -46,9 +47,9 @@ export const CheckinSearchingPaxes = ({ setModal, bookingStore, setModalCreateVi
     const onSelect = (value: string) => {
         console.log('onSelect', value);
         let selected = value.split('.')
-        const personita = bookingStore?.byLastUuid.find((cual: any) => cual.uuid === selected[1])
-        setPaxes((e: any) => [...e, { id: personita?.id, firstName: personita?.first_name, lastName: personita?.last_name }])
-        message.success('Added ' + personita?.first_name)
+        const person = bookingStore?.byLastUuid.find((cual: IPaxes) => cual.uuid === selected[1])
+        setPaxes((e: any) => [...e, { id: person?.id, firstName: person?.first_name, lastName: person?.last_name }])
+        message.success('Added ' + person?.first_name)
         //setModal(false)
     };
 

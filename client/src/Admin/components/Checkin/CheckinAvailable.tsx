@@ -10,6 +10,12 @@ import { getByPaxUuid } from '../../actions/searchBarActions'
 import { CheckinAddPaxes } from './CheckinAddPaxes';
 import { CheckinSearchingPaxes } from './CheckinSearchingPaxes';
 
+interface IPax {
+    id: number,
+    firstName: string,
+    lastName: string
+}
+
 export const CheckinAvailable = ({ steps }: { steps: Function }): JSX.Element => {
 
     const [roomSelected, setRoomSelected] = useState<Room>()
@@ -21,14 +27,14 @@ export const CheckinAvailable = ({ steps }: { steps: Function }): JSX.Element =>
     const [paxes, setPaxes] = useState([])
     const [totalPrice, setTotalPrice] = useState(0)
     const [errors, setErrors] = useState<string | null>(null)
-    const [checkoutDate, setCheckoutDate] = useState(0)
+    const [checkoutDate, setCheckoutDate] = useState<string>('')
     const [isModalVisible, setIsModalVisible] = useState<boolean>(false);
     const [modalCreateVisible, setModalCreateVisible] = useState<boolean>(false);
     const [search, setSearch] = useState("")
     const [created, setCreated] = useState('')
     const [modalForPaxes, setModalForPaxes] = useState(false)
-    const [dateSelected, setDateSelected] = useState<any>()
-    const [booking, setBooking] = useState<any>(null)
+    const [dateSelected, setDateSelected] = useState<string>()
+    const [booking, setBooking] = useState<string | null>(null)
 
     const dispatch = useDispatch()
 
@@ -60,7 +66,7 @@ export const CheckinAvailable = ({ steps }: { steps: Function }): JSX.Element =>
         dispatch(getByPaxUuid(search))
     }, [dispatch, search])
 
-    const onDatePick = (date: any, dateString: any) => {
+    const onDatePick = (date: any, dateString: string) => {
         //console.log(date, dateString)
         const days = date.diff(moment(), 'days')
         setCheckoutDate(dateString)
@@ -68,7 +74,7 @@ export const CheckinAvailable = ({ steps }: { steps: Function }): JSX.Element =>
         setTotalPrice(price ? price * (days + 1) : 0)
     }
 
-    const disabledDate = (current: any) => {
+    const disabledDate = (current: moment.Moment) => {
         return current && (current < moment().endOf('day') || current > moment(nextBooking));
     }
 
@@ -78,7 +84,7 @@ export const CheckinAvailable = ({ steps }: { steps: Function }): JSX.Element =>
             setErrors('Should select a main pax')
             return
         }
-        if (checkoutDate === 0) {
+        if (checkoutDate === '') {
             setErrors('Should select checkout date')
             return
         }
@@ -163,7 +169,7 @@ export const CheckinAvailable = ({ steps }: { steps: Function }): JSX.Element =>
 
     const handleRemove = (item: number) => {
         //console.log("Remove: ", item)
-        setPaxes((e) => e.filter((pax: any) => pax.id !== item))
+        setPaxes((e) => e.filter((pax: IPax) => pax.id !== item))
     }
     const handleRemoveMain = () => {
         setMainPax(0)
@@ -239,7 +245,7 @@ export const CheckinAvailable = ({ steps }: { steps: Function }): JSX.Element =>
                             extra={<span onClick={() => setModalForPaxes(true)} className='checkin_search'>Search/Add</span>}
                         >
                             {
-                                paxes.map((item: any, key: number) => {
+                                paxes.map((item: IPax, key: number) => {
                                     return (
                                         <span key={key} >
                                             <span className="checkin_tag" onClick={() => handleRemove(item.id)}>
