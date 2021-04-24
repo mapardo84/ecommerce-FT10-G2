@@ -1,8 +1,9 @@
-import {  Button, Typography } from "antd";
-import './styles.less'
+import { Button, Typography } from "antd";
+import './LandingPage.less'
 import LogIn from "../LogIn/LogIn";
 import { NavLink } from "react-router-dom";
 import { useHistory } from "react-router-dom";
+import logo from "./images/logo.png"
 
 const { Title, Text } = Typography;
 
@@ -12,27 +13,29 @@ export const LandingPage = () => {
     const params = new URLSearchParams(window.location.hash)
     params.get('type') === "recovery" && history.push("/password-reset/" + params.get('#access_token'));
 
+
     return (
-        <div className='LandingPage'>
+        <div className="landingBackground">
+            <div className='LandingPage'>
 
-                    <div className='landingleft'>
+                <div className='landingleft'>
 
-                        <Title className='landingTitle'>HENRY HOTEL</Title>
+                    <img className='landingTitle' src={logo} alt="" />
 
-                        <Text className='landingText' >
-                            A luxurious hotel, open the door to a whole new world. Feel the difference and prepare for a beautiful traveling experience.
-                        </Text><br />
 
-                        <NavLink to="/home"><Button className='lanButton' type="primary" size="large">Continue</Button></NavLink>
-                    </div>
-                
+                    <div className='landingText' >
+                        A luxurious hotel, open the door to a whole new world. Feel the difference and prepare for a beautiful traveling experience.
+                        </div><br />
 
-                
-                    <div className='lanForm'>
-                        <LogIn />
-                    </div>
-               
-           
+                    <div className="landingButton"><NavLink to="/home"><Button className='lanButton' type="primary" size="large">Continue</Button></NavLink></div>
+                </div>
+
+                <div className='lanForm'>
+                    <LogIn />
+                </div>
+
+
+            </div>
         </div>
     )
 }

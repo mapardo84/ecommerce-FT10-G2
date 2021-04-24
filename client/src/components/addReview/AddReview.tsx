@@ -55,11 +55,11 @@ export default function AddReview({ categId, userId, veri }: any): ReactElement 
                     </Form.Item>
 
                     <div className="addReviewRow">
-                        <div>
+                        <div className="addRateReview">
                             <span className='addReviewRate'>
                                 <Rate defaultValue={5} tooltips={desc} onChange={handleChangeRate}
                                     value={rate} />
-                                {rate ? <span className='ant-rate-text'> {desc[rate - 1]}</span> : ''}
+                                {/* {rate ? <span className='ant-rate-text'> {desc[rate - 1]}</span> : ''} */}
                             </span>
                         </div>
 

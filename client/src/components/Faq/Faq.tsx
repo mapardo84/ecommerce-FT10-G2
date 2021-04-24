@@ -14,7 +14,7 @@ export const Faq = () => {
         need.If you dont find the question, don't hesitate to contact us.
       </p>
       <div className="title">
-        <h2>GENERAL</h2>
+        GENERAL
       </div>
       <Collapse className="ok" defaultActiveKey={[""]}>
         <Panel
@@ -70,7 +70,7 @@ export const Faq = () => {
       </Collapse>
       <br></br> <br></br>
       <div className="title">
-        <h2>ACCOMODATIONS</h2>
+        ACCOMODATIONS
       </div>
       <div className="ok2">
         <Collapse defaultActiveKey={[""]}>

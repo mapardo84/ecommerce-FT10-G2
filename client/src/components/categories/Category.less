@@ -1,6 +1,4 @@
 //Categories
-
-
 .categoryContainer{
   display: flex;
   flex-direction: column;
@@ -8,12 +6,35 @@
 
 .categories_options {
   display: flex;
-  justify-content: space-around;
+  justify-content: center;
+}
+
+.category_titleSelect{
+  font-size: 20px;
+  margin-right: 10px;
+}
+
+.selectCategoryTitle{
+  width: 75vw;
+  border: 1px solid #332926;
+  outline: none !important;
 }
 
 
-//Category
+@media only screen and (max-width: 700px) {
+  .categories_options {
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    align-items: center;
+  }
 
+}
+
+
+
+
+//Category
 .newGlobalCategory{
    display: flex !important;
    justify-content: center !important;
@@ -24,6 +45,14 @@
   grid-template-columns: 1fr 0.4fr;
   grid-template-areas: 
   "image description";
+  margin: 30px;
+}
+
+.newCategory_Container2{
+  display: grid;
+  grid-template-columns: 0.4fr 1fr;
+  grid-template-areas: 
+  "description image";
   margin: 30px;
 }
 
@@ -85,7 +114,6 @@ height: 47vh;
   color: rgb(255, 255, 255) !important;
 }
 
-
 .buttonContainerCategory2{
   color: white !important;
   font-size: 19px !important;
@@ -101,6 +129,16 @@ height: 47vh;
 @media only screen and (max-width: 1100px) {
 
   .newCategory_Container{
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-template-rows: 40vh 420px;
+    grid-template-areas: 
+    "image" 
+    "description";
+    margin: 30px;
+  }
+
+  .newCategory_Container2{
     display: grid;
     grid-template-columns: 1fr;
     grid-template-rows: 40vh 420px;
@@ -139,29 +177,78 @@ height: 47vh;
 
 }
 
-@media only screen and (max-width: 767px) {
+@media only screen and (max-width: 810px) {
 
   .newCategory_Container{
-    grid-template-rows: 35vh 530px;
+    grid-template-rows: 35vh 430px;
+    margin-top: 20px;
+  }
+
+  .newCategory_Container2{
+    grid-template-rows: 35vh 430px;
     margin-top: 20px;
   }
 
   .newImageCategory{
-    width: 95vw;
+    width: 100vw;
     height: 35vh;
     object-fit: cover;
   }
 
   .newDescription{
     background-color: #332926;
-    width: 95vw;
+    width: 100vw;
     padding-left: 20px;
     padding-right: 20px;
     padding-top: 20px;
   }
 
   .containerCategory1{
-    height: 410px;
+    height: 320px;
+    }
+    
+    .containerCategory2{
+      height: 60px;
+      display: flex;
+      justify-content: flex-start;
+    }
+
+
+
+    
+
+
+}
+
+@media only screen and (max-width: 380px) {
+
+
+  .newCategory_Container{
+    grid-template-rows: 35vh 460px;
+    margin-top: 20px;
+  }
+
+  .newCategory_Container2{
+    grid-template-rows: 35vh 460px;
+    margin-top: 20px;
+  }
+
+  .newImageCategory{
+    width: 100vw;
+    height: 35vh;
+    object-fit: cover;
+  }
+
+  .newDescription{
+    background-color: #332926;
+    width: 100vw;
+    padding-left: 20px;
+    padding-right: 20px;
+    padding-top: 3vh;
+  }
+
+  .containerCategory1{
+    height: 350px;
     }
     
     .containerCategory2{
@@ -169,41 +256,43 @@ height: 47vh;
       display: flex;
       justify-content: flex-start;
     }
-
-
 }
 
-@media only screen and (max-width: 360px) {
 
-
-  .newCategory_Container{
-    grid-template-rows: 30vh 85vh;
-    margin-top: 20px;
-  }
-
-  .newImageCategory{
-    width: 95vw;
-    height: 30vh;
-    object-fit: cover;
-  }
-
-  .newDescription{
-    background-color: #332926;
-    width: 95vw;
-    padding-left: 20px;
-    padding-right: 20px;
-    padding-top: 3vh;
-  }
-
-  .containerCategory1{
-    height: 440px;
-    }
-    
-    .containerCategory2{
-      height: 15vh;
-      display: flex;
-      justify-content: flex-start;
-    }
-
-
+@media only screen and (min-width: 1100px) {
+ 
+ .newImageCategory{
+   width: 60vw;
+   height: 55vh;
+ }
+ 
+ .newDescription{
+   width: 450px;
+   padding-left: 50px;
+   padding-right: 50px;
+   padding-top: 3vh;
+   height: 55vh;
+   line-height: 35px;
+ } 
+ 
+ .newDescriptionCategory{
+ font-size: 40px;
+ font-weight: 500;  
+ margin-top: 10px;
+ }
+ 
+ .newDescriptionText{
+   font-size: 20px;
+   margin-top: 25px;
+   font-weight: 200;
+ }
+ 
+ .containerCategory1{
+     height: 43vh;
+ }
+ 
+ .containerCategory2{
+   height: 10vh;
+ }
+ 
 }

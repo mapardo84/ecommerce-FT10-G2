@@ -9,10 +9,13 @@ import { getUserIdByMail } from '../../actions/getUserIdByMail/index';
 import { supabase } from "../../SupaBase/conection";
 const { Sider, Content } = Layout
 
-const Category = ({ categ }: any): JSX.Element => {
+const Category = (props:any): JSX.Element => {
+console.log("PROPS",props)
+  var {categ, num} = props
+
+
   const dispatch = useDispatch()
   const [isModalVisible, setIsModalVisible] = useState(false);
-
 
 
   const handleOk = () => {
@@ -46,7 +49,7 @@ const Category = ({ categ }: any): JSX.Element => {
   return (
     <div className="newGlobalCategory">
 
-      <div className="newCategory_Container">
+      <div className={num % 2 == 1 ? "newCategory_Container": "newCategory_Container2"}>
 
         <img className="newImageCategory" src={categ.images[0]} />
 

@@ -74,6 +74,10 @@ export const NavBar = () => {
     setResNavVisivle(true)
   }
 
+  const handleNavResponsiveClose = () => {
+    setResNavVisivle(false)
+  }
+
   //--------
 
 
@@ -86,7 +90,7 @@ export const NavBar = () => {
 
   return (
     <>
-      <IconContext.Provider value={{ size: '24px', style: { verticalAlign: 'middle', marginRight: "8px" } }}>
+      <IconContext.Provider value={{ color: "grey",  size: '24px', style: { verticalAlign: 'middle', marginRight: "20px" } }}>
         <div className="NavBarLayout">
           {/* Normal navBar content */}
           <div className="navBarMenu">
@@ -153,41 +157,40 @@ export const NavBar = () => {
 
             <div className="navButtonMenu">
               <Button type="text" onClick={handleNavResponsive} >
-                <MenuOutlined style={{ fontSize: '25px', color: 'white' }} />
+                <MenuOutlined style={{ fontSize: '24px', color: 'white' }} />
               </Button>
             </div>
-
           </div>
         </div>
-        {/* ----------------------- */}
+
 
         <Drawer
           placement="right"
           closable={true}
-          onClose={() => setResNavVisivle(false)}
+          onClose={handleNavResponsiveClose}
           visible={resNavVisivle}
           key="top"
           width="270px"
           height="100px"
 
           zIndex={1200}
-          drawerStyle={{ backgroundColor: "rgb(231, 231, 231)" }}
+          drawerStyle={{ backgroundColor: "rgb(247, 247, 247)" }}
         >
           <div className="navDrawerContent">
             <Divider style={{ color: "grey" }} orientation="left">MAIN</Divider>
 
             <NavLink to="/booking">
-              <Button size="large" className="navButton" type="text">
+              <Button onClick={handleNavResponsiveClose} size="large" className="navButton" type="text">
                 <SiHotelsDotCom /> Book Now
             </Button>
             </NavLink>
             <NavLink to="/accomodations">
-              <Button className="navButton" size="large" type="text">
+              <Button  onClick={handleNavResponsiveClose} className="navButton" size="large" type="text">
                 <MdHotel />Accomodations
             </Button>
             </NavLink>
             <NavLink to="/home">
-              <Button className="navButton" size="large" type="text">
+              <Button  onClick={handleNavResponsiveClose} className="navButton" size="large" type="text">
                 <AiFillHome /> Home
             </Button>
             </NavLink>
@@ -198,21 +201,21 @@ export const NavBar = () => {
                 <div className="authenticationResponsive">
                   <Divider style={{ color: "grey" }} orientation="left">USER</Divider>
                   <NavLink to="/myProfile">
-                    <Button className="navButton" size="large" type="text">
+                    <Button onClick={handleNavResponsiveClose} className="navButton" size="large" type="text">
                       <FaUserCircle /> My Profile
                   </Button>
                   </NavLink>
                   <NavLink to="/wishlist">
-                    <Button className="navButton" size="large" type="text">
+                    <Button onClick={handleNavResponsiveClose} className="navButton" size="large" type="text">
                       <AiFillStar /> WishList
                   </Button>
                   </NavLink>
                   <NavLink to="/myBookings">
-                    <Button className="navButton" size="large" type="text">
+                    <Button onClick={handleNavResponsiveClose} className="navButton" size="large" type="text">
                       <AiFillCalendar />  Bookings
                   </Button>
                   </NavLink>
-                  <Button style={{ marginTop: "5px" }} onClick={() => logOutSession()} className="navButton" size="large" type="text">
+                  <Button style={{ marginTop: "5px" }}  onClick={() => logOutSession()} className="navButton" size="large" type="text">
                     <RiLogoutBoxFill /> Log Out
                  </Button>
 
@@ -240,7 +243,7 @@ export const NavBar = () => {
           </div>
 
         </Drawer>
-
+        {/* ----------------------- */}
         <Modal
           visible={visible}
           width={450}

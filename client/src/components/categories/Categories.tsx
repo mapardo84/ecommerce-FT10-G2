@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Button, Select } from "antd";
 import "./Category.less";
-import {initialStateProps } from "./../../reducers/categoriesReducer";
+import { initialStateProps } from "./../../reducers/categoriesReducer";
 import { getCategories, getCategoriesNames } from "../../actions";
 import Category from "./Category";
 import "./../accomodations/accomodations.less";
@@ -40,39 +40,30 @@ const Categories = ({ data }: any): JSX.Element => {
     }
   };
 
+  var num = 0
+
   return (
     <div className="categoryContainer">
-        <div className="categories_options">
-          <span>
-            <Select
-              placeholder="Show..."
-              style={{ width: 200 }}
-              onChange={handleChange}
-            >
-              <Option value="0">All Categories</Option>
+      <div className="categories_options">
+        <div className="category_titleSelect">SHOW ME</div>
+        <Select
+          placeholder="Show..."
+          className="selectCategoryTitle"
+          onChange={handleChange}
+        >
+          <Option value="0">All Categories</Option>
 
-              { cat?.categoriesNames.map((category: any, i: number) => {
-                return(
-                  <Option value = {category.id} key = {i}>{category.name}</Option>
-                )
-              })}
-            </Select>
-          </span>
-          <span>
-            <NavLink to="/booking">
-              <Button
-                size="large"
-                type="primary"
-                className="accomodationReserveButton"
-              >
-                Book now!
-            </Button>
-            </NavLink>
-          </span>
-        </div>
+          {cat?.categoriesNames.map((category: any, i: number) => {
+            return (
+              <Option value={category.id} key={i}>{category.name}</Option>
+            )
+          })}
+        </Select>
+
+      </div>
       <div>
         {cat.categories?.map((categ: any, key: number) => (
-          <Category categ={categ} key={key} />
+          <Category categ={categ} num={num++} key={key} />
         ))}
       </div>
     </div>
