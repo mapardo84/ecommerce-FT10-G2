@@ -17,7 +17,7 @@ import { RoomsLayout } from "../Admin/components/RoomsLayout";
 import { CategoriesLayout } from "../Admin/components/CategoriesLayout";
 import { TypesLayout } from "../Admin/components/TypesLayout";
 import { UsersLayout } from "../Admin/components/UsersLayout";
-import Wishlist from "../components/WishList/Wishlist";
+import {WishlistLayout} from "../components/layout/WishlistLayout";
 import ResetPasswordLayout from "../components/layout/ResetPasswordLayout";
 import { MyBookingsLayout } from "../components/layout/MyBookingsLayout";
 import { MyProfileLayout } from "../components/layout/MyProfileLayout";
@@ -37,7 +37,7 @@ export const AppRouter = () => {
           <Route exact path="/faq" component={FaqLayout} />
           <Route exact path="/myProfile" component={MyProfileLayout} />
           <Route exact path="/myBookings" component={MyBookingsLayout} />
-          <Route exact path="/wishlist" component={Wishlist} />
+          <Route exact path="/wishlist" component={WishlistLayout} />
 
           {/* Parte administrativa */}
           <Route exact path="/admin" component={Plantilla} />

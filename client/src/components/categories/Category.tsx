@@ -31,7 +31,7 @@ const Category = ({ categ }: any): JSX.Element => {
 
   const handleClick = (e: any) => {
     e.preventDefault();
-    dispatch(addWishlist(categ.name, categ.images, categ.id, idUser?.userId[0]?.id))
+    dispatch(addWishlist(categ.id, idUser?.userId[0]?.id))
     setIsModalVisible(true);
   }
   const session = supabase.auth.session();
@@ -48,7 +48,7 @@ const Category = ({ categ }: any): JSX.Element => {
 
       <div className="newCategory_Container">
 
-        <img className="newImageCategory" src={categ.images[0]} />
+        <img className="newImageCategory" src={categ.images[0]} alt="IMG NOT FOUND" />
 
 
 
