@@ -1,23 +1,19 @@
 import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { getDataBooking, getBookingsId, getPayments, getPaxId } from '../../actions/bookingsActions'
-import { Form, DatePicker,Input, InputNumber, Button, Select, Table, Cascader, Switch } from 'antd';
+import { Form, DatePicker,Input, InputNumber, Button, Select, Table, Cascader, Switch, Tooltip, Popconfirm } from 'antd';
 import Modal from 'antd/lib/modal/Modal'
-import {  getCategoriesForSelect, getRoomsAvailable,  searchOrCreatePax } from '../../actions/createBookAdmin';
+import {   finalCreateBooking, getCategoriesForSelect, getRoomsAvailable,  inactiveBooking,  searchOrCreatePax } from '../../actions/createBookAdmin';
 import { getAllRooms } from '../../actions/roomsActions';
 import moment from 'moment';
-import {residences, prefixSelector} from '../../../components/booking/paxForm/PaxForm'
+import {residences} from '../../../components/booking/paxForm/PaxForm'
+import { roomType } from '../../../components/booking/accomodationsSelect/AccomodationsSelect';
+import { AiFillCloseCircle } from "react-icons/ai" 
 const { RangePicker } = DatePicker;
 
 export let loading = false;
 
 export const Bookings = () => {
-
-    // const filterData = (data: any) => {
-    //     return data.map((book: any) => {
-    //         return { text: book.id, value: book.id }
-    //     })
-    // }
     const formItemLayout = {
         labelCol: {
           xs: {
@@ -128,16 +124,66 @@ export const Bookings = () => {
             key: 'totalPrice',
             render: (booking_id: number) => (<>{storeBooking?.payments?.find((book: any) => book.booking_id === booking_id)?.totalPrice}</>)
         },
+        {
+            title: 'Active',
+            dataIndex: 'booking_id',
+            key: 'active',
+            render: (booking_id: number) => { 
+                let actualBooking = storeBooking?.bookings?.find((book: any) => book.id === booking_id)
 
+                if(actualBooking?.status === true) {
+                    return (<div>Yes</div>)
+                }else {
+                    return (<div>No</div>)
+                }
+    }},
+    {
+        title: "",
+        dataIndex: "operation",
+        key: "cancel",
+        render: (_: undefined, record: { booking_id: number }) =>
+          storeBooking?.bookings.length >= 1 ? (
+            <>
+              <Tooltip title="Delete">
+                <Popconfirm
+                  placement="left"
+                  title="Sure to delete?"
+                  onConfirm={() => handleActive(record.booking_id)}
+                >
+                  <span>
+                    {" "}
+                    <AiFillCloseCircle size="18" color="red" />
+                  </span>
+                </Popconfirm>
+              </Tooltip>
+            </>
+          ) : null,
+      },
     ]
 
     const [loading, setLoading] = useState(true)
     const [loadingSelect, setLoadingSelect] = useState(true)
     const [isModalVisible, setIsModalVisible] = useState(false)
+    const [formPayment, setFormPayment] = useState(false)
     const [guestsQ, setGuestsQ] = useState(0)
     const [dateMSJ, setDateMSJ] = useState('')
     const [disable, setDisable] = useState(false)
     const [openForm, setOpenForm] = useState(false)
+    const [bookingState, setBookingState] = useState({
+         address: "",
+        birth_date: {},
+        category: 0,
+        country: [],
+        early_check: false,
+        first_name: '',
+        guests: 0,
+        last_name: "",
+        late_check: false,
+        phone: "132416123",
+        'range-picker': [],
+        type: 0,
+        uuid: "",
+    })
     // const [r, setGuestsQ] = useState(0)
 
     const dispatch = useDispatch()
@@ -165,23 +211,58 @@ export const Bookings = () => {
     }
     const onSelectPrev = () => {
         dispatch(getDataBooking('prev'))
+
     }
-            
-    const onFinish = (fieldsValue:any) => {
+
+    const handleActive = (id: number) => {
+        console.log(id)
+        dispatch(inactiveBooking(id));
+    }
+
+    const onFinishFirstForm = (fieldsValue:any) => {
+        setOpenForm(false)
+        setFormPayment(true)
+        console.log(fieldsValue.birth_date)
+        if (fieldsValue.early_check === 'undefined') {
+            fieldsValue.early_check = false
+        }
+        if (fieldsValue.late_check === 'undefined') {
+            fieldsValue.late_check = false
+        }
+
         const rangeValue = fieldsValue['range-picker'];
         const values = {
             ...fieldsValue,
+            birth_date: fieldsValue.birth_date.format('YYYY-MM-DD'),
             'range-picker': [rangeValue[0].format('YYYY-MM-DD'), rangeValue[1].format('YYYY-MM-DD')],
         };
         console.log('Received values of form: ', values);
-
+        console.log(storeBooking?.paxInfo)
+        if(storeBooking?.paxInfo) {
+            setBookingState({ ...values, id: storeBooking?.paxInfo[0]?.id})
+        } else {
+            setBookingState(values)
+        }
         // dispatch(searchOrCreatePax(values))
     }
     
     const closeModal = () => {
         setIsModalVisible(false)
         setOpenForm(false)
+        setFormPayment(false)
         dispatch(searchOrCreatePax(null))
+    }
+
+    const closeFinish = () => {
+        setIsModalVisible(false)
+        setOpenForm(false)
+        setFormPayment(false)
+        dispatch(searchOrCreatePax(null))
+
+        // dispatch(getDataBooking('all')) //BOOKING_PAX
+        // dispatch(getBookingsId()) //BOOKINGS    
+        // dispatch(getPayments()) //PAYMENTS
+        // dispatch(getPaxId()) //PAXES
     }
 
     const onChangeSelect = (value:any) => {
@@ -217,23 +298,25 @@ export const Bookings = () => {
         }
     }
 
-    // const onChangeUUID = (e:any) => {
-    //     dispatch(searchOrCreatePax(e))
-    // }
-
     const onFinishUUID = (e:any) => {
-        
         console.log(e)
+        
         dispatch(searchOrCreatePax(e))
+        setFormPayment(false)
         setOpenForm(true)
+        // dispatch(getPaxId(null))
         console.log(storeBooking)
     }
 
-    // const handleClickNext = (e:any) => {
-    //     e.preventDefault();
+    const finalForm = (e:any) => {
         
-    //     dispatch(roomSelectedAD());
-    //   }
+        const roomSelected = storeBooking.freeRooms.find( (r:roomType) => { 
+        return (r.category_id === bookingState?.category && r.type_id === bookingState?.type)
+        });
+        
+        console.log(bookingState, e, roomSelected)
+        dispatch(finalCreateBooking(bookingState, e, roomSelected))
+    }
 
     return (
         <>
@@ -254,108 +337,56 @@ export const Bookings = () => {
         
         <div>
         <Modal title="Create Booking" visible={isModalVisible} onCancel={closeModal} footer={null} destroyOnClose = {true} >
-                <Form name="time_related_controls" {...formItemLayout} onFinish={onFinish} initialValues={{country: ['United States'], prefix: '1', remember: true }} scrollToFirstError>
-            <div>
+                <Form name="time_related_controls" {...formItemLayout} onFinish={onFinishFirstForm} initialValues={{country: ['United States'], prefix: '1', remember: true }} scrollToFirstError >
+           
+
             {/* UUID */}
+            <div>
             <Form.Item name="uuid" label="ID/DNI/Passport" rules={[{required: true,message:'Please input a pax identification!', whitespace: true}]}>
-                {/* <Input onChange= {e => onChangeUUID(e)} /> */}
                 <Input.Search onSearch={onFinishUUID} enterButton />
             </Form.Item>
-            {/* <Button type="primary" htmlType="submit" >Search Pax</Button> */}
             </div>
-            { openForm?<div>
-                {/* <Form name="time_related_controls" {...formItemLayout} onFinish={onFinish} > */}
 
+
+            {/* FORM DATA PAX && DATA BOOKING*/}
+            { openForm?<div>
+
+                        {/* DATA PAX EXISTENTE */}
                 { storeBooking?.paxInfo.length > 0? storeBooking?.paxInfo.map((p:any, i:number) => (
-                        <><p key={i}>Pax: {p.first_name} {p.last_name} | {p.country}</p></>
+                        <><p key={i}>Pax: {p.first_name} {p.last_name} | {p.country} | {p.positive_balance}</p></>
                     )):<div>
+
+
+                        {/* FIRST NAME  */}
                     <Form.Item name="first_name" label="Name" rules={[{ required: true, message: 'Please input your name!',
                     whitespace: true}]}>
-                        <Input className='paxForm_input' />
+                        <Input />
                     </Form.Item>
 
-                    <Form.Item
-                        name="last_name"
-                        label="Last Name"
-                        rules={[
-                            {
-                                required: true,
-                                message: 'Please input your last name!',
-                                whitespace: true,
-                            },
-                        ]}
-                    >
-                        <Input className='paxForm_input' />
+                        {/* LAST NAME  */}
+                    <Form.Item name="last_name" label="Last Name" rules={[ {required: true, message: 'Please input your last name!', whitespace: true }]}>
+                        <Input  />
                     </Form.Item>
 
-                    <Form.Item
-                        name="birth_date"
-                        label="Birth Date"
-                        rules={[
-                            {
-                                // type: 'string',
-                                required: true,
-                                message: 'Please select your birth date!',
-                            },
-                        ]}
-                    >
+                        {/* BIRTH DATE  */}
+                    <Form.Item name="birth_date" label="Birth Date" rules={[{required: true, message: 'Please select your birth date!'}]}>
                         <DatePicker />
                     </Form.Item>
 
-                    <Form.Item
-                        name="country"
-                        label="Country"
-                        rules={[
-                            {
-                                type: 'array',
-                                required: true,
-                                message: 'Please select your country!',
-                            },
-                        ]}
-                    >
-                        <Cascader options={residences} className='paxForm_input' />
+                        {/* COUNTRY  */}
+                    <Form.Item name="country" label="Country" rules={[{type: 'array', required: true,message: 'Please select your country!'}]}>
+                        <Cascader options={residences} />
                     </Form.Item>
 
-                    <Form.Item
-                        name="address"
-                        label="Address"
-                        rules={[
-                            {
-                                required: true,
-                                message: 'Please input your address!',
-                                whitespace: true,
-                            },
-                        ]}
-                    >
-                        <Input className='paxForm_input' />
+                        {/* ADDRESS  */}
+                    <Form.Item name="address" label="Address" rules={[{required: true,message: 'Please input your address!',whitespace: true} ]}>
+                        <Input />
                     </Form.Item>
 
-                    <Form.Item
-                        name="phone"
-                        label="Phone Number"
-                        rules={[
-                            {
-                                type: "string",
-                                required: true,
-                                message: 'Please input your phone number!',
-                            },
-                        ]}
-                    >
-                        <Input
-                            addonBefore={prefixSelector}
-                            style={{
-                                width: '100%',
-                            }}
-                            className='paxForm_input'
-                        />
+                        {/* PHONE  */}
+                    <Form.Item name="phone" label="Phone Number" rules={[{type: "string",required: true,message: 'Please input your phone number!'}]}>
+                        <Input  style={{width: '100%'}} />
                     </Form.Item>
-
-
-                    {/* <Form.Item {...tailFormItemLayout}>
-                        <Button type="primary" htmlType="submit">
-                            CONFIRM BOOKING
-                </Button> 
-                     </Form.Item> */}
 
                 </div>
                 }
@@ -374,14 +405,15 @@ export const Bookings = () => {
                     <RangePicker onChange={e => onChangeRange(e)} />
                 </Form.Item>
 
+                { dateMSJ.length > 0 ? <div style ={{color: 'red'}}>{dateMSJ}</div>:<div></div>}
+
                 {/* Category */}
-                { dateMSJ.length > 0 ? <div>{dateMSJ}</div>:<div></div>}
 
                 <Form.Item label="Category" name='category' rules = {[{required: true, message: 'Please select category!'}]}>
 
                     <Select onChange={e => onChangeSelect(e)} loading={loadingSelect} disabled = {disable}>
                         { storeBooking?.categories?.map((cat: any, i: number) =>
-                             (<Select.Option value={cat.name} key={i}>{cat.name}</Select.Option>))}
+                             (<Select.Option value={cat.id} key={i}>{cat.name}</Select.Option>))}
                     </Select>
                     </Form.Item>
                 
@@ -389,52 +421,66 @@ export const Bookings = () => {
                     {/* Type */}
                 <Form.Item label="Type"  name='type' rules = {[{required: true, message: 'Please select type!'}]}>
                 <Select loading={loadingSelect} disabled = {disable}>
-                        {
-                            storeBooking?.types?.map( (t: any, i: number) => {
-                                return (
-                                    <Select.Option value={t.name} key={i}>{t.name}</Select.Option>
-                                )
-                            })
-                        }
+                        {storeBooking?.types?.map( (t: any, i: number) => {
+                                return (<Select.Option value={t.id} key={i}>{t.name}</Select.Option>)})}
                     </Select>
                     </Form.Item>
 
-                    <Form.Item
-                        name='early_check'
-                        label='Early Checkin'
-                    >
-                        <Switch
-                            defaultChecked={false}
-                        /> 
+                    {/* EARLY CHECKIN */}
+                    <Form.Item name='early_check' label='Early Checkin' >
+                        <Switch defaultChecked={false} /> 
                     </Form.Item>
 
-                    <Form.Item
-                        name='late_check'
-                        label='Late Checkout'
-                    >
-                        <Switch
-                            defaultChecked={false}
-                        /> 
+                    {/* LATE CHECKOUT */}
+                    <Form.Item name='late_check' label='Late Checkout' >
+                        <Switch defaultChecked={false}  /> 
                     </Form.Item>
 
                     <div className="adminrooms_btn">
+                        {/* BOTON CANCEL */}
                         <Button onClick={closeModal} >Cancel</Button>
-                    <Form.Item wrapperCol={{xs: {
-                            span: 24,
-                            offset: 0,
-                        },
-                        sm: {
-                            span: 16,
-                            offset: 8,
-                        },
-                        }}
-                    >
+
+                        {/* BOTON NEXT  */}
+                    <Form.Item wrapperCol={{xs: {span: 24,offset: 0,},sm: {span: 16,offset: 8,}}}>
                         <Button type="primary" htmlType="submit">Next</Button>
                     </Form.Item>
                     </div>
-                    {/* </Form>: <div></div>} */}
+
                     </div>: <div></div>}
+
                 </Form>
+                        
+                    {formPayment? <Form onFinish={finalForm}>
+                        {/* PAYMENT STATUS */}
+                        <Form.Item label="Payment Status" name='payment_status' rules = {[{required: true, message: 'Please select payment status!'}]}>
+                        <Select  >
+                                (<Select.Option value='Approved' key = 'approved'>Approved</Select.Option>)
+                        </Select>
+                    </Form.Item>
+
+                    
+
+                        {/* PAYMENT METHOD */}
+                        <Form.Item label="Payment Method" name='payment_method' rules = {[{required: true, message: 'Please select payment method!'}]}>
+                        <Select  >
+                                (<Select.Option value='Card' key = 'Card'>Card</Select.Option>)
+                                (<Select.Option value='Cash' key = 'Cash'>Cash</Select.Option>)
+                        </Select>
+                    </Form.Item>
+
+                        {/* TOTAL PRICE */}
+                    <Form.Item name="totalPrice" label="Total Price" rules={[{type: "string",required: true,message: 'Please input the total price paid!'}]}>
+                        <Input  style={{width: '100%'}} />
+                    </Form.Item>
+
+                        {/* BOTON CANCEL */}
+                    <Button onClick={closeModal} >Cancel</Button>
+
+                        {/* BOTON CONFIRM BOOKING */}
+                    <Form.Item wrapperCol={{xs: {span: 24,offset: 0,},sm: {span: 16,offset: 8,}}}>
+                    <Button type="primary" htmlType="submit" onClick={closeFinish}>CONFIRM BOOKING</Button>
+                    </Form.Item>
+                    </Form>:<div></div>}
         </Modal>
         </div>
         </>
