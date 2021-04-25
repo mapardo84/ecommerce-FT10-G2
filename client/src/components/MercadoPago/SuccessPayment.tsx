@@ -6,7 +6,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { useParams } from 'react-router'
 import { Link } from 'react-router-dom'
 import { idText } from 'typescript'
-import { delete_pre_booking, get_pre, post_pax_booking_payment } from '../../actions/Booking/pre_booking_action'
+import { delete_pre_booking, get_pre, post_pax_booking_payment, update_balance } from '../../actions/Booking/pre_booking_action'
 import { supabase } from '../../SupaBase/conection'
 import { PaxValues } from '../booking/paxForm/PaxForm'
 import './SuccessPayment.less'
@@ -20,7 +20,6 @@ export interface BookingValues {
     room_id: number;
     paxes_amount: number;
     paxTitular_id?: number;
-    preference_id: string
 }
 
 export interface PaymentValues {
@@ -28,7 +27,6 @@ export interface PaymentValues {
     booking_id?: number;
     payment_method: string;
     payment_status: string;
-    preference_id: string
 }
 
 
@@ -38,16 +36,23 @@ export function SuccessPayment() {
 
 
     useEffect(() => {
+
+        if (Number(localStorage.getItem("total_price")) > 0) {
+            dispatch(update_balance(supabase.auth.user()?.email, 0))
+        }
         let preference_id: any;
-        window.location.search.split("&")
+        window.location.search.split("&")               //Seteo el preference id proveniente del param
             .map(e => e.split("="))
             .filter(e => {
                 if (e[0].includes("preference_id")) {
                     preference_id = e[1]
                 }
-            }
-            )
-        dispatch(get_pre(preference_id))
+            })
+
+        if (preference_id) {                 //Si existe, despacho la creacion de la reserva directamente corroborando que haya id de booking en el storage
+            dispatch(get_pre(preference_id))
+        }
+
 
         let str: any = localStorage.getItem("BookingInfo")
         if (str) {
@@ -70,20 +75,21 @@ export function SuccessPayment() {
                 checkout: new Date(str.checkout),
                 room_id: str.room_id,
                 paxes_amount: str.paxes,
-                preference_id
             }
 
             const payment: PaymentValues = {
-                totalPrice: str.nights * str.unit_price,
+                totalPrice: localStorage.getItem("total_price") ? Number(localStorage.getItem("total_price")) : str.nights * str.unit_price,
                 payment_method: "mercadopago",
                 payment_status: "Approved",
-                preference_id,
             }
+
 
             dispatch(post_pax_booking_payment(paxInfo, bookingInfo, payment))
         }
         localStorage.removeItem("Check&Guests")
         localStorage.removeItem("Accomodation")
+        localStorage.removeItem("total_price")
+
         dispatch(delete_pre_booking(supabase.auth.user()?.email))
     }, [])
 
@@ -92,10 +98,16 @@ export function SuccessPayment() {
         str = JSON.parse(str)
     }
 
+    useEffect(() => {
+        return () => {
+            localStorage.removeItem("BookingInfo")
+            localStorage.removeItem("Unique_id")
+            localStorage.removeItem("Payment")
+        };
+    }, []);
 
-    const onClick = () => {
-        localStorage.removeItem("BookingInfo")
-    }
+
+
 
 
 

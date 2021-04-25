@@ -52,10 +52,11 @@ export const AccomodationsSelect = (): JSX.Element => {
   const handleClickNext = (e: any) => {
     e.preventDefault();
     booking.category = userSelection;
+    booking.original_price = booking.category.category.price * booking.category.type.beds
     const foundPromo: promotionType = promo.find((p: promotionType) => p.categoryToApply === booking.category.category.id);
-
     foundPromo ? booking.fee = (booking.category.category.price * booking.category.type.beds * (1 - foundPromo.value / 100)) :
       booking.fee = booking.category.category.price * booking.category.type.beds;
+    console.log(booking.fee);
     booking.category = [userSelection];
     const roomSelected = freeRooms.find((r: roomType) => {
       return (r.category_id === booking.category[0].category.id && r.type_id === booking.category[0].type.id)
@@ -67,6 +68,7 @@ export const AccomodationsSelect = (): JSX.Element => {
     localStorage.setItem("Accomodation", JSON.stringify({
       room_id: roomSelected.id,
       category_type: userSelection,
+      original_price: booking.original_price,
       total_price: booking.fee,
     }))
     if (supabase.auth.user()) {
@@ -74,6 +76,7 @@ export const AccomodationsSelect = (): JSX.Element => {
       dispatch(setGuests(supabase.auth.user()?.email, undefined, JSON.stringify({
         room_id: roomSelected.id,
         category_type: userSelection,
+        original_price: booking.original_price,
         total_price: booking.fee,
       })))
     }
@@ -97,13 +100,13 @@ export const AccomodationsSelect = (): JSX.Element => {
         <div className="containerSelectLoading">
           <div className="textLoadingBooking">We are looking for the best room for you!</div>
           <Card
-            style={{ width: "86vw", height: "500px", marginTop: 40, boxShadow:"0 8px 10px 0 rgba(0, 0, 0, 0.055)" }}>
+            style={{ width: "86vw", height: "500px", marginTop: 40, boxShadow: "0 8px 10px 0 rgba(0, 0, 0, 0.055)" }}>
             <Skeleton active />
             <Skeleton active />
             <Skeleton active />
           </Card>
           <Card
-            style={{ width: "85vw", height: "500", marginTop: 40, boxShadow:"0 8px 10px 0 rgba(0, 0, 0, 0.055)" }}>
+            style={{ width: "85vw", height: "500", marginTop: 40, boxShadow: "0 8px 10px 0 rgba(0, 0, 0, 0.055)" }}>
             <Skeleton active />
             <Skeleton active />
             <Skeleton active />
@@ -121,8 +124,7 @@ export const AccomodationsSelect = (): JSX.Element => {
             BACK
             </Button>
 
-
-          {categoriesFind.userCategories?.map((categ: categoryType, i: number) => (
+          {categoriesFind.userCategories.length > 0 ? categoriesFind.userCategories?.map((categ: categoryType, i: number) => (
             <div>
 
               <AccomodationsCards beds={userSelection?.type.beds} prom={promo} categ={categ} key={i} types={categoriesFind.types} />
@@ -157,9 +159,13 @@ export const AccomodationsSelect = (): JSX.Element => {
                   <Button onClick={handleClickNext} disabled={!(userSelection.type && userSelection.category)}>Next</Button>
                 </div>
               </div>
-
             </div>
-          ))}
+          ))
+            :
+            <div>
+              No hay nada
+          </div>
+          }
         </div>
       </div>
     );

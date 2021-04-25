@@ -9,8 +9,9 @@ import { MercadoPago } from '../../MercadoPago/MercagoPago';
 import { supabase } from '../../../SupaBase/conection'
 import Modal from 'antd/lib/modal/Modal';
 import { Pre_booking } from '../../Pre_booking/Pre_booking';
-const { Option } = Select;
+import countries from 'countries-list'
 
+const { Option } = Select;
 export const prefixSelector = (
     <Form.Item name="prefix" noStyle>
         <Select
@@ -25,6 +26,15 @@ export const prefixSelector = (
         </Select>
     </Form.Item>
 );
+
+
+const paises: any = countries.countries
+const countryCodes: string[] = Object.keys(paises);
+const countryUnsortedNames: string[] = countryCodes.map(
+    (code: string) => paises[code].name
+);
+
+const mapeo = countryUnsortedNames.map((e: any) => ({ value: e, label: e }))
 
 export const residences = [
     {
@@ -93,7 +103,8 @@ export function PaxForm() {
     const [form] = Form.useForm();
     const dispatch = useDispatch();
 
-    const pax_data = useSelector((state: any) => state.bookings.pax_data); //pax_data
+    const { pax_data, loading } = useSelector((state: any) => state.bookings); //pax_data
+    const { user_data } = useSelector((state: any) => state.pre_booking);
 
 
     const [uuid_match, setUuid_match] = useState(false)     //searchbar pax
@@ -103,13 +114,12 @@ export function PaxForm() {
 
     const bookings = useSelector((state: any) => state?.bookings)
     const { booking } = bookings
+
     const [mp, setMp] = useState<any>(false)
+    const [mpModal, setMpModal] = useState<any>(false)
+
 
     useEffect(() => {
-        if (pax_data) {
-
-        }
-
     }, [pax_data])
 
 
@@ -128,7 +138,7 @@ export function PaxForm() {
         sendPax(values)
     };
 
-   
+
 
     const onChange = async (value: any, allvalues: any) => {
 
@@ -164,6 +174,32 @@ export function PaxForm() {
         if (supabase.auth.user()) {
             setMp(true)
         }
+    }
+
+
+    const confirm_pax = (modal: string) => {
+        console.log(user_data)
+        let bookingInfo = {
+            checkin: booking.range[0],
+            checkout: booking.range[1],
+            category: booking.category[0].category.name,
+            type: booking.category[0].type.name,
+            nights: booking.nights,
+            unit_price: booking.fee,
+            room_id: booking.room_id,
+            uuid: pax_data.uuid,
+            first_name: pax_data.first_name,
+            last_name: pax_data.last_name,
+            paxes: booking.guests,
+            phone: pax_data.phone,
+            country: pax_data.country,
+            birth_date: pax_data.birth_date,
+            address: pax_data.address,
+            positive_balance: user_data.positive_balance
+        }
+        localStorage.setItem("BookingInfo", JSON.stringify(bookingInfo))
+        modal === "modal" ? setMpModal(true) : setMp(true)
+
     }
 
     const [visible, setvisible] = useState(false)
@@ -208,47 +244,36 @@ export function PaxForm() {
             </div>
 
             <div>
-                {pax_data && setInfo &&
-                    <Modal
-                        visible={visible}
-                        width={450}
-                        destroyOnClose={true}
-                        onCancel={() => {
-                            setvisible(false)
-                        }}
-                    >
-                        <ul>
-                            <div>First name : {pax_data.first_name}</div>
-                            <div>Last name : {pax_data.last_name}</div>
-                            <div>Uuid : {pax_data.uuid}</div>
-                            <div>Country : {pax_data.country}</div>
-                            <Button onClick={() => setMp(true)}>Confirm</Button>
-                            {console.log("MP", mp)}
-                            {mp ? <MercadoPago /> : null}
-                        </ul>
-                    </Modal>
-                }
+                <Modal
+                    visible={visible}
+                    width={450}
+                    destroyOnClose={true}
+                    onCancel={() => {
+                        setvisible(false)
+                    }}
+                >
+                    {
+                        loading ?
+                            <div>
+                                Loading...
+                                </div>
+                            :
+                            pax_data && setInfo ?
+                                <ul>
+                                    <div>First name : {pax_data.first_name}</div>
+                                    <div>Last name : {pax_data.last_name}</div>
+                                    <div>Uuid : {pax_data.uuid}</div>
+                                    <div>Country : {pax_data.country}</div>
+                                    <Button onClick={() => confirm_pax("modal")}>Confirm</Button>
+                                    {mpModal ? <MercadoPago /> : null}
+                                </ul>
+                                :
+                                <div>No hay nada</div>
+                    }
 
-                {!pax_data && setInfo &&
+                </Modal>
 
-                    <Modal
-                        visible={visible}
-                        width={450}
-                        destroyOnClose={true}
-                        onCancel={() => {
-                            setvisible(false)
-                        }}
-                    >
-
-                        <ul>
-                            no existís
-                        </ul>
-                    </Modal>
-                }
             </div>
-
-
-
             <div className='formBookingPayment'>
                 <h1 className="Login">GUEST INFORMATION</h1>
                 <div className="searchPaymentText2">If you don't have an account, please fill this form</div>
@@ -387,7 +412,6 @@ export function PaxForm() {
 
                 </Form>
             </div>
-
         </div>
     );
 };

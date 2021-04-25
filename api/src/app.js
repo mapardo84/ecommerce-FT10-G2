@@ -5,7 +5,6 @@ const morgan = require('morgan');
 const routes = require('./routes/mercadopago.routes.js');
 const { getIPN } = require('./routes/controller/mercadopago.js');
 
-require('./db.js');
 
 const server = express();
 
@@ -23,6 +22,7 @@ server.use((req, res, next) => {
 });
 
 server.use('/mercadopago', routes);
+server.use('/emails',routes)
 
 server.use((err, req, res, next) => { // eslint-disable-line no-unused-vars
   const status = err.status || 500;

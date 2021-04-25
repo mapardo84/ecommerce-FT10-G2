@@ -21,14 +21,15 @@ const formItemLayout = {
 };
 
 export interface bookingType {
-  guests: number
-  range: string[]
-  nights: number
-  category: any
-  fee: number
-  room_id: number
-  early_checkin: boolean
-  late_checkout: boolean
+  guests:number
+  range:string[]
+  nights:number
+  category:any
+  original_price:number
+  fee:number
+  room_id:number
+  early_checkin:boolean
+  late_checkout:boolean
 }
 
 export const GuestsForm = () => {
@@ -38,16 +39,17 @@ export const GuestsForm = () => {
     range: [],
     nights: 0,
     category: [],
+    original_price:0,
     fee: 0,
     room_id: 0,
     early_checkin: false,
     late_checkout: false
   });
-  const handleChangePaxs = (inputs: number) => { setBooking({ ...booking, guests: inputs }) };
-  const handleChangeDates = (_a: any, dates: string[], _c: any) => {
-    const checkin = new Date(dates[0]).getTime();
-    const checkout = new Date(dates[1]).getTime();
-    const nights = (checkout - checkin) / (1000 * 60 * 60 * 24);
+  const handleChangePaxs = ( inputs:number ) => { setBooking({...booking, guests: inputs}) };
+  const handleChangeDates = (_a:any, dates:string[], _c:any) => {
+    const checkin= new Date(dates[0]).getTime();
+    const checkout= new Date(dates[1]).getTime();
+    const nights= ((checkout-checkin)/(1000*60*60*24))>0?(checkout-checkin)/(1000*60*60*24):1;
     setBooking({ ...booking, range: dates, nights });
   }
 
@@ -153,7 +155,7 @@ export const GuestsForm = () => {
 
 
               <Link to='/home'>
-                <Button onClick={() => dispatch(setBookData({ guests: 0, range: [], nights: 0, category: [], fee: 0, room_id: 0, early_checkin: false, late_checkout: false }))} >Cancel</Button>
+                <Button onClick={() => dispatch(setBookData({guests: 0, range: [], nights: 0, category: [],original_price:0, fee: 0, room_id: 0,early_checkin:false,late_checkout:false}))} >Cancel</Button>
               </Link>
 
               <Button disabled={!(booking.range[0] && booking.range[1] && booking.guests)} onClick={handleClickRooms} type="primary">
