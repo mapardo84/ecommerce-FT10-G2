@@ -7,7 +7,16 @@ import { getPax, stepChange } from '../../../actions/Booking/bookingAction';
 import { useDispatch, useSelector } from 'react-redux';
 import { MercadoPago } from '../../MercadoPago/MercagoPago';
 import { supabase } from '../../../SupaBase/conection'
+import countries from 'countries-list'
 const { Option } = Select;
+
+const paises:any=countries.countries
+const countryCodes: string[] = Object.keys(paises);
+const countryUnsortedNames: string[] = countryCodes.map(
+    (code: string) => paises[code].name
+  );
+
+  const mapeo=countryUnsortedNames.map((e:any)=>({value:e,label:e}))
 
 const residences = [
     {
@@ -76,7 +85,8 @@ export function PaxForm() {
     const [form] = Form.useForm();
     const dispatch = useDispatch();
 
-    const pax_data = useSelector((state: any) => state.bookings.pax_data); //pax_data
+    const {pax_data} = useSelector((state: any) => state.bookings); //pax_data
+    const {user_data} = useSelector((state: any) => state.pre_booking);
 
 
     const [uuid_match, setUuid_match] = useState(false)     //searchbar pax
@@ -88,11 +98,7 @@ export function PaxForm() {
     const { booking } = bookings
     const [mp, setMp] = useState<any>(false)
 
-    useEffect(() => {
-        if(pax_data){
-
-        }
-        
+    useEffect(() => {   
     }, [pax_data])
 
 
@@ -163,7 +169,27 @@ export function PaxForm() {
     }
 
     const confirm_pax = () => {
-        console.log("va todo bomba")
+        console.log(user_data)
+        let bookingInfo = {
+            checkin: booking.range[0],
+            checkout: booking.range[1],
+            category: booking.category[0].category.name,
+            type: booking.category[0].type.name,
+            nights: booking.nights,
+            unit_price: booking.fee,
+            room_id: booking.room_id,
+            uuid:pax_data.uuid,
+            first_name:pax_data.first_name,
+            last_name:pax_data.last_name,
+            paxes: booking.guests,
+            phone:pax_data.phone,
+            country:pax_data.country,
+            birth_date:pax_data.birth_date,
+            address:pax_data.address,
+            positive_balance:user_data.positive_balance
+        }
+        localStorage.setItem("BookingInfo",JSON.stringify(bookingInfo))
+        setMp(true)
     }
 
 
@@ -178,6 +204,7 @@ export function PaxForm() {
                     <Input.Search
                         width="120px"
                         onSearch={(value, event) => {
+                            localStorage.removeItem("BookingInfo")
                             setSetInfo(true)
                             setMp(false)
                             dispatch(getPax(value))
@@ -196,7 +223,7 @@ export function PaxForm() {
                         <div>Uuid : {pax_data.uuid}</div>
                         <div>Country : {pax_data.country}</div>                       
                     </ul>
-                    <Button onClick={()=>setMp(true)}>Confirm</Button>
+                    <Button onClick={confirm_pax}>Confirm</Button>
                     {mp ? <MercadoPago /> : null}
                 </>
 
@@ -288,7 +315,7 @@ export function PaxForm() {
                                 },
                             ]}
                         >
-                            <Cascader options={residences} className='paxForm_input' />
+                            <Cascader options={mapeo} className='paxForm_input' />
                         </Form.Item>
 
                         <Form.Item

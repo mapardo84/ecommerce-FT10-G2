@@ -53,8 +53,8 @@ export const AccomodationsSelect = ():JSX.Element => {
   const handleClickNext = (e:any) => {
     e.preventDefault();
     booking.category = userSelection;
+    booking.original_price=booking.category.category.price * booking.category.type.beds
     const foundPromo:promotionType = promo.find( (p:promotionType) => p.categoryToApply === booking.category.category.id );
-    
     foundPromo? booking.fee = (booking.category.category.price * booking.category.type.beds * (1-foundPromo.value/100)):
     booking.fee = booking.category.category.price * booking.category.type.beds;
     console.log(booking.fee);
@@ -70,6 +70,7 @@ export const AccomodationsSelect = ():JSX.Element => {
     localStorage.setItem("Accomodation",JSON.stringify({
       room_id:roomSelected.id,
       category_type:userSelection,
+      original_price: booking.original_price,
       total_price:booking.fee,
       }))
       if(supabase.auth.user()){
@@ -77,6 +78,7 @@ export const AccomodationsSelect = ():JSX.Element => {
         dispatch(setGuests(supabase.auth.user()?.email,undefined,JSON.stringify({
           room_id:roomSelected.id,
           category_type:userSelection,
+          original_price:booking.original_price,
           total_price:booking.fee,
           })))
       }
@@ -100,7 +102,7 @@ export const AccomodationsSelect = ():JSX.Element => {
       <div className="accomodationsSelect_container">
         <div className="accomodationsSelect_cards">
          <Radio.Group onChange={handleRadioGroup} value={userSelection.category}>
-            {categoriesFind.userCategories?.map((categ:categoryType, i:number) => (
+            {categoriesFind.userCategories.length>0?categoriesFind.userCategories?.map((categ:categoryType, i:number) => (
               <div>
                 <AccomodationsCards prom={promo} beds={userSelection?.type.beds} categ={categ} key={i} types={categoriesFind.types}/>
                 <span>
@@ -123,7 +125,8 @@ export const AccomodationsSelect = ():JSX.Element => {
                     <Radio value={categ}></Radio>
                 </span>
               </div>
-            ))}
+            )):<div style={{fontSize:"80px"}}>ENTRE</div>
+          }
          </Radio.Group>
         </div>
         <Button onClick={handleClickBack}>Go back</Button>

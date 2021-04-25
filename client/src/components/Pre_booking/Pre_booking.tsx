@@ -6,16 +6,20 @@ import { supabase } from '../../SupaBase/conection'
 
 export const Pre_booking = () => {
 
-    let local_Guests: any = localStorage.getItem("Check&Guests")
-    local_Guests=JSON.parse(local_Guests)
-    let local_Rooms:any = localStorage.getItem("Accomodation")
-    local_Rooms=JSON.parse(local_Rooms)
-    
+
+    const [guests, setGuests] = useState<any>(localStorage.getItem("Check&Guests"))
+    const [acomodation, setAcomodation] = useState<any>(localStorage.getItem("Accomodation"))
     const pre_booking = useSelector((state:any) => state.pre_booking)
     const {user_data}=pre_booking
     const dispatch = useDispatch()
-
     const [balance, setBalance] = useState(0)
+
+    useEffect(() => {
+        setGuests((e:any)=>JSON.parse(e))
+        setAcomodation((e:any)=>JSON.parse(e))
+    }, [])
+
+
     useEffect(() => {
         if(supabase.auth.user()?.email){
             dispatch(getUserBalance(supabase.auth.user()?.email))
@@ -37,53 +41,61 @@ export const Pre_booking = () => {
 
     let total_price=0
     
-    if(local_Rooms){
-        if(local_Guests?.early_check ^ local_Guests?.late_check){
-        total_price=(local_Rooms?.total_price * local_Guests?.nights) + (local_Rooms?.total_price / 2)
-    }else if(local_Guests?.early_check && local_Guests?.late_check){
-        total_price=(local_Rooms?.total_price * local_Guests?.nights) + local_Rooms?.total_price
+    if(acomodation){
+        console.log(acomodation.original_price)
+        if(guests?.early_check ^ guests?.late_check){
+        total_price=(acomodation?.total_price * guests?.nights) + (acomodation?.original_price / 2)
+    }else if(guests?.early_check && guests?.late_check){
+        total_price=(acomodation?.total_price * guests?.nights) + acomodation?.original_price
     }else{
         
-        total_price=local_Rooms?.total_price * local_Guests?.nights
+        total_price=acomodation?.total_price * guests?.nights
       
       } 
     }
     if(balance){
-        total_price=total_price-balance
+        if(total_price-balance<0){
+            total_price=0
+        }else{
+            total_price=total_price-balance
+        }
     }
-
+    if(typeof guests==="string"){
+       return <div> asd </div>
+    }
+    // console.log(JSON.parse(guests))
     return (
         <>
             <ul>
                 <li>
-                    <strong>Checkin : </strong>{local_Guests?<span>{local_Guests.in_out[0]}</span>:<span>Seleccionando...</span>}</li>
+                    <strong>Checkin : </strong>{guests?<span>{guests?.in_out[0]}</span>:<span>Seleccionando...</span>}</li>
                 <li>
-                    <strong>Checkout : </strong>{local_Guests?<span>{local_Guests.in_out[1]}</span>:<span>Seleccionando...</span>}</li>
+                    <strong>Checkout : </strong>{guests?<span>{guests?.in_out[1]}</span>:<span>Seleccionando...</span>}</li>
                 <li>
-                    <strong>Guests : </strong>{local_Guests?<span>{local_Guests.paxes}</span>:<span>Seleccionando...</span>}</li>
+                    <strong>Guests : </strong>{guests?<span>{guests?.paxes}</span>:<span>Seleccionando...</span>}</li>
                 <li>
-                    <strong>Nights : </strong>{local_Guests?<span>{local_Guests.nights}</span>:<span>Seleccionando...</span>}
+                    <strong>Nights : </strong>{guests?<span>{guests?.nights>0?guests?.nights:1}</span>:<span>Seleccionando...</span>}
                 </li>
                 <li>
-                    <strong>Category & Type : </strong>{local_Rooms?<span>{local_Rooms?.category_type.category.name} - {local_Rooms.category_type.type.name}</span>:<span>Seleccionando...</span>}
+                    <strong>Category & Type : </strong>{acomodation?<span>{acomodation?.category_type.category.name} - {acomodation?.category_type.type.name}</span>:<span>Seleccionando...</span>}
                 </li>
-                {local_Guests?.early_check?
+                {guests?.early_check?
                 <li>
-                    <strong> Early check-in : </strong><span> ${local_Rooms?.total_price?local_Rooms.total_price/2:<div>Seleccionando...</div>}</span>
+                    <strong> Early check-in : </strong><span> ${acomodation?acomodation.original_price/2:<div>Seleccionando...</div>}</span>
                 </li>:null}
-                {local_Guests?.late_check?
+                {guests?.late_check?
                 <li>
-                    <strong>Late check-out : </strong><span> ${local_Rooms?.total_price?local_Rooms.total_price/2:<div>Seleccionando...</div>}</span>
+                    <strong>Late check-out : </strong><span> ${acomodation?acomodation.original_price/2:<div>Seleccionando...</div>}</span>
                 </li>:null}
                 <li>
-                    <strong>Unit Price : </strong>{local_Rooms?<span>{local_Rooms.total_price}</span>:<span>Seleccionando...</span>}
+                    <strong>Unit Price : </strong>{acomodation?<span>{acomodation?.total_price}</span>:<span>Seleccionando...</span>}
                 </li>
                 
                 <li>
                     <strong>Positive Balance :</strong>{balance}
                 </li>
                 <li>
-                    <strong>Total Price : </strong>{local_Rooms?<span>{total_price}</span>:<span>Seleccionando...</span>}
+                    <strong>Total Price : </strong>{acomodation ?<span>{total_price}</span>:<span>Seleccionando...</span>}
                 </li>
             </ul>
         </>

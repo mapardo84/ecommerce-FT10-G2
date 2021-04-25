@@ -25,7 +25,6 @@ async function getPreferenceId(req,res){
                 title,
                 unit_price,
                 quantity,
-                currency_id:'USD'
         }]
     }).then(preference=> {
         console.log(preference)
