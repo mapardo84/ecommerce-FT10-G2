@@ -1,6 +1,6 @@
 import { supabase } from "../../SupaBase/conection"
 import { Dispatch } from 'react'
-import { categoryType, roomType } from '../../components/booking/accomodationsSelect/AccomodationsSelect';
+import { categoryType } from '../../components/booking/accomodationsSelect/AccomodationsSelect';
 import { getBookingsId, getDataBooking, getPaxId, getPayments } from "./bookingsActions";
 
 export const GET_CATEGORIES_AD = 'GET_CATEGORIES_AD'
@@ -52,17 +52,6 @@ export const getCategoriesForSelect = () => {
         }
     }
 }
-
-// export const fastFilterCategories = (guests:number) => {
-//     return async ( dispatch: Dispatch<any> ) => {
-//         //Traer los Types que cumple con el criterio de guests
-//         const { data: types } = await supabase
-//         .from("types")
-//         .select("*")
-//         .gte("capacity", guests );
-//         dispatch(dataTypes(types))
-// }
-// }
 // ACTION EJECUTADA POR EL BOTON NEXT DEL COMPONENTE GUEST FORM
 
 export const getRoomsAvailable = (guests: number, range:string[]) => {
@@ -145,12 +134,6 @@ export const getRoomsAvailable = (guests: number, range:string[]) => {
         dispatch(dataCategories(result));
         dispatch(dataFreeRooms(freeRooms));
     }
-    // user                     checkin                   checkout
-    // room      ckin   ckout
-    // room             ckin               ckout
-    // room                         ckin            ckout
-    // room                                ckin                    ckout
-    // room                                                 ckin            ckout
 }
 
 const dataFreeRooms = (payload: any) => {
@@ -160,122 +143,6 @@ const dataFreeRooms = (payload: any) => {
     }
 }
 
-// export const getRoomsAvailable = (guests: number, range:string[]) => {
-//     console.log(guests, range)
-//         return async ( dispatch: Dispatch<any> ) => {
-//             let checkin = range[0]
-//             let checkout = range[1]
-            
-//             //Traer los Types que cumple con el criterio de guests
-//             const { data: types } = await supabase
-//             .from("types")
-//             .select("*")
-//             .gte("capacity", guests );
-//             dispatch(dataTypes(types))
-
-//             //Traer los Rooms que pertencen a los types recibidos en el paso anterior
-//             const rooms:any = [];
-//             if( types?.length ) {
-//                 for ( let i = 0; i < types.length; i++ ) {
-//                     const { data: room } = await supabase
-//                     .from("rooms")
-//                     .select('*')
-//                     .eq("type_id", types[i].id);
-//                     rooms.push(room);
-//                 }
-//             }
-    
-//             //Trae los Rooms que están disponibles en las fechas dadas por el usuario
-//             let freeRooms:roomType[] = [];
-//             for (let i:number = 0; i < rooms.length; i ++) {
-//                 for (let j:number = 0; j < rooms[i].length; j ++) {
-//                     let { data: bookingRoom } = await supabase
-//                     .from('bookings')
-//                     .select('*')
-//                     .eq("room_id", rooms[i][j].id);
-//                     if ( !bookingRoom?.length ) freeRooms.push(rooms[i][j]);
-//                     else {
-//                         if ( bookingRoom[0].checkout <= checkin ) {
-//                             freeRooms.push(rooms[i][j]);
-//                         }
-//                         else if ( bookingRoom[0].checkin >= checkout ) {
-//                             freeRooms.push(rooms[i][j]);
-//                         }
-//                         else if ( bookingRoom[0].checkin < checkin && bookingRoom[0].checkout > checkin ) {
-//                             console.log('se descarta');
-//                         }
-//                         else if ( bookingRoom[0].checkin >= checkin && bookingRoom[0].checkout <= checkout ) {
-//                             console.log('se descarta');
-//                         }
-//                         else if ( bookingRoom[0].checkin <= checkout && bookingRoom[0].checkout >= checkout ) {
-//                             console.log('se descarta');
-//                         }
-//                     }
-//                 }
-//             }
-    
-//             //Seleccionar categorias correspondientes a los rooms libres
-//             let result:any=[]
-//             for(let i = 0; i < freeRooms.length; i++){
-//                 if(!result.some( (x:categoryType) => x.id === freeRooms[i].category_id )){
-//                     let { data: categories } = await supabase
-//                     .from('categories')
-//                     .select('*')
-//                     .eq("id",freeRooms[i].category_id);
-//                     result.push(categories?.pop());
-//                 }
-//             }
-//             console.log(result)
-//         }
-//         dispatch(dataCategories(result));
-    
-//         // dispatch(freeRoomsAD(freeRooms));
-//     // user                     checkin                   checkout
-//     // room      ckin   ckout
-//     // room             ckin               ckout
-//     // room                         ckin            ckout
-//     // room                                ckin                    ckout
-//     // room                                                 ckin            ckout
-    
-// }
-
-// const freeRoomsAD = (payload:any) =>{
-//     return{
-//         type: FREE_ROOMS,
-//         payload
-//     }
-// } 
-// export const getTypesForSelect = () => {
-    
-//         return async (dispatch: Dispatch<any>) => {
-//             try {
-//                 const { data } = await supabase
-//                     .from('types')
-//                     .select('*')
-//                         dispatch(dataTypes(data))
-//             } catch (err) {
-//                 console.log(err)
-//             }
-//         }
-    
-// }
-// export const roomSelectedAD = (categoryPax:any, freeRooms:roomType[])=>{
-//     return ( dispatch:any ) =>{
-//         console.log(categoryPax);
-//         console.log(freeRooms);
-//         const roomSelected = freeRooms.find( (r:roomType) => { 
-//             return (r.category_id === categoryPax.category.id && r.type_id === categoryPax.type.id)
-//         })
-//         dispatch(dataBookRoom(roomSelected?.id));
-//     }
-// }
-
-// const dataBookRoom = (payload:any) => {
-//     return {
-//         type: LETS_BOOK_ROOM,
-//         payload
-//     }
-// }
 
 const dataTypes = (payload:any) => {
     return {
@@ -290,30 +157,6 @@ const dataCategories = (payload:any) => {
         payload
     }
 }
-
-// address: "Avenida General Paz 7142 entre Av Mosconi y Benito Juarez"
-// birth_date: Moment {_isAMomentObject: true, _isUTC: false, _pf: {…}, _locale: Locale, _d: Thu Apr 15 2021 13:28:13 GMT-0300 (hora estándar de Argentina), …}
-// category: 6
-// country: ["argentina"]
-// early_check: true
-// first_name: "Malena"
-// guests: 2
-// last_name: "Goñi"
-// late_check: undefined
-// phone: "132416123"
-// range-picker: (2) ["2021-04-25", "2021-04-28"]
-// type: 1
-// uuid: "41614951"
-
-// availability: "available"
-// category_id: 3
-// curent_booking: null
-// curent_pax: null
-// description: null
-// floor: 3
-// id: 18
-// name: "306"
-// type_id: 1
 
 export const finalCreateBooking = (infoBookPax:any, {payment_status, totalPrice, payment_method}:any, room:any) => {
     console.log(infoBookPax)
@@ -332,7 +175,6 @@ export const finalCreateBooking = (infoBookPax:any, {payment_status, totalPrice,
     const checkin = infoBookPax['range-picker'][0]
     const checkout = infoBookPax['range-picker'][1]
 
-// const {payment_status, totalPrice} = infoPayment
 
     return async (dispatch:Dispatch<any>) => {
         let paxid = id;
@@ -405,7 +247,7 @@ export const finalCreateBooking = (infoBookPax:any, {payment_status, totalPrice,
 
                 
 
-                dispatch(getDataBooking('all')) //BOOKING_PAX
+                dispatch(getDataBooking('all', false, false)) //BOOKING_PAX
                 dispatch(getBookingsId()) //BOOKINGS    
                 dispatch(getPayments()) //PAYMENTS
                 dispatch(getPaxId()) //PAXES

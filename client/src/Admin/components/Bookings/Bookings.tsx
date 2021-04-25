@@ -9,6 +9,7 @@ import moment from 'moment';
 import {residences} from '../../../components/booking/paxForm/PaxForm'
 import { roomType } from '../../../components/booking/accomodationsSelect/AccomodationsSelect';
 import { AiFillCloseCircle } from "react-icons/ai" 
+import {SearchBooking} from '../SearchBar/SearchBar'
 const { RangePicker } = DatePicker;
 
 export let loading = false;
@@ -91,6 +92,12 @@ export const Bookings = () => {
             render: (booking_id: number) => (<>{storeBooking?.bookings?.find((book: any) => book.id === booking_id)?.checkout}</>)
         },
         {
+            title: 'Paxes',
+            dataIndex: 'booking_id',
+            key: 'paxes',
+            render: (booking_id: number) => (<>{storeBooking?.bookings?.find((book: any) => book.id === booking_id)?.paxes_amount}</>)
+        },
+        {
             title: 'Room',
             dataIndex: 'booking_id',
             key: 'roomname',
@@ -124,6 +131,32 @@ export const Bookings = () => {
             key: 'totalPrice',
             render: (booking_id: number) => (<>{storeBooking?.payments?.find((book: any) => book.booking_id === booking_id)?.totalPrice}</>)
         },
+        {
+            title: 'Early Checkin',
+            dataIndex: 'booking_id',
+            key: 'early_check',
+            render: (booking_id: number) => { 
+                let actualBooking = storeBooking?.bookings?.find((book: any) => book.id === booking_id)
+
+                if(actualBooking?.early_check === true) {
+                    return (<div>Yes</div>)
+                }else {
+                    return (<div>No</div>)
+                }
+            }},
+        {
+            title: 'Late Checkout',
+            dataIndex: 'booking_id',
+            key: 'late_check',
+            render: (booking_id: number) => { 
+                let actualBooking = storeBooking?.bookings?.find((book: any) => book.id === booking_id)
+
+                if(actualBooking?.late_check === true) {
+                    return (<div>Yes</div>)
+                }else {
+                    return (<div>No</div>)
+                }
+            }},
         {
             title: 'Active',
             dataIndex: 'booking_id',
@@ -189,7 +222,7 @@ export const Bookings = () => {
     const dispatch = useDispatch()
 
     useEffect(() => {
-        dispatch(getDataBooking('all')) //BOOKING_PAX
+        dispatch(getDataBooking('all', false, false)) //BOOKING_PAX
         dispatch(getBookingsId()) //BOOKINGS    
         dispatch(getPayments()) //PAYMENTS
         dispatch(getPaxId()) //PAXES
@@ -203,14 +236,14 @@ export const Bookings = () => {
     }, [storeBooking.bookingPax, storeBooking.bookings, storeBooking.paxes, storeBooking.payments ])
 
     const onSelectAll = () => {
-        dispatch(getDataBooking('all'))
+        dispatch(getDataBooking('all', false, false))
     }
 
     const onSelectNext = () => {
-        dispatch(getDataBooking('next'))
+        dispatch(getDataBooking('next', false, false))
     }
     const onSelectPrev = () => {
-        dispatch(getDataBooking('prev'))
+        dispatch(getDataBooking('prev', false, false))
 
     }
 
@@ -303,7 +336,8 @@ export const Bookings = () => {
         
         dispatch(searchOrCreatePax(e))
         setFormPayment(false)
-        setOpenForm(true)
+        // setOpenForm(true)
+        setTimeout( () => setOpenForm(true), 250)
         // dispatch(getPaxId(null))
         console.log(storeBooking)
     }
@@ -321,6 +355,7 @@ export const Bookings = () => {
     return (
         <>
         <div>
+        <SearchBooking/>
         <Button onClick={onSelectPrev}>Previus Reservations</Button>
         <Button onClick={onSelectAll}>All</Button>
         <Button onClick={onSelectNext}>Pending Reservations</Button>
@@ -342,7 +377,7 @@ export const Bookings = () => {
 
             {/* UUID */}
             <div>
-            <Form.Item name="uuid" label="ID/DNI/Passport" rules={[{required: true,message:'Please input a pax identification!', whitespace: true}]}>
+            <Form.Item name="uuid" label="ID/DNI/Passport" rules={[{required: true,message:'Please input a pax identification!', whitespace: true}]} >
                 <Input.Search onSearch={onFinishUUID} enterButton />
             </Form.Item>
             </div>
@@ -350,10 +385,12 @@ export const Bookings = () => {
 
             {/* FORM DATA PAX && DATA BOOKING*/}
             { openForm?<div>
-
                         {/* DATA PAX EXISTENTE */}
                 { storeBooking?.paxInfo.length > 0? storeBooking?.paxInfo.map((p:any, i:number) => (
-                        <><p key={i}>Pax: {p.first_name} {p.last_name} | {p.country} | {p.positive_balance}</p></>
+                        <div key={i} >
+                            <h3>{p.first_name} {p.last_name}</h3>
+                            <h3>{p.country}</h3>
+                        </div>  
                     )):<div>
 
 
@@ -442,7 +479,7 @@ export const Bookings = () => {
 
                         {/* BOTON NEXT  */}
                     <Form.Item wrapperCol={{xs: {span: 24,offset: 0,},sm: {span: 16,offset: 8,}}}>
-                        <Button type="primary" htmlType="submit">Next</Button>
+                        <Button type="primary" htmlType="submit" >Next</Button>
                     </Form.Item>
                     </div>
 
@@ -478,7 +515,7 @@ export const Bookings = () => {
 
                         {/* BOTON CONFIRM BOOKING */}
                     <Form.Item wrapperCol={{xs: {span: 24,offset: 0,},sm: {span: 16,offset: 8,}}}>
-                    <Button type="primary" htmlType="submit" onClick={closeFinish}>CONFIRM BOOKING</Button>
+                    <Button type="primary" htmlType="submit" onClick={closeFinish} disabled = {openForm}>CONFIRM BOOKING</Button>
                     </Form.Item>
                     </Form>:<div></div>}
         </Modal>

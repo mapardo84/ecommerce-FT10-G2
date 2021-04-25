@@ -4,7 +4,7 @@ export const BYPAXID:string="GET_BY_PAXID"
 export const BYBOOKINGID:string="GET_BY_BOOKINGID"
 export const BYFIRSTNAME:string="GET_BY_FIRSTNAME"
 export const BYLASTNAME:string="GET_BY_LASTNAME"
-
+export const BYPAXUUID:string='BYPAXUUID'
 
 
 export function getByPaxID(id: any) {
@@ -19,9 +19,10 @@ export function getByPaxID(id: any) {
                 console.log('bypax')
                 const relacional:any=await supabase
                 .from("booking_pax")
-                .select(`*, pax_id(*), booking_id(*,room_id(*))`)
+                .select(`*, pax_id(uuid)`)
                 .eq(`pax_id`, `${id}`)
                 .limit(4)
+
                 dispatch(get_bookingPax(relacional.data))
                 console.log(`by pax id ${relacional}`)
             } catch (e) {
@@ -30,6 +31,58 @@ export function getByPaxID(id: any) {
         }
     }
 }
+
+export function getByPaxUuid(uuid: string) {
+    if(uuid.length<1){
+        return async (dispatch:any)=>{
+            dispatch(get_paxUuid([]))
+        }
+        }else{
+        return async (dispatch:any)=>{
+            
+            console.log('byuuid')
+            const pax:any=await supabase
+            .from("paxes")
+            .select(`*`)
+            .ilike('uuid', `%${uuid}%`) 
+            .limit(4)
+            console.log(pax.data)
+            dispatch(get_paxUuid(pax.data))
+        }
+                    
+    }
+}
+
+const get_paxUuid=(payload:any)=>{
+    return {
+        type:BYPAXUUID,
+        payload
+    }
+}
+// export function getByPaxID(id: any) {
+
+//     if(id.length===0){ 
+//         return async (dispatch:any)=>{
+//             dispatch(get_bookingPax([]))
+//         }
+//     }else{
+//         return async (dispatch:any)=>{
+//             try {
+//                 console.log('bypax')
+//                 const relacional:any=await supabase
+//                 .from("booking_pax")
+//                 .select(`*, pax_id(*), booking_id(*,room_id(*))`)
+//                 .eq(`pax_id`, `${id}`)
+//                 .limit(4)
+//                 dispatch(get_bookingPax(relacional.data))
+//                 console.log(`by pax id ${relacional}`)
+//             } catch (e) {
+//               console.log(e)
+//             }
+//         }
+//     }
+// }
+
 
 export function getByBookingID(id: any){
     if(id.length===0){
