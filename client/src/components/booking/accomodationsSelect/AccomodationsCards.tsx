@@ -34,17 +34,15 @@ export const AccomodationsCards = (props: any): JSX.Element => {
 
                 <div className="newCategory_Container">
 
-                    <div>
-                        {foundProm ?
-                            <h3 className='categoryH3-Promo'>
-                                {categ.name} con descuento de {foundProm.value}%
-                        </h3> :
-                            <h3 className='categoryH3'>
-                                {categ.name}
-                            </h3>}
+                    <div >
+                        {foundProm &&
+                            <div className='bookingCardDiscount'>
+                             {foundProm.value}% Off
+                           </div>
+                        }
+                        <img className="newImageCategory" src={categ.images[0]} />
                     </div>
 
-                    <img className="newImageCategory" src={categ.images[0]} />
 
                     <div className="newDescription">
 

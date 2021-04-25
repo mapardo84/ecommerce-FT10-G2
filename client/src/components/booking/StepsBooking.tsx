@@ -103,8 +103,6 @@ export const StepsBooking: FunctionComponent = () => {
   }, [inProgress])
 
 
-
-
   const continuePreBooking = () => {
     dispatch(get_pre(supabase.auth.user()?.email))
     setInProgress({ pending: false, continue: true, delete: false })
@@ -162,7 +160,7 @@ export const StepsBooking: FunctionComponent = () => {
       { selectedStep === 1 && continueBooking === false ?
         <>
 
-          <div style={{ display: "flex", flexDirection: "row", alignItems: "center", justifyContent: "space-evenly" }}>
+          <div style={{ display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "space-evenly" }}>
             <Pre_booking />
             <AccomodationsSelect />
           </div>

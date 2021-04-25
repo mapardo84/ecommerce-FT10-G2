@@ -28,6 +28,7 @@ import {PaxesLayout} from '../Admin/components/PaxesLayout';
 import { BookingsLayout } from "../Admin/components/BookingsLayout";
 import {DiscountsLayout} from "../Admin/components/DiscountsLayout"
 import { SuccessLayout } from "../components/layout/SuccesLayout";
+import { Pre_booking } from "../components/Pre_booking/Pre_booking";
 
 //ACA VAN TODAS LAS RUTAS
 
@@ -45,6 +46,9 @@ export const AppRouter = () => {
           <Route exact path="/myProfile" component={MyProfileLayout} />
           <Route exact path="/myBookings" component={MyBookingsLayout} />
           <Route exact path="/wishlist" component={WishlistLayout} />
+
+          <Route exact path="/pre" component={Pre_booking} />
+
 
           {/* Parte administrativa */}
           <Route exact path="/admin" component={Plantilla} />
