@@ -7,8 +7,6 @@
     align-items: center;
   }
   .categories_options {
-  //  margin-left: 250px;
-  //  margin-right: 100px;
     display: flex;
     justify-content: space-between;
   }
@@ -27,6 +25,25 @@
    
     font-size: 20px;
     color: white;
+  }
+  @keyframes promos {
+    from {
+      background-color: black;
+      color:white;
+    }
+    to {
+      background-color: white;
+      color: black;
+    }
+  }
+  .categoryH3-Promo {
+    text-align: center;
+    font-size: 20px;
+    color: white;
+    background-color: black;
+    animation-name: promos;
+    animation-duration: 4s;
+    animation-iteration-count: infinite;
   }
   .categoryH4 {
     margin-left: 4.8%;

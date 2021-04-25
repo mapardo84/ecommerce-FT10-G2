@@ -19,10 +19,7 @@ import { RiLogoutBoxFill, RiLoginBoxFill } from "react-icons/ri";
 import { IconContext } from "react-icons/lib";
 
 
-
-
-
-
+import { get_pre, pre_booking_empty} from "../../actions/Booking/pre_booking_action";
 
 const { Header } = Layout;
 
@@ -44,6 +41,9 @@ export const NavBar = () => {
   const logOutSession = () => {
     var status = logOut()
     status && history.push("/");
+    localStorage.removeItem("Check&Guests")
+    localStorage.removeItem("Accomodation")
+    dispatch(pre_booking_empty())
   }
 
   const menu = (

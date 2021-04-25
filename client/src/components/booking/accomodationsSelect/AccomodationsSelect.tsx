@@ -5,6 +5,9 @@ import { setBookData, stepChange } from '../../../actions/Booking/bookingAction'
 import { bookingType } from '../guestsForm/GuestsForm';
 import "./AccomodationsSelect.less";
 import { useState } from "react";
+import { promotionType } from "../../../actions/Promotions/promotionsAction";
+import { supabase } from "../../../SupaBase/conection";
+import { setGuests } from "../../../actions/Booking/pre_booking_action";
 const { Option } = Select;
 
 export interface roomType {
@@ -29,7 +32,8 @@ export interface categoryType {
 
 export const AccomodationsSelect = (): JSX.Element => {
   const dispatch = useDispatch();
-  const [userSelection, setUserSelection] = useState<any>({
+  const promo = useSelector( (state:any) => state.promotions )
+  const [ userSelection, setUserSelection ] = useState<any>({
     category: '',
     type: { beds: 1 }
   });
@@ -40,21 +44,38 @@ export const AccomodationsSelect = (): JSX.Element => {
 
   const handleClickBack = (e: any) => {
     e.preventDefault();
+    localStorage.removeItem("Check&Guests")
     dispatch(stepChange(0));
   }
 
   const handleClickNext = (e: any) => {
     e.preventDefault();
     booking.category = userSelection;
+    const foundPromo:promotionType = promo.find( (p:promotionType) => p.categoryToApply === booking.category.category.id );
+    
+    foundPromo? booking.fee = (booking.category.category.price * booking.category.type.beds * (1-foundPromo.value/100)):
     booking.fee = booking.category.category.price * booking.category.type.beds;
-    const roomSelected = freeRooms.find((r: roomType) => {
-      return (r.category_id === booking.category.category.id && r.type_id === booking.category.type.id)
+    booking.category = [userSelection];
+    const roomSelected = freeRooms.find( (r:roomType) => { 
+      return (r.category_id === booking.category[0].category.id && r.type_id === booking.category[0].type.id)
     });
-    console.log(freeRooms);
-    console.log(roomSelected);
-    roomSelected ? booking.room_id = roomSelected.id :
-      booking.room_id = -1;
+    roomSelected? booking.room_id = roomSelected.id:
+    booking.room_id = -1;
+
     dispatch(setBookData(booking));
+    localStorage.setItem("Accomodation",JSON.stringify({
+      room_id:roomSelected.id,
+      category_type:userSelection,
+      total_price:booking.fee,
+      }))
+      if(supabase.auth.user()){
+        // dispatch(setGuests("hola","dale"))
+        dispatch(setGuests(supabase.auth.user()?.email,undefined,JSON.stringify({
+          room_id:roomSelected.id,
+          category_type:userSelection,
+          total_price:booking.fee,
+          })))
+      }
     dispatch(stepChange(2));
   }
 
@@ -103,7 +124,7 @@ export const AccomodationsSelect = (): JSX.Element => {
           {categoriesFind.userCategories?.map((categ: categoryType, i: number) => (
             <div>
 
-              <AccomodationsCards beds={userSelection?.type.beds} categ={categ} key={i} types={categoriesFind.types} />
+              <AccomodationsCards beds={userSelection?.type.beds} prom={promo} categ={categ} key={i} types={categoriesFind.types} />
               <div className="booking_Buttons">
                 <Button className="bookingNextButton" onClick={handleClickNext} disabled={!(userSelection.type && userSelection.category)}>Next</Button>
               </div>

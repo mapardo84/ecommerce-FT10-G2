@@ -1,19 +1,29 @@
 import { Button, Layout, Image, Modal, Tooltip } from 'antd';
-import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
+import { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { getPromotions, promotionType } from '../../../actions/Promotions/promotionsAction';
 import '../accomodationsSelect/AccomodationsCards.less'
 
 const { Sider, Content } = Layout;
 
 export const AccomodationsCards = (props: any): JSX.Element => {
 
+    const dispatch = useDispatch()
+
+    useEffect(() => {
+        dispatch(getPromotions());
+    }, [])
+
 
     const [isModalVisible, setIsModalVisible] = useState(false);
+    const promo = useSelector((state: any) => state.promotions)
     const showModal = () => { setIsModalVisible(true) };
     const handleOk = () => { setIsModalVisible(false) };
     const handleCancel = () => { setIsModalVisible(false) };
+    const { categ, key, beds } = props;
+    const foundProm: promotionType = promo?.find((p: promotionType) => p.categoryToApply === categ.id);
 
-    const { categ, key, types, beds } = props
 
     useEffect(() => {
     }, [])
@@ -23,6 +33,16 @@ export const AccomodationsCards = (props: any): JSX.Element => {
             <div className="newGlobalCategory">
 
                 <div className="newCategory_Container">
+
+                    <div>
+                        {foundProm ?
+                            <h3 className='categoryH3-Promo'>
+                                {categ.name} con descuento de {foundProm.value}%
+                        </h3> :
+                            <h3 className='categoryH3'>
+                                {categ.name}
+                            </h3>}
+                    </div>
 
                     <img className="newImageCategory" src={categ.images[0]} />
 
@@ -41,7 +61,7 @@ export const AccomodationsCards = (props: any): JSX.Element => {
                         <div className="containerCategory2">
                             <div className="containerCategoryBookingSpecial">
 
-                                <div style={{display:"flex", alignItems:"center", marginBottom:"5px"}}>
+                                <div style={{ display: "flex", alignItems: "center", marginBottom: "5px" }}>
                                     <div className='categoryBookingPrice'>Rate: ${categ?.price} USD</div>
                                     <Button key='learn' style={{ marginBottom: "10px", marginRight: "20px" }} type="primary" onClick={showModal}>
                                         Learn more..

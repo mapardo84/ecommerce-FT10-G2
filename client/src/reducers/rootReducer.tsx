@@ -16,6 +16,9 @@ import { checkinReducer } from './checkinReducer';
 import { paxesReducer } from './paxesReducer'
 import { searchBookingReducer } from "./searchBarReducer";
 import { bookingsAdminReducer } from "./bookingsAdminReducer";
+import {discountsAdminReducer} from "./discountsAdminReducer"
+import { promotionsReducer } from './promotionsReducer';
+import { pre_booking_reducer } from "./preBookingReducer";
 
 //ACA SE AGREGA CADA REDUCER QUE UTILICEN
 export const rootReducer = combineReducers({
@@ -37,4 +40,7 @@ export const rootReducer = combineReducers({
   paxes: paxesReducer,
   booking_pax:searchBookingReducer,
   bookingsAdminR: bookingsAdminReducer,
+  adminDiscounts:discountsAdminReducer,
+  promotions: promotionsReducer,
+  pre_booking:pre_booking_reducer
 });
