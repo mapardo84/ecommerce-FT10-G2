@@ -1,14 +1,14 @@
-import { Button, Input, InputNumber, Select, Table, Form, Tag } from 'antd';
+import { Button, Table, Tag } from 'antd';
 import Modal from 'antd/lib/modal/Modal'
 import { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { addRoom, getAllRooms, updateRoom } from '../../actions/roomsActions';
+import { getAllRooms } from '../../actions/roomsActions';
 import './checkin.less'
 import { Category } from '../Categories/Categories';
 import { getAllCategories } from '../../actions/categoriesActions';
 import { getAllTypes } from '../../actions/typesActions';
 import { IType } from '../Types/Types';
-import { saveRoomSelected} from '../../actions/checkinActions';
+import { saveRoomSelected } from '../../actions/checkinActions';
 import { changeRoomAvailable } from '../../actions/roomsActions';
 
 export interface Room {
@@ -21,20 +21,6 @@ export interface Room {
     type_id: number | string;
     categories: { name: string }[];
 }
-
-interface IFields {
-    name: string[],
-    value: string | number
-}
-
-
-const campos: IFields[] = [
-    { name: ['name'], value: '' },
-    { name: ['floor'], value: '' },
-    { name: ['availability'], value: '' },
-    { name: ['category'], value: '' },
-    { name: ['beds'], value: '' },
-]
 
 const filterData = (data: Category[]) => {
     return data.map((category: Category) => {
@@ -53,13 +39,12 @@ const numberFloor = (rooms: Room[]) => {
 export const Checkin = ({ steps }: { steps: Function }): JSX.Element => {
 
     const [isModalVisible, setIsModalVisible] = useState<boolean>(false);
-    const [editId, setEditId] = useState<null | Room>(null)
     const [loaded, setLoaded] = useState(false)
 
     const { roomsList } = useSelector((state: any) => state?.rooms)
     const { categories } = useSelector((state: any) => state?.categories)
     const { types } = useSelector((state: any) => state?.types)
-    const { roomId } =useSelector((state:any)=> state?.checkin )
+    const { roomId } = useSelector((state: any) => state?.checkin)
 
     const dispatch = useDispatch()
 
@@ -69,7 +54,7 @@ export const Checkin = ({ steps }: { steps: Function }): JSX.Element => {
             dataIndex: 'name',
             key: 'name',
             sorter: (a: Room, b: Room) => a.name.localeCompare(b.name),
-            render: (_: any, record: any) => {
+            render: (_: undefined, record: Room) => {
                 //console.log(record)
                 if (record.availability === 'available') {
                     return (
@@ -85,8 +70,10 @@ export const Checkin = ({ steps }: { steps: Function }): JSX.Element => {
                     )
                 } else if (record.availability === 'cleaning') {
                     return (
-                        <Tag className="checkin_pinter" color='blue' key={record.id} onClick={() => {setIsModalVisible(true)
-                         dispatch(saveRoomSelected(record.id))}}>
+                        <Tag className="checkin_pinter" color='blue' key={record.id} onClick={() => {
+                            setIsModalVisible(true)
+                            dispatch(saveRoomSelected(record.id))
+                        }}>
                             {record.name}
                         </Tag>
                     )
@@ -136,7 +123,7 @@ export const Checkin = ({ steps }: { steps: Function }): JSX.Element => {
             filters: filterData(types),
             filterMultiple: false,
             onFilter: (value: number, rooms: Room) => {
-                return rooms.category_id === value
+                return rooms.type_id === value
             }
         },
         {
@@ -149,7 +136,7 @@ export const Checkin = ({ steps }: { steps: Function }): JSX.Element => {
             //     //console.log(a)
             //     return rooms.category_id === value
             // },
-            render: (_: any, record: any) => {
+            render: (_: undefined, record: Room) => {
                 const categoryPrice = categories?.find((category: Category) => category.id === record.category_id).price
                 const roomType = types.find((type: IType) => type.id === record.type_id)?.beds
                 return (<>USD {categoryPrice * roomType}</>)
@@ -190,7 +177,7 @@ export const Checkin = ({ steps }: { steps: Function }): JSX.Element => {
 
     }, [categories, types, roomsList])
 
-    const changeToAvailable=() =>{
+    const changeToAvailable = () => {
         dispatch(changeRoomAvailable(roomId))
         setIsModalVisible(false)
     }
@@ -215,20 +202,20 @@ export const Checkin = ({ steps }: { steps: Function }): JSX.Element => {
                 />
             }
             <Modal title="Change Availability" visible={isModalVisible} onCancel={closeModal} footer={null} >
-            <Button 
-                onClick={changeToAvailable}
-                type='primary'
-                className='types_upbar'
+                <Button
+                    onClick={changeToAvailable}
+                    type='primary'
+                    className='types_upbar'
                 >
-                Change to Available
+                    Change to Available
             </Button>
-            <div>
-            <Button onClick={closeModal}
-            className='types_upbar'
-            >
-            Cancel
+                <div>
+                    <Button onClick={closeModal}
+                        className='types_upbar'
+                    >
+                        Cancel
             </Button>
-            </div>
+                </div>
             </Modal>
         </div>
     )

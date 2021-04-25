@@ -1,10 +1,11 @@
-import { Button, Table, Form, Modal, Input, Tooltip, Popconfirm, Select, Space } from 'antd';
+import { Button, Table, Form, Modal, Input, Tooltip, Popconfirm, Select, Space, DatePicker } from 'antd';
 import { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { getAllPaxes, updatePaxes, deletPaxes,checkUuid, addPaxes } from '../../actions/paxesActions'
 import { FaTrashAlt, FaPencilAlt } from 'react-icons/fa';
 import countries from "countries-list";
 import { SearchOutlined } from '@ant-design/icons';
+import moment from 'moment';
 
 export interface IPaxes {
     id: number,
@@ -228,7 +229,7 @@ export const Paxes = () => {
             { name: ['uuid'], value: index.uuid },
             { name: ['first_name'], value: index.first_name },
             { name: ['last_name'], value: index.last_name },
-            { name: ['birth_date'], value: index.birth_date },
+            { name: ['birth_date'], value: moment(index.birth_date) },
             { name: ['phone'], value: index.phone },
             { name: ['country'], value: index.country },
             { name: ['address'], value: index.address },
@@ -259,7 +260,7 @@ export const Paxes = () => {
                 rowKey="uuid"
             />
     
-            <Modal title="Add Type" visible={isModalVisible} onCancel={closeModal} footer={null} >
+            <Modal title="Add Pax" visible={isModalVisible} onCancel={closeModal} footer={null} >
                 <Form onFinish={onFinish} fields={fields} form={form} autoComplete="off">
                     <Form.Item
                         label="UUID"
@@ -316,7 +317,8 @@ export const Paxes = () => {
                         label="Birth Date"
                         name="birth_date"
                         rules={[{ required: true, message: 'Please input a birth date!' }]}>
-                        <Input placeholder="Birth Date"></Input>
+                        <DatePicker placeholder='Birth Date' format='YYYY-MM-DD'/>
+                        {/* <Input placeholder="YYYY-MM-DD"></Input> */}
                     </Form.Item>
                     <Form.Item
                         label="Address"

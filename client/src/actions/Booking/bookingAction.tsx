@@ -64,7 +64,6 @@ export const getCategoriesForUser = (userBooking: bookingType) => {
             }
         }
 
-
         //bookings entre las 2 fechas
 
         const { data: booki } = await supabase
@@ -86,32 +85,19 @@ export const getCategoriesForUser = (userBooking: bookingType) => {
             }
         })
 
-
-
         if (!freeRooms) return
-
 
         //Seleccionar categorias correspondientes a los rooms libres
         let result: any = []
-        let checkingR: any = []
         for (let i = 0; i < freeRooms.length; i++) {
-            // if (!checkingR.includes(freeRooms[i].category_id)) {
-            //     let { data: categories } = await supabase
-            //         .from('categories')
-            //         .select('*')
-            //         .eq("id", freeRooms[i].category_id);
-            //     console.log('categories',categories)
-            //     result.push(categories?.pop());
-            //     checkingR.push(categories?.pop().id)
-            // }
 
             if (!result.some((x: categoryType) => x.id === freeRooms[i].category_id)) {
                 let { data: categories } = await supabase
                     .from('categories')
                     .select('*')
                     .eq("id", freeRooms[i].category_id);
-                //console.log('Categories: ', categories?.pop())
                 result.push(categories?.pop());
+                //console.log('Categories: ', categories?.pop())
             }
         }
         dispatch(categoriesToShow({ userCategories: result, types: types }));

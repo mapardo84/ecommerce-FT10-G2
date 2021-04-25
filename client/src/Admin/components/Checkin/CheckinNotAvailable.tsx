@@ -10,6 +10,49 @@ import { PaxValues } from '../../../components/booking/paxForm/PaxForm';
 import moment from 'moment';
 import Text from 'antd/lib/typography/Text';
 
+interface IPayment {
+    id: number,
+    totalPrice: number,
+    booking_id: number,
+    payment_method: string,
+    payment_status: string,
+    preference_id: string
+}
+export interface AbstractCheckboxProps<T> {
+    prefixCls?: string;
+    className?: string;
+    defaultChecked?: boolean;
+    checked?: boolean;
+    style?: React.CSSProperties;
+    disabled?: boolean;
+    onChange?: (e: T) => void;
+    onClick?: React.MouseEventHandler<HTMLElement>;
+    onMouseEnter?: React.MouseEventHandler<HTMLElement>;
+    onMouseLeave?: React.MouseEventHandler<HTMLElement>;
+    onKeyPress?: React.KeyboardEventHandler<HTMLElement>;
+    onKeyDown?: React.KeyboardEventHandler<HTMLElement>;
+    value?: string | number;
+    tabIndex?: number;
+    name?: string;
+    children?: React.ReactNode;
+    id?: string;
+    autoFocus?: boolean;
+    type?: string;
+    skipGroup?: boolean;
+}
+export interface CheckboxChangeEventTarget extends CheckboxProps {
+    checked: boolean;
+}
+export interface CheckboxChangeEvent {
+    target: CheckboxChangeEventTarget;
+    stopPropagation: () => void;
+    preventDefault: () => void;
+    nativeEvent: MouseEvent;
+}
+export interface CheckboxProps extends AbstractCheckboxProps<CheckboxChangeEvent> {
+    indeterminate?: boolean;
+}
+
 
 export const CheckinNotAvailable = ({ steps }: { steps: Function }): JSX.Element => {
 
@@ -18,7 +61,6 @@ export const CheckinNotAvailable = ({ steps }: { steps: Function }): JSX.Element
     const [roomType, setRoomType] = useState<IType>()
     const [price, setPrice] = useState<number>()
     const [nights, setNights] = useState(0)
-    const [payments, setPayments] = useState(0)
     const [paymentMethod, setPaymentMethod] = useState('Cash')
     const [earlyCheckin, setEarlyCheckin] = useState(true)
     const [lateCheckout, setLateCheckout] = useState(true)
@@ -59,12 +101,11 @@ export const CheckinNotAvailable = ({ steps }: { steps: Function }): JSX.Element
     useEffect(() => {
         //valor total de payments realizados
         let total = 0
-        roomPayments.forEach((payment: any) => {
+        roomPayments.forEach((payment: IPayment) => {
             if (payment.payment_status === 'Approved') {
                 total = total + payment.totalPrice
             }
         })
-        setPayments(total)
         setBalance((e: number) => e - total)
     }, [roomPayments])
 
@@ -115,7 +156,7 @@ export const CheckinNotAvailable = ({ steps }: { steps: Function }): JSX.Element
 
     }
 
-    const onChangeEarly = (e: any) => {
+    const onChangeEarly = (e: CheckboxChangeEvent) => {
         if (e.target.checked && price) {
             setBalance((e: number) => e + (price / 2))
         } else {
@@ -123,7 +164,7 @@ export const CheckinNotAvailable = ({ steps }: { steps: Function }): JSX.Element
         }
         setEarlyCheckin((e: boolean) => !e)
     }
-    const onChangeLate = (e: any) => {
+    const onChangeLate = (e: CheckboxChangeEvent) => {
         if (e.target.checked && price) {
             setBalance((e: number) => e + (price / 2))
         } else {
@@ -206,7 +247,7 @@ export const CheckinNotAvailable = ({ steps }: { steps: Function }): JSX.Element
                             <Col span={6}></Col>
                         </Row>
                         {
-                            roomPayments.map((payment: any) => {
+                            roomPayments.map((payment: IPayment) => {
                                 return (
                                     <Row key={payment.id}>
                                         <Col span={6}>{payment.id}</Col>
