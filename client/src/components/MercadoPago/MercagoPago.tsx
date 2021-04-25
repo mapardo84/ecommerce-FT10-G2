@@ -66,7 +66,7 @@ export const MercadoPago = (props: any) => {
     }
   }, [preferenceId]);
 
-  const [bookingNow, setBookingNow] = useState(false)
+  const [bookingNow, setBookingNow] = useState(true)
 
   //     const {data:room,error}:any= await supabase // Get a  una categoria random pa probar
   //     .from("categories")

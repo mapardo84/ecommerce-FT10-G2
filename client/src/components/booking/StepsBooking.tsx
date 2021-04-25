@@ -90,6 +90,7 @@ export const StepsBooking: FunctionComponent = () => {
   }, [inProgress, pre_Booking_state])
 
   useEffect(() => {
+    window.scroll(0,0)
     if (inProgress.continue === true) {
       if (inProgress.continue) {
         localStorage.setItem("Check&Guests", pre_booking[0].guests_nights)

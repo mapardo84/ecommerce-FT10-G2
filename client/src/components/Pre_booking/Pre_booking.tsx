@@ -90,8 +90,6 @@ export const Pre_booking = (type: any) => {
                         </Collapse>
                     </Affix>
                 </div>
-
-
             </>
         )
 
