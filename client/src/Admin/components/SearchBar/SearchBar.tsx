@@ -10,7 +10,7 @@ export const SearchBooking = () => {
     const bookingStore = useSelector((state: any) => state.booking_pax)
     
     const [search, setSearch] = useState("")
-
+    
     useEffect(() => {
         
         // dispatch(getByPaxID(search))
@@ -18,6 +18,9 @@ export const SearchBooking = () => {
         dispatch(getByBookingID(search))
         dispatch(getFirstName(search))
         dispatch(getLastName(search))
+
+        
+        // dispatch(getDataBooking('not', selected[0], search))
         
     }, [dispatch, search])
 
@@ -26,6 +29,11 @@ export const SearchBooking = () => {
             // dispatch(getDataBooking('all', false, false))
         }
         setSearch(value)
+        console.log(value)
+        // let selected = value.split('.')
+        // console.log(selected)
+        // console.log('onSelect', search);
+        // dispatch(getDataBooking('not', selected[0], selected[2]))
     }
 
     const renderTitle = (title:string) => (

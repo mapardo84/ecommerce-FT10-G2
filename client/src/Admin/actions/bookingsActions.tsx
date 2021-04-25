@@ -19,7 +19,6 @@ export const DATA_PAXES = 'DATA_PAXES'
 //     }
 // }
 export const getDataBooking = (param: string, type: string | boolean, value: string | boolean) => {
-    console.log('entre papu')
     const today = moment().format('YYYY-MM-DD')
     if(param) {
 
@@ -73,6 +72,7 @@ export const getDataBooking = (param: string, type: string | boolean, value: str
 
     if(type && value){
         console.log('aca tmb xd ')
+        
         if(type === 'uuid' || type === 'first_name' || type === 'last_name') {
             return async (dispatch: Dispatch<any>) => {
                 console.log(type, value)

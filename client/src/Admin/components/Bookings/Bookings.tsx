@@ -120,7 +120,7 @@ export const Bookings = () => {
             render: (booking_id: number) => (<>{storeBooking?.bookings?.find((book: any) => book.id === booking_id)?.rooms?.type_id?.name}</>)
         },
         {
-            title: 'Status',
+            title: 'Payment Status',
             dataIndex: 'booking_id',
             key: 'payment_status',
             render: (booking_id: number) => (<>{storeBooking?.payments?.find((book: any) => book.booking_id === booking_id)?.payment_status}</>)
@@ -256,6 +256,8 @@ export const Bookings = () => {
         setOpenForm(false)
         setFormPayment(true)
         console.log(fieldsValue.birth_date)
+        
+
         if (fieldsValue.early_check === 'undefined') {
             fieldsValue.early_check = false
         }
@@ -263,14 +265,14 @@ export const Bookings = () => {
             fieldsValue.late_check = false
         }
 
+        console.log(fieldsValue)
         const rangeValue = fieldsValue['range-picker'];
         const values = {
             ...fieldsValue,
-            birth_date: fieldsValue.birth_date.format('YYYY-MM-DD'),
+            birth_date: fieldsValue?.birth_date?.format('YYYY-MM-DD'),
             'range-picker': [rangeValue[0].format('YYYY-MM-DD'), rangeValue[1].format('YYYY-MM-DD')],
         };
         console.log('Received values of form: ', values);
-        console.log(storeBooking?.paxInfo)
         if(storeBooking?.paxInfo) {
             setBookingState({ ...values, id: storeBooking?.paxInfo[0]?.id})
         } else {
@@ -344,7 +346,9 @@ export const Bookings = () => {
 
     const finalForm = (e:any) => {
         
-        const roomSelected = storeBooking.freeRooms.find( (r:roomType) => { 
+        console.log('free rooms', storeBooking?.freeRooms)
+        const roomSelected = storeBooking?.freeRooms.find( (r:roomType) => { 
+            console.log(bookingState?.category, bookingState?.type)
         return (r.category_id === bookingState?.category && r.type_id === bookingState?.type)
         });
         
@@ -378,7 +382,7 @@ export const Bookings = () => {
             {/* UUID */}
             <div>
             <Form.Item name="uuid" label="ID/DNI/Passport" rules={[{required: true,message:'Please input a pax identification!', whitespace: true}]} >
-                <Input.Search onSearch={onFinishUUID} enterButton />
+                <Input.Search onSearch={onFinishUUID} enterButton onKeyDown={(e)=> e.keyCode === 13 ? e.preventDefault(): ''}/>
             </Form.Item>
             </div>
 
@@ -449,8 +453,12 @@ export const Bookings = () => {
                 <Form.Item label="Category" name='category' rules = {[{required: true, message: 'Please select category!'}]}>
 
                     <Select onChange={e => onChangeSelect(e)} loading={loadingSelect} disabled = {disable}>
-                        { storeBooking?.categories?.map((cat: any, i: number) =>
-                             (<Select.Option value={cat.id} key={i}>{cat.name}</Select.Option>))}
+                        { storeBooking?.categories?.map((cat: any, i: number) =>{
+                                return (<Select.Option value={cat.id} key={i}>{cat.name}</Select.Option>)})
+                            }
+                            
+
+                        
                     </Select>
                     </Form.Item>
                 
