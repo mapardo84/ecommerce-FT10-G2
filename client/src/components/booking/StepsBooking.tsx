@@ -191,7 +191,8 @@ export const StepsBooking: FunctionComponent = () => {
         </div>
 
         : selectedStep === 2 && continueBooking === false ?
-          <div>Please,log in</div>
+          <div className="logInBookingSteps">
+            Please,log in</div>
           : null
       }
 

@@ -162,8 +162,8 @@ export const AccomodationsSelect = (): JSX.Element => {
             </div>
           ))
             :
-            <div>
-              No hay nada
+            <div className="accommodationNoResults">
+            Sorry, we don't have rooms available, try again. :v
           </div>
           }
         </div>
