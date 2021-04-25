@@ -8,6 +8,7 @@ import { useState } from "react";
 import { promotionType } from "../../../actions/Promotions/promotionsAction";
 import { supabase } from "../../../SupaBase/conection";
 import { setGuests } from "../../../actions/Booking/pre_booking_action";
+import { IoIosArrowBack } from "react-icons/io";
 const { Option } = Select;
 
 export interface roomType {
@@ -32,8 +33,8 @@ export interface categoryType {
 
 export const AccomodationsSelect = (): JSX.Element => {
   const dispatch = useDispatch();
-  const promo = useSelector( (state:any) => state.promotions )
-  const [ userSelection, setUserSelection ] = useState<any>({
+  const promo = useSelector((state: any) => state.promotions)
+  const [userSelection, setUserSelection] = useState<any>({
     category: '',
     type: { beds: 1 }
   });
@@ -51,31 +52,31 @@ export const AccomodationsSelect = (): JSX.Element => {
   const handleClickNext = (e: any) => {
     e.preventDefault();
     booking.category = userSelection;
-    const foundPromo:promotionType = promo.find( (p:promotionType) => p.categoryToApply === booking.category.category.id );
-    
-    foundPromo? booking.fee = (booking.category.category.price * booking.category.type.beds * (1-foundPromo.value/100)):
-    booking.fee = booking.category.category.price * booking.category.type.beds;
+    const foundPromo: promotionType = promo.find((p: promotionType) => p.categoryToApply === booking.category.category.id);
+
+    foundPromo ? booking.fee = (booking.category.category.price * booking.category.type.beds * (1 - foundPromo.value / 100)) :
+      booking.fee = booking.category.category.price * booking.category.type.beds;
     booking.category = [userSelection];
-    const roomSelected = freeRooms.find( (r:roomType) => { 
+    const roomSelected = freeRooms.find((r: roomType) => {
       return (r.category_id === booking.category[0].category.id && r.type_id === booking.category[0].type.id)
     });
-    roomSelected? booking.room_id = roomSelected.id:
-    booking.room_id = -1;
+    roomSelected ? booking.room_id = roomSelected.id :
+      booking.room_id = -1;
 
     dispatch(setBookData(booking));
-    localStorage.setItem("Accomodation",JSON.stringify({
-      room_id:roomSelected.id,
-      category_type:userSelection,
-      total_price:booking.fee,
-      }))
-      if(supabase.auth.user()){
-        // dispatch(setGuests("hola","dale"))
-        dispatch(setGuests(supabase.auth.user()?.email,undefined,JSON.stringify({
-          room_id:roomSelected.id,
-          category_type:userSelection,
-          total_price:booking.fee,
-          })))
-      }
+    localStorage.setItem("Accomodation", JSON.stringify({
+      room_id: roomSelected.id,
+      category_type: userSelection,
+      total_price: booking.fee,
+    }))
+    if (supabase.auth.user()) {
+      // dispatch(setGuests("hola","dale"))
+      dispatch(setGuests(supabase.auth.user()?.email, undefined, JSON.stringify({
+        room_id: roomSelected.id,
+        category_type: userSelection,
+        total_price: booking.fee,
+      })))
+    }
     dispatch(stepChange(2));
   }
 
@@ -114,43 +115,45 @@ export const AccomodationsSelect = (): JSX.Element => {
       <div className="accomodationsSelect_container">
 
         <div className="accomodationsSelect_cards">
-          <Affix offsetTop={110}>
-            <Button style={{marginLeft:"1.9vw"}} size="large" onClick={handleClickBack} type="primary" >
-              BACK
-             </Button>
-          </Affix>
+          <Button style={{ marginLeft: "3vw", paddingLeft: "30px", paddingRight: "30px" }} size="large" onClick={handleClickBack} type="primary" >
+            BACK
+            </Button>
 
 
           {categoriesFind.userCategories?.map((categ: categoryType, i: number) => (
             <div>
 
               <AccomodationsCards beds={userSelection?.type.beds} prom={promo} categ={categ} key={i} types={categoriesFind.types} />
-              <div className="booking_Buttons">
-                <Button className="bookingNextButton" onClick={handleClickNext} disabled={!(userSelection.type && userSelection.category)}>Next</Button>
-              </div>
 
-              <div className="selectButtonBooking">
-                <Select key='selectType'
-                  placeholder="Select Type"
-                  onChange={handleSelectType}
-                  className="accomodationsSelect_si"
-                >
-                  {categoriesFind.types?.map((t: any, i: number) => {
-                    if (freeRooms.find((r: any) => {
-                      return (r.category_id === categ.id && r.type_id === t.id)
-                    })) {
-                      return (
-                        <Option key={i} value={t.name}>{t.name}</Option>
-                      )
-                    } else { return <Option key={i} value={t.name} disabled>-</Option> }
-                  })
-                  }
-                </Select>
+              <div className="containerButtonsBooking">
 
-                <Radio.Group buttonStyle="solid" onChange={handleRadioGroup} value={userSelection.category}>
-                  <Radio.Button value={categ}>Select</Radio.Button>
-                </Radio.Group>
 
+                <div className="selectButtonBooking">
+                  <Select key='selectType'
+                    placeholder="Select Type"
+                    onChange={handleSelectType}
+                  // className="accomodationsSelect_si"
+                  >
+                    {categoriesFind.types?.map((t: any, i: number) => {
+                      if (freeRooms.find((r: any) => {
+                        return (r.category_id === categ.id && r.type_id === t.id)
+                      })) {
+                        return (
+                          <Option key={i} value={t.name}>{t.name}</Option>
+                        )
+                      } else { return <Option key={i} value={t.name} disabled>-</Option> }
+                    })
+                    }
+                  </Select>
+
+                  <Radio.Group buttonStyle="solid" onChange={handleRadioGroup} value={userSelection.category}>
+                    <Radio.Button value={categ}>Select</Radio.Button>
+                  </Radio.Group>
+                </div>
+
+                <div className="booking_Buttons">
+                  <Button onClick={handleClickNext} disabled={!(userSelection.type && userSelection.category)}>Next</Button>
+                </div>
               </div>
 
             </div>

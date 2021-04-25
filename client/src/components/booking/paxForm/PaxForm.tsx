@@ -7,6 +7,7 @@ import { getPax, stepChange } from '../../../actions/Booking/bookingAction';
 import { useDispatch, useSelector } from 'react-redux';
 import { MercadoPago } from '../../MercadoPago/MercagoPago';
 import { supabase } from '../../../SupaBase/conection'
+import Modal from 'antd/lib/modal/Modal';
 const { Option } = Select;
 
 const residences = [
@@ -89,10 +90,10 @@ export function PaxForm() {
     const [mp, setMp] = useState<any>(false)
 
     useEffect(() => {
-        if(pax_data){
+        if (pax_data) {
 
         }
-        
+
     }, [pax_data])
 
 
@@ -171,40 +172,55 @@ export function PaxForm() {
 
     return (
         <div className='paxForm_container'>
-            <Button onClick={handleClickBack}>Go back</Button>
-            {/* ----------------------------------------------// */}
-            <Form>
-                <Form.Item>
-                    <Input.Search
-                        width="120px"
-                        onSearch={(value, event) => {
-                            setSetInfo(true)
-                            setMp(false)
-                            dispatch(getPax(value))
-                        }}>
-                    </Input.Search>
-                </Form.Item>
-            </Form>
 
 
+            <div className="backButtonPayment">
+                <Button size="large" onClick={handleClickBack} type="primary" >
+                    BACK
+            </Button>
+            </div>
 
-            {pax_data && setInfo?
-                <>
-                    <ul>
-                        <div>First name : {pax_data.first_name}</div>
-                        <div>Last name : {pax_data.last_name}</div>
-                        <div>Uuid : {pax_data.uuid}</div>
-                        <div>Country : {pax_data.country}</div>                       
-                    </ul>
-                    <Button onClick={()=>setMp(true)}>Confirm</Button>
-                    {mp ? <MercadoPago /> : null}
-                </>
+            <div className="formBookingSearch">
+                {/* ----------------------------------------------// */}
+                <h1 className="Login">IDENTIFICATION</h1>
+                <div className="searchPaymentText">If you have an account, please enter your identification.</div>
+                <Form>
+                    <Form.Item>
+                        <Input.Search
+                            placeholder="Identification"
+                            width="120px"
+                            onSearch={(value, event) => {
+                                setSetInfo(true)
+                                setMp(false)
+                                dispatch(getPax(value))
+                            }}>
+                        </Input.Search>
+                    </Form.Item>
+                </Form>
+            </div>
 
-                : !pax_data && setInfo? //----------------------------------------------------
-                <div className='form'>
-                    <div className='paxForm_TitleGuest'>
-                        <h3>Guest Information</h3>
-                    </div>
+            <div>
+                {pax_data && setInfo &&
+                    <Modal visible={false}>
+                        <ul>
+                            <div>First name : {pax_data.first_name}</div>
+                            <div>Last name : {pax_data.last_name}</div>
+                            <div>Uuid : {pax_data.uuid}</div>
+                            <div>Country : {pax_data.country}</div>
+                        </ul>
+                        <Button onClick={() => setMp(true)}>Confirm</Button>
+                        {mp ? <MercadoPago /> : null}
+                    </Modal>
+                }
+            </div>
+
+
+            {
+                //----------------------------------------------------
+                <div className='formBookingPayment'>
+                    <h1 className="Login">GUEST INFORMATION</h1>
+                    <div className="searchPaymentText">If you do not have an account, please fill in this form</div>
+
                     <Form
                         {...formItemLayout}
                         form={form}
@@ -223,7 +239,6 @@ export function PaxForm() {
 
                         <Form.Item
                             name="first_name"
-                            label="Name"
                             rules={[
                                 {
                                     required: true,
@@ -232,12 +247,11 @@ export function PaxForm() {
                                 },
                             ]}
                         >
-                            <Input className='paxForm_input' />
+                            <Input placeholder="Name" className='paxForm_input' />
                         </Form.Item>
 
                         <Form.Item
                             name="last_name"
-                            label="Last Name"
                             rules={[
                                 {
                                     required: true,
@@ -246,12 +260,11 @@ export function PaxForm() {
                                 },
                             ]}
                         >
-                            <Input className='paxForm_input' />
+                            <Input placeholder="Last Name" className='paxForm_input' />
                         </Form.Item>
 
                         <Form.Item
                             name="birth_date"
-                            label="Birth Date"
                             rules={[
                                 {
                                     // type: 'string',
@@ -260,12 +273,11 @@ export function PaxForm() {
                                 },
                             ]}
                         >
-                            <DatePicker />
+                            <DatePicker style={{ width: "550px" }} placeholder="Bithday" />
                         </Form.Item>
 
                         <Form.Item
                             name="uuid"
-                            label="DNI"
                             rules={[
                                 {
                                     required: true,
@@ -274,12 +286,11 @@ export function PaxForm() {
                                 },
                             ]}
                         >
-                            <Input className='paxForm_input' />
+                            <Input placeholder="Identification" className='paxForm_input' />
                         </Form.Item>
 
                         <Form.Item
                             name="country"
-                            label="Country"
                             rules={[
                                 {
                                     type: 'array',
@@ -288,12 +299,11 @@ export function PaxForm() {
                                 },
                             ]}
                         >
-                            <Cascader options={residences} className='paxForm_input' />
+                            <Cascader placeholder="Country" options={residences} className='paxForm_input' />
                         </Form.Item>
 
                         <Form.Item
                             name="address"
-                            label="Address"
                             rules={[
                                 {
                                     required: true,
@@ -302,12 +312,11 @@ export function PaxForm() {
                                 },
                             ]}
                         >
-                            <Input className='paxForm_input' />
+                            <Input placeholder="Address" className='paxForm_input' />
                         </Form.Item>
 
                         <Form.Item
                             name="phone"
-                            label="Phone Number"
                             rules={[
                                 {
                                     type: "string",
@@ -317,6 +326,7 @@ export function PaxForm() {
                             ]}
                         >
                             <Input
+                                placeholder="Phone Number"
                                 addonBefore={prefixSelector}
                                 style={{
                                     width: '100%',
@@ -344,7 +354,7 @@ export function PaxForm() {
 
 
                     </Form>
-                </div>:null
+                </div>
             }
         </div>
     );

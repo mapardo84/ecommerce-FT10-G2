@@ -1,4 +1,5 @@
 import { ReactElement } from "react";
+import { BackTop } from "antd";
 import Categories from "../categories/Categories";
 import "./accomodations.less";
 import "./../layout/homeLayout.less";
@@ -39,6 +40,7 @@ const Accomodations = (): ReactElement => {
 
       </div>
       <Categories />
+      <BackTop />
     </div>
   );
 };
