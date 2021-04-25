@@ -11,7 +11,22 @@ import Modal from 'antd/lib/modal/Modal';
 import { Pre_booking } from '../../Pre_booking/Pre_booking';
 const { Option } = Select;
 
-const residences = [
+export const prefixSelector = (
+    <Form.Item name="prefix" noStyle>
+        <Select
+            style={{
+                width: 70,
+            }}
+        >
+            <Option value="86">+86</Option>
+            <Option value="87">+87</Option>
+            <Option value="54">+54</Option>
+            <Option value="1">+1</Option>
+        </Select>
+    </Form.Item>
+);
+
+export const residences = [
     {
         value: 'zhejiang',
         label: 'Zhejiang',
@@ -113,20 +128,7 @@ export function PaxForm() {
         sendPax(values)
     };
 
-    const prefixSelector = (
-        <Form.Item name="prefix" noStyle>
-            <Select
-                style={{
-                    width: 70,
-                }}
-            >
-                <Option value="86">+86</Option>
-                <Option value="87">+87</Option>
-                <Option value="54">+54</Option>
-                <Option value="1">+1</Option>
-            </Select>
-        </Form.Item>
-    );
+   
 
     const onChange = async (value: any, allvalues: any) => {
 

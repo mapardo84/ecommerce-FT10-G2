@@ -1,5 +1,6 @@
 import { supabase } from "../../SupaBase/conection"
 import moment from 'moment';
+import { Dispatch } from "react";
 
 export const DATA_BOOKING = 'GET_DATA_BOOKING'  
 export const DATA_PAX = 'DATA_PAX'
@@ -17,56 +18,99 @@ export const DATA_PAXES = 'DATA_PAXES'
 //         dispatch(dataBookingPax(data))
 //     }
 // }
-export const getDataBooking = (param: string) => {
+export const getDataBooking = (param: string, type: string | boolean, value: string | boolean) => {
     const today = moment().format('YYYY-MM-DD')
-    if(param === 'all') {
-        return async (dispatch:any)=>{
-        
-                    const {data}:any=await supabase
-                    .from("booking_pax")
-                    .select(`*`)
-                    console.log('hola',data)
-                    dispatch(dataBookingPax(data))
-                }
-    }
-    if(param === 'next') {
-        return async (dispatch:any)=>{
+    if(param) {
+
+        if(param === 'all') {
+            return async (dispatch:any)=>{
                 
-            const books:any=await supabase
-            .from("bookings")
-            .select(`*`)
-            .gte('checkin', today)
-            const booksPax = books.data.map((e:any)=>{
-                return supabase
+                const {data}:any=await supabase
                 .from("booking_pax")
-                .select('*')
-                .eq('booking_id',`${e.id}`)
+                .select(`*`)
+                dispatch(dataBookingPax(data))
+            }
+        }
+        if(param === 'next') {
+            return async (dispatch:any)=>{
+                
+                const books:any=await supabase
+                .from("bookings")
+                .select(`*`)
+                .gte('checkin', today)
+                const booksPax = books.data.map((e:any)=>{
+                    return supabase
+                    .from("booking_pax")
+                    .select('*')
+                    .eq('booking_id',`${e.id}`)
                 })
                 const dataConcatenada:any[]=[]
                 Promise.all(booksPax).then(res=>res.forEach((e:any)=>dataConcatenada.push(e.data)))
                 .then(()=>dispatch(dataBookingPax(dataConcatenada.flat()))).then(res => console.log(res))
+            }
         }
-    }
-    if(param === 'prev') {
-        return async (dispatch:any)=>{
+        if(param === 'prev') {
+            return async (dispatch:any)=>{
                 
-            const books:any=await supabase
-            .from("bookings")
-            .select(`*`)
-            .lte('checkout', today)
-            const booksPax = books.data.map((e:any)=>{
-                return supabase
-                .from("booking_pax")
-                .select('*')
-                .eq('booking_id',`${e.id}`)
+                const books:any=await supabase
+                .from("bookings")
+                .select(`*`)
+                .lte('checkout', today)
+                const booksPax = books.data.map((e:any)=>{
+                    return supabase
+                    .from("booking_pax")
+                    .select('*')
+                    .eq('booking_id',`${e.id}`)
                 })
                 const dataConcatenada:any[]=[]
                 Promise.all(booksPax)
                 .then(res=>res.forEach((e:any)=>dataConcatenada.push(e.data)))
                 .then(()=>dispatch(dataBookingPax(dataConcatenada.flat())))
-                .then(res => console.log(res))
+            }
         }
     }
+
+    if(type && value){
+        console.log('aca tmb xd ')
+        
+        if(type === 'uuid' || type === 'first_name' || type === 'last_name') {
+            return async (dispatch: Dispatch<any>) => {
+                console.log(type, value)
+                const bookByPax: any= await supabase 
+                        .from('paxes')
+                        .select('*')
+                        .eq(type, value)
+                        console.log(bookByPax)
+                const booksPax = bookByPax.data.map((e:any)=>{
+                        return supabase
+                        .from("booking_pax")
+                        .select('*')
+                        .eq('pax_id',`${e.id}`)
+                })
+                const dataConcatenada:any[]=[]
+                Promise.all(booksPax)
+                .then(res=>res.forEach((e:any)=>dataConcatenada.push(e.data)))
+                
+                .then(()=>{
+                    console.log(dataConcatenada.flat())
+                    dispatch(dataBookingPax(dataConcatenada.flat()))})
+            }
+        } 
+
+        if(type === 'booking_id') {
+            return async(dispatch:Dispatch<any>) => {
+                const booking: any = await supabase
+                    .from('booking_pax')
+                    .select('*')
+                    .eq(type, value)
+                
+                    dispatch(dataBookingPax(booking.data))
+              
+            }
+        }
+    }
+
+
 }
 // if (previus) {
     //     return async (dispatch:any)=>{
@@ -91,7 +135,6 @@ export const getDataBooking = (param: string) => {
                 const {data}:any=await supabase
                 .from("bookings")
                 .select(`*, rooms(name, category_id(name), type_id(name))`)
-                console.log(data)
                 dispatch(dataBookingId(data))
             } catch (e) {
               console.log(e)
@@ -104,7 +147,6 @@ export const getPaxId = () => {
             const {data}:any=await supabase
             .from("paxes")
             .select(`*`)
-            console.log(data)
             dispatch(dataPaxes(data))
         } catch (e) {
           console.log(e)
@@ -112,13 +154,13 @@ export const getPaxId = () => {
     }
 }
 
+
 export const getPayments = () => {
     return async (dispatch:any)=>{
         try {
             const {data}:any=await supabase
             .from("payments")
             .select(`*`)
-            console.log(data)
             dispatch(dataPayments(data))
         } catch (e) {
           console.log(e)
@@ -128,17 +170,12 @@ export const getPayments = () => {
 
 
 const dataBookingPax = (payload:any) => {
+    console.log(payload)
     return {
         type: DATA_BOOKING,
         payload
     }
 }
-// const dataNextBookings = (payload:any) => {
-//     return {
-//         type: DATA_BOOKING,
-//         payload
-//     }
-// }
 
 const dataPaxes = (payload:any) => {
     return {
