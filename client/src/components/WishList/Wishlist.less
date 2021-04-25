@@ -1,34 +1,44 @@
-.bodyWishlist {
-    margin-top: 30px;
-    font-family: sans-serif;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+
+  .bodyWishlist {
+    margin: 150px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
    
   }
+
+  .buttonWishlist{
+    display: flex;
+    justify-content: flex-end;
+    width: 50px;
+  }
+
+ 
+    
   
   .containerWishlist {
-    
+    display: flex;
+    flex-direction: column;
     justify-content: center;
-    align-items: center;
-    margin: 10vmin;
+    margin: auto;
     overflow: hidden;
     transform: skew(5deg);
-    flex-grow: row wrap;
+    
+    
   
     .card-wishlist {
       flex: 1;
       transition: all 1s ease-in-out;
-      height: 720px;
+      
       position: relative;
-      .card__head {
+      .card-head {
         color: #ffff;
-        background: #A57548;
+        background: #332926;
         padding: 0.5em;
         transform: rotate(-90deg);
         transform-origin: 0% 0%;
         transition: all 0.5s ease-in-out;
-        min-width: 100%;
+        min-width: 30%;
         text-align: center;
         position: absolute;
         bottom: 0;
@@ -42,7 +52,7 @@
         .imagesWishlist {
           filter: grayscale(0);
         }
-        .card__head {
+        .card-head {
           text-align: center;
           top: calc(100% - 2em);
           color: white;
@@ -52,8 +62,8 @@
         }
       }
       .imagesWishlist {
-        width: 100% !important;
-        height: 100% !important;
+        width: 800px  ;
+        height: 500px  ;
         object-fit: cover;
         transition: all 1s ease-in-out;
         filter: grayscale(100%);
@@ -63,3 +73,64 @@
       }
     }
   }
+
+  @media only screen and (max-width: 768px){
+    .imagesWishlist {
+      width: 500px !important  ;
+    }
+   
+  }
+ 
+
+  @media only screen and (max-width: 540px) {
+    .containerMap{
+      margin-top:90px;
+      min-height: 70vh;
+    }
+    .bodyWishlist {
+      margin: 0;
+      min-height: 30vh;
+      height: 120px !important;
+      position: relative;
+    }
+    .containerWishlist {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      margin: 10px;
+      overflow: hidden;
+      transform: skew(5deg);
+      
+    }
+    &:hover { 
+      .card-head {
+
+        font-size: 0.5em;
+      }
+    }  
+    .imagesWishlist {
+  
+      width: 350px !important  ;
+      height: 150px  !important;
+    }
+   
+  }
+
+  @media only screen and (max-width: 375px) {
+    .containerMap{
+      margin-top:80px;
+      min-height: 72.3vh;
+    }
+    .imagesWishlist {
+      width: 300px !important  ;
+    }
+   
+  }
+
+
+
+
+
+
+
+

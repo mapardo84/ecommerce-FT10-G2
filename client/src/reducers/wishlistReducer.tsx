@@ -1,4 +1,4 @@
-import {POST_WISHLIST, GET_WISHLIST} from "../actions/WishlistAction"
+import {POST_WISHLIST, GET_WISHLIST,DELETE_WISHLIST} from "../actions/WishlistAction"
 
 const initialState = {
    wishlist:[],
@@ -16,7 +16,13 @@ export function wishlistReducer (state=initialState, action:any){
             return{
                 ...state, 
                 userWishlist: action.payload
-            }    
+            }
+        case DELETE_WISHLIST:
+            return{
+                ...state,
+                    userWishlist: state.userWishlist.filter((w:any) =>w.user_id !==action.payload)
+                  
+            }        
             default: return state;
     }
     

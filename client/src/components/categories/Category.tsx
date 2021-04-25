@@ -32,7 +32,7 @@ console.log("PROPS",props)
 
   const handleClick = (e: any) => {
     e.preventDefault();
-    dispatch(addWishlist(categ.name, categ.images, categ.id, idUser?.userId[0]?.id))
+    dispatch(addWishlist(categ.id, idUser?.userId[0]?.id))
     setIsModalVisible(true);
   }
   const session = supabase.auth.session();
@@ -49,7 +49,7 @@ console.log("PROPS",props)
 
       <div className={num % 2 == 1 ? "newCategory_Container": "newCategory_Container2"}>
 
-        <img className="newImageCategory" src={categ.images[0]} />
+        <img className="newImageCategory" src={categ.images[0]} alt="IMG NOT FOUND" />
 
         <div className="newDescription">
 

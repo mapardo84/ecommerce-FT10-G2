@@ -18,6 +18,8 @@ import { CategoriesLayout } from "../Admin/components/CategoriesLayout";
 import { TypesLayout } from "../Admin/components/TypesLayout";
 import { UsersLayout } from "../Admin/components/UsersLayout";
 import Wishlist from "../components/WishList/Wishlist";
+import {WishlistLayout} from "../components/layout/WishlistLayout";
+import ResetPasswordLayout from "../components/layout/ResetPasswordLayout";
 import { MyBookingsLayout } from "../components/layout/MyBookingsLayout";
 import { MyProfileLayout } from "../components/layout/MyProfileLayout";
 import { SearchBooking } from "../Admin/components/SearchBar/SearchBar";
@@ -25,7 +27,6 @@ import { CheckinLayout } from '../Admin/components/CheckinLayout';
 import {PaxesLayout} from '../Admin/components/PaxesLayout';
 import { BookingsLayout } from "../Admin/components/BookingsLayout";
 import {DiscountsLayout} from "../Admin/components/DiscountsLayout"
-import ResetPasswordLayout from "../components/layout/ResetPasswordLayout";
 import { SuccessLayout } from "../components/layout/SuccesLayout";
 
 //ACA VAN TODAS LAS RUTAS
@@ -43,7 +44,7 @@ export const AppRouter = () => {
           <Route exact path="/faq" component={FaqLayout} />
           <Route exact path="/myProfile" component={MyProfileLayout} />
           <Route exact path="/myBookings" component={MyBookingsLayout} />
-          <Route exact path="/wishlist" component={Wishlist} />
+          <Route exact path="/wishlist" component={WishlistLayout} />
 
           {/* Parte administrativa */}
           <Route exact path="/admin" component={Plantilla} />
