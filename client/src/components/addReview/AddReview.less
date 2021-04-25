@@ -1,12 +1,69 @@
-.addReviewRate{
-
+.formAddReview{
+    width: 100vw;
     display: flex;
+    flex-direction: column;
     align-items: center;
-    text-align: center;
-    justify-content: center;
-    margin-top: -20px;
-    margin-bottom: 20px;
-    max-width: 63%;
-    
 }
 
+.textAreaReview{
+    outline: none !important;
+    width: 700px !important;
+    height: 100px !important;
+    padding: 25px !important;
+    background-color: white !important;
+    border-radius: 5px !important;
+    resize: none !important;
+    box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.027);
+}
+
+
+.addReviewRow{
+    width: 700px;
+    display: flex;
+    justify-content: space-around !important;
+    display: flex;
+    height: 40px;
+}
+
+.addRateReview{
+    background-color: white;
+    padding-bottom: 6.4px;
+    padding-top: 6.4px;
+    padding-right: 15px;
+    padding-left: 15px;
+    display: flex;
+    align-items: center;
+    border-radius: 5px;
+    margin-right: 40px;
+    box-shadow: 0 5px 10px 0 rgba(0, 0, 0, 0.048);
+}
+
+@media only screen and (max-width: 860px) {
+    .textAreaReview{
+        width: 550px !important;
+    }
+    
+    .addReviewRow{
+        width: 550px;
+    }
+}
+
+@media only screen and (max-width: 620px) {
+    .textAreaReview{
+        width: 430px !important;
+    }
+    
+    .addReviewRow{
+        width: 430px;
+    }
+}   
+
+@media only screen and (max-width: 450px) {
+    .textAreaReview{
+        width: 356px !important;
+    }
+    
+    .addReviewRow{
+        width: 356px;
+    }
+}

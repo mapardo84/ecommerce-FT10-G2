@@ -1,9 +1,9 @@
-@import url("https://fonts.googleapis.com/css2?family=Merriweather:ital,wght@0,300;1,300&display=swap%27");
+ @import url("https://fonts.googleapis.com/css2?family=Merriweather:ital,wght@0,300;1,300&display=swap%27");
 @import url("https://fonts.googleapis.com/css2?family=Montserrat:wght@500&display=swap%27");
 
-.headd {
+.NavBarLayout{
   position: fixed;
-  width: 100%;
+  width: 100vw;
   left: 0;
   top: 0;
   height: 90px;
@@ -12,7 +12,21 @@
   box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.301) !important;
   display: flex;
   justify-content: space-between;
+  z-index: 900;
 }
+
+.ant-dropdown-menu{
+  position: relative  !important;
+}
+
+// .DropNavButton{
+//   position: fixed !important;
+// }
+
+.navTitleRes{
+   display: none;
+}
+
 .navLoginButton {
   margin-bottom: 1.7px;
   margin-right: 18px;
@@ -22,6 +36,12 @@
   align-items: center;
   width: 100vw;
   height: 100%;
+}
+
+.headerNav{
+  justify-content: space-around;
+  align-content: center;
+  align-items: center;
 }
 
 .navLeft {
@@ -37,7 +57,7 @@
 }
 
 .imagen {
-  height: 60px;
+  height: 70px;
   margin-right: 20px;
 }
 
@@ -78,7 +98,6 @@
 }
 
 .navButton {
-  // display: block;
   background-color: #5296a5 !important;
   color: #ffff !important;
   font-size: 18px !important;
@@ -110,4 +129,142 @@
   padding: 15px !important;
   padding-left: 10px !important;
   padding-right: 10px !important;
+}
+
+
+
+.navBarMenu{
+  display: contents;
+}
+.navResponsiveMenu{
+  display: none;
+}
+
+
+.authenticationResponsive{
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+@media only screen and (max-width: 700px) {
+
+  .NavBarLayout{
+    z-index: 900;
+    display: grid;
+    height: 75px !important;
+    grid-template-columns: 1fr 1fr 1fr;
+    grid-template-areas: 
+    ". imagen1 menu" 
+  }
+
+  .navImageContainer{
+    grid-area: imagen1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+
+  .navButton {
+    background-color: #2e323300 !important;
+    color: rgb(0, 0, 0) !important;
+    font-size: 18px !important;
+    margin-right: 10px;
+  }
+
+    
+  .imagen {
+    height: 55px;
+    margin-right: 0px;
+
+  }
+
+  .navDrawerContent{
+    background-color: rgb(247, 247, 247);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
+  }
+
+  .navDrawerContent a{
+    margin-top: 1vh;
+  }
+  
+  .navBarMenu{
+    display: none;
+  }
+
+  .navResponsiveMenu{
+    display: contents;
+
+  }
+  .navTitleRes{
+    display: contents;
+    color: white;
+    font-size: 23px;
+ }
+  .headerNav{ 
+    justify-content: flex-end;
+  }
+
+  .navButtonMenu {
+    grid-area: menu;
+    font-size: 18px !important;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    height: 75px !important;
+    margin-right: 10px;
+  }
+}
+
+
+@media only screen and (min-width: 701px)  and (max-width: 1000px) {
+
+  .NavBarLayout{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    z-index: 900;
+     padding-left: 25px;
+    padding-right: 10px;
+  }
+
+  .navButton {
+    background-color: #2e323300 !important;
+    color: rgb(0, 0, 0) !important;
+    font-size: 18px !important;
+    margin-right: 10px;
+  }
+
+  .imagen {
+    height: 65px;
+    margin-right: 20px;
+    text-align: center;
+    // margin-left: 35vw;
+  }
+
+  .navDrawerContent{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
+  }
+  
+  .navBarMenu{
+    display: none;
+  }
+  .navResponsiveMenu{
+    display: contents;
+  }
+  .navTitleRes{
+    display: contents;
+    color: white;
+    font-size: 23px;
+ }
+  .headerNav{ 
+    justify-content: flex-end;
+  }
 }

@@ -257,7 +257,7 @@ export const Users = () => {
                                 if (e.length > 3 && e !== fields[0].value) {
                                     const q = await checkUuid(e)
                                     if (q === "existe") {
-                                        return Promise.reject(new Error('ID already registered'));
+                                        return Promise.reject(new Error('UUID already registered'));
                                     }
                                 }
                             },

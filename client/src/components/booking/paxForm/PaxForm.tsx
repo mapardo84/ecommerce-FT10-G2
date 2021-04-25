@@ -1,14 +1,42 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 //import 'antd/dist/antd.css';
 import { Form, Input, Cascader, Select, DatePicker, Checkbox, Button, Switch } from 'antd';
 import { sendPax } from '../../../actions/Booking/PaxFormActions';
-import '../paxForm/PaxForm.less'
-import { PaymentBooking } from '../paymentBooking/PaymentBooking';
-import { stepChange } from '../../../actions/Booking/bookingAction';
-import { useDispatch } from 'react-redux';
-const { Option } = Select;
+import './PaxForm.less'
+import { getPax, stepChange } from '../../../actions/Booking/bookingAction';
+import { useDispatch, useSelector } from 'react-redux';
+import { MercadoPago } from '../../MercadoPago/MercagoPago';
+import { supabase } from '../../../SupaBase/conection'
+import Modal from 'antd/lib/modal/Modal';
+import { Pre_booking } from '../../Pre_booking/Pre_booking';
+import countries from 'countries-list'
 
-const residences = [
+const { Option } = Select;
+export const prefixSelector = (
+    <Form.Item name="prefix" noStyle>
+        <Select
+            style={{
+                width: 70,
+            }}
+        >
+            <Option value="86">+86</Option>
+            <Option value="87">+87</Option>
+            <Option value="54">+54</Option>
+            <Option value="1">+1</Option>
+        </Select>
+    </Form.Item>
+);
+
+
+const paises: any = countries.countries
+const countryCodes: string[] = Object.keys(paises);
+const countryUnsortedNames: string[] = countryCodes.map(
+    (code: string) => paises[code].name
+);
+
+const mapeo = countryUnsortedNames.map((e: any) => ({ value: e, label: e }))
+
+export const residences = [
     {
         value: 'zhejiang',
         label: 'Zhejiang',
@@ -63,52 +91,198 @@ export interface PaxValues {
     first_name: string,
     last_name: string,
     uuid: string,
-    birth_date: string,
+    birth_date: Date,
     address: string,
     phone: string,
-    country: String[],
-    titular: boolean
-
+    country: string
 }
+
+
 
 export function PaxForm() {
     const [form] = Form.useForm();
     const dispatch = useDispatch();
-    const handleClickBack = (e:any) => {
+
+    const { pax_data, loading } = useSelector((state: any) => state.bookings); //pax_data
+    const { user_data } = useSelector((state: any) => state.pre_booking);
+
+
+    const [uuid_match, setUuid_match] = useState(false)     //searchbar pax
+
+    const [setInfo, setSetInfo] = useState(false)
+
+
+    const bookings = useSelector((state: any) => state?.bookings)
+    const { booking } = bookings
+
+    const [mp, setMp] = useState<any>(false)
+    const [mpModal, setMpModal] = useState<any>(false)
+
+
+    useEffect(() => {
+    }, [pax_data])
+
+
+
+
+
+    const handleClickBack = (e: any) => {
         e.preventDefault();
+        localStorage.removeItem("Accomodation")
+        setMp(false)
+        setSetInfo(false)
         dispatch(stepChange(1));
-    } 
+    }
     const onFinish = (values: PaxValues) => {
         console.log('Received values of form: ', values);
         sendPax(values)
     };
 
-    const prefixSelector = (
-        <Form.Item name="prefix" noStyle>
-            <Select
-                style={{
-                    width: 70,
-                }}
-            >
-                <Option value="86">+86</Option>
-                <Option value="87">+87</Option>
-                <Option value="54">+54</Option>
-                <Option value="1">+1</Option>
-            </Select>
-        </Form.Item>
-    );
+
+
+    const onChange = async (value: any, allvalues: any) => {
+
+        console.log(booking)
+        for (let i in allvalues) {
+            if (!allvalues[i]) {
+                return setMp(false)
+            } else {
+                continue
+            }
+        }
+        const { uuid, first_name, last_name, phone, country, address, birth_date } = allvalues
+
+
+        let bookingInfo = {
+            checkin: booking.range[0],
+            checkout: booking.range[1],
+            category: booking.category[0].category.name,
+            type: booking.category[0].type.name,
+            nights: booking.nights,
+            unit_price: booking.fee,
+            room_id: booking.room_id,
+            uuid,
+            first_name,
+            last_name,
+            paxes: booking.guests,
+            phone,
+            country,
+            birth_date,
+            address,
+        }
+        await localStorage.setItem("BookingInfo", JSON.stringify(bookingInfo))
+        if (supabase.auth.user()) {
+            setMp(true)
+        }
+    }
+
+
+    const confirm_pax = (modal: string) => {
+        console.log(user_data)
+        let bookingInfo = {
+            checkin: booking.range[0],
+            checkout: booking.range[1],
+            category: booking.category[0].category.name,
+            type: booking.category[0].type.name,
+            nights: booking.nights,
+            unit_price: booking.fee,
+            room_id: booking.room_id,
+            uuid: pax_data.uuid,
+            first_name: pax_data.first_name,
+            last_name: pax_data.last_name,
+            paxes: booking.guests,
+            phone: pax_data.phone,
+            country: pax_data.country,
+            birth_date: pax_data.birth_date,
+            address: pax_data.address,
+            positive_balance: user_data.positive_balance
+        }
+        localStorage.setItem("BookingInfo", JSON.stringify(bookingInfo))
+        modal === "modal" ? setMpModal(true) : setMp(true)
+
+    }
+
+    const [visible, setvisible] = useState(false)
 
     return (
-        <div className='paxForm_container'>
-            <Button onClick={handleClickBack}>Go back</Button>
-            <div className='form'>
-                <div className='paxForm_TitleGuest'>
-                    <h3>Guest Information</h3>
+        <div className='paxForm_containerPayment'>
+
+
+
+            <div className="leftContainerPayment">
+                <div className="backButtonPayment">
+                    <Button size="large" onClick={handleClickBack} type="primary" >
+                        BACK
+               </Button>
                 </div>
+
+
+                <div className="formBookingSearch">
+                    <div>
+                        <h1 className="Login">IDENTIFICATION</h1>
+                        <div className="searchPaymentText">If you have an account, please enter your identification.</div>
+                        <Form>
+                            <Form.Item>
+                                <Input.Search
+                                    placeholder="Identification"
+                                    width="120px"
+                                    onSearch={(value, event) => {
+                                        setSetInfo(true)
+                                        setMp(false)
+                                        dispatch(getPax(value))
+                                        setvisible(true)
+                                    }}>
+                                </Input.Search>
+                            </Form.Item>
+                        </Form>
+                    </div>
+
+                </div>
+                <div>
+                    <Pre_booking type={1} />
+                </div>
+            </div>
+
+            <div>
+                <Modal
+                    visible={visible}
+                    width={450}
+                    destroyOnClose={true}
+                    onCancel={() => {
+                        setvisible(false)
+                    }}
+                >
+                    {
+                        loading ?
+                            <div>
+                                Loading...
+                                </div>
+                            :
+                            pax_data && setInfo ?
+                                <ul>
+                                    <div>First name : {pax_data.first_name}</div>
+                                    <div>Last name : {pax_data.last_name}</div>
+                                    <div>Uuid : {pax_data.uuid}</div>
+                                    <div>Country : {pax_data.country}</div>
+                                    <Button onClick={() => confirm_pax("modal")}>Confirm</Button>
+                                    {mpModal ? <MercadoPago /> : null}
+                                </ul>
+                                :
+                                <div>No hay nada</div>
+                    }
+
+                </Modal>
+
+            </div>
+            <div className='formBookingPayment'>
+                <h1 className="Login">GUEST INFORMATION</h1>
+                <div className="searchPaymentText2">If you don't have an account, please fill this form</div>
+
                 <Form
                     {...formItemLayout}
                     form={form}
                     name="register"
+                    onValuesChange={onChange}
                     onFinish={onFinish}
                     initialValues={{
                         country: ['United States'],
@@ -122,7 +296,6 @@ export function PaxForm() {
 
                     <Form.Item
                         name="first_name"
-                        label="Name"
                         rules={[
                             {
                                 required: true,
@@ -131,12 +304,11 @@ export function PaxForm() {
                             },
                         ]}
                     >
-                        <Input className='paxForm_input' />
+                        <Input placeholder="Name" className='paxForm_input' />
                     </Form.Item>
 
                     <Form.Item
                         name="last_name"
-                        label="Last Name"
                         rules={[
                             {
                                 required: true,
@@ -145,12 +317,11 @@ export function PaxForm() {
                             },
                         ]}
                     >
-                        <Input className='paxForm_input' />
+                        <Input placeholder="Last Name" className='paxForm_input' />
                     </Form.Item>
 
                     <Form.Item
                         name="birth_date"
-                        label="Birth Date"
                         rules={[
                             {
                                 // type: 'string',
@@ -159,12 +330,11 @@ export function PaxForm() {
                             },
                         ]}
                     >
-                        <DatePicker />
+                        <DatePicker className="datePickerBirthday" placeholder="Bithday" />
                     </Form.Item>
 
                     <Form.Item
                         name="uuid"
-                        label="DNI"
                         rules={[
                             {
                                 required: true,
@@ -173,12 +343,11 @@ export function PaxForm() {
                             },
                         ]}
                     >
-                        <Input className='paxForm_input' />
+                        <Input placeholder="Identification" className='paxForm_input' />
                     </Form.Item>
 
                     <Form.Item
                         name="country"
-                        label="Country"
                         rules={[
                             {
                                 type: 'array',
@@ -187,12 +356,11 @@ export function PaxForm() {
                             },
                         ]}
                     >
-                        <Cascader options={residences} className='paxForm_input' />
+                        <Cascader placeholder="Country" options={residences} className='paxForm_input' />
                     </Form.Item>
 
                     <Form.Item
                         name="address"
-                        label="Address"
                         rules={[
                             {
                                 required: true,
@@ -201,12 +369,11 @@ export function PaxForm() {
                             },
                         ]}
                     >
-                        <Input className='paxForm_input' />
+                        <Input placeholder="Address" className='paxForm_input' />
                     </Form.Item>
 
                     <Form.Item
                         name="phone"
-                        label="Phone Number"
                         rules={[
                             {
                                 type: "string",
@@ -216,22 +383,12 @@ export function PaxForm() {
                         ]}
                     >
                         <Input
+                            placeholder="Phone Number"
                             addonBefore={prefixSelector}
                             style={{
                                 width: '100%',
                             }}
                             className='paxForm_input'
-                        />
-                    </Form.Item>
-
-
-                    <Form.Item
-                        name='titular'
-                        label='Titular'
-                    >
-                        <Switch
-                            defaultChecked={true}
-                            checked={true}
                         />
                     </Form.Item>
 
@@ -250,18 +407,10 @@ export function PaxForm() {
                             I have read the <a href="https://memegenerator.net/img/instances/64451727/i-believe-we-have-an-agreement.jpg">agreement</a>  {/* hacer modal con foto*/}
                         </Checkbox>
                     </Form.Item>
+                    {mp ? <MercadoPago /> : null}
 
-                    <Form.Item {...tailFormItemLayout}>
-                        <Button type="primary" htmlType="submit">
-                            CONFIRM BOOKING
-                </Button>
-                    </Form.Item>
 
                 </Form>
-            </div>
-
-            <div>
-                <PaymentBooking />
             </div>
         </div>
     );

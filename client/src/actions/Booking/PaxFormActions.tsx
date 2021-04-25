@@ -11,10 +11,10 @@ export const sendPax = async (value: PaxValues) => {
             phone,
             country: country[0],
             birth_date: birth_date,
-            address,
-            titular: true,                              // esto no sirve si es admin 
+            address,                            // esto no sirve si es admin 
         }
     ])
     console.log(`Se ha guardado el pax ${data}`);
 }
+
 

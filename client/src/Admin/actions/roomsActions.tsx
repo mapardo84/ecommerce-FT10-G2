@@ -22,6 +22,7 @@ const success = (mensaje: string) => {
 };
 
 export const getAllRooms = () => {
+    
     return async (dispatch: Dispatch<any>) => {
         try {
             const { data, error } = await supabase.from('rooms').select('*,categories(name)')
@@ -120,6 +121,29 @@ export const addRoom = (newData: any) => {
         }
     }
 }
+
+export const changeRoomAvailable = (roomId: number)=>{
+    return async (dispatch: Dispatch<any>) => {
+        try {
+            const { data , error } = await supabase
+                .from('rooms')
+                .update({
+                    availability: 'available'
+                })
+                .eq('id', roomId)
+            if (!error) {
+                success('Cleaning success')
+                dispatch(updatedRoom(data))
+            } else {
+                errorMsg(JSON.stringify(error))
+            }
+        } catch (err) {
+            errorMsg("Internal server error. Try again")
+        }
+    }
+}
+    
+
 
 
 const saveRooms = (data: any) => ({
