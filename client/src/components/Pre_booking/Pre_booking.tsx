@@ -1,4 +1,5 @@
-import { Affix, Collapse } from 'antd'
+import { CalendarOutlined, UserOutlined } from '@ant-design/icons'
+import { Affix, Collapse, Divider } from 'antd'
 import { BADFLAGS } from 'node:dns'
 import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
@@ -57,33 +58,32 @@ export const Pre_booking = (type: any) => {
 
         return (
             <>
-                <div className="prueba1243">
+                <div className="containerBookingData">
                     <Affix offsetTop={100}>
                         <Collapse style={{ backgroundColor: "#5296a5", color: "white" }}>
                             <Panel style={{ color: "white" }} header="My booking" key="1">
                                 <div style={{ display: "flex", flexDirection: "column" }}>
-                                    {local_Guests ? <span><strong>Checkin:</strong> {local_Guests.in_out[0]}</span> : null}
-                                    {local_Guests ? <span><strong>Checkout:</strong> {local_Guests.in_out[1]}</span> : null}
+                                    {local_Guests ? <span><strong>Check-in:</strong> {local_Guests.in_out[0]}</span> : null}
+                                    {local_Guests ? <span><strong>Check-out:</strong> {local_Guests.in_out[1]}</span> : null}
                                     {local_Guests ? <span><strong>Guests:</strong>  {local_Guests.paxes}</span> : null}
                                     {local_Guests ? <span><strong>Nights:</strong> {local_Guests.nights}</span> : null}
-                                    <strong>Category & Type : </strong>{local_Rooms ? <span>{local_Rooms?.category_type.category.name} - {local_Rooms.category_type.type.name}</span> : null}
+                                    <span><strong>Category & Type : </strong>{local_Rooms ? <span>{local_Rooms?.category_type.category.name} - {local_Rooms.category_type.type.name}</span> : null}</span>
 
-                                    {local_Guests?.early_check ?
-                                        <span>
-                                            <strong> Early check-in : </strong><span> ${local_Rooms?.total_price ? local_Rooms.total_price / 2 : null}</span>
-                                        </span> : null}
+                                    <span>
+                                        {local_Guests?.early_check ?
+                                            <span><strong> Early check-in : </strong><span> ${local_Rooms?.total_price ? local_Rooms.total_price / 2 : null}</span></span> : null}
+                                    </span>
 
-                                    {local_Guests?.late_check ?
-                                        <span>
-                                            <strong>Late check-out : </strong><span> ${local_Rooms?.total_price ? local_Rooms.total_price / 2 : null}</span>
-                                        </span> : null}
-                                    <strong>Late check-out : </strong><span> ${local_Rooms?.total_price ? local_Rooms.total_price / 2 : null}</span>
+                                    <span>
+                                        {local_Guests?.late_check ?
+                                            <span><strong>Late check-out : </strong><span> ${local_Rooms?.total_price ? local_Rooms.total_price / 2 : null}</span> </span> : null}
+                                    </span>
 
-                                    <strong>Unit Price : </strong>{local_Rooms ? <span>{local_Rooms.total_price}</span> : <span>Seleccionando...</span>}
+                                    <span><strong>Unit Price : </strong>{local_Rooms ? <span>{local_Rooms.total_price}</span> : <span>Seleccionando...</span>}</span>
 
-                                    <strong>Positive Balance :</strong>{balance}
+                                    <span><strong>Positive Balance :</strong>{balance}</span>
 
-                                    <strong>Total Price : </strong>{local_Rooms ? <span>{total_price}</span> : null}
+                                    <span><strong>Total Price : </strong>{local_Rooms ? <span>{total_price}</span> : null}</span>
 
                                 </div>
                             </Panel>
@@ -98,28 +98,46 @@ export const Pre_booking = (type: any) => {
     } else {
         return (
             <div className="bookingPaymentContainer" >
-                <h1 className="Login">MY BOOKINGS</h1>
-                {local_Guests ? <span><strong>Check-in:</strong> {local_Guests.in_out[0]}</span> : null}
-                {local_Guests ? <span><strong>Check-out:</strong> {local_Guests.in_out[1]}</span> : null}
-                {local_Guests ? <span><strong>Guests:</strong>  {local_Guests.paxes}</span> : null}
-                {local_Guests ? <span><strong>Nights:</strong> {local_Guests.nights}</span> : null}
-                <span><strong>Category & Type : </strong>{local_Rooms ? <span>{local_Rooms?.category_type.category.name} - {local_Rooms.category_type.type.name}</span> : null}</span>
+                <h1 className="Login">MY BOOKING</h1>
+                <Divider className="dividerBookingCard">Date</Divider>
 
-                <span>
-                    {local_Guests?.early_check ?
-                        <span><strong> Early check-in : </strong><span> ${local_Rooms?.total_price ? local_Rooms.total_price / 2 : null}</span></span> : null}
-                </span>
+                <div className="row1ContainerPayment">
+                    {local_Guests ? <span><strong>Check-in:</strong> {local_Guests.in_out[0]}</span> : null}
+                    {local_Guests ? <span><strong>Check-out:</strong> {local_Guests.in_out[1]}</span> : null}
+                </div>
 
-                <span>
-                    {local_Guests?.late_check ?
-                        <span><strong>Late check-out : </strong><span> ${local_Rooms?.total_price ? local_Rooms.total_price / 2 : null}</span> </span> : null}
-                </span>
+                <Divider className="dividerBookingCard">Info</Divider>
 
-                <span><strong>Unit Price : </strong>{local_Rooms ? <span>{local_Rooms.total_price}</span> : <span>Seleccionando...</span>}</span>
+                <div className="row2ContainerPayment">
+                    {local_Guests ? <span className=""><UserOutlined /><strong> Guests:</strong>  {local_Guests.paxes}</span> : null}
+                    {local_Guests ? <span><CalendarOutlined /><strong> Nights:</strong> {local_Guests.nights}</span> : null}
+                </div>
 
-                <span><strong>Positive Balance :</strong>{balance}</span>
+                <Divider className="dividerBookingCard">Accommodation</Divider>
+                <div className="row3ContainerPayment" >
+                    <span><strong>Category & Type   : </strong>{local_Rooms ? <span>{local_Rooms?.category_type.category.name} - {local_Rooms.category_type.type.name}</span> : null}</span>
 
-                <span><strong>Total Price : </strong>{local_Rooms ? <span>{total_price}</span> : null}</span>
+                    <span>
+                        {local_Guests?.early_check ?
+                            <span><strong> Early check-in: </strong><span> ${local_Rooms?.total_price ? local_Rooms.total_price / 2 : null}</span></span> : null}
+                    </span>
+
+                    <span>
+                        {local_Guests?.late_check ?
+                            <span><strong>Late check-out: </strong><span> ${local_Rooms?.total_price ? local_Rooms.total_price / 2 : null}</span> </span> : null}
+                    </span>
+                </div>
+
+                <Divider className="dividerBookingCard">Payment</Divider>
+
+                <div className="row4ContainerPayment">
+                    <span><strong>Positive Balance: </strong>${balance}</span>
+                    <span><strong>Unit Price: </strong>{local_Rooms ? <span>${local_Rooms.total_price}</span> : null}</span>
+                </div>
+                <br />
+                <div className="row5ContainerPayment">
+                    <span><strong>Total Price: </strong>{local_Rooms ? <span>${total_price}</span> : null}</span>
+                </div>
 
             </div>
         )

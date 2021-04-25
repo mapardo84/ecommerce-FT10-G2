@@ -1,6 +1,8 @@
+import { Button } from 'antd';
 import axios from 'axios'
 import React, { useEffect, useState } from 'react'
 import { useSelector } from 'react-redux';
+import { Link } from 'react-router-dom';
 import { bookingsReducer } from '../../reducers/bookingsReducer';
 import { supabase } from '../../SupaBase/conection';
 
@@ -13,8 +15,8 @@ export const MercadoPago = (props: any) => {
   const bookings = useSelector((state: any) => state?.bookings)
   const { booking } = bookings
   console.log(booking)
-  const original_price=booking.fee
-  
+  const original_price = booking.fee
+
 
 
 
@@ -40,11 +42,11 @@ export const MercadoPago = (props: any) => {
 
 
         supabase
-        .from("pre_booking")
-        .update({
-          preference_id: `${res}`,
-        })
-        .eq("user_email",`${data.email}`).then(res => console.log(res))
+          .from("pre_booking")
+          .update({
+            preference_id: `${res}`,
+          })
+          .eq("user_email", `${data.email}`).then(res => console.log(res))
       })
 
       .catch(e => console.log("hola"))
@@ -64,6 +66,7 @@ export const MercadoPago = (props: any) => {
     }
   }, [preferenceId]);
 
+  const [bookingNow, setBookingNow] = useState(false)
 
   //     const {data:room,error}:any= await supabase // Get a  una categoria random pa probar
   //     .from("categories")
@@ -85,8 +88,14 @@ export const MercadoPago = (props: any) => {
   //         .catch((e:any)=>console.log(e))
 
 
+
   return (
-    <form style={{ display: "flex", justifyContent: "center" }} id={FORM_ID} method="GET" />
+    <>
+      {bookingNow ?
+        <Link to="/booking/success"><Button> Book Now </Button></Link> : null}
+      <form style={{ display: "flex", justifyContent: "center" }} id={FORM_ID} method="GET" />
+    </>
   )
+
 
 }

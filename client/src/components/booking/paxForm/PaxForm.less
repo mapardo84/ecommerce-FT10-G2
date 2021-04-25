@@ -4,7 +4,7 @@
 }
 
 .paxForm_input{
-    width: 100% !important;
+    width: 100% ;
 }
 
 
@@ -16,17 +16,18 @@
 //----
 .paxForm_containerPayment{
     margin-top: 100px;
-    display: flex !important;
-    justify-content: center !important;
+    display: flex ;
+    justify-content: center ;
     margin-bottom: 50px;
     width: 100vw;
 }
 
 .backButtonPayment{
-    position: absolute !important;
-    left: 20px;
-    top: 180px;
-
+    // position: absolute ;
+    // left: 19.3vw;
+    // top: 180px;
+    margin-top: -60px;
+    margin-bottom: 20px;
 }
 
 .paxForm_input{
@@ -41,11 +42,11 @@
 //form search
 .formBookingSearch{
     background-color: white;
-    padding: 30px;
-    margin-top: 40px;
-    // margin-bottom: 80px;
+    padding: 20px;
+    margin-top: 0;
     border-radius: 15px;
     box-shadow: 0 8px 10px 0 rgba(0, 0, 0, 0.055);
+    margin-bottom: 20px;
 }
 
 .searchPaymentText{
@@ -54,11 +55,19 @@
     color: rgb(82, 82, 82);
     font-weight: 500;
     margin-bottom: 20px;
-  
 }
 
+.searchPaymentText2{
+    font-size: 15px;
+    color: rgb(82, 82, 82);
+    font-weight: 500;
+    margin-top: 15px;
+    margin-bottom: 50px;
+}
+
+
 .leftContainerPayment{
-    margin-right: 100px !important;
+    margin-right: 100px ;
 }
 
 
@@ -71,22 +80,18 @@
     box-shadow: 0 10px 15px 0 rgba(0, 0, 0, 0.089);
 }
 
-
-
-
-//---
 .ant-cascader-menu{
-    width: 550px !important;
-    text-align: center !important;
-    height: 100px !important;
+    width: 550px ;
+    text-align: center ;
+    height: 100px ;
 }
 
 @media only screen and (max-width: 1200px) {
 
     .paxForm_containerPayment{
         margin-top: 50px;
-        display: flex !important;
-        flex-direction: column !important;
+        display: flex ;
+        flex-direction: column ;
         margin-bottom: 50px;
         margin-left: 10vw;
         margin-right: 10vw;
@@ -94,7 +99,7 @@
     }
 
     .leftContainerPayment{
-        margin-right: 0px !important;
+        margin-right: 0px ;
         margin-top: 50px;
         margin-bottom: 30px;
     }
@@ -121,13 +126,25 @@
 }
 
 
+@media only screen and (max-width: 770px) {
+
+    .paxForm_input{
+        width: 350px !important;
+    }
+
+    .datePickerBirthday{
+        width: 350px !important;
+    }
+}
+
+
 
 @media only screen and (max-width: 500px) {
 
     .paxForm_containerPayment{
         margin-top: 50px;
-        display: flex !important;
-        flex-direction: column !important;
+        display: flex ;
+        flex-direction: column ;
         margin-bottom: 50px;
         margin-left: 1vh;
         margin-right: 1vh;
@@ -135,7 +152,7 @@
     }
 
     .leftContainerPayment{
-        margin-right: 0px !important;
+        margin-right: 0px ;
         margin-top: 50px;
         margin-bottom: 30px;
     }
@@ -160,11 +177,11 @@
     }
 
     .paxForm_input{
-        width: 300px !important;
+        width: 330px !important;
     }
 
     .datePickerBirthday{
-        width: 300px !important;
+        width: 330px !important;
     }
 
 }

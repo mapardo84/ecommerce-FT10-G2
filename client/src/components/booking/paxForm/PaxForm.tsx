@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 //import 'antd/dist/antd.css';
 import { Form, Input, Cascader, Select, DatePicker, Checkbox, Button, Switch } from 'antd';
 import { sendPax } from '../../../actions/Booking/PaxFormActions';
-import '../paxForm/PaxForm.less'
+import './PaxForm.less'
 import { getPax, stepChange } from '../../../actions/Booking/bookingAction';
 import { useDispatch, useSelector } from 'react-redux';
 import { MercadoPago } from '../../MercadoPago/MercagoPago';
@@ -170,16 +170,14 @@ export function PaxForm() {
         <div className='paxForm_containerPayment'>
 
 
-            <div className="backButtonPayment">
-                <Button size="large" onClick={handleClickBack} type="primary" >
-                    BACK
-            </Button>
-            </div>
 
             <div className="leftContainerPayment">
-                <div>
-                    <Pre_booking type={1} />
+                <div className="backButtonPayment">
+                    <Button size="large" onClick={handleClickBack} type="primary" >
+                        BACK
+               </Button>
                 </div>
+
 
                 <div className="formBookingSearch">
                     <div>
@@ -202,6 +200,9 @@ export function PaxForm() {
                     </div>
 
                 </div>
+                <div>
+                    <Pre_booking type={1} />
+                </div>
             </div>
 
             <div>
@@ -219,9 +220,10 @@ export function PaxForm() {
                             <div>Last name : {pax_data.last_name}</div>
                             <div>Uuid : {pax_data.uuid}</div>
                             <div>Country : {pax_data.country}</div>
+                            <Button onClick={() => setMp(true)}>Confirm</Button>
+                            {console.log("MP", mp)}
+                            {mp ? <MercadoPago /> : null}
                         </ul>
-                        <Button onClick={() => setMp(true)}>Confirm</Button>
-                        {mp ? <MercadoPago /> : null}
                     </Modal>
                 }
 
@@ -247,7 +249,7 @@ export function PaxForm() {
 
             <div className='formBookingPayment'>
                 <h1 className="Login">GUEST INFORMATION</h1>
-                <div className="searchPaymentText">If you don't have an account, please fill this form</div>
+                <div className="searchPaymentText2">If you don't have an account, please fill this form</div>
 
                 <Form
                     {...formItemLayout}
