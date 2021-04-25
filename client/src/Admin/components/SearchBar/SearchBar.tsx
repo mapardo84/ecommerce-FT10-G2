@@ -72,7 +72,7 @@ export const SearchBooking = () => {
 
     const options = [
         {
-            label: renderTitle('By Pax'),
+            label: renderTitle('By Pax UUID'),
             options: mapeoByPaxUUID(bookingStore?.byLastUuid)?mapeoByPaxUUID(bookingStore?.byLastUuid):[],
         },
         {

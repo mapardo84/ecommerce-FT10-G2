@@ -177,10 +177,10 @@ export const Bookings = () => {
         render: (_: undefined, record: { booking_id: number }) =>
           storeBooking?.bookings.length >= 1 ? (
             <>
-              <Tooltip title="Delete">
+              <Tooltip title="Cancel">
                 <Popconfirm
                   placement="left"
-                  title="Sure to delete?"
+                  title="Sure to cancel?"
                   onConfirm={() => handleActive(record.booking_id)}
                 >
                   <span>
@@ -188,7 +188,7 @@ export const Bookings = () => {
                     <AiFillCloseCircle size="18" color="red" />
                   </span>
                 </Popconfirm>
-              </Tooltip>
+              </Tooltip> 
             </>
           ) : null,
       },
