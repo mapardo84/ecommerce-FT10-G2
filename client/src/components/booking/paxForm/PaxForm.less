@@ -14,12 +14,12 @@
 
 
 //----
-.paxForm_container{
-    margin-top: 50px;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
+.paxForm_containerPayment{
+    margin-top: 100px;
+    display: flex !important;
+    justify-content: center !important;
     margin-bottom: 50px;
+    width: 100vw;
 }
 
 .backButtonPayment{
@@ -33,12 +33,17 @@
     width: 550px !important;
 }
 
+.datePickerBirthday{
+    width: 550px !important;
+}
+
 
 //form search
 .formBookingSearch{
     background-color: white;
     padding: 30px;
-    margin-bottom: 30px;
+    margin-top: 40px;
+    // margin-bottom: 80px;
     border-radius: 15px;
     box-shadow: 0 8px 10px 0 rgba(0, 0, 0, 0.055);
 }
@@ -48,7 +53,12 @@
     margin-bottom: 10px;
     color: rgb(82, 82, 82);
     font-weight: 500;
+    margin-bottom: 20px;
   
+}
+
+.leftContainerPayment{
+    margin-right: 100px !important;
 }
 
 
@@ -71,3 +81,90 @@
     height: 100px !important;
 }
 
+@media only screen and (max-width: 1200px) {
+
+    .paxForm_containerPayment{
+        margin-top: 50px;
+        display: flex !important;
+        flex-direction: column !important;
+        margin-bottom: 50px;
+        margin-left: 10vw;
+        margin-right: 10vw;
+        width: auto;
+    }
+
+    .leftContainerPayment{
+        margin-right: 0px !important;
+        margin-top: 50px;
+        margin-bottom: 30px;
+    }
+
+    .formBookingPayment{
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        background-color: white;
+        padding: 30px;
+        border-radius: 15px;
+        box-shadow: 0 10px 15px 0 rgba(0, 0, 0, 0.089);
+    }
+
+    .formBookingSearch{
+        background-color: white;
+        // padding: 30px;
+        margin-bottom: 10px;
+        margin-top: 30px;
+        border-radius: 15px;
+        box-shadow: 0 8px 10px 0 rgba(0, 0, 0, 0.055);
+    }
+
+}
+
+
+
+@media only screen and (max-width: 500px) {
+
+    .paxForm_containerPayment{
+        margin-top: 50px;
+        display: flex !important;
+        flex-direction: column !important;
+        margin-bottom: 50px;
+        margin-left: 1vh;
+        margin-right: 1vh;
+        width: auto;
+    }
+
+    .leftContainerPayment{
+        margin-right: 0px !important;
+        margin-top: 50px;
+        margin-bottom: 30px;
+    }
+
+    .formBookingPayment{
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        background-color: white;
+        padding: 30px;
+        border-radius: 15px;
+        box-shadow: 0 10px 15px 0 rgba(0, 0, 0, 0.089);
+    }
+
+    .formBookingSearch{
+        background-color: white;
+        // padding: 30px;
+        margin-bottom: 10px;
+        margin-top: 30px;
+        border-radius: 15px;
+        box-shadow: 0 8px 10px 0 rgba(0, 0, 0, 0.055);
+    }
+
+    .paxForm_input{
+        width: 300px !important;
+    }
+
+    .datePickerBirthday{
+        width: 300px !important;
+    }
+
+}

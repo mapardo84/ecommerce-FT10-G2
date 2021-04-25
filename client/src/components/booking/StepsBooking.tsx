@@ -116,9 +116,6 @@ export const StepsBooking: FunctionComponent = () => {
     setContinueBooking(false)
   }
 
-
-
-
   return (
     <>
       <Steps
@@ -151,7 +148,7 @@ export const StepsBooking: FunctionComponent = () => {
       { selectedStep === 0 && continueBooking === false ?
         <>
           <div style={{ display: "flex", flexDirection: "row", alignItems: "center", justifyContent: "space-evenly" }}>
-            <Pre_booking />
+            <Pre_booking  type={0}/>
             <GuestsForm />
           </div>
         </>
@@ -161,7 +158,7 @@ export const StepsBooking: FunctionComponent = () => {
         <>
 
           <div style={{ display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "space-evenly" }}>
-            <Pre_booking />
+            <Pre_booking  type={0}/>
             <AccomodationsSelect />
           </div>
         </>
@@ -170,8 +167,7 @@ export const StepsBooking: FunctionComponent = () => {
 
       { selectedStep === 2 && continueBooking === false && supabase.auth.user() ?
 
-        <div style={{ display: "flex", flexDirection: "row", alignItems: "center", justifyContent: "space-evenly" }}>
-          <Pre_booking />
+        <div>
           <PaxForm />
         </div>
 

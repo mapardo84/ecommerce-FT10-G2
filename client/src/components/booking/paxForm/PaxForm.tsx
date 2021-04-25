@@ -8,6 +8,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { MercadoPago } from '../../MercadoPago/MercagoPago';
 import { supabase } from '../../../SupaBase/conection'
 import Modal from 'antd/lib/modal/Modal';
+import { Pre_booking } from '../../Pre_booking/Pre_booking';
 const { Option } = Select;
 
 const residences = [
@@ -163,15 +164,10 @@ export function PaxForm() {
         }
     }
 
-    const confirm_pax = () => {
-        console.log("va todo bomba")
-    }
-
-
-
+    const [visible, setvisible] = useState(false)
 
     return (
-        <div className='paxForm_container'>
+        <div className='paxForm_containerPayment'>
 
 
             <div className="backButtonPayment">
@@ -180,28 +176,44 @@ export function PaxForm() {
             </Button>
             </div>
 
-            <div className="formBookingSearch">
-                {/* ----------------------------------------------// */}
-                <h1 className="Login">IDENTIFICATION</h1>
-                <div className="searchPaymentText">If you have an account, please enter your identification.</div>
-                <Form>
-                    <Form.Item>
-                        <Input.Search
-                            placeholder="Identification"
-                            width="120px"
-                            onSearch={(value, event) => {
-                                setSetInfo(true)
-                                setMp(false)
-                                dispatch(getPax(value))
-                            }}>
-                        </Input.Search>
-                    </Form.Item>
-                </Form>
+            <div className="leftContainerPayment">
+                <div>
+                    <Pre_booking type={1} />
+                </div>
+
+                <div className="formBookingSearch">
+                    <div>
+                        <h1 className="Login">IDENTIFICATION</h1>
+                        <div className="searchPaymentText">If you have an account, please enter your identification.</div>
+                        <Form>
+                            <Form.Item>
+                                <Input.Search
+                                    placeholder="Identification"
+                                    width="120px"
+                                    onSearch={(value, event) => {
+                                        setSetInfo(true)
+                                        setMp(false)
+                                        dispatch(getPax(value))
+                                        setvisible(true)
+                                    }}>
+                                </Input.Search>
+                            </Form.Item>
+                        </Form>
+                    </div>
+
+                </div>
             </div>
 
             <div>
                 {pax_data && setInfo &&
-                    <Modal visible={false}>
+                    <Modal
+                        visible={visible}
+                        width={450}
+                        destroyOnClose={true}
+                        onCancel={() => {
+                            setvisible(false)
+                        }}
+                    >
                         <ul>
                             <div>First name : {pax_data.first_name}</div>
                             <div>Last name : {pax_data.last_name}</div>
@@ -212,150 +224,166 @@ export function PaxForm() {
                         {mp ? <MercadoPago /> : null}
                     </Modal>
                 }
+
+                {!pax_data && setInfo &&
+
+                    <Modal
+                        visible={visible}
+                        width={450}
+                        destroyOnClose={true}
+                        onCancel={() => {
+                            setvisible(false)
+                        }}
+                    >
+
+                        <ul>
+                            no existís
+                        </ul>
+                    </Modal>
+                }
             </div>
 
 
-            {
-                //----------------------------------------------------
-                <div className='formBookingPayment'>
-                    <h1 className="Login">GUEST INFORMATION</h1>
-                    <div className="searchPaymentText">If you do not have an account, please fill in this form</div>
 
-                    <Form
-                        {...formItemLayout}
-                        form={form}
-                        name="register"
-                        onValuesChange={onChange}
-                        onFinish={onFinish}
-                        initialValues={{
-                            country: ['United States'],
-                            prefix: '1',
-                            remember: true
-                        }}
-                        scrollToFirstError
-                        className='form'
+            <div className='formBookingPayment'>
+                <h1 className="Login">GUEST INFORMATION</h1>
+                <div className="searchPaymentText">If you don't have an account, please fill this form</div>
+
+                <Form
+                    {...formItemLayout}
+                    form={form}
+                    name="register"
+                    onValuesChange={onChange}
+                    onFinish={onFinish}
+                    initialValues={{
+                        country: ['United States'],
+                        prefix: '1',
+                        remember: true
+                    }}
+                    scrollToFirstError
+                    className='form'
+                >
+
+
+                    <Form.Item
+                        name="first_name"
+                        rules={[
+                            {
+                                required: true,
+                                message: 'Please input your name!',
+                                whitespace: true,
+                            },
+                        ]}
                     >
+                        <Input placeholder="Name" className='paxForm_input' />
+                    </Form.Item>
+
+                    <Form.Item
+                        name="last_name"
+                        rules={[
+                            {
+                                required: true,
+                                message: 'Please input your last name!',
+                                whitespace: true,
+                            },
+                        ]}
+                    >
+                        <Input placeholder="Last Name" className='paxForm_input' />
+                    </Form.Item>
+
+                    <Form.Item
+                        name="birth_date"
+                        rules={[
+                            {
+                                // type: 'string',
+                                required: true,
+                                message: 'Please select your birth date!',
+                            },
+                        ]}
+                    >
+                        <DatePicker className="datePickerBirthday" placeholder="Bithday" />
+                    </Form.Item>
+
+                    <Form.Item
+                        name="uuid"
+                        rules={[
+                            {
+                                required: true,
+                                message: 'Please input your identification!',
+                                whitespace: true,
+                            },
+                        ]}
+                    >
+                        <Input placeholder="Identification" className='paxForm_input' />
+                    </Form.Item>
+
+                    <Form.Item
+                        name="country"
+                        rules={[
+                            {
+                                type: 'array',
+                                required: true,
+                                message: 'Please select your country!',
+                            },
+                        ]}
+                    >
+                        <Cascader placeholder="Country" options={residences} className='paxForm_input' />
+                    </Form.Item>
+
+                    <Form.Item
+                        name="address"
+                        rules={[
+                            {
+                                required: true,
+                                message: 'Please input your address!',
+                                whitespace: true,
+                            },
+                        ]}
+                    >
+                        <Input placeholder="Address" className='paxForm_input' />
+                    </Form.Item>
+
+                    <Form.Item
+                        name="phone"
+                        rules={[
+                            {
+                                type: "string",
+                                required: true,
+                                message: 'Please input your phone number!',
+                            },
+                        ]}
+                    >
+                        <Input
+                            placeholder="Phone Number"
+                            addonBefore={prefixSelector}
+                            style={{
+                                width: '100%',
+                            }}
+                            className='paxForm_input'
+                        />
+                    </Form.Item>
+
+                    <Form.Item
+                        name="agreement"
+                        valuePropName="checked"
+                        rules={[
+                            {
+                                validator: (_, value) =>
+                                    value ? Promise.resolve() : Promise.reject(new Error('Should accept agreement')),
+                            },
+                        ]}
+                        {...tailFormItemLayout}
+                    >
+                        <Checkbox>
+                            I have read the <a href="https://memegenerator.net/img/instances/64451727/i-believe-we-have-an-agreement.jpg">agreement</a>  {/* hacer modal con foto*/}
+                        </Checkbox>
+                    </Form.Item>
+                    {mp ? <MercadoPago /> : null}
 
 
-                        <Form.Item
-                            name="first_name"
-                            rules={[
-                                {
-                                    required: true,
-                                    message: 'Please input your name!',
-                                    whitespace: true,
-                                },
-                            ]}
-                        >
-                            <Input placeholder="Name" className='paxForm_input' />
-                        </Form.Item>
+                </Form>
+            </div>
 
-                        <Form.Item
-                            name="last_name"
-                            rules={[
-                                {
-                                    required: true,
-                                    message: 'Please input your last name!',
-                                    whitespace: true,
-                                },
-                            ]}
-                        >
-                            <Input placeholder="Last Name" className='paxForm_input' />
-                        </Form.Item>
-
-                        <Form.Item
-                            name="birth_date"
-                            rules={[
-                                {
-                                    // type: 'string',
-                                    required: true,
-                                    message: 'Please select your birth date!',
-                                },
-                            ]}
-                        >
-                            <DatePicker style={{ width: "550px" }} placeholder="Bithday" />
-                        </Form.Item>
-
-                        <Form.Item
-                            name="uuid"
-                            rules={[
-                                {
-                                    required: true,
-                                    message: 'Please input your identification!',
-                                    whitespace: true,
-                                },
-                            ]}
-                        >
-                            <Input placeholder="Identification" className='paxForm_input' />
-                        </Form.Item>
-
-                        <Form.Item
-                            name="country"
-                            rules={[
-                                {
-                                    type: 'array',
-                                    required: true,
-                                    message: 'Please select your country!',
-                                },
-                            ]}
-                        >
-                            <Cascader placeholder="Country" options={residences} className='paxForm_input' />
-                        </Form.Item>
-
-                        <Form.Item
-                            name="address"
-                            rules={[
-                                {
-                                    required: true,
-                                    message: 'Please input your address!',
-                                    whitespace: true,
-                                },
-                            ]}
-                        >
-                            <Input placeholder="Address" className='paxForm_input' />
-                        </Form.Item>
-
-                        <Form.Item
-                            name="phone"
-                            rules={[
-                                {
-                                    type: "string",
-                                    required: true,
-                                    message: 'Please input your phone number!',
-                                },
-                            ]}
-                        >
-                            <Input
-                                placeholder="Phone Number"
-                                addonBefore={prefixSelector}
-                                style={{
-                                    width: '100%',
-                                }}
-                                className='paxForm_input'
-                            />
-                        </Form.Item>
-
-                        <Form.Item
-                            name="agreement"
-                            valuePropName="checked"
-                            rules={[
-                                {
-                                    validator: (_, value) =>
-                                        value ? Promise.resolve() : Promise.reject(new Error('Should accept agreement')),
-                                },
-                            ]}
-                            {...tailFormItemLayout}
-                        >
-                            <Checkbox>
-                                I have read the <a href="https://memegenerator.net/img/instances/64451727/i-believe-we-have-an-agreement.jpg">agreement</a>  {/* hacer modal con foto*/}
-                            </Checkbox>
-                        </Form.Item>
-                        {mp ? <MercadoPago /> : null}
-
-
-                    </Form>
-                </div>
-            }
         </div>
     );
 };
