@@ -15,7 +15,7 @@ interface IPax {
     firstName: string,
     lastName: string
 }
-console.log()
+
 export const CheckinAvailable = ({ steps }: { steps: Function }): JSX.Element => {
 
     const [roomSelected, setRoomSelected] = useState<Room>()
