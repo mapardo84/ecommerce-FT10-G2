@@ -45,7 +45,7 @@ export const StepsBooking: FunctionComponent = () => {
   //   setContinueBooking(false)
   //   };
   // }, [])
-  
+
 
 
   useEffect(() => {
@@ -62,7 +62,7 @@ export const StepsBooking: FunctionComponent = () => {
         range: local_Guests.in_out,
         nights: local_Guests.nights,
         category: [local_Rooms.category_type],
-        original_price:local_Rooms.original_price,
+        original_price: local_Rooms.original_price,
         fee: local_Rooms.total_price,
         room_id: local_Rooms.room_id,
         early_checkin: local_Guests.early_check,
@@ -82,7 +82,7 @@ export const StepsBooking: FunctionComponent = () => {
         range: local.in_out,
         nights: local.nights,
         category: [],
-        original_price:0,
+        original_price: 0,
         fee: 0,
         room_id: 0,
         early_checkin: local.early_check,
@@ -99,7 +99,7 @@ export const StepsBooking: FunctionComponent = () => {
   }, [inProgress, pre_Booking_state])
 
   useEffect(() => {
-    window.scroll(0,0)
+    window.scroll(0, 0)
     if (inProgress.continue === true) {
       if (inProgress.continue) {
         localStorage.setItem("Check&Guests", pre_booking[0]?.guests_nights)
@@ -114,17 +114,17 @@ export const StepsBooking: FunctionComponent = () => {
 
 
   const continuePreBooking = () => {
-    if(localStorage.getItem("Check&Guests")){
-      dispatch(setGuests(supabase.auth.user()?.email,localStorage.getItem("Check&Guests")))
-      if(localStorage.getItem("Accomodation")){
-        dispatch(setGuests(supabase.auth.user()?.email,undefined,localStorage.getItem("Accomodation")))
+    if (localStorage.getItem("Check&Guests")) {
+      dispatch(setGuests(supabase.auth.user()?.email, localStorage.getItem("Check&Guests")))
+      if (localStorage.getItem("Accomodation")) {
+        dispatch(setGuests(supabase.auth.user()?.email, undefined, localStorage.getItem("Accomodation")))
       }
     }
     setInProgress({ pending: false, continue: true, delete: false })
     setContinueBooking(false)
   }
-  
-  const startsAgain = () =>{
+
+  const startsAgain = () => {
     dispatch(delete_pre_booking(supabase.auth.user()?.email))
     setInProgress({ pending: false, continue: false, delete: true })
     localStorage.removeItem("Check&Guests")
@@ -151,14 +151,14 @@ export const StepsBooking: FunctionComponent = () => {
         <Step status={2 < selectedStep ? "finish" : "wait"} title="Payment" disabled={2 !== selectedStep ? true : false} />
       </Steps>
       <Modal
-        
+
         visible={continueBooking}
         footer={[
           <div style={{ display: "flex", justifyContent: "center" }}>
             <Link to="/booking">
-              <Button style={{height:"55px"}} onClick={continuePreBooking}>Continue booking</Button>
+              <Button style={{ height: "55px" }} onClick={continuePreBooking}>Continue booking</Button>
             </Link>
-            <Button onClick={startsAgain} style={{height:"55px"}}> Clear </Button>
+            <Button onClick={startsAgain} style={{ height: "55px" }}> Clear </Button>
           </div>
         ]}>
         <div>You had already started a booking, what would you like to do?</div>
@@ -167,7 +167,8 @@ export const StepsBooking: FunctionComponent = () => {
       { selectedStep === 0 && continueBooking === false ?
         <>
           <div style={{ display: "flex", flexDirection: "row", alignItems: "center", justifyContent: "space-evenly" }}>
-            <Pre_booking  type={0}/>
+            {window.scroll(0, 0)}
+            <Pre_booking type={0} />
             <GuestsForm />
           </div>
         </>
@@ -177,7 +178,8 @@ export const StepsBooking: FunctionComponent = () => {
         <>
 
           <div style={{ display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "space-evenly" }}>
-            <Pre_booking  type={0}/>
+            {window.scroll(0, 0)}
+            <Pre_booking type={0} />
             <AccomodationsSelect />
           </div>
         </>
@@ -185,8 +187,8 @@ export const StepsBooking: FunctionComponent = () => {
         null}
 
       { selectedStep === 2 && continueBooking === false && supabase.auth.user() ?
-
         <div>
+          {window.scroll(0, 0)}
           <PaxForm />
         </div>
 
