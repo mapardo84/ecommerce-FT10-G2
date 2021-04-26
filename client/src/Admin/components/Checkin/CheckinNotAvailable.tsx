@@ -59,12 +59,13 @@ export const CheckinNotAvailable = ({ steps }: { steps: Function }): JSX.Element
     const [roomSelected, setRoomSelected] = useState<Room>()
     const [roomCategory, setRoomCategory] = useState<Category>()
     const [roomType, setRoomType] = useState<IType>()
-    const [price, setPrice] = useState<number>()
+    const [price, setPrice] = useState<number>(0)
     const [nights, setNights] = useState(0)
     const [paymentMethod, setPaymentMethod] = useState('Cash')
     const [earlyCheckin, setEarlyCheckin] = useState(true)
     const [lateCheckout, setLateCheckout] = useState(true)
     const [balance, setBalance] = useState(0)
+    const [payments, setPayments] = useState(0)
 
     const { categories } = useSelector((state: any) => state.categories)
     const { types } = useSelector((state: any) => state.types)
@@ -101,37 +102,40 @@ export const CheckinNotAvailable = ({ steps }: { steps: Function }): JSX.Element
     useEffect(() => {
         //valor total de payments realizados
         let total = 0
-        roomPayments.forEach((payment: IPayment) => {
-            if (payment.payment_status === 'Approved') {
+        roomPayments?.forEach((payment: IPayment) => {
+            if (payment.payment_status === 'Approved' && payment.booking_id === bookingData.id) {
                 total = total + payment.totalPrice
             }
         })
-        setBalance((e: number) => e - total)
-    }, [roomPayments])
+        setPayments(total)
+    }, [roomPayments, bookingData.id])
+
+    useEffect(() => {
+        //seteando el balance al cargar todo
+        if (price) {
+            setBalance(price * nights)
+            if (earlyCheckin && lateCheckout) {
+                setBalance((price * nights) + (price) - payments)
+            }
+            if (lateCheckout && !earlyCheckin) {
+                setBalance((price * nights) + (price / 2) - payments)
+            }
+            if (earlyCheckin && !lateCheckout) {
+                setBalance((price * nights) + (price / 2) - payments)
+            }
+        }
+    }, [price, payments, balance, nights, lateCheckout, earlyCheckin])
 
     useEffect(() => {
         //nights
         const nights = moment().diff(moment(bookingData.checkin), 'days')
-        let sum = 0
-        if (price) {
-            sum = price * nights
-        }
-        //valor del late y early
-        if (bookingData.early_check && price) {
-            sum = sum + (price / 2)
-        }
-        if (bookingData.late_check && price) {
-            sum = sum + (price / 2)
-        }
-        setBalance((e: number) => e + sum)
-
         //setear numero de noches y try o false en checks
         if (bookingData !== '') {
             setNights(nights)
             setEarlyCheckin(bookingData.early_check)
             setLateCheckout(bookingData.late_check)
         }
-    }, [bookingData, price])
+    }, [bookingData])
 
     const handleChange = (value: string) => {
         setPaymentMethod(value)
