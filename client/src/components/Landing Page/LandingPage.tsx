@@ -1,8 +1,9 @@
-import { Row, Col, Button, Typography } from "antd";
-import './styles.less'
+import { Button, Typography } from "antd";
+import './LandingPage.less'
 import LogIn from "../LogIn/LogIn";
 import { NavLink } from "react-router-dom";
 import { useHistory } from "react-router-dom";
+import logo from "./images/logo.png"
 
 const { Title, Text } = Typography;
 
@@ -12,31 +13,29 @@ export const LandingPage = () => {
     const params = new URLSearchParams(window.location.hash)
     params.get('type') === "recovery" && history.push("/password-reset/" + params.get('#access_token'));
 
+
     return (
-        <div className='LandingPage'>
-            <Row align="middle" justify="space-around">
+        <div className="landingBackground">
+            <div className='LandingPage'>
 
-                <Col span={14}>
+                <div className='landingleft'>
 
-                    <div className='landingleft'>
+                    <img className='landingTitle' src={logo} alt="" />
 
-                        <Title className='landingTitle'>HENRY HOTEL</Title>
 
-                        <Text className='landingText' >
-                            A luxurious hotel, open the door to a whole new world. Feel the difference and prepare for a beautiful traveling experience.
-                        </Text><br />
+                    <div className='landingText' >
+                        A luxurious hotel, open the door to a whole new world. Feel the difference and prepare for a beautiful traveling experience.
+                        </div><br />
 
-                        <NavLink to="/home"><Button className='lanButton' type="primary" size="large">Continue</Button></NavLink>
-                    </div>
-                </Col>
+                    <div className="landingButton"><NavLink to="/home"><Button className='lanButton' type="primary" size="large">Continue</Button></NavLink></div>
+                </div>
 
-                <Col span={10}>
-                    <div className='lanForm'>
-                        <LogIn />
-                    </div>
-                </Col>
+                <div className='lanForm'>
+                    <LogIn />
+                </div>
 
-            </Row>
+
+            </div>
         </div>
     )
 }

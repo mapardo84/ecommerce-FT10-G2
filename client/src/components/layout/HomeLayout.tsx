@@ -3,25 +3,29 @@ import { Layout } from "antd";
 import { NavBar } from "../NavBar/NavBar";
 import { FooterLayout } from '../footer/Footer'
 import { HomeSlides } from "../HomeSlides/HomeSlides";
+import { PromotionsViewer} from '../Promotions/PromotionsViewer';
 import { supabase } from "../../SupaBase/conection";
 import { getSession } from "../../helpers/logIn"
 import "./homeLayout.less";
+import { useDispatch, useSelector } from "react-redux";
+import { getPromotions } from "../../actions/Promotions/promotionsAction";
+import '../Promotions/PromotionsViewer.less';
 
 const { Content } = Layout;
 
-
 export const HomeLayout = (): JSX.Element => {
 
-  var [name, setName] = useState("empty")
+  var [name, setName] = useState("empty");
+  const dispatch = useDispatch();
+  const promotions = useSelector( (state:any) => state.promotions )
 
-  useEffect(() => {
+  useEffect( () => {
     window.scrollTo(0, 0);
     supabase.auth.onAuthStateChange((event, session) => {
-      getSession(session)
-    })
-  }, [])
-
-
+      getSession(session);
+    });
+    dispatch(getPromotions());
+  }, [dispatch]);
   const showName = async () => {
     const user: any = supabase.auth.user()
     if (user?.aud === "authenticated") {
@@ -38,8 +42,6 @@ export const HomeLayout = (): JSX.Element => {
 
   return (
     <>
-
-
       <Layout className="container">
         <NavBar />
         {
@@ -48,7 +50,7 @@ export const HomeLayout = (): JSX.Element => {
         <Content>
           <HomeSlides />
           <div className="text">
-            <div className="titleHotel">HOTEL HENRY</div>
+            <div className="titleHotel">HENRY HOTEL</div>
             <h3 className="subtitle">
               {" "}
               A luxurious hotel, open the door to a whole new world.
@@ -83,13 +85,15 @@ export const HomeLayout = (): JSX.Element => {
               magic of cenotes, our Dive Center has been open for more than 35
               years. meet friendly people in the city.
             </h4>
-            <h4 className="description">
+            <div className="description">
+              Accommodations
               Whether visiting for work or relaxation, The Henry Hotel offers a
               wide range of comfort and convenience to accommodate our valued
               guests.
-            </h4>
+            </div>
           </div>
         </Content>
+        { promotions? <PromotionsViewer promo={promotions}/> : <p>There are not current promotions</p> }
         <FooterLayout />
       </Layout>
     </>

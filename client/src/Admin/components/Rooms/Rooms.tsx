@@ -19,6 +19,8 @@ export interface Room {
     category_id: number | string;
     type_id: number | string;
     categories: { name: string }[];
+    curent_pax: number;
+    curent_booking: number;
 }
 
 interface IFields {
@@ -148,6 +150,7 @@ export const Rooms = () => {
         dispatch(getAllRooms())
         dispatch(getAllCategories())
         dispatch(getAllTypes())
+        console.log(roomsList)
 
     }, [dispatch])
 

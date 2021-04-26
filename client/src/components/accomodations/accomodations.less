@@ -3,11 +3,28 @@
     flex-direction: column;
     align-content: center;
     align-items: center;
-    margin-top: 150px;
 }
+
+.descriptionBackground{
+    background-image: linear-gradient(
+        to bottom,
+        rgba(255, 255, 255, 0.863),
+        #f0f2f5
+      ),
+      url("./images/palmTree.jpg");
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+.imageAccomodation{
+    width: 100vw;
+    height: 60vh;
+    object-fit: cover;
+    filter: brightness(80%);
+}
+
 .accomodationTitle {
     margin-top: 3%;
-    font-family: "Montserrat", sans-serif;
     font-size: 35px;
     color: black;
     font-weight: 700 !important;
@@ -52,4 +69,10 @@
 .accomodationReserveButton{
     background-color: #5296A5 !important;
     border-color: #5296A5 !important;
+}
+
+
+@media only screen and (max-width: 1400px) {
+
+
 }

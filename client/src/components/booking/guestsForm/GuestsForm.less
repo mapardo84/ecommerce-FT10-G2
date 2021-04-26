@@ -1,10 +1,12 @@
 .conteiner {
     display: flex;
     flex-direction: column;
-    justify-content: center;
     align-items: center;
-    margin-top: 2%;
-    margin-bottom: 5%;
+    background-color: white;
+    margin-top: 40px;
+    border-radius: 10px;
+    box-shadow: 0 5px 15px 0 rgba(0, 0, 0, 0.055);
+    height: 650px;
 }
 
 .inputs{
@@ -21,6 +23,54 @@
 .buttons_Guests{
     display: flex;
     justify-content:space-evenly;
-    
+    margin-top: 300px;
 }
 
+
+.guestEarlyBooking{
+    width: 700px;
+    margin-top: 30px;
+    display: flex;
+    justify-content: space-evenly;
+    z-index: 99999 !important;
+}
+
+.guestTitleBooking{
+    margin-top: 33px;
+    font-size: 30px;
+    font-weight: 600;
+}
+
+
+@media only screen and (max-width: 640px) {
+    .conteiner {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        background-color: white;
+        margin-top: 40px;
+        border-radius: 10px;
+        box-shadow: 0 5px 15px 0 rgba(0, 0, 0, 0.055);
+        height: 1050px;
+        width: 90vw;
+        margin-bottom: 30px;
+    }
+
+    .guestEarlyBooking{
+        width: auto;
+        margin-top: 30px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .buttons_Guests{
+        display: flex;
+        justify-content:space-evenly;
+        margin-top: 20px;
+        width: 280px;
+
+    }
+    
+
+}

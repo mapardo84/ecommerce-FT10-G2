@@ -1,15 +1,25 @@
-import { Layout, Menu, Row, Col, Button, Modal, Divider, Dropdown } from "antd";
-import { DownOutlined, UserOutlined, ImportOutlined, HeartOutlined, CalendarOutlined } from '@ant-design/icons';
+import { Layout, Menu, Row, Col, Button, Modal, Divider, Dropdown, Drawer } from "antd";
+import { DownOutlined, UserOutlined, ImportOutlined, HeartOutlined, CalendarOutlined, PicLeftOutlined, MenuOutlined } from '@ant-design/icons';
 import LogIn from "../LogIn/LogIn";
 import { useEffect, useState } from "react";
-import { NavLink, useHistory } from "react-router-dom";
 import "./NavBar.less";
-import hotel from "./hotel.png"
 import { Register } from "../LogIn/Register";
 import { supabase } from '../../SupaBase/conection'
 import { logOut } from "../../helpers/logOut";
 import { useDispatch, useSelector } from "react-redux";
 import { setModalState } from "../../actions/loginActions";
+import { NavLink, useHistory, Link } from "react-router-dom";
+import hotel from "./logoHotel.png"
+
+import { SiHotelsDotCom } from "react-icons/si";
+import { MdHotel } from "react-icons/md";
+import { AiFillHome, AiFillStar, AiFillCalendar } from "react-icons/ai";
+import { FaUserCircle } from "react-icons/fa";
+import { RiLogoutBoxFill, RiLoginBoxFill } from "react-icons/ri";
+import { IconContext } from "react-icons/lib";
+
+
+import { get_pre, pre_booking_empty} from "../../actions/Booking/pre_booking_action";
 
 const { Header } = Layout;
 
@@ -31,18 +41,24 @@ export const NavBar = () => {
   const logOutSession = () => {
     var status = logOut()
     status && history.push("/");
+    localStorage.removeItem("Check&Guests")
+    localStorage.removeItem("Accomodation")
+    dispatch(pre_booking_empty())
   }
 
   const menu = (
     <Menu className="dropMenuNav">
-      <Menu.Item key="1" icon={<HeartOutlined />}>
+      <Menu.Item key="1" onClick={() => history.push("/myProfile")} icon={<PicLeftOutlined />}>
+        My Profile
+      </Menu.Item>
+      <Menu.Item key="2" onClick={() => history.push("/wishlist")} icon={<HeartOutlined />}>
         Wish List
       </Menu.Item>
-    <Menu.Item key="1" onClick={()=>  history.push("/myBookings")} icon={<CalendarOutlined />}>
+      <Menu.Item key="3" onClick={() => history.push("/myBookings")} icon={<CalendarOutlined />}>
         Bookings
       </Menu.Item>
       <Divider className="dividerNav"></Divider>
-      <Menu.Item key="2" onClick={() => logOutSession()} icon={<ImportOutlined />}>
+      <Menu.Item key="4" onClick={() => logOutSession()} icon={<ImportOutlined />}>
         Log Out
       </Menu.Item>
     </Menu>
@@ -50,6 +66,20 @@ export const NavBar = () => {
 
   const [visible, setVisible] = useState<boolean>(false);
   const [regOrLog, setRegOrLog] = useState<string>("logIn")
+
+
+  //Resposive Nav
+  const [resNavVisivle, setResNavVisivle] = useState<boolean>(false)
+  const handleNavResponsive = () => {
+    setResNavVisivle(true)
+  }
+
+  const handleNavResponsiveClose = () => {
+    setResNavVisivle(false)
+  }
+
+  //--------
+
 
   useEffect(() => {
     if (number === 1) {
@@ -60,17 +90,16 @@ export const NavBar = () => {
 
   return (
     <>
-      <Header className="headd">
-        <Menu className="headd">
-          <Row className="header" justify="center">
+      <IconContext.Provider value={{ color: "grey",  size: '24px', style: { verticalAlign: 'middle', marginRight: "20px" } }}>
+        <div className="NavBarLayout">
+          {/* Normal navBar content */}
+          <div className="navBarMenu">
             <div className="colContainer">
               <Col span={12}>
                 <div className="navLeft">
-                  <img className="imagen" src={hotel} alt="IMG NOT FOUND" />
-                  <NavLink className="navTitle" to="/home">HENRY HOTEL</NavLink>
+                  <NavLink to="/home"><img className="imagen" src={hotel} alt="IMG NOT FOUND" /></NavLink>
                 </div>
               </Col>
-
               <Col span={12}>
                 <div className="navRight">
                   <NavLink to="/home">
@@ -89,7 +118,7 @@ export const NavBar = () => {
                         <Dropdown
                           className="DropNavButton"
                           overlay={menu}
-                          trigger={['click']}
+                          // trigger={['click']}
                           placement="bottomCenter">
                           <Button className="btn-nav" type="primary">
                             <UserOutlined />Account <DownOutlined />
@@ -116,33 +145,130 @@ export const NavBar = () => {
                 </div>
               </Col>
             </div>
-          </Row>
-        </Menu>
-      </Header>
+          </div>
 
-      <Modal
-        visible={visible}
-        width={450}
-        destroyOnClose={true}
-        footer={[
-          <div>{regOrLog === "logIn" ?
-            <div>Don't have an account?
-              <Button style={{ marginLeft: "8px" }} onClick={() => setRegOrLog("signIn")}> Sign Up</Button>
-            </div> :
-            <div>
-              If you have an account
-              <Button style={{ marginLeft: "8px" }} onClick={() => setRegOrLog("logIn")}>Log In</Button>
+
+          {/* Responsive Navbar Content */}
+          <div className="navResponsiveMenu" >
+
+            <div className="navImageContainer">
+              <NavLink to="/home"><img className="imagen" src={hotel} alt="IMG NOT FOUND" /></NavLink>
             </div>
-          }
-          </div>,
-        ]}
-        onCancel={() => {
-          setRegOrLog("logIn")
-          setVisible(false)
-        }}
-      >
-        {regOrLog === "logIn" ? <LogIn /> : <Register />}
-      </Modal>
+
+            <div className="navButtonMenu">
+              <Button type="text" onClick={handleNavResponsive} >
+                <MenuOutlined style={{ fontSize: '24px', color: 'white' }} />
+              </Button>
+            </div>
+          </div>
+        </div>
+
+
+        <Drawer
+          placement="right"
+          closable={true}
+          onClose={handleNavResponsiveClose}
+          visible={resNavVisivle}
+          key="top"
+          width="270px"
+          height="100px"
+
+          zIndex={1200}
+          drawerStyle={{ backgroundColor: "rgb(247, 247, 247)" }}
+        >
+          <div className="navDrawerContent">
+            <Divider style={{ color: "grey" }} orientation="left">MAIN</Divider>
+
+            <NavLink to="/booking">
+              <Button onClick={handleNavResponsiveClose} size="large" className="navButton" type="text">
+                <SiHotelsDotCom /> Book Now
+            </Button>
+            </NavLink>
+            <NavLink to="/accomodations">
+              <Button  onClick={handleNavResponsiveClose} className="navButton" size="large" type="text">
+                <MdHotel />Accomodations
+            </Button>
+            </NavLink>
+            <NavLink to="/home">
+              <Button  onClick={handleNavResponsiveClose} className="navButton" size="large" type="text">
+                <AiFillHome /> Home
+            </Button>
+            </NavLink>
+
+            {
+              authValidation() ?
+
+                <div className="authenticationResponsive">
+                  <Divider style={{ color: "grey" }} orientation="left">USER</Divider>
+                  <NavLink to="/myProfile">
+                    <Button onClick={handleNavResponsiveClose} className="navButton" size="large" type="text">
+                      <FaUserCircle /> My Profile
+                  </Button>
+                  </NavLink>
+                  <NavLink to="/wishlist">
+                    <Button onClick={handleNavResponsiveClose} className="navButton" size="large" type="text">
+                      <AiFillStar /> WishList
+                  </Button>
+                  </NavLink>
+                  <NavLink to="/myBookings">
+                    <Button onClick={handleNavResponsiveClose} className="navButton" size="large" type="text">
+                      <AiFillCalendar />  Bookings
+                  </Button>
+                  </NavLink>
+                  <Button style={{ marginTop: "5px" }}  onClick={() => logOutSession()} className="navButton" size="large" type="text">
+                    <RiLogoutBoxFill /> Log Out
+                 </Button>
+
+
+                </div>
+                :
+                <div>
+                  <Divider style={{ color: "grey" }} orientation="left">USER</Divider>
+
+                  <Button
+                    onClick={() => {
+                      setVisible(true)
+                      setResNavVisivle(false)
+                    }}
+                    className="navButton"
+                    type="text">
+                    <RiLoginBoxFill />Log In
+                </Button>
+
+                </div>
+
+
+            }
+
+          </div>
+
+        </Drawer>
+        {/* ----------------------- */}
+        <Modal
+          visible={visible}
+          width={450}
+          destroyOnClose={true}
+          footer={[
+            <div>{regOrLog === "logIn" ?
+              <div>Don't have an account?
+              <Button style={{ marginLeft: "8px" }} onClick={() => setRegOrLog("signIn")}> Sign Up</Button>
+              </div> :
+              <div>
+                If you have an account
+              <Button style={{ marginLeft: "8px" }} onClick={() => setRegOrLog("logIn")}>Log In</Button>
+              </div>
+            }
+            </div>,
+          ]}
+          onCancel={() => {
+            setRegOrLog("logIn")
+            setVisible(false)
+          }}
+        >
+          {regOrLog === "logIn" ? <LogIn /> : <Register />}
+        </Modal>
+
+      </IconContext.Provider>
     </>
   );
 };

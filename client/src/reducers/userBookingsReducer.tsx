@@ -1,4 +1,4 @@
-import { GET_USER_BOOKINGS, } from '../actions/Booking/userBookings';
+import { GET_USER_BOOKINGS, SET_LOADING} from '../actions/Booking/userBookings';
 
 interface actionProps {
     type: string,
@@ -7,10 +7,12 @@ interface actionProps {
 
 interface IState {
     data: any[],
+    loading: boolean
 }
 
 const InitialState: IState = {
-    data: []
+    data: [],
+    loading: false
 }
 
 export function userBookingReducer(state: IState = InitialState, action: actionProps) {
@@ -20,6 +22,12 @@ export function userBookingReducer(state: IState = InitialState, action: actionP
                 ...state,
                 data: action.payload
             }
+        case SET_LOADING:
+            return {
+                ...state,
+                loading: action.payload
+            }
+
         default:
             return state
     }

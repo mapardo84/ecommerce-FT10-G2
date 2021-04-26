@@ -17,11 +17,7 @@ export function MyCalendar() {
   return (
 
     <div className='backgroundPage'>
-      <Space direction="vertical" size={12}>
-        <div className='Calendar'>
-          <RangePicker className='backgroundPageA' open={true} />
-        </div>
-      </Space>
+      <RangePicker className='backgroundPageA' open={true} />
     </div>
 
   )

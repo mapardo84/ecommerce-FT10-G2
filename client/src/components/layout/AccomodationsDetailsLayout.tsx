@@ -10,7 +10,7 @@ const { Content } = Layout;
 export const AccomodationDetailsLayout: FunctionComponent = () => {
   return (
     <>
-      <Layout>
+      <Layout style={{ overflowX: "hidden" }}>
         <NavBar />
         <Content>
          <Details />

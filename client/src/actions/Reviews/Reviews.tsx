@@ -14,7 +14,7 @@ export const get_reviews = (id:any) => {
         try {
             const{data:review,error} = await supabase
                     .from('reviews')
-                    .select('*')
+                    .select('*, user_id(first_name)')
                     .eq('category_id',id)
                     .order('id',{ascending:false})
                     .range(0,4)

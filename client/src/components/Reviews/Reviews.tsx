@@ -5,7 +5,9 @@ import React /* { createElement, useState } */ from 'react';
 import { Comment, Tooltip, Rate, Pagination } from 'antd';
 import moment from 'moment';
 import './Reviews.less'
+import { FaUserCircle } from "react-icons/fa";
 import addReview from './../addReview/AddReview';
+import { IconContext } from 'react-icons';
 //import { DislikeOutlined, LikeOutlined, DislikeFilled, LikeFilled } from '@ant-design/icons';
 
 export const Reviews = ({ idRv }: any) => {
@@ -42,44 +44,50 @@ export const Reviews = ({ idRv }: any) => {
     const desc = ['Terrible', 'Bad', 'Normal', 'Good', 'Wonderful'];
     const dispatch = useDispatch()
     const rev = useSelector((state: any) => state.reviews.reviews)
-
+    console.log("REV", rev)
     useEffect(() => {
         dispatch(get_reviews(idRv))
     }, [dispatch])
 
 
-
     return (
-        <div className='review_container'>
-            <div className='reviews_title'>Reviews</div>
+        <IconContext.Provider value={{ color: 'grey', size: '30px', style: { verticalAlign: 'middle', marginRight: "10px" } }}>
             <div>
-                {rev?.map((x: any) => (
+                {
+                    rev.length !== 0 ?
+                        rev?.map((x: any) => (
 
-                    <div className='reviews_comment' key={x.id}>
-                        <div className='reviews_texto'>
+                            <div className="newReviewContainer">
+                                <div className="firstRowReview">
+                                    <div>
+                                        <FaUserCircle /> Anonymus
+                                    </div>
 
-                            {(x.review)}
+                                    <div className="starReview">
+                                        <Rate disabled value={x.rate} tooltips={desc} />
+                                        {x.rate ? <span className='ant-rate-text'> {desc[x.rate - 1]}</span> : ''}
+                                    </div>
 
-                        </div>
-                        <div className='review_DateRate'>
-                            <div >
-                                {
-                                    <div className='reviews_date'>
+                                </div>
+
+                                <div className="secondRowReview">
+                                    <div className="newReviewText">
+                                        {(x.review)}
+                                    </div>
+                                    <div className="newReviewDate">
                                         <Tooltip title={moment().format('')}>
                                             <span>{moment().format(`YYYY-MM-DD`)}</span>
                                         </Tooltip>
                                     </div>
-                                }
+                                </div>
                             </div>
-                            <div className='reviews_rate'>
-                                <Rate disabled value={x.rate} tooltips={desc} />
-                                {x.rate ? <span className='ant-rate-text'> {desc[x.rate - 1]}</span> : ''}
-                            </div>
-                        </div>
-                    </div>
-                ))
+                        )) :
+                        <div className="noReviews">
+                            No reviews about this category
+                </div>
                 }
             </div>
-        </div>
+        </IconContext.Provider >
+
     )
 }

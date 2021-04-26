@@ -25,7 +25,6 @@ export const LogIn = () => {
   const history = useHistory();
 
   const number = useSelector((state:any) => state.login.number);
-  console.log("number: "+ number)
 
 
   let captchaData = {
@@ -33,7 +32,6 @@ export const LogIn = () => {
   }
   //captcha handler
   function onChange(value: any) {
-    console.log("Captcha value:", value);
     if (value) {
       captchaData.isVerified = true
     } else {
@@ -55,7 +53,6 @@ export const LogIn = () => {
   //password reset handler
   const onFinishPassword = async (value: log) => {
     form.resetFields();
-    console.log(value.email)
     supabase.auth.api.resetPasswordForEmail(value.email)
     message.success("Email sent");
     setvisible(false)
