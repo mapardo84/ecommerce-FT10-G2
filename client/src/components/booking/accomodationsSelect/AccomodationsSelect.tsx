@@ -125,9 +125,9 @@ export const AccomodationsSelect = (): JSX.Element => {
             </Button>
 
           {categoriesFind.userCategories.length > 0 ? categoriesFind.userCategories?.map((categ: categoryType, i: number) => (
-            <div>
+            <div key={i}>
 
-              <AccomodationsCards beds={userSelection?.type.beds} prom={promo} categ={categ} key={i} types={categoriesFind.types} />
+              <AccomodationsCards beds={userSelection?.type.beds} prom={promo} categ={categ} types={categoriesFind.types} />
 
               <div className="containerButtonsBooking">
 
@@ -139,13 +139,13 @@ export const AccomodationsSelect = (): JSX.Element => {
                   // className="accomodationsSelect_si"
                   >
                     {categoriesFind.types?.map((t: any, i: number) => {
-                      if (freeRooms.find((r: any) => {
+                      if (freeRooms.some((r: any) => {
                         return (r.category_id === categ.id && r.type_id === t.id)
                       })) {
                         return (
                           <Option key={i} value={t.name}>{t.name}</Option>
                         )
-                      } else { return <Option key={i} value={t.name} disabled>-</Option> }
+                       }
                     })
                     }
                   </Select>

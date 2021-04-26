@@ -111,11 +111,11 @@ export const GuestsForm = () => {
           <div>
             <Form.Item
               name='early_check'
+              valuePropName='checked'
             >
               <Switch
                 checkedChildren="Early Checkin" unCheckedChildren="Early Checkin"
                 onChange={onCheckin}
-                defaultChecked={false}
                 style={{ width: "120px" }}
               />
             </Form.Item>
@@ -124,11 +124,11 @@ export const GuestsForm = () => {
           <div>
             <Form.Item
               name='late_check'
+              valuePropName='checked'
             >
               <Switch
                 checkedChildren="Late Checkout" unCheckedChildren="Late Checkout"
                 onChange={onCheckout}
-                defaultChecked={false}
                 style={{ width: "120px" }}
               />
             </Form.Item>

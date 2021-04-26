@@ -15,9 +15,9 @@ export const PromotionsViewer = ( props:{ promo:promotionType[] } ) => {
     return (
         <div className="containerSlide1">
             <Carousel {...settings} className="HomeCarousel1">
-                {promo.map( (p:promotionType) => {
+                {promo.map( (p:promotionType, i:number) => {
                     return (
-                        <NavLink to='/booking' className='promoLink'>
+                        <NavLink key={i} to='/booking' className='promoLink'>
                             <h1 className='promo'>{p.description}</h1>
                         </NavLink>
                 )})}
