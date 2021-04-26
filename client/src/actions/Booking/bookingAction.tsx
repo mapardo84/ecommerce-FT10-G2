@@ -80,9 +80,7 @@ export const getCategoriesForUser = (userBooking: bookingType) => {
         })
 
         const freeRooms = rooms?.filter((room: any) => {
-            if (!habitacionesDescartadas.includes(room.id)) {
-                return room
-            }
+                return !habitacionesDescartadas.includes(room.id)
         })
 
         if (!freeRooms) return
@@ -126,7 +124,7 @@ const freeRoomsToShow = (payload: any) => {
 }
 
 export const roomSelected = (categoryPax: any, freeRooms: roomType[]) => {
-    return (dispatch: any) => {
+    return (dispatch: Dispatch) => {
         const roomSelected = freeRooms.find((r: roomType) => {
             return (r.category_id === categoryPax.category.id && r.type_id === categoryPax.type.id)
         })
