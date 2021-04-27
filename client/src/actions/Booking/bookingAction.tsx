@@ -25,7 +25,7 @@ export const stepChange = (inputs:number) => {
     }
 }
 
-export const setBookData = (booking:bookingType) => {
+export const setBookData = (booking:any) => {
     return {
         type: SET_BOOK_DATA,
         payload: { booking }
