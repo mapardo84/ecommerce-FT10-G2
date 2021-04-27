@@ -60,7 +60,7 @@ export const Reviews = ({ idRv }: any) => {
                             <div className="newReviewContainer">
                                 <div className="firstRowReview">
                                     <div>
-                                        <FaUserCircle /> {x.user_id.first_name}
+                                        <FaUserCircle /> Anonymus
                                     </div>
 
                                     <div className="starReview">

@@ -24,21 +24,20 @@ export const AccomodationsCards = (props: any): JSX.Element => {
     const { categ, key, beds } = props;
     const foundProm: promotionType = promo?.find((p: promotionType) => p.categoryToApply === categ.id);
 
-
-    useEffect(() => {
-    }, [])
     return (
 
         <div>
             <div className="newGlobalCategory">
 
                 <div className="newCategory_Container">
+                    <div>
 
-                    <div >
                         {foundProm &&
-                            <div className='bookingCardDiscount'>
-                             {foundProm.value}% Off
-                           </div>
+                            <div className="triangleDiscount">
+                                <div className='bookingCardDiscount'>
+                                    {foundProm.value}% Off
+                                </div>
+                            </div>
                         }
                         <img className="newImageCategory" src={categ.images[0]} />
                     </div>

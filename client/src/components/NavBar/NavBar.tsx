@@ -118,7 +118,7 @@ export const NavBar = () => {
                         <Dropdown
                           className="DropNavButton"
                           overlay={menu}
-                          trigger={['click']}
+                          // trigger={['click']}
                           placement="bottomCenter">
                           <Button className="btn-nav" type="primary">
                             <UserOutlined />Account <DownOutlined />

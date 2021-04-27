@@ -14,6 +14,10 @@ const errorMsg = (msg: any) => {
 export const addReview = (review?: string, catId?: number, userId?:number,rate?:number) => {
     return async(dispatch: Dispatch<any>)=>{
         try{
+
+
+
+
             const {data,error} = await supabase .from('reviews').insert([
                 {
                     review: review,

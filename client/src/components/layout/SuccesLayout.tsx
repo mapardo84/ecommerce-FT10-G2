@@ -11,9 +11,9 @@ const { Content } = Layout;
 export const SuccessLayout: FunctionComponent = () => {
   return (
     <>
-      <Layout>
+      <Layout style={{minHeight:"100vh"}}>
         <NavBar />
-        <Content>
+        <Content style={{height:"80vh"}}>
             <div className="success">
                 <SuccessPayment />
             </div>

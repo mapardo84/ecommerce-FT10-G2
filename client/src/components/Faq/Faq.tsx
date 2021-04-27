@@ -1,9 +1,15 @@
 import "./faq.less";
 import { Collapse } from "antd";
+import { useEffect } from "react";
 
 const { Panel } = Collapse;
 
 export const Faq = () => {
+
+  useEffect(() => {
+    window.scroll(0, 0)
+  }, [])
+
   return (
     <div className="section">
       <h1 className="title1">FREQUENTLY ASKED QUESTIONS</h1>

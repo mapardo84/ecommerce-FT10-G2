@@ -1,4 +1,4 @@
-import {BYPAXID, BYBOOKINGID, BYFIRSTNAME, BYLASTNAME,BYPAXUUID} from '../Admin/actions/searchBarActions'
+import {BYPAXID, BYBOOKINGID, BYFIRSTNAME, BYLASTNAME, BYPAXUUID} from '../Admin/actions/searchBarActions'
 
 
 
@@ -36,7 +36,7 @@ export const searchBookingReducer=(state:any=initialState,action:{type:string,pa
             return{
                 ...state,
                 byLastUuid:action.payload
-            }
+                }
         default:
             return state
     }

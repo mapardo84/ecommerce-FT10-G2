@@ -8,14 +8,14 @@ import { bookingType, GuestsForm } from './guestsForm/GuestsForm';
 import { getCategoriesForUser, getPax, setBookData, setLoading, stepChange } from '../../actions/Booking/bookingAction';
 import { supabase } from '../../SupaBase/conection';
 import { Pre_booking } from '../Pre_booking/Pre_booking';
-import { delete_pre_booking, get_pre, pre_booking_empty } from '../../actions/Booking/pre_booking_action'
+import { delete_pre_booking, get_pre, pre_booking_empty, setGuests } from '../../actions/Booking/pre_booking_action'
 import Modal from 'antd/lib/modal/Modal';
 import { Link } from 'react-router-dom';
 
 const { Step } = Steps;
 export const StepsBooking: FunctionComponent = () => {
   const selectedStep: number = useSelector((state: any) => state.bookings.step);
- 
+
 
   const pre_Booking_state = useSelector((state: any) => state.pre_booking);
   const { pre_booking, user_data } = pre_Booking_state
@@ -40,9 +40,16 @@ export const StepsBooking: FunctionComponent = () => {
     }
   }, [])
 
+  // useEffect(() => {
+  //   return () => {
+  //   setContinueBooking(false)
+  //   };
+  // }, [])
+
+
 
   useEffect(() => {
-    if (pre_booking.length > 0 && inProgress.pending === true && pre_booking[0].guests_nights) {
+    if (pre_booking.length > 0 && inProgress.pending === true) {
       setContinueBooking(true)
     }
     let local_Guests: any = localStorage.getItem("Check&Guests")
@@ -55,6 +62,7 @@ export const StepsBooking: FunctionComponent = () => {
         range: local_Guests.in_out,
         nights: local_Guests.nights,
         category: [local_Rooms.category_type],
+        original_price: local_Rooms.original_price,
         fee: local_Rooms.total_price,
         room_id: local_Rooms.room_id,
         early_checkin: local_Guests.early_check,
@@ -74,6 +82,7 @@ export const StepsBooking: FunctionComponent = () => {
         range: local.in_out,
         nights: local.nights,
         category: [],
+        original_price: 0,
         fee: 0,
         room_id: 0,
         early_checkin: local.early_check,
@@ -90,13 +99,14 @@ export const StepsBooking: FunctionComponent = () => {
   }, [inProgress, pre_Booking_state])
 
   useEffect(() => {
+    window.scroll(0, 0)
     if (inProgress.continue === true) {
       if (inProgress.continue) {
-        localStorage.setItem("Check&Guests", pre_booking[0].guests_nights)
-        if (pre_booking[0].acomodation_step === null) {
+        localStorage.setItem("Check&Guests", pre_booking[0]?.guests_nights)
+        if (pre_booking[0]?.acomodation_step === null) {
           localStorage.removeItem("Accomodation")
         } else {
-          localStorage.setItem("Accomodation", pre_booking[0].acomodation_step)
+          localStorage.setItem("Accomodation", pre_booking[0]?.acomodation_step)
         }
       }
     }
@@ -104,20 +114,25 @@ export const StepsBooking: FunctionComponent = () => {
 
 
   const continuePreBooking = () => {
-    dispatch(get_pre(supabase.auth.user()?.email))
+    if (localStorage.getItem("Check&Guests")) {
+      dispatch(setGuests(supabase.auth.user()?.email, localStorage.getItem("Check&Guests")))
+      if (localStorage.getItem("Accomodation")) {
+        dispatch(setGuests(supabase.auth.user()?.email, undefined, localStorage.getItem("Accomodation")))
+      }
+    }
     setInProgress({ pending: false, continue: true, delete: false })
     setContinueBooking(false)
   }
 
-  const destroyPreBooking = () => {
+  const startsAgain = () => {
     dispatch(delete_pre_booking(supabase.auth.user()?.email))
     setInProgress({ pending: false, continue: false, delete: true })
+    localStorage.removeItem("Check&Guests")
+    localStorage.removeItem("Accomodation")
     dispatch(pre_booking_empty())
     setContinueBooking(false)
+
   }
-
-
-
 
   return (
     <>
@@ -136,22 +151,24 @@ export const StepsBooking: FunctionComponent = () => {
         <Step status={2 < selectedStep ? "finish" : "wait"} title="Payment" disabled={2 !== selectedStep ? true : false} />
       </Steps>
       <Modal
+
         visible={continueBooking}
         footer={[
           <div style={{ display: "flex", justifyContent: "center" }}>
             <Link to="/booking">
-              <Button onClick={continuePreBooking}>Continue</Button>
+              <Button style={{ height: "55px" }} onClick={continuePreBooking}>Continue booking</Button>
             </Link>
-            <Button onClick={destroyPreBooking}>Borrar</Button>
+            <Button onClick={startsAgain} style={{ height: "55px" }}> Clear </Button>
           </div>
         ]}>
-        <div>Booking in progress saved</div>
+        <div>You had already started a booking, what would you like to do?</div>
       </Modal>
 
       { selectedStep === 0 && continueBooking === false ?
         <>
           <div style={{ display: "flex", flexDirection: "row", alignItems: "center", justifyContent: "space-evenly" }}>
-            <Pre_booking />
+            {window.scroll(0, 0)}
+            <Pre_booking type={0} />
             <GuestsForm />
           </div>
         </>
@@ -161,7 +178,8 @@ export const StepsBooking: FunctionComponent = () => {
         <>
 
           <div style={{ display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "space-evenly" }}>
-            <Pre_booking />
+            {window.scroll(0, 0)}
+            <Pre_booking type={0} />
             <AccomodationsSelect />
           </div>
         </>
@@ -169,14 +187,14 @@ export const StepsBooking: FunctionComponent = () => {
         null}
 
       { selectedStep === 2 && continueBooking === false && supabase.auth.user() ?
-
-        <div style={{ display: "flex", flexDirection: "row", alignItems: "center", justifyContent: "space-evenly" }}>
-          <Pre_booking />
+        <div>
+          {window.scroll(0, 0)}
           <PaxForm />
         </div>
 
         : selectedStep === 2 && continueBooking === false ?
-          <div>Please,log in</div>
+          <div className="logInBookingSteps">
+            Please,log in</div>
           : null
       }
 

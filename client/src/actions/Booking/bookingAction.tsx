@@ -150,11 +150,13 @@ export const setLoading = (payload: boolean) => {
 
 export const getPax=(uuid:string | undefined)=>{
     return async(dispatch:Dispatch<any>)=>{
+        dispatch(setLoading(true))
         const {data:pax}:any = await supabase
         .from("paxes")
         .select("*")
         .eq("uuid",`${uuid}`) 
         dispatch(get_pax_data(pax[0]))
+        dispatch(setLoading(false))
     }
 }
 const get_pax_data=(payload:any)=>{

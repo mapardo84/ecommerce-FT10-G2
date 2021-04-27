@@ -19,9 +19,10 @@ export function getByPaxID(id: any) {
                 console.log('bypax')
                 const relacional:any=await supabase
                 .from("booking_pax")
-                .select(`*, pax_id(*), booking_id(*,room_id(*))`)
+                .select(`*, pax_id(uuid)`)
                 .eq(`pax_id`, `${id}`)
                 .limit(4)
+
                 dispatch(get_bookingPax(relacional.data))
                 console.log(`by pax id ${relacional}`)
             } catch (e) {
@@ -30,6 +31,58 @@ export function getByPaxID(id: any) {
         }
     }
 }
+
+export function getByPaxUuidAdd(uuid: string) {
+    if(uuid.length<1){
+        return async (dispatch:any)=>{
+            dispatch(get_paxUuid([]))
+        }
+        }else{
+        return async (dispatch:any)=>{
+            
+            console.log('byuuid')
+            const pax:any=await supabase
+            .from("paxes")
+            .select(`*`)
+            .ilike('uuid', `%${uuid}%`) 
+            .limit(4)
+            console.log(pax.data)
+            dispatch(get_paxUuidAdd(pax.data))
+        }
+                    
+    }
+}
+
+const get_paxUuidAdd=(payload:any)=>{
+    return {
+        type:BYPAXUUID,
+        payload
+    }
+}
+// export function getByPaxID(id: any) {
+
+//     if(id.length===0){ 
+//         return async (dispatch:any)=>{
+//             dispatch(get_bookingPax([]))
+//         }
+//     }else{
+//         return async (dispatch:any)=>{
+//             try {
+//                 console.log('bypax')
+//                 const relacional:any=await supabase
+//                 .from("booking_pax")
+//                 .select(`*, pax_id(*), booking_id(*,room_id(*))`)
+//                 .eq(`pax_id`, `${id}`)
+//                 .limit(4)
+//                 dispatch(get_bookingPax(relacional.data))
+//                 console.log(`by pax id ${relacional}`)
+//             } catch (e) {
+//               console.log(e)
+//             }
+//         }
+//     }
+// }
+
 
 export function getByBookingID(id: any){
     if(id.length===0){
