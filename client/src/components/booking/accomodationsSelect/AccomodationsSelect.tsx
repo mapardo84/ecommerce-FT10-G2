@@ -4,11 +4,12 @@ import { AccomodationsCards } from "./AccomodationsCards";
 import { setBookData, stepChange } from '../../../actions/Booking/bookingAction';
 import { bookingType } from '../guestsForm/GuestsForm';
 import "./AccomodationsSelect.less";
-import { useState } from "react";
+import { SyntheticEvent, useState } from "react";
 import { promotionType } from "../../../actions/Promotions/promotionsAction";
 import { supabase } from "../../../SupaBase/conection";
 import { setGuests } from "../../../actions/Booking/pre_booking_action";
 import { IoIosArrowBack } from "react-icons/io";
+import { SyntheticEventData } from "react-dom/test-utils";
 const { Option } = Select;
 
 export interface roomType {
@@ -43,13 +44,13 @@ export const AccomodationsSelect = (): JSX.Element => {
   const freeRooms = useSelector((state: any) => state.bookings.freeRooms);
   const loadingStatus = useSelector((state: any) => state.bookings.loading);
 
-  const handleClickBack = (e: any) => {
+  const handleClickBack = (e:SyntheticEvent) => {
     e.preventDefault();
     localStorage.removeItem("Check&Guests")
     dispatch(stepChange(0));
   }
 
-  const handleClickNext = (e: any) => {
+  const handleClickNext = (e:SyntheticEvent) => {
     e.preventDefault();
     booking.category = userSelection;
     booking.original_price = booking.category.category.price * booking.category.type.beds
@@ -88,7 +89,7 @@ export const AccomodationsSelect = (): JSX.Element => {
     setUserSelection({ ...userSelection, type: resul });
   }
 
-  const handleRadioGroup = (e: any) => {
+  const handleRadioGroup = (e:any) => {
     const { checked, value } = e.target;
     checked ? setUserSelection({ ...userSelection, category: value }) :
       setUserSelection({ ...userSelection, category: '' });
