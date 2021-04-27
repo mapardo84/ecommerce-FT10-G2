@@ -53,11 +53,13 @@ export const GuestsForm = () => {
   }
 
   const disabledDate = ((current: any) => {
+    console.log(current);
     return current && current < moment().subtract(1, 'd');
   });
 
   const handleClickRooms = async (e:any) => {
     e.preventDefault();
+    console.log(e);
     dispatch(setBookData(booking));
     dispatch(getCategoriesForUser(booking));
     dispatch(setLoading(true));
@@ -81,10 +83,7 @@ export const GuestsForm = () => {
   }
   return (
     <div className='conteiner'>
-
       <div className="guestTitleBooking">BOOKING</div>
-
-
       <Form
         name="validate_other"
         {...formItemLayout}
@@ -94,9 +93,7 @@ export const GuestsForm = () => {
           'input-number-children': 0,
         }}
       >
-
         <div className="guestEarlyBooking">
-
           <div >
             <Form.Item className='input'>
               <Form.Item name="input-number-guests"  >
@@ -139,9 +136,7 @@ export const GuestsForm = () => {
             <RangePicker disabledDate={disabledDate} onCalendarChange={handleChangeDates} className='backgroundPageA' open={true} />
           </div>
         </div>
-        
         <div className='btn'>
-
           <Form.Item
             wrapperCol={{
               span: 12,
@@ -149,9 +144,6 @@ export const GuestsForm = () => {
             }}
           >
             <div className="buttons_Guests">
-
-
-
               <Link to='/home'>
                 <Button onClick={() => dispatch(setBookData({guests: 0, range: [], nights: 0, category: [],original_price:0, fee: 0, room_id: 0,early_checkin:false,late_checkout:false}))} >Cancel</Button>
               </Link>
@@ -159,11 +151,8 @@ export const GuestsForm = () => {
               <Button disabled={!(booking.range[0] && booking.range[1] && booking.guests)} onClick={handleClickRooms} type="primary">
                 Next
               </Button>
-
             </div>
-
           </Form.Item>
-
         </div>
       </Form>
     </div>
