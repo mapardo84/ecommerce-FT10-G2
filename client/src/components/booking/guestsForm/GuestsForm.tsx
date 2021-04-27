@@ -3,13 +3,12 @@ import '../../Calendar/MyCalendar.less';
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useDispatch } from 'react-redux'
-import { Space, DatePicker, Switch } from 'antd';
+import { DatePicker, Switch } from 'antd';
 import { setBookData, stepChange, getCategoriesForUser, setLoading } from '../../../actions/Booking/bookingAction';
 import { Form, InputNumber, Button } from 'antd';
 import moment from 'moment';
 import { supabase } from '../../../SupaBase/conection';
 import { setGuests } from '../../../actions/Booking/pre_booking_action';
-import Checkbox from 'antd/lib/checkbox/Checkbox';
 const { RangePicker } = DatePicker;
 const formItemLayout = {
   labelCol: {
@@ -57,28 +56,27 @@ export const GuestsForm = () => {
     return current && current < moment().subtract(1, 'd');
   });
 
-  const handleClickRooms = async (e: any) => {
+  const handleClickRooms = async (e:any) => {
     e.preventDefault();
     dispatch(setBookData(booking));
     dispatch(getCategoriesForUser(booking));
     dispatch(setLoading(true));
     localStorage.setItem("Check&Guests", JSON.stringify({ paxes: booking.guests, in_out: booking.range, nights: booking.nights, early_check: booking.early_checkin, late_check: booking.late_checkout }))
     if (supabase.auth.user()) {
-      // dispatch(setGuests("hola","dale"))
       dispatch(setGuests(supabase.auth.user()?.email, JSON.stringify({ paxes: booking.guests, in_out: booking.range, nights: booking.nights, early_check: booking.early_checkin, late_check: booking.late_checkout })))
     }
     dispatch(stepChange(1));
   }
 
-  const onFinish = (values: string) => {
+  const onFinish = (values:string) => {
     console.log('Received values of form: ', values);
   };
 
-  const onCheckin = (early_checkin: boolean) => {
+  const onCheckin = (early_checkin:boolean) => {
     setBooking({ ...booking, early_checkin })
   }
 
-  const onCheckout = async (late_checkout: boolean) => {
+  const onCheckout = async (late_checkout:boolean) => {
     await setBooking({ ...booking, late_checkout })
   }
   return (
