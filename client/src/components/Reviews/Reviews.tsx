@@ -75,9 +75,9 @@ export const Reviews = ({ idRv }: any) => {
                                         {(x.review)}
                                     </div>
                                     <div className="newReviewDate">
-                                        <Tooltip title={moment().format('')}>
+                                        {/* <Tooltip title={moment().format('')}>
                                             <span>{moment().format(`YYYY-MM-DD`)}</span>
-                                        </Tooltip>
+                                        </Tooltip> */}
                                     </div>
                                 </div>
                             </div>
