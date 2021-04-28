@@ -22,8 +22,10 @@ export const Faq = () => {
       <div className="title">
         GENERAL
       </div>
+      <div className="okkk2">
       <Collapse className="ok" defaultActiveKey={[""]}>
         <Panel
+        className="panel"
           header="Which advantages can I get if I book directly from the hotel web site?"
           key="1"
         >
@@ -119,6 +121,8 @@ export const Faq = () => {
             <p>There are discount options for children.</p>
           </Panel>
         </Collapse>
+      </div>
+     
       </div>
     </div>
   );

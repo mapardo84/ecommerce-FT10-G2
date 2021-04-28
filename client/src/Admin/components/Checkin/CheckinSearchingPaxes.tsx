@@ -77,8 +77,9 @@ export const CheckinSearchingPaxes = ({ setModal, bookingStore, setModalCreateVi
                 onSelect={onSelect}
                 onSearch={onChange}
                 value={search}
+                onKeyDown={(e) => e.keyCode === 13 ? e.preventDefault() : ''}
             >
-                <Input.Search size="large" placeholder="Search Pax" onSearch={onSelect} />
+                {/* <Input.Search size="large" placeholder="Search Pax" onSearch={onSelect} /> */}
             </AutoComplete>
             <br />
             <br />
