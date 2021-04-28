@@ -93,7 +93,7 @@ export const HomeLayout = (): JSX.Element => {
             </div>
           </div>
         </Content>
-        { promotions? <PromotionsViewer promo={promotions}/> : <p>There are not current promotions</p> }
+        {/* { promotions? <PromotionsViewer promo={promotions}/> : <p>There are not current promotions</p> } */}
         <FooterLayout />
       </Layout>
     </>

@@ -7,21 +7,37 @@
   left: 0;
   top: 0;
   height: 90px;
-  background: #5296a5 !important;
-  z-index: 70;
+  background: #5296a500 ;
+  display: flex;
+  justify-content: space-between;
+  z-index: 900;
+
+  background: linear-gradient(#00000059, #9198e500);
+}
+
+.NavBarLayoutActive{
+  position: fixed;
+  width: 100vw;
+  left: 0;
+  top: 0;
+  height: 90px;
+  background: white;
   box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.301) !important;
   display: flex;
   justify-content: space-between;
   z-index: 900;
-}
+  animation-name: nav;
+  animation-duration: 0.3s;
+
+  }
+  @keyframes nav {
+    0%   {background-color: #5296a500;}
+    100% {background-color: #ffffff;}
+  }
 
 .ant-dropdown-menu{
   position: relative  !important;
 }
-
-// .DropNavButton{
-//   position: fixed !important;
-// }
 
 .navTitleRes{
    display: none;
@@ -61,6 +77,12 @@
   margin-right: 20px;
 }
 
+.imagenActive {
+  filter: brightness(0%);
+  height: 70px;
+  margin-right: 20px;
+}
+
 .navTitle {
   font-weight: initial;
   font-weight: 500;
@@ -87,8 +109,9 @@
 }
 
 .btnNavbar {
-  background-color: #5296a5 !important;
+  background-color: #019dce !important;
   color: rgb(255, 255, 255) !important;
+  border: none !important;
 }
 
 .btnNavbar:hover {
@@ -98,11 +121,18 @@
 }
 
 .navButton {
-  background-color: #5296a5 !important;
+  // background-color: #5296a5 !important;
   color: #ffff !important;
   font-size: 18px !important;
   margin-right: 10px;
 }
+
+.navButtonActive {
+  color: rgb(0, 0, 0) !important;
+  font-size: 18px !important;
+  margin-right: 10px;
+}
+
 .navButton:hover {
   color: #c2c1c1 !important;
 }

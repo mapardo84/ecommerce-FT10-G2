@@ -1,10 +1,42 @@
 
 .slidesImages{
-    height: 70vh;
+    height: 750px;
     width: 100vw;
     object-fit: cover;
-    filter: brightness(75%);
+    filter: brightness(79%);
     font-family: 'Montserrat', sans-serif;
+    transform: scaleX(-1);
+}
+
+.sliceTitle{
+  position: absolute;
+  top: 380px; 
+  left: 60px;
+  z-index: 2;
+  color: white;
+  font-size: 60px;
+  font-weight: 800;
+  width: 700px;
+  line-height: 65px;
+  text-shadow: 2px 2px 30px black;
+}
+
+.sliceDescription{
+  position: absolute;
+  top: 520px; 
+  left: 60px;
+  z-index: 2;
+  color: white;
+  font-size: 20px;
+  font-weight: 500;
+  width: 800px;
+  text-shadow: 10px 10px 20px black !important; 
+}
+.sliceButton{
+  position: absolute;
+  top: 580px; 
+  left: 60px;
+  z-index: 2;
 }
 
 .slidesText{
@@ -20,8 +52,9 @@
 }
 .slideContainer{
     position: relative;
-    margin-top: 40px !important;
-
+  }
+  
+.containerSlide{
 }
 
 @media only screen and (max-width: 767px) {
@@ -45,7 +78,6 @@
 
     .slideContainer{
       position: relative;
-      margin-top: 70px !important;
     }
 }
 
@@ -70,6 +102,5 @@
 
     .slideContainer{
       position: relative;
-      margin-top: 70px !important;
     }
 }
