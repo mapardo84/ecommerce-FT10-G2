@@ -7,6 +7,7 @@ import {getAllCategories} from "../../actions/categoriesActions"
 import { promotionType } from '../../../actions/Promotions/promotionsAction';
 import './discounts.less'
 import { Category } from '../Categories/Categories';
+import moment from 'moment';
 
 export interface IDiscounts {
     id: number,
@@ -33,9 +34,6 @@ const campos: IFields[] = [
     { name: ['published'], value: '' },
 ]
 
-
-
-
 export const Discounts = () =>{
     const { Option } = Select;
     const dispatch = useDispatch();
@@ -52,7 +50,6 @@ export const Discounts = () =>{
     
     }, [promotions, dispatch])
     
-  
     const columns: any = [
         {
             title: 'ID',
@@ -163,8 +160,8 @@ export const Discounts = () =>{
             { name: ['description'], value: index.description },
             { name: ['value'], value: index.value },
             { name: ['categoryToApply'], value: index.categoryToApply },
-            { name: ['releaseDate'], value: index.releaseDate },
-            { name: ['expirationDate'], value: index.expirationDate },
+            { name: ['releaseDate'], value: moment(index.releaseDate) },
+            { name: ['expirationDate'], value: moment(index.expirationDate) },
             { name: ['published'], value: index.published},
         ])
     }
@@ -205,54 +202,51 @@ export const Discounts = () =>{
                         <Select style={{ width: "200px" }} >
                             {
                                 categories.map((category: Category) => {
-                                    return (<Select.Option key={category.id} value={category.id.toString()}>{category.name}</Select.Option>)
+                                    return (<Select.Option key={category.id} value={category.id}>{category.name}</Select.Option>)
                                 })
                             }
                         </Select>
                 </Form.Item>
-                      
                 <Form.Item
                     label="Release Date"
                     name="releaseDate"
                     rules={[{ required: true, message: 'Please input a Release Date!' }]}>
+                          {/* <Input placeholder="releaseDate"></Input> */}
                     <DatePicker placeholder='Release Date' format='YYYY-MM-DD'/>
                 </Form.Item>
                 <Form.Item
                     label="Expiration Date"
                     name="expirationDate"
                     rules={[{ required: true, message: 'Please input a Expiration Date!' }]}>
+                        {/* <Input placeholder="expirationDate"></Input> */}
                     <DatePicker placeholder='Expiration Date' format='YYYY-MM-DD'/>
-                
-                    
                 </Form.Item>
                 <Form.Item
                     label="Value"
                     name="value"
                     rules={[{ required: true, message: 'Please input a value' }]}>
-                
                     <Input placeholder="value"></Input>
-                </Form.Item>
-
+                </Form.Item>          
                 <Form.Item
                     label="Description"
                     name="description"
                     rules={[{ required: true, message: 'Please input a description!' }]}>
                     <Input placeholder="description"></Input>
                 </Form.Item>
-              
                 <Form.Item
                     label="Published"
                     name="published"
+                    
                 >
                     <Select
                         placeholder="Select a published"
                         style={{ width: 190 }}
+                        
                     >
-                        <Option value='false' key='1'>false</Option>
-                        <Option value='true' key='2'>true</Option>
+                        <Option value='false' key='1'>False</Option>
+                        <Option value='true' key='2'>True</Option>
                     </Select>
                 </Form.Item>
-
                 <div className="discounts">
                     <Button onClick={closeModal}>
                         Cancel
@@ -260,9 +254,7 @@ export const Discounts = () =>{
                     <Button type="primary" htmlType="submit">
                         Save
                     </Button>
-                    
                 </div>
-
             </Form>
         </Modal>
     </div >
