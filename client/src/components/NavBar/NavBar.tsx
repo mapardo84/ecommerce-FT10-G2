@@ -70,9 +70,9 @@ export const NavBar = () => {
   const [navBar, setNavBar] = useState(false)
 
   const changeBackground = () => {
-    if (window.scrollY >= 100) {
+    if (window.scrollY >= 20) {
       setNavBar(true)
-    } else {
+    } else  {
       setNavBar(false);
     }
   }
@@ -108,7 +108,7 @@ export const NavBar = () => {
             <div className="colContainer">
               <Col span={12}>
                 <div className="navLeft">
-                  <NavLink to="/home"><img className={navBar ? 'imagenActive' : "imagen"} src={hotel} alt="IMG NOT FOUND" /></NavLink>
+                  <NavLink to="/home"><img className={navBar ? 'imagenNavBarActive' : "imagenNavBar"} src={hotel} alt="IMG NOT FOUND" /></NavLink>
                 </div>
               </Col>
               <Col span={12}>
@@ -139,7 +139,7 @@ export const NavBar = () => {
                         :
                         <Button
                           onClick={() => setVisible(true)}
-                          className="navButton"
+                          className={navBar ? 'navButtonActive' : "navButton" }
                           type="text">
                           Log In
                          </Button>
@@ -163,15 +163,16 @@ export const NavBar = () => {
           <div className="navResponsiveMenu" >
 
             <div className="navImageContainer">
-              <NavLink to="/home"><img className="imagen" src={hotel} alt="IMG NOT FOUND" /></NavLink>
+              <NavLink to="/home"><img className={navBar ? 'imagenNavBarActive' : "imagenNavBar"} src={hotel} alt="IMG NOT FOUND" /></NavLink>
             </div>
 
-            <div className="navButtonMenu">
+            <div className={"navButtonMenu"}>
               <Button type="text" onClick={handleNavResponsive} >
-                <MenuOutlined style={{ fontSize: '24px', color: 'white' }} />
+                <MenuOutlined style={navBar ? {fontSize:"24px", color:"black"}: {fontSize:"24px", color:"white"}} />
               </Button>
             </div>
           </div>
+
         </div>
 
 

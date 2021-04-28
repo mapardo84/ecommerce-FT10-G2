@@ -14,6 +14,7 @@ export const HomeSlides = () => {
         autoplay: true,
         autoplaySpeed: 4000,
         pauseOnHover: false,
+        
     };
 
     return (
@@ -26,11 +27,14 @@ export const HomeSlides = () => {
                     We have the best destination e have the best destination
                   </div>
                 <div className="sliceButton">
-                    <NavLink to="/booking"><Button type="primary" size="large">BOOK NOW</Button></NavLink>
+                    <NavLink to="/booking"><Button type="primary" size="large">Book Now</Button></NavLink>
+                </div>
+                <div className="sliceButtonResponsive">
+                    <NavLink to="/booking"><Button type="primary">Book Now</Button></NavLink>
                 </div>
             </div>
 
-            <Carousel {...settings} >
+            <Carousel effect="fade" {...settings} >
                 <div className="slideContainer">
                     <img className="slidesImages" src='./images/slide0.jpg' alt="Img not found" />
                 </div>

@@ -2,17 +2,17 @@
 @import url("https://fonts.googleapis.com/css2?family=Montserrat:wght@500&display=swap%27");
 
 .NavBarLayout{
-  position: fixed;
+  // position: rela;
   width: 100vw;
   left: 0;
   top: 0;
   height: 90px;
+  margin-bottom: -90px;
   background: #5296a500 ;
   display: flex;
   justify-content: space-between;
   z-index: 900;
-
-  background: linear-gradient(#00000059, #9198e500);
+  background: linear-gradient(#0000003f, #9198e500);
 }
 
 .NavBarLayoutActive{
@@ -27,12 +27,12 @@
   justify-content: space-between;
   z-index: 900;
   animation-name: nav;
-  animation-duration: 0.3s;
+  animation-duration: 0.6s ;
 
   }
   @keyframes nav {
-    0%   {background-color: #5296a500;}
-    100% {background-color: #ffffff;}
+    0%   { top:-90px;}
+    100% { top:0px;}
   }
 
 .ant-dropdown-menu{
@@ -72,12 +72,12 @@
   margin-left: 40px;
 }
 
-.imagen {
+.imagenNavBar {
   height: 70px;
   margin-right: 20px;
 }
 
-.imagenActive {
+.imagenNavBarActive {
   filter: brightness(0%);
   height: 70px;
   margin-right: 20px;
@@ -185,16 +185,24 @@
     height: 75px !important;
     grid-template-columns: 1fr 1fr 1fr;
     grid-template-areas: 
-    ". imagen1 menu" 
+    ". imagenNavBar1 menu" 
+  }
+
+.NavBarLayoutActive{
+  z-index: 900;
+  display: grid;
+  height: 75px !important;
+  grid-template-columns: 1fr 1fr 1fr;
+  grid-template-areas: 
+  ". imagenNavBar1 menu" 
   }
 
   .navImageContainer{
-    grid-area: imagen1;
+    grid-area: imagenNavBar1;
     display: flex;
     justify-content: center;
     align-items: center;
   }
-
 
   .navButton {
     background-color: #2e323300 !important;
@@ -204,10 +212,15 @@
   }
 
     
-  .imagen {
+  .imagenNavBar {
     height: 55px;
     margin-right: 0px;
+  }
 
+  .imagenNavBarActive {
+    filter: brightness(0%);
+    height: 55px;
+    margin-right: 0px;
   }
 
   .navDrawerContent{
@@ -250,10 +263,19 @@
   }
 }
 
-
 @media only screen and (min-width: 701px)  and (max-width: 1000px) {
 
   .NavBarLayout{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    z-index: 900;
+     padding-left: 25px;
+    padding-right: 10px;
+  }
+
+
+  .NavBarLayoutActive{
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -269,11 +291,17 @@
     margin-right: 10px;
   }
 
-  .imagen {
+  .imagenNavBar {
     height: 65px;
     margin-right: 20px;
     text-align: center;
     // margin-left: 35vw;
+  }
+
+  .imagenNavBarActive {
+    filter: brightness(0%);
+    height: 65px;
+    margin-right: 20px;
   }
 
   .navDrawerContent{
@@ -291,7 +319,7 @@
   }
   .navTitleRes{
     display: contents;
-    color: white;
+    color: rgb(0, 0, 0);
     font-size: 23px;
  }
   .headerNav{ 

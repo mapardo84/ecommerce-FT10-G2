@@ -45,7 +45,7 @@ export const HomeLayout = (): JSX.Element => {
       <Layout className="container">
         <NavBar />
         {
-          name !== "empty" && <div className="welcomeBox">Welcome, {name}</div>
+          name !== "empty" && <div className="welcomeBox">Welcome {name}!</div>
         }
         <Content>
           <HomeSlides />
