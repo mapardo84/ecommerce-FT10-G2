@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { initialStateProps } from "../../../reducers/categoriesReducer";
-import { Button, Carousel, Divider, Image } from "antd";
+import { Button, Carousel, Divider, Image, Spin } from "antd";
 import { Reviews } from '../../Reviews/Reviews'
 //import "antd/dist/antd.css";
 import "./Details.less";
@@ -61,22 +61,39 @@ const Details = ({ data }: any): JSX.Element => {
   const session = supabase.auth.session();
   const idUser = useSelector((state: any) => state.idByMail)
   const checkout = useSelector((check: any) => check.getCheckOut)
+  const reviews = useSelector((state: any) => state.reviews.reviews)
+  const [veri, setVeri] = useState(false)
 
-  let verificacion = checkout.checkOut.filter((e: any) => e.pax_id !== null)
-  if (verificacion[0]?.booking_id?.room_id?.category_id == id) {
-    let verificacionId = verificacion
-    if (verificacionId[0].booking_id.checkout.split('-').join('') < fecha.split('-').join('')) {
-      verificacion = true
-    }
-  }
-  else {
-    verificacion = false
-  }
+  
+useEffect(()=>{
+  let verificacion = checkout.checkOut.filter((e: any) => e.pax_id != null)
+    let reserva = verificacion.find((item:any) => item.booking_id?.room_id?.category_id == id)
+      if (reserva != null 
+          && (reserva.booking_id.checkout.split('-').join('') < fecha.split('-').join('')) 
+          && !reviews.some((review:any) => review.category_id == id && review.user_id?.id == idUser.userId[0]?.id )
+      ) {
+        setVeri(true)
+      }
+
+},[])
 
   useEffect(() => {
     setCategory(cat.find((x: any) => x.id === Number(id)));
     window.scroll(0, 0)
   }, [cat, id]);
+
+
+  useEffect(() => {
+    let verificacion = checkout.checkOut.filter((e: any) => e.pax_id != null)
+    let reserva = verificacion.find((item:any) => item.booking_id?.room_id?.category_id == id)
+      if (reserva != null 
+          && (reserva.booking_id.checkout.split('-').join('') < fecha.split('-').join('')) 
+          && !reviews.some((review:any) => review.category_id == id && review.user_id?.id == idUser.userId[0]?.id )
+      ) {
+        setVeri(true)
+      }
+    }, [id, checkout.checkOut, reviews])
+    //
 
   useEffect(() => {
     getIdByMail(session?.user.email, dispatch)
@@ -147,7 +164,7 @@ const Details = ({ data }: any): JSX.Element => {
       <div className="reviewsContainerGlobal">
         <div className="categoryResponsiveDetails" style={{ fontSize: "30px", marginTop: "0px" }}>REVIEWS</div>
         <div className="addReviewContainer">
-          <AddReview categId={id} userId={idUser?.userId[0]?.id} veri={verificacion} />
+          <AddReview categId={id} userId={idUser?.userId[0]?.id} veri={veri} />
         </div>
         <div className="reviewsContainer">
           <Reviews idRv={id} />

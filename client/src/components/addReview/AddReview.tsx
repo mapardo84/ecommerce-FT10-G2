@@ -38,7 +38,7 @@ export default function AddReview({ categId, userId, veri }: any): ReactElement 
     return (
 
         <div>
-            { session?.user.email && veri &&
+            { (session?.user.email && veri) &&
 
                 <Form
                     initialValues={{ remember: false }}
