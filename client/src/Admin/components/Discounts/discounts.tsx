@@ -1,4 +1,4 @@
-import { Button, Table, Form, Modal, Input, Tooltip, Popconfirm, Select } from 'antd';
+import { Button, Table, Form, Modal, Input, Tooltip, Popconfirm, Select, DatePicker } from 'antd';
 import { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { getAllDiscounts, updateDiscounts, checkId, deleteDiscount,addDiscount } from '../../actions/discountsActions';
@@ -6,6 +6,8 @@ import { FaTrashAlt, FaPencilAlt } from 'react-icons/fa';
 import {getAllCategories} from "../../actions/categoriesActions"
 import { promotionType } from '../../../actions/Promotions/promotionsAction';
 import './discounts.less'
+import { Category } from '../Categories/Categories';
+
 export interface IDiscounts {
     id: number,
     description: string,
@@ -31,6 +33,9 @@ const campos: IFields[] = [
     { name: ['published'], value: '' },
 ]
 
+
+
+
 export const Discounts = () =>{
     const { Option } = Select;
     const dispatch = useDispatch();
@@ -46,6 +51,7 @@ export const Discounts = () =>{
         dispatch(getAllCategories()) 
     
     }, [promotions, dispatch])
+    
   
     const columns: any = [
         {
@@ -195,21 +201,29 @@ export const Discounts = () =>{
                 <Form.Item
                     label="Category To Apply"
                     name="categoryToApply"
-                    rules={[{ required: true, message: 'Please input a categoryToApply!' }]}>
-                    <Input placeholder="categoryToApply"></Input>
+                    rules={[{ required: true, message: 'Please input a category!' }]}>
+                        <Select style={{ width: "200px" }} >
+                            {
+                                categories.map((category: Category) => {
+                                    return (<Select.Option key={category.id} value={category.id.toString()}>{category.name}</Select.Option>)
+                                })
+                            }
+                        </Select>
                 </Form.Item>
                       
                 <Form.Item
                     label="Release Date"
                     name="releaseDate"
-                >
-                    <Input placeholder="releaseDate"></Input>
+                    rules={[{ required: true, message: 'Please input a Release Date!' }]}>
+                    <DatePicker placeholder='Release Date' format='YYYY-MM-DD'/>
                 </Form.Item>
                 <Form.Item
                     label="Expiration Date"
                     name="expirationDate"
-                >
-                    <Input placeholder="expirationDate"></Input>
+                    rules={[{ required: true, message: 'Please input a Expiration Date!' }]}>
+                    <DatePicker placeholder='Expiration Date' format='YYYY-MM-DD'/>
+                
+                    
                 </Form.Item>
                 <Form.Item
                     label="Value"
