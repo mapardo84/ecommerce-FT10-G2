@@ -3,7 +3,7 @@ import { Button } from 'antd'
 import { strict } from 'node:assert'
 import React, { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { useParams } from 'react-router'
+import { Redirect, useParams } from 'react-router'
 import { Link } from 'react-router-dom'
 import { idText } from 'typescript'
 import { delete_pre_booking, get_pre, post_pax_booking_payment, update_balance } from '../../actions/Booking/pre_booking_action'
@@ -17,6 +17,8 @@ import { IconContext } from 'react-icons'
 export interface BookingValues {
     checkin: Date;
     checkout: Date;
+    early_checkin:boolean;
+    late_checkout:boolean;
     room_id: number;
     paxes_amount: number;
     paxTitular_id?: number;
@@ -27,6 +29,19 @@ export interface PaymentValues {
     booking_id?: number;
     payment_method: string;
     payment_status: string;
+}
+
+export interface ConfirmationEmail{
+    first_name:string;
+    last_name:string;
+    uuid:string;
+    country:string;
+    category:string;
+    type:string;
+    checkin:Date;
+    checkout:Date;
+    paxes:number;
+    email:string|undefined
 }
 
 
@@ -65,7 +80,7 @@ export function SuccessPayment() {
                 first_name: str.first_name,
                 last_name: str.last_name,
                 phone: str.phone,
-                country: str.country[0],
+                country: str.country,
                 birth_date: new Date(str.birth_date),
                 address: str.address
             }
@@ -73,6 +88,8 @@ export function SuccessPayment() {
             const bookingInfo: BookingValues = {
                 checkin: new Date(str.checkin),
                 checkout: new Date(str.checkout),
+                early_checkin:str.early_checkin,
+                late_checkout:str.late_checkout,
                 room_id: str.room_id,
                 paxes_amount: str.paxes,
             }
@@ -83,8 +100,24 @@ export function SuccessPayment() {
                 payment_status: "Approved",
             }
 
+            const email:ConfirmationEmail={
+                first_name: str.first_name,
+                last_name: str.last_name,
+                uuid: str.uuid,
+                country: str.country,
+                checkin: str.checkin,
+                checkout: str.checkout,
+                category:str.category,
+                type:str.type,
+                paxes: str.paxes,
+                email:supabase.auth.user()?.email
+            }
+            console.log(str.country)
 
-            dispatch(post_pax_booking_payment(paxInfo, bookingInfo, payment))
+
+
+
+            dispatch(post_pax_booking_payment(paxInfo, bookingInfo, payment,email))
         }
         localStorage.removeItem("Check&Guests")
         localStorage.removeItem("Accomodation")
@@ -100,6 +133,7 @@ export function SuccessPayment() {
 
     useEffect(() => {
         return () => {
+            
             localStorage.removeItem("BookingInfo")
             localStorage.removeItem("Unique_id")
             localStorage.removeItem("Payment")
@@ -113,7 +147,7 @@ export function SuccessPayment() {
 
     return (
         <>
-            {/* {str ? */}
+            {str ? 
             <div>
                 <div className="ContainerBookingSuccess">
                     <div className="bookingSuccessTitle">BOOKING</div>
@@ -133,10 +167,8 @@ export function SuccessPayment() {
                     <div><strong>Category & type of room</strong>{str.category} - {str.type}</div>
                 </div>
             </div>
-            {/* :
-                <Link to="/home">
-                    <Button>Go Home Please</Button>
-                </Link>} */}
+            :
+                <Redirect to="/home"></Redirect>}
 
 
         </>
