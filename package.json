@@ -1,5 +1,6 @@
 {
   "dependencies": {
-    "countries-list": "^2.6.1"
+    "countries-list": "^2.6.1",
+    "query-string": "^7.0.0"
   }
 }
