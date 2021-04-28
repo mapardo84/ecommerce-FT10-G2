@@ -222,15 +222,16 @@ export const Discounts = () =>{
                 <Form.Item
                     label="Value"
                     name="value"
-                    rules={[{ required: true, message: 'Please input a value' }]}>
-                
+                    rules={[{ required: true, message: 'Please input a value' }]}
+                >
                     <Input placeholder="value"></Input>
                 </Form.Item>
 
                 <Form.Item
                     label="Description"
                     name="description"
-                    rules={[{ required: true, message: 'Please input a description!' }]}>
+                    rules={[{ required: true, message: 'Please input a description!' }]}
+                >
                     <Input placeholder="description"></Input>
                 </Form.Item>
               
