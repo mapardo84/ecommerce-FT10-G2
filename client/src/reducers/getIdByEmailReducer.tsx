@@ -1,8 +1,8 @@
 import {GET_IDBYMAIL} from '../actions/getUserIdByMail/index';
-import {GET_CHECKOUT} from '../actions/getUserIdByMail/index';
 
-interface IuserID{
-    userId:any
+
+export interface IuserID{
+    userId:[]
 }
 
 interface actionProps {
@@ -11,7 +11,7 @@ interface actionProps {
 }
 
 const initialState:IuserID = {
-    userId: ''
+    userId: []
 }
 
 

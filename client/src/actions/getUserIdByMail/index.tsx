@@ -2,7 +2,7 @@ import {supabase} from '../../SupaBase/conection';
 export const GET_IDBYMAIL ='GET_IDBYMAIL';
 export const GET_CHECKOUT ='GET_CHECKOUT';
 
-export const getUserIdByMail = async (email:any) => {
+export const getUserIdByMail = async (email:string) => {
     let { data: users, error } = await supabase
   .from('users')
   .select('id,uuid')
@@ -14,7 +14,7 @@ export const getUserIdByMail = async (email:any) => {
 }
 
 
-export const checkoutValidation = async (uuid:any)=>{
+export const checkoutValidation = async (uuid:string)=>{
 
   const checkout = await supabase
   .from('booking_pax')

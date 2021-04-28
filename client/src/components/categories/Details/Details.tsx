@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { initialStateProps } from "../../../reducers/categoriesReducer";
-import { Button, Carousel, Divider, Image } from "antd";
+import { Carousel } from "antd";
 import { Reviews } from '../../Reviews/Reviews'
 //import "antd/dist/antd.css";
 import "./Details.less";
@@ -12,11 +12,11 @@ import { supabase } from "../../../SupaBase/conection";
 import { getCategories } from '../../../actions/index'
 
 
-let date: any = new Date()
-let fecha: any
-let day: any = date.getDate()
-let month: any = date.getMonth() + 1
-let year: any = date.getFullYear()
+let date: Date = new Date()
+let fecha: string
+let day: number = date.getDate()
+let month: number = date.getMonth() + 1
+let year: number = date.getFullYear()
 if (month < 10) {
   fecha = year + '-0' + month + '-' + day
 } else {
@@ -51,7 +51,7 @@ interface category {
   details: string[];
 }
 
-const Details = ({ data }: any): JSX.Element => {
+const Details = (): JSX.Element => {
   const { id }: any = useParams();
   const dispatch = useDispatch();
   const [category, setCategory] = useState<category>();
@@ -60,8 +60,8 @@ const Details = ({ data }: any): JSX.Element => {
   ).categories;
   const session = supabase.auth.session();
   const idUser = useSelector((state: any) => state.idByMail)
-  const checkout = useSelector((check: any) => check.getCheckOut)
-
+  const checkout = useSelector((check:any) => check.getCheckOut)
+  
   let verificacion = checkout.checkOut.filter((e: any) => e.pax_id !== null)
   if (verificacion[0]?.booking_id?.room_id?.category_id == id) {
     let verificacionId = verificacion
@@ -72,7 +72,7 @@ const Details = ({ data }: any): JSX.Element => {
   else {
     verificacion = false
   }
-
+  
   useEffect(() => {
     setCategory(cat.find((x: any) => x.id === Number(id)));
     window.scroll(0, 0)
@@ -94,9 +94,7 @@ const Details = ({ data }: any): JSX.Element => {
     }
   }, [dispatch])
 
-  const handleOnClick = (e: any) => {
-    console.log("Bookearon!");
-  };
+ 
 
   const settings = {
     dots: true,

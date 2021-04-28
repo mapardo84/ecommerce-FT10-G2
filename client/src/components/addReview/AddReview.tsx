@@ -4,8 +4,7 @@ import { addReview } from './../../actions/addReview/index';
 import { supabase } from '../../SupaBase/conection';
 import './AddReview.less';
 import { useDispatch } from 'react-redux';
-import React from 'react';
-import { get_reviews } from '../../actions/Reviews/Reviews';
+
 
 
 const desc = ['Terrible', 'Bad', 'Normal', 'Good', 'Wonderful'];
