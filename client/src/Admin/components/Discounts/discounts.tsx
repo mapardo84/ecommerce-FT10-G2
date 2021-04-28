@@ -1,13 +1,13 @@
-import { Button, Table, Form, Modal, Input, Tooltip, Popconfirm, Select, DatePicker } from 'antd';
+import { Button, Table, Form, Modal, Input, Tooltip, Popconfirm, Select, Space, DatePicker } from 'antd';
 import { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { getAllDiscounts, updateDiscounts, checkId, deleteDiscount,addDiscount } from '../../actions/discountsActions';
 import { FaTrashAlt, FaPencilAlt } from 'react-icons/fa';
 import {getAllCategories} from "../../actions/categoriesActions"
+import { SearchOutlined } from '@ant-design/icons';
 import { promotionType } from '../../../actions/Promotions/promotionsAction';
 import './discounts.less'
 import { Category } from '../Categories/Categories';
-
 export interface IDiscounts {
     id: number,
     description: string,
@@ -33,9 +33,6 @@ const campos: IFields[] = [
     { name: ['published'], value: '' },
 ]
 
-
-
-
 export const Discounts = () =>{
     const { Option } = Select;
     const dispatch = useDispatch();
@@ -52,6 +49,76 @@ export const Discounts = () =>{
     
     }, [promotions, dispatch])
     
+    // const handleSearch = (selectedKeys: string, confirm: Function, dataIndex: string) => {
+    //     confirm();
+    // };
+
+    // const handleReset = (clearFilters: Function) => {
+    //     clearFilters();
+    // };
+
+    // const getColumnSearchProps = (dataIndex: string) => ({
+    //     filterDropdown: ({
+    //         setSelectedKeys,
+    //         selectedKeys,
+    //         confirm,
+    //         clearFilters,
+    //     }: {
+    //         setSelectedKeys: Function;
+    //         selectedKeys: string;
+    //         confirm: Function;
+    //         clearFilters: Function;
+    //     }) => (
+    //         <div style={{ padding: 8 }}>
+    //             <Input
+    //                 placeholder={`Search ${dataIndex}`}
+    //                 value={selectedKeys[0]}
+    //                 onChange={(e) =>
+    //                     setSelectedKeys(e.target.value ? [e.target.value] : [])
+    //                 }
+    //                 onPressEnter={() => handleSearch(selectedKeys, confirm, dataIndex)}
+    //                 style={{ width: 188, marginBottom: 8, display: "block" }}
+    //             />
+    //             <Space>
+    //                 <Button
+    //                     type="primary"
+    //                     onClick={() => handleSearch(selectedKeys, confirm, dataIndex)}
+    //                     icon={<SearchOutlined />}
+    //                     size="small"
+    //                     style={{ width: 30 }}
+    //                 ></Button>
+    //                 <Button
+    //                     onClick={() => handleReset(clearFilters)}
+    //                     size="small"
+    //                     style={{ width: 60, marginLeft: "52px" }}
+    //                 >
+    //                     Reset
+    //           </Button>
+    //                 <Button
+    //                     type="link"
+    //                     size="small"
+    //                     style={{ marginLeft: "120px" }}
+    //                     onClick={() => {
+    //                         confirm({ closeDropdown: false });
+    //                     }}
+    //                 >
+    //                     Filter
+    //           </Button>
+    //             </Space>
+    //         </div>
+    //     ),
+    //     filterIcon: (filtered: boolean) => (
+    //         <SearchOutlined style={{ color: filtered ? "#1890ff" : undefined }} />
+    //     ),
+    //     onFilter: (value: string, record: any) =>
+    //         record[dataIndex]
+    //             ? record[dataIndex]
+    //                 .toString()
+    //                 .toLowerCase()
+    //                 .includes(value.toLowerCase())
+    //             : "",
+    //     render: (text: string) => text,
+    // });
   
     const columns: any = [
         {
@@ -194,7 +261,7 @@ export const Discounts = () =>{
 
 
 
-
+const {RangePicker} = DatePicker
 
     return (
         <div>
@@ -232,25 +299,26 @@ export const Discounts = () =>{
                         <Select style={{ width: "200px" }} >
                             {
                                 categories.map((category: Category) => {
-                                    return (<Select.Option key={category.id} value={category.id.toString()}>{category.name}</Select.Option>)
+                                    return (<Select.Option key={category.id} value={category.id}>{category.name}</Select.Option>)
                                 })
                             }
                         </Select>
                 </Form.Item>
                 
-            
              
                 <Form.Item
                     label="Release Date"
                     name="releaseDate"
                     rules={[{ required: true, message: 'Please input a Release Date!' }]}>
-                    <DatePicker placeholder='Release Date' format='YYYY-MM-DD'/>
+                          <Input placeholder="releaseDate"></Input>
+                    {/* <DatePicker placeholder='Release Date' format='YYYY-MM-DD'/> */}
                 </Form.Item>
                 <Form.Item
                     label="Expiration Date"
                     name="expirationDate"
                     rules={[{ required: true, message: 'Please input a Expiration Date!' }]}>
-                    <DatePicker placeholder='Expiration Date' format='YYYY-MM-DD'/>
+                        {/* <Input placeholder="expirationDate"></Input> */}
+                    <RangePicker  format='YYYY-MM-DD'/>
                 
                     
                 </Form.Item>
@@ -260,10 +328,7 @@ export const Discounts = () =>{
                     rules={[{ required: true, message: 'Please input a value' }]}>
                 
                     <Input placeholder="value"></Input>
-                </Form.Item>
-
-                  
-               
+                </Form.Item>          
 
                 <Form.Item
                     label="Description"
