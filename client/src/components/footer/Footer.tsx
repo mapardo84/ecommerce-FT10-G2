@@ -3,13 +3,14 @@ import { NavLink } from "react-router-dom";
 import "./footer.less";
 import palm from './img/palm.png'
 import palm2 from './img/palm2.png'
+import instagram from './img/instagram.png'
+import facebook from './img/facebook.png'
 
 const { Footer } = Layout;
 
 export const FooterLayout = () => {
   return (
     <div className='containFooter'>
-    
        <img className='palmBeach' src={palm}/>
          <img className='palmBeach1' src={palm}/>
         <img className='palmBeach2' src={palm}/>
@@ -26,14 +27,18 @@ export const FooterLayout = () => {
               </NavLink>
            
               <Button className="info" type="text">About us</Button>
-         
+              </div>
+         <div className='containletterfooter'>
         
           <NavLink to="/faq"><Button className="info" type="text">F.A.Q</Button></NavLink>
            
-              <Button className="info" type="text">Adress</Button>
-            
-              <Button className="info" type="text">REDES LOGOS</Button>
+              <Button className="info" type="text">Address</Button>
+              <div className='logosfooter'>
+              <img  className='logoFooterInsta' src={instagram}/>
+              <img  className='logoFooterInsta' src={facebook}/>
               </div>
+              </div>
+              
       </Footer>
       </div>
   );
