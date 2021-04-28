@@ -7,6 +7,8 @@ import {getAllCategories} from "../../actions/categoriesActions"
 import { promotionType } from '../../../actions/Promotions/promotionsAction';
 import './discounts.less'
 import { Category } from '../Categories/Categories';
+import moment from 'moment';
+
 export interface IDiscounts {
     id: number,
     description: string,
@@ -47,7 +49,7 @@ export const Discounts = () =>{
         dispatch(getAllCategories()) 
     
     }, [promotions, dispatch])
-  
+    
     const columns: any = [
         {
             title: 'ID',
@@ -158,8 +160,8 @@ export const Discounts = () =>{
             { name: ['description'], value: index.description },
             { name: ['value'], value: index.value },
             { name: ['categoryToApply'], value: index.categoryToApply },
-            { name: ['releaseDate'], value: index.releaseDate },
-            { name: ['expirationDate'], value: index.expirationDate },
+            { name: ['releaseDate'], value: moment(index.releaseDate) },
+            { name: ['expirationDate'], value: moment(index.expirationDate) },
             { name: ['published'], value: index.published},
         ])
     }
@@ -195,38 +197,35 @@ export const Discounts = () =>{
                 <Form.Item
                     label="Category To Apply"
                     name="categoryToApply"
-                    rules={[{ required: true, message: 'Please input a categoryToApply!' }]}>
-                     <Select style={{ width: "200px" }} >
+                    rules={[{ required: true, message: 'Please input a category!' }]}>
+                        <Select style={{ width: "200px" }} >
                             {
-                                categories.map((category:Category) => {
-                                    return (<Select.Option key={category.id} value={category.id.toString()}>{category.name}</Select.Option>)
+                                categories.map((category: Category) => {
+                                    return (<Select.Option key={category.id} value={category.id}>{category.name}</Select.Option>)
                                 })
                             }
-                    </Select>
+                        </Select>
                 </Form.Item>
-
                 <Form.Item
                     label="Release Date"
                     name="releaseDate"
-                    rules={[{ required: true, message: 'Please input a Release Date!' }]}
-                >
+                    rules={[{ required: true, message: 'Please input a Release Date!' }]}>
+                          {/* <Input placeholder="releaseDate"></Input> */}
                     <DatePicker placeholder='Release Date' format='YYYY-MM-DD'/>
                 </Form.Item>
                 <Form.Item
                     label="Expiration Date"
                     name="expirationDate"
-                    rules={[{ required: true, message: 'Please input a Release Date!' }]}
-                >
-                    <DatePicker placeholder='Release Date' format='YYYY-MM-DD'/>
+                    rules={[{ required: true, message: 'Please input a Expiration Date!' }]}>
+                        {/* <Input placeholder="expirationDate"></Input> */}
+                    <DatePicker placeholder='Expiration Date' format='YYYY-MM-DD'/>
                 </Form.Item>
                 <Form.Item
                     label="Value"
                     name="value"
-                    rules={[{ required: true, message: 'Please input a value' }]}
-                >
+                    rules={[{ required: true, message: 'Please input a value' }]}>
                     <Input placeholder="value"></Input>
-                </Form.Item>
-
+                </Form.Item>          
                 <Form.Item
                     label="Description"
                     name="description"
@@ -234,20 +233,20 @@ export const Discounts = () =>{
                 >
                     <Input placeholder="description"></Input>
                 </Form.Item>
-              
                 <Form.Item
                     label="Published"
                     name="published"
+                    
                 >
                     <Select
                         placeholder="Select a published"
                         style={{ width: 190 }}
+                        
                     >
-                        <Option value='false' key='1'>false</Option>
-                        <Option value='true' key='2'>true</Option>
+                        <Option value='false' key='1'>False</Option>
+                        <Option value='true' key='2'>True</Option>
                     </Select>
                 </Form.Item>
-
                 <div className="discounts">
                     <Button onClick={closeModal}>
                         Cancel
@@ -255,7 +254,6 @@ export const Discounts = () =>{
                     <Button type="primary" htmlType="submit">
                         Save
                     </Button>
-                    
                 </div>
             </Form>
         </Modal>
