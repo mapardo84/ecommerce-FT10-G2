@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { supabase } from '../../SupaBase/conection'
+// import { supabase } from '../../SupaBase/conection'
 import { getUserBookings, setLoading } from "../../actions/Booking/userBookings";
 import { useDispatch, useSelector } from 'react-redux';
 import BookingCard from './BookingCard';

@@ -5,7 +5,7 @@ import { IconContext } from 'react-icons/';
 import BookingDetails from './BookingDetails';
 import { cancelUserBooking } from "../../actions/Booking/userBookings";
 import { Button, Modal } from 'antd';
-import { supabase } from '../../SupaBase/conection';
+// import { supabase } from '../../SupaBase/conection';
 import { useDispatch } from 'react-redux';
 
 const BookingCard = (userData: any) => {

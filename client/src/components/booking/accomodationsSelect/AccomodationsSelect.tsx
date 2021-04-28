@@ -1,5 +1,5 @@
 import { useDispatch, useSelector } from "react-redux";
-import { Select, Button, Radio, Skeleton, Card, Affix } from "antd";
+import { Select, Button, Radio, Skeleton, Card} from "antd";
 import { AccomodationsCards } from "./AccomodationsCards";
 import { setBookData, stepChange } from '../../../actions/Booking/bookingAction';
 import { bookingType } from '../guestsForm/GuestsForm';
@@ -8,7 +8,7 @@ import { useState } from "react";
 import { promotionType } from "../../../actions/Promotions/promotionsAction";
 import { supabase } from "../../../SupaBase/conection";
 import { setGuests } from "../../../actions/Booking/pre_booking_action";
-import { IoIosArrowBack } from "react-icons/io";
+// import { IoIosArrowBack } from "react-icons/io";
 const { Option } = Select;
 
 export interface roomType {
@@ -56,7 +56,6 @@ export const AccomodationsSelect = (): JSX.Element => {
     const foundPromo: promotionType = promo.find((p: promotionType) => p.categoryToApply === booking.category.category.id);
     foundPromo ? booking.fee = (booking.category.category.price * booking.category.type.beds * (1 - foundPromo.value / 100)) :
       booking.fee = booking.category.category.price * booking.category.type.beds;
-    console.log(booking.fee);
     booking.category = [userSelection];
     const roomSelected = freeRooms.find((r: roomType) => {
       return (r.category_id === booking.category[0].category.id && r.type_id === booking.category[0].type.id)

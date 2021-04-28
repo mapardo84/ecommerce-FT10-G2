@@ -1,7 +1,7 @@
-import { ConsoleSqlOutlined } from "@ant-design/icons"
+// import { ConsoleSqlOutlined } from "@ant-design/icons"
 import axios from "axios"
 import { Dispatch } from "react"
-import { GiAqueduct } from "react-icons/gi"
+// import { GiAqueduct } from "react-icons/gi"
 import { PaxValues } from "../../components/booking/paxForm/PaxForm"
 import { BookingValues, ConfirmationEmail, PaymentValues } from "../../components/MercadoPago/SuccessPayment"
 import { supabase } from "../../SupaBase/conection"
@@ -140,13 +140,7 @@ export const post_pax_booking_payment = (pax: PaxValues, booking: BookingValues,
 
 export const setGuests=(user_email:any,guests_nights?:any|undefined,accomodation?:any)=>{
     return async(dispatch:Dispatch<any>)=>{
-        if(accomodation){
-            const {data:acomodation_prebooking}:any=await supabase
-            .from("pre_booking")
-            .update({acomodation_step:`${accomodation}`})
-            .eq('user_email',`${user_email}`)
-            localStorage.setItem("Accomodation",accomodation)            
-        }else{
+       if(guests_nights){
             const{data:existPreBooking}:any=await supabase
             .from("pre_booking")
             .select("*")
@@ -162,15 +156,22 @@ export const setGuests=(user_email:any,guests_nights?:any|undefined,accomodation
                 localStorage.setItem("Check&Guests",guests_nights)            
             }else{
                 const {data:createPreBooking}=await supabase
-        .from("pre_booking")
-        .insert([
-            {
-                user_email,
-                guests_nights
+                .from("pre_booking")
+                .insert([
+                {
+                    user_email,
+                    guests_nights
+                }
+                ])}}
+                if(accomodation){
+                    const {data:acomodation_prebooking}:any=await supabase
+                    .from("pre_booking")
+                    .update({acomodation_step:`${accomodation}`})
+                    .eq('user_email',`${user_email}`)
+                    localStorage.setItem("Accomodation",accomodation)            
+                }
             }
-        ])}}
-    }
-}
+            }
 
 
 export const get_pre= (user_email?: string | undefined, preference_id?: string) => {

@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { initialStateProps } from "../../../reducers/categoriesReducer";
-import { Button, Carousel, Divider, Image } from "antd";
+import { Carousel} from "antd";
 import { Reviews } from '../../Reviews/Reviews'
 //import "antd/dist/antd.css";
 import "./Details.less";

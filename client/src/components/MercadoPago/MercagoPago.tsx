@@ -4,7 +4,6 @@ import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { update_balance } from '../../actions/Booking/pre_booking_action';
-import { bookingsReducer } from '../../reducers/bookingsReducer';
 import { supabase } from '../../SupaBase/conection';
 
 
@@ -17,14 +16,12 @@ export const MercadoPago = (props: any) => {
   const {user_data} = useSelector((state: any) => state?.pre_booking)
   const [actual_ballance, setActual_ballance] = useState(0)
   const { booking } = bookings
-  const original_price = booking.fee
 
 
 
   const {early_checkin,late_checkout}=booking
   const {positive_balance}=user_data[0]
   const dispatch = useDispatch()
-  let actually_balance
 
 
   useEffect(() => {
@@ -51,7 +48,6 @@ export const MercadoPago = (props: any) => {
     
     localStorage.setItem("total_price",total_price)
     
-    console.log("asi salgo", total_price,"esta cantidad",quantity)
  
     axios.get(`http://localhost:4000/mercadopago?quantity=${quantity}&unit_price=${total_price}&title=HotelHenry`)
       .then((res) => {
@@ -71,7 +67,7 @@ export const MercadoPago = (props: any) => {
       })
 
       .catch(e => console.log("hola"))
-  }, [])
+  }, [booking.fee,booking.nights,booking.original_price,early_checkin,late_checkout,positive_balance])
 
 
   useEffect(() => {

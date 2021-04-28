@@ -4,10 +4,10 @@ interface Icheckout{
     checkOut:any
 }
 
-interface actionProps {
-    type:string,
-    payload:[]
-}
+// interface actionProps {
+//     type:string,
+//     payload:[]
+// }
 
 const initialState:Icheckout = {
     checkOut: []

@@ -3,13 +3,12 @@ import '../../Calendar/MyCalendar.less';
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useDispatch } from 'react-redux'
-import { Space, DatePicker, Switch } from 'antd';
+import {  DatePicker, Switch } from 'antd';
 import { setBookData, stepChange, getCategoriesForUser, setLoading } from '../../../actions/Booking/bookingAction';
 import { Form, InputNumber, Button } from 'antd';
 import moment from 'moment';
 import { supabase } from '../../../SupaBase/conection';
 import { setGuests } from '../../../actions/Booking/pre_booking_action';
-import Checkbox from 'antd/lib/checkbox/Checkbox';
 const { RangePicker } = DatePicker;
 const formItemLayout = {
   labelCol: {

@@ -1,13 +1,13 @@
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Button, Select } from "antd";
+import { Select } from "antd";
 import "./Category.less";
 import { initialStateProps } from "./../../reducers/categoriesReducer";
 import { getCategories, getCategoriesNames } from "../../actions";
 import Category from "./Category";
 import "./../accomodations/accomodations.less";
 import "./../layout/homeLayout.less";
-import { NavLink } from "react-router-dom";
+// import { NavLink } from "react-router-dom";
 
 const { Option } = Select;
 

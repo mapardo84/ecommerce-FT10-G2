@@ -1,5 +1,5 @@
 import {GET_IDBYMAIL} from '../actions/getUserIdByMail/index';
-import {GET_CHECKOUT} from '../actions/getUserIdByMail/index';
+// import {GET_CHECKOUT} from '../actions/getUserIdByMail/index';
 
 interface IuserID{
     userId:any

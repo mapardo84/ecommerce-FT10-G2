@@ -1,5 +1,5 @@
 import { useDispatch, useSelector } from 'react-redux';
-import { Modal, Button, Layout, Tooltip } from 'antd';
+import { Modal, Button, Tooltip } from 'antd';
 import { Link } from 'react-router-dom';
 import './Category.less';
 import { StarOutlined } from "@ant-design/icons";
@@ -7,7 +7,7 @@ import { addWishlist } from '../../actions/WishlistAction';
 import { useEffect, useState } from 'react';
 import { getUserIdByMail } from '../../actions/getUserIdByMail/index';
 import { supabase } from "../../SupaBase/conection";
-const { Sider, Content } = Layout
+// const { Sider, Content } = Layout
 
 const Category = (props:any): JSX.Element => {
 console.log("PROPS",props)

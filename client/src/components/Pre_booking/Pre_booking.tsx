@@ -1,6 +1,5 @@
 import { CalendarOutlined, UserOutlined } from '@ant-design/icons'
 import { Affix, Collapse, Divider } from 'antd'
-import { BADFLAGS } from 'node:dns'
 import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { getUserBalance } from '../../actions/Booking/pre_booking_action'
@@ -10,8 +9,7 @@ import "./Pre_booking.less"
 export const Pre_booking = (type: any) => {
 
     var { type } = type;
-    console.log("TYPE", type)
-
+    
     const { Panel } = Collapse;
 
 
@@ -32,7 +30,7 @@ export const Pre_booking = (type: any) => {
         if (supabase.auth.user()?.email) {
             dispatch(getUserBalance(supabase.auth.user()?.email))
         }
-    }, [])
+    }, [dispatch])
 
     useEffect(() => {
         if (user_data.length > 0) {
@@ -61,7 +59,7 @@ export const Pre_booking = (type: any) => {
         return <div></div>
     }
 
-    if (type == 0) {
+    if (type === 0) {
         return (
             <>
                 <div className="containerBookingData">
@@ -152,7 +150,7 @@ export const Pre_booking = (type: any) => {
 
 
 
-{/* <ul>
+/* <ul>
                 <li>
                     <strong>Checkin : </strong>{guests ? <span>{guests.in_out[0]}</span> : <span>Seleccionando...</span>}</li>
                 <li>
@@ -186,4 +184,4 @@ export const Pre_booking = (type: any) => {
                 <li>
                     <strong>Total Price : </strong>{acomodation ? <span>{total_price}</span> : <span>Seleccionando...</span>}
                 </li>
-            </ul> */}
+            </ul> */

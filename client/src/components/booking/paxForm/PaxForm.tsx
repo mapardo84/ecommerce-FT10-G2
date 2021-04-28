@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 //import 'antd/dist/antd.css';
-import { Form, Input, Cascader, Select, DatePicker, Checkbox, Button, Switch } from 'antd';
+import { Form, Input, Cascader, Select, DatePicker, Checkbox, Button } from 'antd';
 import { sendPax } from '../../../actions/Booking/PaxFormActions';
 import './PaxForm.less'
 import { getPax, stepChange } from '../../../actions/Booking/bookingAction';
@@ -107,7 +107,7 @@ export function PaxForm() {
     const { user_data } = useSelector((state: any) => state.pre_booking);
 
 
-    const [uuid_match, setUuid_match] = useState(false)     //searchbar pax
+    // const [uuid_match, setUuid_match] = useState(false)     //searchbar pax
 
     const [setInfo, setSetInfo] = useState(false)
 
@@ -134,7 +134,6 @@ export function PaxForm() {
         dispatch(stepChange(1));
     }
     const onFinish = (values: PaxValues) => {
-        console.log('Received values of form: ', values);
         sendPax(values)
     };
 
@@ -142,7 +141,6 @@ export function PaxForm() {
 
     const onChange = async (value: any, allvalues: any) => {
 
-        console.log(booking)
         for (let i in allvalues) {
             if (!allvalues[i]) {
                 return setMp(false)
@@ -161,6 +159,8 @@ export function PaxForm() {
             nights: booking.nights,
             unit_price: booking.fee,
             room_id: booking.room_id,
+            early_checkin:booking.eayly_checkin,
+            late_checkout:booking.late_checkout,
             uuid,
             first_name,
             last_name,
@@ -178,7 +178,6 @@ export function PaxForm() {
 
 
     const confirm_pax = (modal: string) => {
-        console.log(user_data)
         let bookingInfo = {
             checkin: booking.range[0],
             checkout: booking.range[1],
@@ -190,6 +189,8 @@ export function PaxForm() {
             uuid: pax_data.uuid,
             first_name: pax_data.first_name,
             last_name: pax_data.last_name,
+            early_checkin:booking.early_checkin,
+            late_checkout:booking.late_checkout,
             paxes: booking.guests,
             phone: pax_data.phone,
             country: pax_data.country,
@@ -301,7 +302,7 @@ export function PaxForm() {
                                 required: true,
                                 message: 'Please input your name!',
                                 whitespace: true,
-                            },
+                            }
                         ]}
                     >
                         <Input placeholder="Name" className='paxForm_input' />
@@ -356,7 +357,7 @@ export function PaxForm() {
                             },
                         ]}
                     >
-                        <Cascader placeholder="Country" options={residences} className='paxForm_input' />
+                        <Cascader placeholder="Country" options={mapeo} className='paxForm_input' />
                     </Form.Item>
 
                     <Form.Item
