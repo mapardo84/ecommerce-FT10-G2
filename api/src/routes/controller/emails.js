@@ -66,15 +66,15 @@ const {
                                        
             <h2> This is the information about your booking</h2>
             <h3> Titular info </h3>
-            <p style="color:#455056; font-size:15px;line-height:24px; margin:0;"><strong>First name :</strong>${first_name}</p>
-            <p style="color:#455056; font-size:15px;line-height:24px; margin:0;"><strong>Last name :</strong>${last_name}</p>
-            <p style="color:#455056; font-size:15px;line-height:24px; margin:0;"><strong>Personal ID :</strong>${uuid}</p>
-            <p style="color:#455056; font-size:15px;line-height:24px; margin:0;"><strong>Country :</strong>${country}</p>
+            <p style="color:#455056; font-size:15px;line-height:24px; margin:0;"><strong>First name :</strong> ${first_name}</p>
+            <p style="color:#455056; font-size:15px;line-height:24px; margin:0;"><strong>Last name :</strong> ${last_name}</p>
+            <p style="color:#455056; font-size:15px;line-height:24px; margin:0;"><strong>Personal ID :</strong> ${uuid}</p>
+            <p style="color:#455056; font-size:15px;line-height:24px; margin:0;"><strong>Country :</strong> ${country}</p>
             <h3> Booking Info</h3>
-            <p style="color:#455056; font-size:15px;line-height:24px; margin:0;"><strong>Category select :</strong>${category} - ${type}</p>
-            <p style="color:#455056; font-size:15px;line-height:24px; margin:0;"><strong>Check in date :</strong>${checkin}</p>
-            <p style="color:#455056; font-size:15px;line-height:24px; margin:0;"><strong>Check out date :</strong>${checkout}</p>
-            <p style="color:#455056; font-size:15px;line-height:24px; margin:0;"><strong>Guests :</strong>${paxes}</p>
+            <p style="color:#455056; font-size:15px;line-height:24px; margin:0;"><strong>Category select :</strong> ${category} - ${type}</p>
+            <p style="color:#455056; font-size:15px;line-height:24px; margin:0;"><strong>Check in date :</strong> ${checkin}</p>
+            <p style="color:#455056; font-size:15px;line-height:24px; margin:0;"><strong>Check out date :</strong> ${checkout}</p>
+            <p style="color:#455056; font-size:15px;line-height:24px; margin:0;"><strong>Guests :</strong> ${paxes}</p>
                                         
                                     </td>
                                 </tr>

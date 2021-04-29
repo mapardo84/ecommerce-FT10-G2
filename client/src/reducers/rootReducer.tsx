@@ -19,6 +19,7 @@ import { bookingsAdminReducer } from "./bookingsAdminReducer";
 import {discountsAdminReducer} from "./discountsAdminReducer"
 import { promotionsReducer } from './promotionsReducer';
 import { pre_booking_reducer } from "./preBookingReducer";
+import { newsletterReducer } from './newsletterReducer';
 
 //ACA SE AGREGA CADA REDUCER QUE UTILICEN
 export const rootReducer = combineReducers({
@@ -42,5 +43,6 @@ export const rootReducer = combineReducers({
   bookingsAdminR: bookingsAdminReducer,
   adminDiscounts:discountsAdminReducer,
   promotions: promotionsReducer,
-  pre_booking:pre_booking_reducer
+  pre_booking:pre_booking_reducer,
+  newsletters: newsletterReducer,
 });
