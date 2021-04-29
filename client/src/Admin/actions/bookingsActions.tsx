@@ -8,22 +8,12 @@ export const BOOKING_ID = 'BOOKING_ID'
 export const DATA_PAYMENTS = 'DATA_PAYMENTS'
 export const DATA_PAXES = 'DATA_PAXES'
 
-// export const getDataBooking = () => {
-//     return async (dispatch:any)=>{
-        
-//         const {data}:any=await supabase
-//         .from("booking_pax")
-//         .select(`*`)
-//         console.log('hola',data)
-//         dispatch(dataBookingPax(data))
-//     }
-// }
 export const getDataBooking = (param: string, type: string | boolean, value: string | boolean) => {
     const today = moment().format('YYYY-MM-DD')
     if(param) {
 
         if(param === 'all') {
-            return async (dispatch:any)=>{
+            return async (dispatch:Dispatch<any>)=>{
                 
                 const {data}:any=await supabase
                 .from("booking_pax")
@@ -32,7 +22,7 @@ export const getDataBooking = (param: string, type: string | boolean, value: str
             }
         }
         if(param === 'next') {
-            return async (dispatch:any)=>{
+            return async (dispatch:Dispatch<any>)=>{
                 
                 const books:any=await supabase
                 .from("bookings")
@@ -50,7 +40,7 @@ export const getDataBooking = (param: string, type: string | boolean, value: str
             }
         }
         if(param === 'prev') {
-            return async (dispatch:any)=>{
+            return async (dispatch:Dispatch<any>)=>{
                 
                 const books:any=await supabase
                 .from("bookings")
@@ -112,25 +102,10 @@ export const getDataBooking = (param: string, type: string | boolean, value: str
 
 
 }
-// if (previus) {
-    //     return async (dispatch:any)=>{
-        //         try {
-            //             const {data}:any=await supabase
-            //             .from("bookings")
-            //             .select(`*, rooms(name, category_id(name), type_id(name))`)
-            //             .gte('checkin', today)
-            //             console.log('previus', data)
-            //             dispatch(dataBookingId(data))
-            //         } catch (e) {
-                //           console.log(e)
-                //         }
-                // }
-                
-                
                 
     export const getBookingsId = () => {
     // const today = moment().format('YYYY-MM-DD')
-        return async (dispatch:any)=>{
+        return async (dispatch:Dispatch<any>)=>{
             try {
                 const {data}:any=await supabase
                 .from("bookings")
@@ -142,7 +117,7 @@ export const getDataBooking = (param: string, type: string | boolean, value: str
     }
 }
 export const getPaxId = () => {
-    return async (dispatch:any)=>{
+    return async (dispatch:Dispatch<any>)=>{
         try {
             const {data}:any=await supabase
             .from("paxes")
@@ -156,7 +131,7 @@ export const getPaxId = () => {
 
 
 export const getPayments = () => {
-    return async (dispatch:any)=>{
+    return async (dispatch:Dispatch<any>)=>{
         try {
             const {data}:any=await supabase
             .from("payments")
