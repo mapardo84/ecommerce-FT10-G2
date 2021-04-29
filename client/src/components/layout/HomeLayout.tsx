@@ -10,7 +10,11 @@ import "./homeLayout.less";
 import { useDispatch, useSelector } from "react-redux";
 import { getPromotions } from "../../actions/Promotions/promotionsAction";
 import '../Promotions/PromotionsViewer.less';
+<<<<<<< HEAD
 import HomeDescription from "../home/homeDescription/HomeDescription";
+=======
+import {HomeExperiences} from '../home/homeExperiences/HomeExperiences'
+>>>>>>> origin/david4
 
 const { Content } = Layout;
 
