@@ -10,11 +10,8 @@ import "./homeLayout.less";
 import { useDispatch, useSelector } from "react-redux";
 import { getPromotions } from "../../actions/Promotions/promotionsAction";
 import '../Promotions/PromotionsViewer.less';
-<<<<<<< HEAD
 import HomeDescription from "../home/homeDescription/HomeDescription";
-=======
-import {HomeExperiences} from '../home/homeExperiences/HomeExperiences'
->>>>>>> origin/david4
+import { HomeExperiences } from "../home/homeExperiences/HomeExperiences";
 
 const { Content } = Layout;
 
@@ -30,7 +27,8 @@ export const HomeLayout = (): JSX.Element => {
       getSession(session);
     });
     dispatch(getPromotions());
-  }, [dispatch]);
+  }, []);
+
   const showName = async () => {
     const user: any = supabase.auth.user()
     if (user?.aud === "authenticated") {
@@ -55,6 +53,7 @@ export const HomeLayout = (): JSX.Element => {
         <Content>
           <HomeSlides />
           <HomeDescription />
+          <HomeExperiences />
           {/* { promotions? <PromotionsViewer promo={promotions}/> : <p>There are not current promotions</p> } */}
         </Content>
         <FooterLayout />

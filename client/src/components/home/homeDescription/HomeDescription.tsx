@@ -1,7 +1,15 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import "./HomeDescription.less"
+import AOS from 'aos';
+import 'aos/dist/aos.css';
 
 const HomeDescription = () => {
+
+    useEffect(() => {
+        AOS.init();
+    }, []);
+    
+
     return (
         <div className="homeDescription_Container">
             <div className="homeDescription_Row1">
@@ -19,7 +27,7 @@ const HomeDescription = () => {
             <div className="homeDescription_Row2">
 
                 <div className="homeDescription_left">
-                    <img className="homeDescription_image" src='./images/home3.jpg' alt="Img not found" />
+                    <img data-aos="fade-up" data-aos-duration="2000" className="homeDescription_image"  data-aos-once="true" src='./images/home3.jpg' alt="Img not found" />
                     <div className="homeDescription_Text2">
                         it is perfect for romantic getaways, family vacations, spectacular
                         reunions and events. Unplug and relax with a poolside drink, soak
@@ -33,16 +41,16 @@ const HomeDescription = () => {
                         years. meet friendly people in the city.
                     </div>
                 </div>
-                <div className="homeDescription_right">
-                    <div className="homeDescription_Title2">About</div>
-                    <div className="homeDescription_Text3">
+                <div className="homeDescription_right"  data-aos="fade-up" data-aos-once="true" data-aos-duration="1000">
+                    <div className="homeDescription_Title2" >About</div>
+                    <div className="homeDescription_Text3" >
                         Built in 2009 and completely renovated in 2018, our modern Miami
                         hotel offers the highest levels of luxury and comfort. Our leisure
                         facilities include two hot tubs, a state of the art gym with
                         unbeatable panoramic sunset views.
                     </div>
                     <img className="homeDescription_image2" src='./images/home2.jpg' alt="Img not found" />
-                    <img className="homeDescription_image3" src='./images/home1.jpg' alt="Img not found" />
+                    <img  className="homeDescription_image3" src='./images/home1.jpg' alt="Img not found" />
                 </div>
             </div>
         </div>
