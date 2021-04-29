@@ -2,7 +2,7 @@ import { AutoComplete, Input } from 'antd'
 import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { getDataBooking } from '../../actions/bookingsActions';
-import { getByBookingID,  getByPaxUuid, getFirstName, getLastName } from '../../actions/searchBarActions'
+import { getByBookingID,  getByPaxUuidAdd, getFirstName, getLastName } from '../../actions/searchBarActions'
 
 export const SearchBooking = () => {
 
@@ -14,7 +14,7 @@ export const SearchBooking = () => {
     useEffect(() => {
         
         // dispatch(getByPaxID(search))
-        dispatch(getByPaxUuid(search))
+        dispatch(getByPaxUuidAdd(search))
         dispatch(getByBookingID(search))
         dispatch(getFirstName(search))
         dispatch(getLastName(search))
@@ -97,7 +97,6 @@ export const SearchBooking = () => {
         console.log('onSelect', search);
         dispatch(getDataBooking('not', selected[0], selected[2]))
     };
-    
 
     return (
         <AutoComplete

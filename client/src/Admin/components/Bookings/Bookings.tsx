@@ -308,13 +308,14 @@ export const Bookings = () => {
     const onChangeGuests = (value:number) => {
         setGuestsQ(value)
         setLoadingSelect(true)
-        dispatch(getCategoriesForSelect())
+        // dispatch(getCategoriesForSelect())
     }
 
     const onChangeRange = (fieldsValue:any) => {
         // console.log(value['range-picker'])
         const today = moment().format('YYYY-MM-DD')
-        setLoadingSelect(true)
+        // setLoadingSelect(true)
+        setTimeout( () => setLoadingSelect(true), 500)
         setDisable(true)
         if(fieldsValue[0].format('YYYY-MM-DD') < today) {
             const msg = 'You have to choose a future date'
@@ -329,7 +330,7 @@ export const Bookings = () => {
             };
             // dispatch(fastFilterCategories(guestsQ))
             dispatch(getRoomsAvailable(guestsQ, values['range-picker']))
-            setLoadingSelect(false)
+            setTimeout( () => setLoadingSelect(false), 500)
         }
     }
 

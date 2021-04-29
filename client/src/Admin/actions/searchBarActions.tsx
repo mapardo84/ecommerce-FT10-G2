@@ -32,10 +32,10 @@ export function getByPaxID(id: any) {
     }
 }
 
-export function getByPaxUuid(uuid: string) {
+export function getByPaxUuidAdd(uuid: string) {
     if(uuid.length<1){
         return async (dispatch:any)=>{
-            dispatch(get_paxUuid([]))
+            dispatch(get_paxUuidAdd([]))
         }
         }else{
         return async (dispatch:any)=>{
@@ -47,13 +47,12 @@ export function getByPaxUuid(uuid: string) {
             .ilike('uuid', `%${uuid}%`) 
             .limit(4)
             console.log(pax.data)
-            dispatch(get_paxUuid(pax.data))
+            dispatch(get_paxUuidAdd(pax.data))
         }
-                    
     }
 }
 
-const get_paxUuid=(payload:any)=>{
+const get_paxUuidAdd=(payload:any)=>{
     return {
         type:BYPAXUUID,
         payload
