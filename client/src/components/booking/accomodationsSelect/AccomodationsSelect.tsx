@@ -4,11 +4,12 @@ import { AccomodationsCards } from "./AccomodationsCards";
 import { setBookData, stepChange } from '../../../actions/Booking/bookingAction';
 import { bookingType } from '../guestsForm/GuestsForm';
 import "./AccomodationsSelect.less";
-import { useState } from "react";
+import { SyntheticEvent, useState } from "react";
 import { promotionType } from "../../../actions/Promotions/promotionsAction";
 import { supabase } from "../../../SupaBase/conection";
 import { setGuests } from "../../../actions/Booking/pre_booking_action";
 import { IoIosArrowBack } from "react-icons/io";
+import { SyntheticEventData } from "react-dom/test-utils";
 const { Option } = Select;
 
 export interface roomType {
@@ -43,13 +44,13 @@ export const AccomodationsSelect = (): JSX.Element => {
   const freeRooms = useSelector((state: any) => state.bookings.freeRooms);
   const loadingStatus = useSelector((state: any) => state.bookings.loading);
 
-  const handleClickBack = (e: any) => {
+  const handleClickBack = (e:SyntheticEvent) => {
     e.preventDefault();
     localStorage.removeItem("Check&Guests")
     dispatch(stepChange(0));
   }
 
-  const handleClickNext = (e: any) => {
+  const handleClickNext = (e:SyntheticEvent) => {
     e.preventDefault();
     booking.category = userSelection;
     booking.original_price = booking.category.category.price * booking.category.type.beds
@@ -88,7 +89,7 @@ export const AccomodationsSelect = (): JSX.Element => {
     setUserSelection({ ...userSelection, type: resul });
   }
 
-  const handleRadioGroup = (e: any) => {
+  const handleRadioGroup = (e:any) => {
     const { checked, value } = e.target;
     checked ? setUserSelection({ ...userSelection, category: value }) :
       setUserSelection({ ...userSelection, category: '' });
@@ -125,9 +126,9 @@ export const AccomodationsSelect = (): JSX.Element => {
             </Button>
 
           {categoriesFind.userCategories.length > 0 ? categoriesFind.userCategories?.map((categ: categoryType, i: number) => (
-            <div>
+            <div key={i}>
 
-              <AccomodationsCards beds={userSelection?.type.beds} prom={promo} categ={categ} key={i} types={categoriesFind.types} />
+              <AccomodationsCards beds={userSelection?.type.beds} prom={promo} categ={categ} types={categoriesFind.types} />
 
               <div className="containerButtonsBooking">
 
@@ -139,13 +140,13 @@ export const AccomodationsSelect = (): JSX.Element => {
                   // className="accomodationsSelect_si"
                   >
                     {categoriesFind.types?.map((t: any, i: number) => {
-                      if (freeRooms.find((r: any) => {
+                      if (freeRooms.some((r: any) => {
                         return (r.category_id === categ.id && r.type_id === t.id)
                       })) {
                         return (
                           <Option key={i} value={t.name}>{t.name}</Option>
                         )
-                      } else { return <Option key={i} value={t.name} disabled>-</Option> }
+                       }
                     })
                     }
                   </Select>
