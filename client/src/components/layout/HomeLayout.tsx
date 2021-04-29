@@ -10,6 +10,7 @@ import "./homeLayout.less";
 import { useDispatch, useSelector } from "react-redux";
 import { getPromotions } from "../../actions/Promotions/promotionsAction";
 import '../Promotions/PromotionsViewer.less';
+import {HomeExperiences} from '../home/homeExperiences/HomeExperiences'
 
 const { Content } = Layout;
 
@@ -92,9 +93,11 @@ export const HomeLayout = (): JSX.Element => {
               guests.
             </div>
           </div>
+          <HomeExperiences/>
         </Content>
         {/* { promotions? <PromotionsViewer promo={promotions}/> : <p>There are not current promotions</p> } */}
-        <FooterLayout />
+      
+        <FooterLayout/>
       </Layout>
     </>
   );
