@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { initialStateProps } from "../../../reducers/categoriesReducer";
-import { Button, Carousel, Divider, Image, Spin } from "antd";
+import { Carousel } from "antd";
 import { Reviews } from "../../Reviews/Reviews";
 //import "antd/dist/antd.css";
 import "./Details.less";
@@ -98,21 +98,17 @@ const Details = ({ data }: any): JSX.Element => {
   useEffect(() => {
     getIdByMail(session?.user.email, dispatch);
     //console.log(idUser.userId[0].id)
-  }, [dispatch]);
+  }, [dispatch, session?.user.email]);
 
   useEffect(() => {
     getCheckout(idUser?.userId[0]?.uuid, dispatch);
-  }, [idUser]);
+  }, [idUser, dispatch]);
 
   useEffect(() => {
     if (cat.length < 1) {
       getCategoriesDB(id, dispatch);
     }
-  }, [dispatch]);
-
-  const handleOnClick = (e: any) => {
-    console.log("Bookearon!");
-  };
+  }, [dispatch, cat.length, id]);
 
   const settings = {
     dots: true,

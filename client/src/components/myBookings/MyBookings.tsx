@@ -68,8 +68,9 @@ const MyBookings = () => {
                         :
                         <div className="noCurrentBooking">You don't have current bookings</div>
                     }
+                    
                     <Divider className="myBookingDivider"><div className="myBooking_State">PAST</div></Divider>
-
+                    <div className="myBooking_Past">
                     {pastBookings.length !== 0 ?
                         pastBookings?.slice(minIndex, maxIndex).map((user: any, id: any) => {
                             return (
@@ -78,7 +79,7 @@ const MyBookings = () => {
                         })
                         :
                         <div className="noCurrentBooking">You don't have past bookings</div>
-                    }
+                    }</div>
 
                     <Pagination
                         pageSize={pageSize}
