@@ -18,21 +18,21 @@ export interface bookAction {
     payload: any
 }
 
-export const stepChange = (inputs: number) => {
+export const stepChange = (inputs:number) => {
     return {
         type: STEP_CHANGE,
         payload: inputs
     }
 }
 
-export const setBookData = (booking: bookingType) => {
+export const setBookData = (booking:any) => {
     return {
         type: SET_BOOK_DATA,
         payload: { booking }
     }
 }
 
-export const setCategory = (input: any) => {
+export const setCategory = (input:any) => {
     return {
         type: SET_CATEGORY,
         payload: input
@@ -40,8 +40,8 @@ export const setCategory = (input: any) => {
 }
 
 // ACTION EJECUTADA POR EL BOTON NEXT DEL COMPONENTE GUEST FORM
-export const getCategoriesForUser = (userBooking: bookingType) => {
-    return async (dispatch: any) => {
+export const getCategoriesForUser = (userBooking:bookingType) => {
+    return async (dispatch:Dispatch) => {
         const { guests, range } = userBooking;
         const [checkin, checkout] = range;
 
@@ -52,7 +52,7 @@ export const getCategoriesForUser = (userBooking: bookingType) => {
             .gte("capacity", guests);
 
         //Traer los Rooms que pertencen a los types recibidos en el paso anterior
-        let rooms: any = [];
+        let rooms:roomType[] = [];
         if (types?.length) {
             for (let i = 0; i < types.length; i++) {
                 const { data: room } = await supabase
@@ -73,31 +73,27 @@ export const getCategoriesForUser = (userBooking: bookingType) => {
             .gte('checkout', checkin)
             .lte('checkin', checkout)
         let habitacionesDescartadas: any = []
-        booki?.forEach((book: any) => {
+        booki?.forEach((book:bookingType) => {
             if (!habitacionesDescartadas.includes(book.room_id)) {
                 habitacionesDescartadas.push(book.room_id)
             }
         })
 
-        const freeRooms = rooms?.filter((room: any) => {
-            if (!habitacionesDescartadas.includes(room.id)) {
-                return room
-            }
+        const freeRooms:roomType[] = rooms?.filter((room: roomType) => {
+                return !habitacionesDescartadas.includes(room.id)
         })
 
         if (!freeRooms) return
 
         //Seleccionar categorias correspondientes a los rooms libres
-        let result: any = []
+        let result:categoryType[] = [];
         for (let i = 0; i < freeRooms.length; i++) {
-
-            if (!result.some((x: categoryType) => x.id === freeRooms[i].category_id)) {
+            if (!result.some((x:categoryType) => x.id === freeRooms[i].category_id)) {
                 let { data: categories } = await supabase
                     .from('categories')
                     .select('*')
                     .eq("id", freeRooms[i].category_id);
                 result.push(categories?.pop());
-                //console.log('Categories: ', categories?.pop())
             }
         }
         dispatch(categoriesToShow({ userCategories: result, types: types }));
@@ -111,22 +107,22 @@ export const getCategoriesForUser = (userBooking: bookingType) => {
     // room                                                 ckin            ckout
 }
 
-const categoriesToShow = (payload: any) => {
+const categoriesToShow = (payload:any) => {
     return {
         type: CATEGORIES_TO_SHOW,
         payload
     }
 }
 
-const freeRoomsToShow = (payload: any) => {
+const freeRoomsToShow = (payload:roomType[]) => {
     return {
         type: FREE_ROOMS_SHOW,
         payload
     }
 }
 
-export const roomSelected = (categoryPax: any, freeRooms: roomType[]) => {
-    return (dispatch: any) => {
+export const roomSelected = (categoryPax:any, freeRooms: roomType[]) => {
+    return (dispatch:Dispatch) => {
         const roomSelected = freeRooms.find((r: roomType) => {
             return (r.category_id === categoryPax.category.id && r.type_id === categoryPax.type.id)
         })
@@ -134,14 +130,14 @@ export const roomSelected = (categoryPax: any, freeRooms: roomType[]) => {
     }
 }
 
-const bookedRoom = (payload: any) => {
+const bookedRoom = (payload:number|undefined) => {
     return {
         type: BOOKED_ROOM,
         payload
     }
 }
 
-export const setLoading = (payload: boolean) => {
+export const setLoading = (payload:boolean) => {
     return {
         type: SET_LOADING,
         payload
