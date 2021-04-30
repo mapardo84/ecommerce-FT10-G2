@@ -26,12 +26,12 @@ export const Halls = () => {
     const [ isModalVisible, setIsModalVisible ] = useState<boolean>(false);
     const [ editId, setEditId ] = useState<null | IHalls>(null)
     const [ fields, setFields ] = useState<IFields[]>(campos);
-    const { halls } = useSelector((state: any) => state?.adminEvents.halls);
+    const halls = useSelector((state: any) => state?.adminEvents.halls);
     const dispatch = useDispatch();
     
     useEffect(() => {
         dispatch(getAllHalls());
-    }, [dispatch]);
+    }, [dispatch, halls]);
 
     const handleEdit = ( id:number ) => {
         setIsModalVisible(true)
@@ -88,7 +88,7 @@ export const Halls = () => {
             dataIndex: 'operation',
             key: 'name',
             render: (_: undefined, record: { id: number }) =>
-                halls.length >= 1 ? (
+                halls.length > 0 ? (
                     <>
                         <Tooltip title="Edit">
                             <span className='adminrooms_options' onClick={() => handleEdit(record.id)}><FaPencilAlt size="18" color="orange" /> </span>
@@ -101,9 +101,12 @@ export const Halls = () => {
                             </span>
                         </Tooltip>
                     </>
-                ) : null,
+                ) 
+            : null,
         }
     ]
+
+    console.log(halls);
     return (
         <div>
             <div className="halls_upbar">
@@ -115,7 +118,7 @@ export const Halls = () => {
                 pagination={{ position: ['bottomCenter'] }}
                 rowKey="name"
             />
-            <Modal title="Add Type" visible={isModalVisible} onCancel={closeModal} footer={null} >
+            <Modal title="Add Hall" visible={isModalVisible} onCancel={closeModal} footer={null} >
                 <Form onFinish={onFinish} fields={fields}>
                     <Form.Item
                         label="Name"
@@ -127,13 +130,13 @@ export const Halls = () => {
                         label="Description"
                         name="description"
                         rules={[{ required: true, message: 'Please input a description!' }]}>
-                        <InputNumber placeholder="description"></InputNumber>
+                        <Input placeholder="description"></Input>
                     </Form.Item>
                     <Form.Item
-                        label="Image"
+                        label="Image (URL)"
                         name="image"
                         rules={[{ required: true, message: 'Please input an url' }]}>
-                        <InputNumber placeholder="image"></InputNumber>
+                        <Input placeholder="image"></Input>
                     </Form.Item>
                     <div className="types_btn">
                         <Button onClick={closeModal}>

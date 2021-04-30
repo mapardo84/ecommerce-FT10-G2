@@ -2,6 +2,7 @@ import { GET_ALL_HALLS } from '../Admin/actions/adminEventsActions';
 
 const initialState = {
     requests: [],
+    bookings: [],
     halls: []
 }
 
