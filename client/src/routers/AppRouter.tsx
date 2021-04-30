@@ -29,6 +29,7 @@ import { BookingsLayout } from "../Admin/components/BookingsLayout";
 import {DiscountsLayout} from "../Admin/components/DiscountsLayout"
 import { SuccessLayout } from "../components/layout/SuccesLayout";
 import { Pre_booking } from "../components/Pre_booking/Pre_booking";
+import {EventLayout} from "../components/layout/EventsLayout";
 
 //ACA VAN TODAS LAS RUTAS
 
@@ -42,6 +43,7 @@ export const AppRouter = () => {
           <Route exact path="/form" component={Register} />
           <Route exact path="/logIn" component={LogIn} />
           <Route exact path="/booking" component={BookingLayout} />
+          <Route exact path="/events" component={EventLayout} />
           <Route exact path="/faq" component={FaqLayout} />
           <Route exact path="/myProfile" component={MyProfileLayout} />
           <Route exact path="/myBookings" component={MyBookingsLayout} />
