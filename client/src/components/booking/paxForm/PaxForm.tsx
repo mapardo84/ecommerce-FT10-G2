@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { SyntheticEvent, useEffect, useState } from 'react';
 //import 'antd/dist/antd.css';
 import { Form, Input, Cascader, Select, DatePicker, Checkbox, Button } from 'antd';
 import { sendPax } from '../../../actions/Booking/PaxFormActions';
@@ -9,7 +9,8 @@ import { MercadoPago } from '../../MercadoPago/MercagoPago';
 import { supabase } from '../../../SupaBase/conection'
 import Modal from 'antd/lib/modal/Modal';
 import { Pre_booking } from '../../Pre_booking/Pre_booking';
-import countries from 'countries-list'
+import countries, { Country } from 'countries-list'
+import { RootReducer } from '../../../reducers/rootReducer';
 
 const { Option } = Select;
 export const prefixSelector = (
@@ -103,8 +104,8 @@ export function PaxForm() {
     const [form] = Form.useForm();
     const dispatch = useDispatch();
 
-    const { pax_data, loading } = useSelector((state: any) => state.bookings); //pax_data
-    const { user_data } = useSelector((state: any) => state.pre_booking);
+    const { pax_data, loading } = useSelector((state: RootReducer) => state.bookings); //pax_data
+    const { user_data } = useSelector((state: RootReducer) => state.pre_booking);
 
 
     // const [uuid_match, setUuid_match] = useState(false)     //searchbar pax
@@ -112,11 +113,11 @@ export function PaxForm() {
     const [setInfo, setSetInfo] = useState(false)
 
 
-    const bookings = useSelector((state: any) => state?.bookings)
+    const bookings = useSelector((state: RootReducer) => state?.bookings)
     const { booking } = bookings
 
-    const [mp, setMp] = useState<any>(false)
-    const [mpModal, setMpModal] = useState<any>(false)
+    const [mp, setMp] = useState<boolean>(false)
+    const [mpModal, setMpModal] = useState<boolean>(false)
 
 
     useEffect(() => {
@@ -126,7 +127,7 @@ export function PaxForm() {
 
 
 
-    const handleClickBack = (e: any) => {
+    const handleClickBack = (e: SyntheticEvent) => {
         e.preventDefault();
         localStorage.removeItem("Accomodation")
         setMp(false)
@@ -139,8 +140,7 @@ export function PaxForm() {
 
 
 
-    const onChange = async (value: any, allvalues: any) => {
-
+    const onChange = async (value: string, allvalues: any) => {
         for (let i in allvalues) {
             if (!allvalues[i]) {
                 return setMp(false)
@@ -159,7 +159,7 @@ export function PaxForm() {
             nights: booking.nights,
             unit_price: booking.fee,
             room_id: booking.room_id,
-            early_checkin:booking.eayly_checkin,
+            early_checkin:booking.early_checkin,
             late_checkout:booking.late_checkout,
             uuid,
             first_name,
@@ -196,7 +196,7 @@ export function PaxForm() {
             country: pax_data.country,
             birth_date: pax_data.birth_date,
             address: pax_data.address,
-            positive_balance: user_data.positive_balance
+            positive_balance: user_data[0].positive_balance
         }
         localStorage.setItem("BookingInfo", JSON.stringify(bookingInfo))
         modal === "modal" ? setMpModal(true) : setMp(true)

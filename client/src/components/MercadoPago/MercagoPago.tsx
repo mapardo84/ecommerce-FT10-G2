@@ -4,6 +4,7 @@ import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { update_balance } from '../../actions/Booking/pre_booking_action';
+import { RootReducer } from '../../reducers/rootReducer';
 import { supabase } from '../../SupaBase/conection';
 
 
@@ -12,8 +13,9 @@ export const MercadoPago = (props: any) => {
 
   const [preferenceId, setPreferenceId] = useState<any>(null)
   const [bookingNow, setBookingNow] = useState(false)
-  const bookings = useSelector((state: any) => state?.bookings)
-  const {user_data} = useSelector((state: any) => state?.pre_booking)
+  const hola=useSelector((state: RootReducer) => console.log(state))
+  const bookings = useSelector((state: RootReducer) => state?.bookings)
+  const {user_data} = useSelector((state: RootReducer) => state?.pre_booking)
   const [actual_ballance, setActual_ballance] = useState(0)
   const { booking } = bookings
 
@@ -28,7 +30,8 @@ export const MercadoPago = (props: any) => {
     // axios.post('http://localhost:4000/mercadopago/postPax',form)
     //   .then(()=>axios.post('http://localhost:4000/mercadopago/postBooking',createBooking))
     let quantity=booking.nights
-    let total_price=booking.fee
+    console.log(hola)
+    let total_price:number=booking.fee
       if(early_checkin){                                  //Si hay EARLY CHECKIN, el precio va a ser el valor de la noche * la cantidad de noches, y a eso se le suma 1/2 noche
         total_price=total_price*quantity+booking?.original_price/2
         quantity=1
@@ -37,16 +40,20 @@ export const MercadoPago = (props: any) => {
         quantity=1
     }if(positive_balance){                                    //Si hay balance positivo...
       if((total_price*quantity)-positive_balance <= 0){  
+        localStorage.setItem("payWithBalance",String(total_price))
         setActual_ballance(positive_balance-(total_price*quantity))                    //En el caso de que nos quede balance a favor, el precio se setea en 0, se hace la reserva automaticamente y se descuenta del saldo
         setBookingNow(true)  
         total_price=0
-      }else{                                                      //En caso de que el saldo sea menor que el nuevo monto, se descuenta el saldo del total, se deja en 0 el saldo pendiente, y se genera una orden de pago con el monto restante      
+      }else{         
+        localStorage.setItem("payWithBalance",String(positive_balance))                                             //En caso de que el saldo sea menor que el nuevo monto, se descuenta el saldo del total, se deja en 0 el saldo pendiente, y se genera una orden de pago con el monto restante      
         total_price=(total_price*quantity)-positive_balance
         quantity=1
       }
+    }else{
+      localStorage.removeItem("payWithBalance")
     }
     
-    localStorage.setItem("total_price",total_price)
+    localStorage.setItem("total_price",String(total_price))
     
  
     axios.get(`http://localhost:4000/mercadopago?quantity=${quantity}&unit_price=${total_price}&title=HotelHenry`)

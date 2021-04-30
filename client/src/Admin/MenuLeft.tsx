@@ -4,7 +4,7 @@ import {
 } from "@ant-design/icons";
 //import hotelImg from './hotel.png'
 import { useDispatch, useSelector } from 'react-redux';
-import { initialStateProps } from '../reducers/adminReducer';
+import { AdminReducer } from '../reducers/adminReducer';
 import { changePage, loginUser, sidebarChange } from "./actions/adminUi";
 import { Layout } from "antd";
 import { NavLink, useHistory } from "react-router-dom";
@@ -54,7 +54,7 @@ export const MenuLeft = () => {
             })
     }, [history])
 
-    const { sidebarColapsed, page } = useSelector((state: initialStateProps) => state.adminui)
+    const { sidebarColapsed, page } = useSelector((state: AdminReducer) => state.adminui)
 
     const onCollapse = () => {
         dispatch(sidebarChange())

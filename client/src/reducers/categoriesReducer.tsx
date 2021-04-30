@@ -10,7 +10,7 @@ export interface initialStateProps {
   categories: any;
   
 }
-interface IState {
+export interface Categories {
   categories: Category[];
   categoriesNames:any
 }
@@ -20,13 +20,13 @@ interface actionProps {
   payload: any;
 }
 
-const initialState: IState = {
+const initialState: Categories = {
   categories: [],
   categoriesNames:[]
 };
 
 export function categoriesReducer(
-  state: IState = initialState,
+  state: Categories = initialState,
   action: actionProps
 ) {
   switch (action.type) {

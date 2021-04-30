@@ -5,15 +5,15 @@ interface actionProps {
     payload: any
 }
 
-interface IState {
+export interface UsersReducer{
     users: any[],
 }
 
-const InitialState: IState = {
+const InitialState: UsersReducer = {
     users: []
 }
 
-export function usersReducer(state: IState = InitialState, action: actionProps) {
+export function usersReducer(state: UsersReducer = InitialState, action: actionProps) {
     switch (action.type) {
         case GET_ALL_USERS:
             return {

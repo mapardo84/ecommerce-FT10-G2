@@ -5,17 +5,17 @@ interface actionProps {
     payload: any
 }
 
-interface IState {
+export interface UserBookingInterface {
     data: any[],
     loading: boolean
 }
 
-const InitialState: IState = {
+const InitialState: UserBookingInterface = {
     data: [],
     loading: false
 }
 
-export function userBookingReducer(state: IState = InitialState, action: actionProps) {
+export function userBookingReducer(state: UserBookingInterface = InitialState, action: actionProps) {
     switch (action.type) {
         case GET_USER_BOOKINGS:
             return {

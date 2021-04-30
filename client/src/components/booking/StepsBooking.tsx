@@ -11,13 +11,15 @@ import { Pre_booking } from '../Pre_booking/Pre_booking';
 import { delete_pre_booking, get_pre, pre_booking_empty, setGuests } from '../../actions/Booking/pre_booking_action'
 import Modal from 'antd/lib/modal/Modal';
 import { Link } from 'react-router-dom';
+import { RootReducer } from '../../reducers/rootReducer';
+import {CheckinLocalInterface} from '../Pre_booking/Pre_booking'
 
 const { Step } = Steps;
 export const StepsBooking: FunctionComponent = () => {
-  const selectedStep: number = useSelector((state: any) => state.bookings.step);
+  const selectedStep: number = useSelector((state: RootReducer) => state.bookings.step);
 
 
-  const pre_Booking_state = useSelector((state: any) => state.pre_booking);
+  const pre_Booking_state = useSelector((state: RootReducer) => state.pre_booking);
   const { pre_booking} = pre_Booking_state
   const [continueBooking, setContinueBooking] = useState<boolean>(false)
   const [inProgress, setInProgress] = useState({
@@ -129,6 +131,8 @@ export const StepsBooking: FunctionComponent = () => {
     setInProgress({ pending: false, continue: false, delete: true })
     localStorage.removeItem("Check&Guests")
     localStorage.removeItem("Accomodation")
+    localStorage.removeItem("total_price")
+    localStorage.removeItem("payWithBalance")
     dispatch(pre_booking_empty())
     setContinueBooking(false)
 

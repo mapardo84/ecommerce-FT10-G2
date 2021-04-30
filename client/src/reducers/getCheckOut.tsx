@@ -1,6 +1,6 @@
 import {GET_CHECKOUT} from '../actions/getUserIdByMail/index';
 
-interface Icheckout{
+export interface GetCheckoutInterface{
     checkOut:any
 }
 
@@ -9,13 +9,13 @@ interface Icheckout{
 //     payload:[]
 // }
 
-const initialState:Icheckout = {
+const initialState:GetCheckoutInterface = {
     checkOut: []
 }
 
 
 
-export function getCheckOut (state = initialState,action:any){
+export function getCheckOutReducer (state:GetCheckoutInterface = initialState,action:any){
     if(action.type === GET_CHECKOUT){
         return{
             ...state,

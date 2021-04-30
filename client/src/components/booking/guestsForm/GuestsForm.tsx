@@ -1,6 +1,6 @@
 import '../guestsForm/GuestsForm.less';
 import '../../Calendar/MyCalendar.less';
-import { useState } from 'react';
+import { SyntheticEvent, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useDispatch } from 'react-redux'
 import {  DatePicker, Switch } from 'antd';
@@ -46,6 +46,7 @@ export const GuestsForm = () => {
   });
   const handleChangePaxs = ( inputs:number ) => { setBooking({...booking, guests: inputs}) };
   const handleChangeDates = (_a:any, dates:string[], _c:any) => {
+    console.log(_a)
     const checkin= new Date(dates[0]).getTime();
     const checkout= new Date(dates[1]).getTime();
     const nights= ((checkout-checkin)/(1000*60*60*24))>0?(checkout-checkin)/(1000*60*60*24):1;
@@ -56,7 +57,7 @@ export const GuestsForm = () => {
     return current && current < moment().subtract(1, 'd');
   });
 
-  const handleClickRooms = async (e: any) => {
+  const handleClickRooms = async (e: SyntheticEvent) => {
     e.preventDefault();
     dispatch(setBookData(booking));
     dispatch(getCategoriesForUser(booking));
