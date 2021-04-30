@@ -3,7 +3,8 @@ import { useState, useEffect } from 'react';
 import { Button, Table, Form, Modal, Input, Tooltip, Popconfirm, Select, Space, DatePicker } from 'antd';
 import TextArea from 'antd/lib/input/TextArea';
 import { useSelector, useDispatch } from 'react-redux';
-import { getAllNewsletter } from '../../actions/newsletterActions';
+import { getAllNewsletter, post_newsletter, IEmail } from '../../actions/newsletterActions';
+
 
 interface Props {
 
@@ -37,9 +38,16 @@ export function NewsLetter({ }: Props): ReactElement {
         setIsModalVisible(false)
     }
 
+    const onFinish = (values:IEmail) =>{
+        dispatch(post_newsletter(values))
+        form.resetFields();
+        setIsModalVisible(false)
+    }
+
     useEffect(()=>{
         dispatch(getAllNewsletter())
     },[dispatch])
+
 
 
     return (
@@ -62,7 +70,7 @@ export function NewsLetter({ }: Props): ReactElement {
                 rowKey="id"
             />
             <Modal title="Send Newsletter" visible={isModalVisible} onCancel={closeModal} footer={null} >
-               <Form form={form} autoComplete='off' >
+               <Form form={form} autoComplete='off' onFinish={onFinish}>
                 <Form.Item
                     label="Title"
                     name="email_title"
@@ -71,7 +79,7 @@ export function NewsLetter({ }: Props): ReactElement {
                 </Form.Item>
                 <Form.Item
                     label="Content"
-                    name="content"
+                    name="email_content"
                 >
                     <TextArea placeholder="Content"></TextArea>
                 </Form.Item>

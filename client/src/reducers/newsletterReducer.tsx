@@ -1,4 +1,4 @@
-import { GET_NEWSLETTER } from '../Admin/actions/newsletterActions';
+import { ADD_NEWSLETTER, GET_NEWSLETTER } from '../Admin/actions/newsletterActions';
 
 interface actionProps {
     type: string,
@@ -25,6 +25,11 @@ export function newsletterReducer(state: IState = InitialState,action : actionPr
             return{
                 ...state,
                 newsletters: action.payload
+            }
+        case ADD_NEWSLETTER:
+            return{
+                ...state,
+                newsletters:[...state.newsletters, action.payload[0]]
             }
         default:
             return state
