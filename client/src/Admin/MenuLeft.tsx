@@ -112,7 +112,7 @@ export const MenuLeft = () => {
                     <Menu.Item key={paginas[8]} icon={<SiCashapp />} onClick={() => setPage(paginas[8])}>
                         <NavLink to="/admin/discounts">{paginas[8]}</NavLink>
                     </Menu.Item>
-                    <Menu.Item key={paginas[9]} icon={<SiCashapp />} onClick={() => setPage(paginas[9])}>
+                    <Menu.Item key={paginas[9]} icon={<FaUserAlt />} onClick={() => setPage(paginas[9])}>
                         <NavLink to="/admin/events">{paginas[9]}</NavLink>
                     </Menu.Item>
                 </Menu>
