@@ -27,7 +27,7 @@ const HomeDescription = () => {
             <div className="homeDescription_Row2">
 
                 <div className="homeDescription_left">
-                    <img data-aos="fade-up" data-aos-duration="2000" className="homeDescription_image"  data-aos-once="true" src='./images/home3.jpg' alt="Img not found" />
+                    <img data-aos="fade-up" data-aos-duration="2000"  data-aos-once="true" className="homeDescription_image"  src='./images/home3.jpg' alt="Img not found" />
                     <div className="homeDescription_Text2">
                         it is perfect for romantic getaways, family vacations, spectacular
                         reunions and events. Unplug and relax with a poolside drink, soak

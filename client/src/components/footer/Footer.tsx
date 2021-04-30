@@ -18,7 +18,7 @@ export const FooterLayout = () => {
       <img className='palmBeach4' src={palm2} />
       <img className='palmBeach5' src={palm2} />
 
-      <Footer className="laclande" style={{ textAlign: "center" }}>
+      <Footer className="laclande">
 
         <div className='containletterfooter'>
           <Button className="info" type="text">Contact us</Button>

@@ -1,7 +1,9 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { promotionType } from '../../../actions/Promotions/promotionsAction'
 import "./HomeDiscounts.less"
 import { Carousel } from 'antd';
+import AOS from 'aos';
+import 'aos/dist/aos.css';
 
 const settings = {
     dots: true,
@@ -12,11 +14,16 @@ const settings = {
 };
 
 const HomeDiscounts = (props: { promo: promotionType[] }) => {
+
+    useEffect(() => {
+        AOS.init();
+    }, []);
+
     const { promo } = props;
 
     console.log(promo)
     return (
-        <div className="HomeDiscounts_container">
+        <div data-aos="fade-up" data-aos-duration="1000"  data-aos-once="true" className="HomeDiscounts_container">
             <div className="HomeDiscounts_left">
                 <Carousel  {...settings} className="HomeDiscounts_Carousel">
 
