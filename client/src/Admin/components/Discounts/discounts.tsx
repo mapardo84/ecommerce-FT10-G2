@@ -1,12 +1,14 @@
-import { Button, Table, Form, Modal, Input, Tooltip, Popconfirm, Select, Space } from 'antd';
+import { Button, Table, Form, Modal, Input, Tooltip, Popconfirm, Select, DatePicker } from 'antd';
 import { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { getAllDiscounts, updateDiscounts, checkId, deleteDiscount,addDiscount } from '../../actions/discountsActions';
 import { FaTrashAlt, FaPencilAlt } from 'react-icons/fa';
 import {getAllCategories} from "../../actions/categoriesActions"
-import { SearchOutlined } from '@ant-design/icons';
 import { promotionType } from '../../../actions/Promotions/promotionsAction';
 import './discounts.less'
+import { Category } from '../Categories/Categories';
+import moment from 'moment';
+
 export interface IDiscounts {
     id: number,
     description: string,
@@ -48,77 +50,6 @@ export const Discounts = () =>{
     
     }, [promotions, dispatch])
     
-    // const handleSearch = (selectedKeys: string, confirm: Function, dataIndex: string) => {
-    //     confirm();
-    // };
-
-    // const handleReset = (clearFilters: Function) => {
-    //     clearFilters();
-    // };
-
-    // const getColumnSearchProps = (dataIndex: string) => ({
-    //     filterDropdown: ({
-    //         setSelectedKeys,
-    //         selectedKeys,
-    //         confirm,
-    //         clearFilters,
-    //     }: {
-    //         setSelectedKeys: Function;
-    //         selectedKeys: string;
-    //         confirm: Function;
-    //         clearFilters: Function;
-    //     }) => (
-    //         <div style={{ padding: 8 }}>
-    //             <Input
-    //                 placeholder={`Search ${dataIndex}`}
-    //                 value={selectedKeys[0]}
-    //                 onChange={(e) =>
-    //                     setSelectedKeys(e.target.value ? [e.target.value] : [])
-    //                 }
-    //                 onPressEnter={() => handleSearch(selectedKeys, confirm, dataIndex)}
-    //                 style={{ width: 188, marginBottom: 8, display: "block" }}
-    //             />
-    //             <Space>
-    //                 <Button
-    //                     type="primary"
-    //                     onClick={() => handleSearch(selectedKeys, confirm, dataIndex)}
-    //                     icon={<SearchOutlined />}
-    //                     size="small"
-    //                     style={{ width: 30 }}
-    //                 ></Button>
-    //                 <Button
-    //                     onClick={() => handleReset(clearFilters)}
-    //                     size="small"
-    //                     style={{ width: 60, marginLeft: "52px" }}
-    //                 >
-    //                     Reset
-    //           </Button>
-    //                 <Button
-    //                     type="link"
-    //                     size="small"
-    //                     style={{ marginLeft: "120px" }}
-    //                     onClick={() => {
-    //                         confirm({ closeDropdown: false });
-    //                     }}
-    //                 >
-    //                     Filter
-    //           </Button>
-    //             </Space>
-    //         </div>
-    //     ),
-    //     filterIcon: (filtered: boolean) => (
-    //         <SearchOutlined style={{ color: filtered ? "#1890ff" : undefined }} />
-    //     ),
-    //     onFilter: (value: string, record: any) =>
-    //         record[dataIndex]
-    //             ? record[dataIndex]
-    //                 .toString()
-    //                 .toLowerCase()
-    //                 .includes(value.toLowerCase())
-    //             : "",
-    //     render: (text: string) => text,
-    // });
-  
     const columns: any = [
         {
             title: 'ID',
@@ -229,39 +160,11 @@ export const Discounts = () =>{
             { name: ['description'], value: index.description },
             { name: ['value'], value: index.value },
             { name: ['categoryToApply'], value: index.categoryToApply },
-            { name: ['releaseDate'], value: index.releaseDate },
-            { name: ['expirationDate'], value: index.expirationDate },
+            { name: ['releaseDate'], value: moment(index.releaseDate) },
+            { name: ['expirationDate'], value: moment(index.expirationDate) },
             { name: ['published'], value: index.published},
         ])
     }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
     return (
         <div>
         <div className="types_upbar">
@@ -294,55 +197,56 @@ export const Discounts = () =>{
                 <Form.Item
                     label="Category To Apply"
                     name="categoryToApply"
-                    rules={[{ required: true, message: 'Please input a categoryToApply!' }]}>
-                    <Input placeholder="categoryToApply"></Input>
+                    rules={[{ required: true, message: 'Please input a category!' }]}>
+                        <Select style={{ width: "200px" }} >
+                            {
+                                categories.map((category: Category) => {
+                                    return (<Select.Option key={category.id} value={category.id}>{category.name}</Select.Option>)
+                                })
+                            }
+                        </Select>
                 </Form.Item>
-                
-            
-             
                 <Form.Item
                     label="Release Date"
                     name="releaseDate"
-                >
-                    <Input placeholder="releaseDate"></Input>
+                    rules={[{ required: true, message: 'Please input a Release Date!' }]}>
+                          {/* <Input placeholder="releaseDate"></Input> */}
+                    <DatePicker placeholder='Release Date' format='YYYY-MM-DD'/>
                 </Form.Item>
                 <Form.Item
                     label="Expiration Date"
                     name="expirationDate"
-                >
-                    <Input placeholder="expirationDate"></Input>
+                    rules={[{ required: true, message: 'Please input a Expiration Date!' }]}>
+                        {/* <Input placeholder="expirationDate"></Input> */}
+                    <DatePicker placeholder='Expiration Date' format='YYYY-MM-DD'/>
                 </Form.Item>
                 <Form.Item
                     label="Value"
                     name="value"
                     rules={[{ required: true, message: 'Please input a value' }]}>
-                
                     <Input placeholder="value"></Input>
-                </Form.Item>
-
-                  
-               
-
+                </Form.Item>          
                 <Form.Item
                     label="Description"
                     name="description"
-                    rules={[{ required: true, message: 'Please input a description!' }]}>
+                    rules={[{ required: true, message: 'Please input a description!' }]}
+                >
                     <Input placeholder="description"></Input>
                 </Form.Item>
-              
                 <Form.Item
                     label="Published"
                     name="published"
+                    
                 >
                     <Select
                         placeholder="Select a published"
                         style={{ width: 190 }}
+                        
                     >
-                        <Option value='false' key='1'>false</Option>
-                        <Option value='true' key='2'>true</Option>
+                        <Option value='false' key='1'>False</Option>
+                        <Option value='true' key='2'>True</Option>
                     </Select>
                 </Form.Item>
-
                 <div className="discounts">
                     <Button onClick={closeModal}>
                         Cancel
@@ -350,11 +254,8 @@ export const Discounts = () =>{
                     <Button type="primary" htmlType="submit">
                         Save
                     </Button>
-                    
                 </div>
-
             </Form>
         </Modal>
     </div >
-)
-}
+)}

@@ -39,12 +39,11 @@ import { useEffect } from 'react';
 //////////////////////////////////////////////////////////////
 
 
-const paginas = ['Inicio', 'Rooms', 'Categories', 'Types', 'Users', 'Checkin/Checkout', 'Paxes', 'Bookings', 'Discounts']
+const paginas = ['Inicio', 'Rooms', 'Categories', 'Types', 'Users', 'Checkin/Checkout', 'Paxes', 'Bookings', 'Discounts', 'Events'];
 
 export const MenuLeft = () => {
-    const dispatch = useDispatch()
-
-    const history = useHistory()
+    const dispatch = useDispatch();
+    const history = useHistory();
     useEffect(() => {
         loginUser()
             .then(r => {
@@ -52,22 +51,16 @@ export const MenuLeft = () => {
                     history.push('/')
                 }
             })
-    }, [history])
+    }, [history]);
 
-    const { sidebarColapsed, page } = useSelector((state: initialStateProps) => state.adminui)
-
+    const { sidebarColapsed, page } = useSelector((state: initialStateProps) => state.adminui);
     const onCollapse = () => {
-        dispatch(sidebarChange())
+        dispatch(sidebarChange());
     };
-
     const setPage = (page: string) => {
-        dispatch(changePage(page))
+        dispatch(changePage(page));
     }
-
     const { Sider } = Layout;
-
-
-
     return (
         <>
             <Sider collapsible collapsed={sidebarColapsed} onCollapse={onCollapse}>
@@ -118,6 +111,9 @@ export const MenuLeft = () => {
                     </Menu.Item>
                     <Menu.Item key={paginas[8]} icon={<SiCashapp />} onClick={() => setPage(paginas[8])}>
                         <NavLink to="/admin/discounts">{paginas[8]}</NavLink>
+                    </Menu.Item>
+                    <Menu.Item key={paginas[9]} icon={<SiCashapp />} onClick={() => setPage(paginas[9])}>
+                        <NavLink to="/admin/events">{paginas[9]}</NavLink>
                     </Menu.Item>
                 </Menu>
             </Sider>
