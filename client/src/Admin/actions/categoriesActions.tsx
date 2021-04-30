@@ -7,7 +7,6 @@ export const FILTER_CATEGORY: string = "FILTER_CATEGORY";
 export const UPDATE_CATEGORY: string = "UPDATE_CATEGORY";
 export const CREATE_CATEGORY: string = "CREATE_CATEGORY";
 
-
 const errorMsg = (err: string, time: number=3) => {
   message.error(err, time)
 };
@@ -27,7 +26,6 @@ export const getAllCategories = () => {
       const { data, error } = await supabase.from("categories").select("*");
 
       if (!error) {
-        /* console.log(data) */
         dispatch(saveCategories(data));
       } else {
         console.log(error);

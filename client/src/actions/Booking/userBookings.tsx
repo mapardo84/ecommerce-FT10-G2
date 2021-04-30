@@ -1,4 +1,5 @@
 import { Dispatch } from "redux";
+import { UserBooking } from "../../reducers/userBookingsReducer";
 import { supabase } from "../../SupaBase/conection";
 
 export const GET_USER_BOOKINGS = "GET_USER_BOOKINGS";
@@ -18,27 +19,23 @@ export const getUserBookings = () => {
         .limit(1)
         .single();
 
-      let userBookings: any = [];
-
+      let userBookings: UserBooking[] = [];
+      
       var bookings = await supabase
         .from("bookings")
         .select(
           "*, payments(totalPrice, payment_method), room_id(name, category_id(name, price), type_id(name, beds))"
         )
         .eq("user_id", userEmail.data.id);
-      console.log("bookings pa", bookings);
       if (!bookings.data) {
         return;
       }
       try {
         bookings.data.forEach((bookings: any) => {
-          console.log("traeme los bookings perraco",bookings)
           let checkinDate: any = new Date();
-          
 
           if (bookings?.checkin) {
             checkinDate = new Date(bookings?.checkin?.replaceAll("-", ","));
-            console.log("checkindate",checkinDate)
           }
 
           let resta = checkinDate - Date.now();
@@ -73,14 +70,14 @@ export const getUserBookings = () => {
   };
 };
 
-const saveUserBookings = (params: any) => {
+const saveUserBookings = (params: UserBooking[]) => {
   return {
     type: GET_USER_BOOKINGS,
     payload: params,
   };
 };
 
-export const setLoading = (params: any) => {
+export const setLoading = (params: boolean) => {
   return {
     type: SET_LOADING,
     payload: params,
@@ -116,8 +113,6 @@ export const cancelUserBooking = (
             })
             .eq("id", userId);
         }
-
-        console.log("balance paaaa", positiveBalance);
       } catch (err) {
         console.log(err);
       }
