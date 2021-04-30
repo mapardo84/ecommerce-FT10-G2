@@ -165,8 +165,6 @@ export const Discounts = () =>{
             { name: ['published'], value: index.published},
         ])
     }
-
-
     return (
         <div>
         <div className="types_upbar">
@@ -231,7 +229,8 @@ export const Discounts = () =>{
                 <Form.Item
                     label="Description"
                     name="description"
-                    rules={[{ required: true, message: 'Please input a description!' }]}>
+                    rules={[{ required: true, message: 'Please input a description!' }]}
+                >
                     <Input placeholder="description"></Input>
                 </Form.Item>
                 <Form.Item
@@ -259,5 +258,4 @@ export const Discounts = () =>{
             </Form>
         </Modal>
     </div >
-)
-}
+)}
