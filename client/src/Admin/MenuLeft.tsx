@@ -39,7 +39,7 @@ import { useEffect } from 'react';
 //////////////////////////////////////////////////////////////
 
 
-const paginas = ['Inicio', 'Rooms', 'Categories', 'Types', 'Users', 'Checkin/Checkout', 'Paxes', 'Bookings', 'Discounts', 'Events'];
+const paginas = ['Inicio', 'Rooms', 'Categories', 'Types', 'Users', 'Checkin/Checkout', 'Paxes', 'Bookings', 'Discounts', 'Events', 'NewsLetter']
 
 export const MenuLeft = () => {
     const dispatch = useDispatch();
@@ -114,6 +114,9 @@ export const MenuLeft = () => {
                     </Menu.Item>
                     <Menu.Item key={paginas[9]} icon={<SiCashapp />} onClick={() => setPage(paginas[9])}>
                         <NavLink to="/admin/events">{paginas[9]}</NavLink>
+                    </Menu.Item>
+                    <Menu.Item key={paginas[10]} icon={<SiCashapp />} onClick={() => setPage(paginas[10])}>
+                        <NavLink to="/admin/newsletter">{paginas[10]}</NavLink>
                     </Menu.Item>
                 </Menu>
             </Sider>

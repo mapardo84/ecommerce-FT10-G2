@@ -1,5 +1,5 @@
 import { useDispatch, useSelector } from 'react-redux';
-import { Modal, Button, Layout, Tooltip } from 'antd';
+import { Modal, Button, Tooltip } from 'antd';
 import { Link } from 'react-router-dom';
 import './Category.less';
 import { StarOutlined } from "@ant-design/icons";
@@ -7,11 +7,11 @@ import { addWishlist } from '../../actions/WishlistAction';
 import { useEffect, useState } from 'react';
 import { getUserIdByMail } from '../../actions/getUserIdByMail/index';
 import { supabase } from "../../SupaBase/conection";
-const { Sider, Content } = Layout
+import {Dispatch} from 'react'
+
 
 const Category = (props:any): JSX.Element => {
-console.log("PROPS",props)
-  var {categ, num} = props
+  const {categ,num} = props
 
   const dispatch = useDispatch()
   const [isModalVisible, setIsModalVisible] = useState(false);
@@ -25,7 +25,7 @@ console.log("PROPS",props)
   };
 
 
-  const getIdByMail = async (valor: any, dispatch: any) => {
+  const getIdByMail = async (valor: any, dispatch: Dispatch<any>) => {
     const x = await getUserIdByMail(valor);
     dispatch(x)
   }
@@ -37,7 +37,7 @@ console.log("PROPS",props)
   }
   const session = supabase.auth.session();
   const idUser = useSelector((state: any) => state.idByMail)
-
+  
 
 
   useEffect(() => {

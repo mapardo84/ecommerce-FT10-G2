@@ -1,7 +1,9 @@
 import { ConsoleSqlOutlined } from "@ant-design/icons"
+import axios from "axios"
 import { Dispatch } from "react"
+import { GiAqueduct } from "react-icons/gi"
 import { PaxValues } from "../../components/booking/paxForm/PaxForm"
-import { BookingValues, PaymentValues } from "../../components/MercadoPago/SuccessPayment"
+import { BookingValues, ConfirmationEmail, PaymentValues } from "../../components/MercadoPago/SuccessPayment"
 import { supabase } from "../../SupaBase/conection"
 
 export const GET_PRE_BOOKING = "GET_PREBOOKING"
@@ -10,7 +12,7 @@ export const SET_EMPTY = "SET_EMPTY"
 export const GET_USER_BALANCE ="GET_USER_BALANCE"
 
 
-export const post_pax_booking_payment = (pax: PaxValues, booking: BookingValues, payment: PaymentValues) => {
+export const post_pax_booking_payment = (pax: PaxValues, booking: BookingValues, payment: PaymentValues,info:ConfirmationEmail) => {
     return async (dispatch: Dispatch<any>) => {
         let paxId;
         let bookingId;
@@ -22,7 +24,6 @@ export const post_pax_booking_payment = (pax: PaxValues, booking: BookingValues,
         if(localStorage.getItem("Payment")){
             paymentId=Number(localStorage.getItem("Payment"))
         }
-        console.log(bookingId,paymentId)
 
 
         const { uuid, first_name, last_name, phone, country, birth_date, address } = pax;
@@ -43,7 +44,7 @@ export const post_pax_booking_payment = (pax: PaxValues, booking: BookingValues,
                         first_name,
                         last_name,
                         phone,
-                        country,
+                        country:country[0],
                         birth_date,
                         address,
                     }
@@ -51,7 +52,7 @@ export const post_pax_booking_payment = (pax: PaxValues, booking: BookingValues,
             paxId = new_pax[0]?.id
         }
         /*---------------------EN ESTE MOMENTO YA HAY UN PAX PARA RELACIONAR LA BOOKING-------------------------*/
-        const { checkin, checkout, paxes_amount, room_id} = booking
+        const { checkin, checkout, paxes_amount, room_id,early_checkin,late_checkout} = booking
 
         const { data: booking_exist }: any = await supabase
             .from("bookings")
@@ -70,7 +71,8 @@ export const post_pax_booking_payment = (pax: PaxValues, booking: BookingValues,
                         room_id,
                         paxes_amount,
                         paxTitular_id: paxId,
-                    }
+                        early_check:early_checkin,
+                        late_check:late_checkout                    }
                 ])
             
             bookingId = new_booking[0]?.id
@@ -86,7 +88,6 @@ export const post_pax_booking_payment = (pax: PaxValues, booking: BookingValues,
         if (payment_exist) {
             paymentId = payment_exist[0].id
         } else {
-            console.log(totalPrice,payment_method,payment_status)
             const { data: new_payment }: any = await supabase
                 .from("payments")
                 .insert([
@@ -117,6 +118,23 @@ export const post_pax_booking_payment = (pax: PaxValues, booking: BookingValues,
                     }
                 ])
         }
+        const {data:email_status}=await supabase
+        .from("bookings")
+        .select("email_send")
+        .eq('id',`${bookingId}`)
+        console.log(email_status)
+        if(email_status){
+            if(!email_status[0].email_send){
+                const sendEmail= axios.post('http://localhost:4000/emails',info)
+                const {data:control_email}=await supabase
+                .from("bookings")
+                .update({"email_send":true})
+                .eq('id',`${bookingId}`)
+            }
+        }
+        
+        
+
     }
 }
 
@@ -227,6 +245,5 @@ export const update_balance=(email_user:string | undefined,amount:number)=>{
         .from("users")
         .update({positive_balance:amount})
         .eq("email",`${email_user}`)
-        console.log(updateBalance)
     }
 }

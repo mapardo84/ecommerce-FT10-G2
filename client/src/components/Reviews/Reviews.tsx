@@ -44,7 +44,6 @@ export const Reviews = ({ idRv }: any) => {
     const desc = ['Terrible', 'Bad', 'Normal', 'Good', 'Wonderful'];
     const dispatch = useDispatch()
     const rev = useSelector((state: any) => state.reviews.reviews)
-    console.log("REV", rev)
     useEffect(() => {
         dispatch(get_reviews(idRv))
     }, [dispatch])

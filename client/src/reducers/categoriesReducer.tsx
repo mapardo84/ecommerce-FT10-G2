@@ -6,13 +6,14 @@ import {
   CREATE_CATEGORY,
 } from "../Admin/actions/categoriesActions";
 import { Category } from "../Admin/components/Categories/Categories";
+
 export interface initialStateProps {
-  categories: any;
-  
+  categories: any
 }
-interface IState {
+
+export interface IState {
   categories: Category[];
-  categoriesNames:any
+  categoriesNames: Category[];
 }
 
 interface actionProps {
