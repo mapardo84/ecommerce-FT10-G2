@@ -1,16 +1,19 @@
 import React, { useEffect, useState } from 'react'
-import { supabase } from '../../SupaBase/conection'
-import { getUserBookings, setLoading } from "../../actions/Booking/userBookings";
+import { getUserBookings } from "../../actions/Booking/userBookings";
 import { useDispatch, useSelector } from 'react-redux';
 import BookingCard from './BookingCard';
 import "./MyBookings.less"
 import { Button, Divider, Pagination } from 'antd';
 import { NavLink } from 'react-router-dom';
+import { UserBooking } from '../../reducers/userBookingsReducer';
+
 
 
 const MyBookings = () => {
 
-    const pageSize = 4
+    
+
+    const pageSize = 3
     const [minIndex, setMinIndex] = useState(0)
     const [maxIndex, setMaxIndex] = useState(pageSize)
 
@@ -28,15 +31,16 @@ const MyBookings = () => {
     let actualBookings: any = [];
     let pastBookings: any = [];
 
-    userBookings.filter((booking: any) => {
+    userBookings.filter((booking: UserBooking) => {
         let checkin: any = new Date(booking.checkin.replaceAll("-", ","));
 
-        if (checkin > Date.now()) {
+        if ((checkin > Date.now()) && booking.bookingStatus) {
             booking.actual = true;
             actualBookings.push(booking)
         } else {
             pastBookings.push(booking)
         }
+        return userBookings
     })
 
     const handleChange = (page: any) => {
@@ -61,8 +65,10 @@ const MyBookings = () => {
 
                     {actualBookings.length !== 0 ?
                         actualBookings.map((user: any, id: any) => {
+                            
                             return (
-                                <BookingCard userData={user} key={id} />
+                                <BookingCard userData={user} key={id}  />
+                                
                             )
                         })
                         :

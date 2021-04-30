@@ -11,7 +11,8 @@ import { useDispatch } from 'react-redux';
 const BookingCard = (userData: any) => {
 
     const dispatch = useDispatch()
-    var { bookingId, checkin, checkout, roomNumber, category, type, totalPrice, actual, userId, moneyBack, status } = userData.userData
+    var { bookingId, checkin, checkout, roomNumber, category, type, totalPrice, actual, userId, moneyBack, bookingStatus } = userData.userData
+    
 
     const [isModalVisible, setIsModalVisible] = useState(false);
     const [isCancelModalVisible, setIsCancelModalVisible] = useState(false);
@@ -38,7 +39,7 @@ const BookingCard = (userData: any) => {
     }
 
     return (
-        <div className="booking_Container">{!status &&
+        <div className="booking_Container">{!bookingStatus &&
             <span className="booking_Cancelled">CANCELLED</span>}
             <IconContext.Provider value={{ size: '19px', style: { verticalAlign: 'top' } }}>
                 <div className="booking_Title">BOOKING {bookingId}</div>
@@ -58,7 +59,7 @@ const BookingCard = (userData: any) => {
                 <div className="booking_Price">TOTAL:  ${totalPrice}</div>
                 <div className="booking_More" >
 
-                    {actual && status ? <Button onClick={showModalCancel} type="primary">CANCEL</Button> : <Button></Button>}
+                    {actual && bookingStatus ? <Button onClick={showModalCancel} type="primary">CANCEL</Button> : <Button></Button>}
                     <Button type="link" onClick={showModal}>More Details</Button>
                 </div>
 

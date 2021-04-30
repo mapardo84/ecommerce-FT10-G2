@@ -5,8 +5,24 @@ interface actionProps {
     payload: any
 }
 
+export interface UserBooking {
+    actual: boolean;
+    bookingId: number;
+    bookingStatus: boolean;
+    category: string;
+    checkin: string;
+    checkout: string;
+    moneyBack: boolean;
+    paxes: number;
+    paymentMethod: string;
+    roomNumber: string;
+    totalPrice: number;
+    type: string;
+    userId: number;
+  }
+
 interface IState {
-    data: any[],
+    data: UserBooking[],
     loading: boolean
 }
 
