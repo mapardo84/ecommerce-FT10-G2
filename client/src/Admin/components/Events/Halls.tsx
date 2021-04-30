@@ -1,4 +1,4 @@
-import { Button, Table, Form, Modal, Input, InputNumber, Tooltip, Popconfirm } from 'antd';
+import { Button, Table, Form, Modal, Input, Tooltip, Popconfirm } from 'antd';
 import { FaTrashAlt, FaPencilAlt } from 'react-icons/fa';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
@@ -105,8 +105,6 @@ export const Halls = () => {
             : null,
         }
     ]
-
-    console.log(halls);
     return (
         <div>
             <div className="halls_upbar">
