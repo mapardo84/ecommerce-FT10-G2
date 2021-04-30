@@ -26,7 +26,7 @@ export const HomeExperiences = () => {
 
     
     return (
-        <div  data-aos="fade-up" data-aos-once="true" data-aos-duration="1000" className='containerHomeExperiences'>
+        <div  data-aos="fade" data-aos-once="true" data-aos-duration="1000" className='containerHomeExperiences'>
             <Carousel dotPosition="right" effect="fade" {...settings}>
                 <div className='img-text-HomeExperiences' >
                     <div className='containerWordsExperiences'>
