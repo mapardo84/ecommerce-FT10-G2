@@ -170,9 +170,9 @@ export function getFirstName(firstname: string) {
             .ilike('first_name', `%${firstname}%`) 
             .limit(4)
             console.log(pax.data)
+            
             dispatch(getByFirstName(pax.data))
         }
-                    
     }
 }
 // export function getFirstName(firstname: string) {

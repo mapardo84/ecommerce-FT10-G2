@@ -1,5 +1,5 @@
 import { DATA_BOOKING, BOOKING_ID, DATA_PAYMENTS, DATA_PAXES } from "../Admin/actions/bookingsActions"
-import { FREE_ROOMS, GET_CATEGORIES_AD, GET_PAX_INFO, GET_TYPES_AD } from "../Admin/actions/createBookAdmin"
+import { FREE_ROOMS, GET_CATEGORIES_AD, GET_PAX_INFO, GET_TYPES_AD, successMSG } from "../Admin/actions/createBookAdmin"
 
 export interface BookingsAdminInterface {
     bookingPax: any[],
@@ -9,8 +9,9 @@ export interface BookingsAdminInterface {
     paxes: any[],
     categories: any[],
     types: any[],
-    paxInfo: any[]
-    freeRooms: any[]
+    paxInfo: any[],
+    freeRooms: any[],
+    successful: boolean
 }
 
 interface actions {
@@ -27,7 +28,8 @@ const InitialState: BookingsAdminInterface = {
     categories: [],
     types: [],
     paxInfo: [],
-    freeRooms: []
+    freeRooms: [],
+    successful: false
 
 }
 
@@ -74,6 +76,11 @@ export function bookingsAdminReducer(state: BookingsAdminInterface = InitialStat
             return {
                 ...state,
                 freeRooms: action.payload
+            }
+        case successMSG:
+            return {
+                ...state,
+                successful: action.payload
             }
         default:
             return state
