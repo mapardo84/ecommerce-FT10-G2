@@ -2,7 +2,7 @@ import {supabase} from '../../SupaBase/conection';
 export const GET_IDBYMAIL ='GET_IDBYMAIL';
 export const GET_CHECKOUT ='GET_CHECKOUT';
 
-export const getUserIdByMail = async (email:string) => {
+export const getUserIdByMail = async (email:string | undefined) => {
     let { data: users, error } = await supabase
   .from('users')
   .select('id,uuid')
