@@ -2,11 +2,11 @@ import { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { get_reviews } from "../../actions/Reviews/Reviews"
 import React /* { createElement, useState } */ from 'react';
-import { Comment, Tooltip, Rate, Pagination } from 'antd';
+import {Tooltip, Rate} from 'antd';
 import moment from 'moment';
 import './Reviews.less'
 import { FaUserCircle } from "react-icons/fa";
-import addReview from './../addReview/AddReview';
+// import addReview from './../addReview/AddReview';
 import { IconContext } from 'react-icons';
 //import { DislikeOutlined, LikeOutlined, DislikeFilled, LikeFilled } from '@ant-design/icons';
 

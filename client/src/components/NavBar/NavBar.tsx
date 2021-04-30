@@ -8,7 +8,7 @@ import { supabase } from '../../SupaBase/conection'
 import { logOut } from "../../helpers/logOut";
 import { useDispatch, useSelector } from "react-redux";
 import { setModalState } from "../../actions/loginActions";
-import { NavLink, useHistory, Link } from "react-router-dom";
+import { NavLink, useHistory} from "react-router-dom";
 import hotel from "./logoHotel.png"
 import { SiHotelsDotCom } from "react-icons/si";
 import { MdHotel } from "react-icons/md";
@@ -18,9 +18,9 @@ import { RiLogoutBoxFill, RiLoginBoxFill } from "react-icons/ri";
 import { IconContext } from "react-icons/lib";
 
 
-import { get_pre, pre_booking_empty } from "../../actions/Booking/pre_booking_action";
+import {pre_booking_empty} from "../../actions/Booking/pre_booking_action";
 
-const { Header } = Layout;
+// const { Header } = Layout;
 
 export const NavBar = () => {
 
@@ -147,7 +147,7 @@ export const NavBar = () => {
                           className={navBar ? 'navButtonActive' : "navButton" }
                           type="text">
                           Log In
-                         </Button>
+                        </Button>
                     }
                   </div>
                   <NavLink to="/booking">

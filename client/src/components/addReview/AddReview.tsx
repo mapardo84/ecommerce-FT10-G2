@@ -6,7 +6,6 @@ import './AddReview.less';
 import { useDispatch } from 'react-redux';
 
 
-
 const desc = ['Terrible', 'Bad', 'Normal', 'Good', 'Wonderful'];
 const session = supabase.auth.session();
 

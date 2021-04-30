@@ -1,11 +1,16 @@
 import {POST_WISHLIST, GET_WISHLIST,DELETE_WISHLIST} from "../actions/WishlistAction"
 
+export interface WishListInterface{
+    wishlist:any[]
+    userWishlist:any[]
+}
+
 const initialState = {
    wishlist:[],
    userWishlist:[]
 }
 
-export function wishlistReducer (state=initialState, action:any){
+export function wishlistReducer (state:WishListInterface=initialState, action:any){
     switch(action.type){
         case POST_WISHLIST:
             return{

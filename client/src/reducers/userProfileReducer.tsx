@@ -6,17 +6,17 @@ interface actionProps {
     payload: any
 }
 
-interface IState {
+export interface UserProfileInterface {
     data: {},
     loading: boolean
 }
 
-const InitialState: IState = {
+const InitialState: UserProfileInterface = {
     data: {},
     loading: false
 }
 
-export function userProfileReducer(state: IState = InitialState, action: actionProps) {
+export function userProfileReducer(state: UserProfileInterface = InitialState, action: actionProps) {
     switch (action.type) {
         case GET_USER_PROFILE:
             return {

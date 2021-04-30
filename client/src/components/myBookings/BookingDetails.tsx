@@ -1,5 +1,5 @@
-import { Button, Modal, Divider } from 'antd'
-import React, { useState } from 'react'
+import { /*Button, Modal,*/ Divider } from 'antd'
+import React /*,{ useState }*/ from 'react'
 import { IconContext } from 'react-icons'
 import { BiCalendarCheck, BiCalendarX } from 'react-icons/bi'
 import "./BookingDetails.less"

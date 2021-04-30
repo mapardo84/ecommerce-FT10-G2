@@ -1,7 +1,7 @@
-import { ConsoleSqlOutlined } from "@ant-design/icons"
+// import { ConsoleSqlOutlined } from "@ant-design/icons"
 import axios from "axios"
 import { Dispatch } from "react"
-import { GiAqueduct } from "react-icons/gi"
+// import { GiAqueduct } from "react-icons/gi"
 import { PaxValues } from "../../components/booking/paxForm/PaxForm"
 import { BookingValues, ConfirmationEmail, PaymentValues } from "../../components/MercadoPago/SuccessPayment"
 import { supabase } from "../../SupaBase/conection"
@@ -12,11 +12,13 @@ export const SET_EMPTY = "SET_EMPTY"
 export const GET_USER_BALANCE ="GET_USER_BALANCE"
 
 
-export const post_pax_booking_payment = (pax: PaxValues, booking: BookingValues, payment: PaymentValues,info:ConfirmationEmail) => {
+export const post_pax_booking_payment = (pax: PaxValues, booking: BookingValues, payment: PaymentValues,info:ConfirmationEmail,withBalance?:PaymentValues) => {
     return async (dispatch: Dispatch<any>) => {
         let paxId;
         let bookingId;
+        let user_id;
         let paymentId;
+        let with_ballance;
 
         if(localStorage.getItem("Unique_id")){
             bookingId=Number(localStorage.getItem("Unique_id"))
@@ -52,6 +54,12 @@ export const post_pax_booking_payment = (pax: PaxValues, booking: BookingValues,
             paxId = new_pax[0]?.id
         }
         /*---------------------EN ESTE MOMENTO YA HAY UN PAX PARA RELACIONAR LA BOOKING-------------------------*/
+        user_id=await supabase
+        .from("users")
+        .select("id")
+        .eq("email",supabase.auth.user()?.email)
+        if(!user_id.data)return
+
         const { checkin, checkout, paxes_amount, room_id,early_checkin,late_checkout} = booking
 
         const { data: booking_exist }: any = await supabase
@@ -62,7 +70,7 @@ export const post_pax_booking_payment = (pax: PaxValues, booking: BookingValues,
             bookingId = booking_exist[0]?.id
             /*--------------------SE CORROBORA SI YA HAY UNA RESERVA CON ESA REFERENCIA DE PAGO-----------------*/
         } else {
-            const { data: new_booking }: any = await supabase
+            const { data: new_booking }= await supabase
                 .from("bookings")
                 .insert([
                     {
@@ -72,23 +80,25 @@ export const post_pax_booking_payment = (pax: PaxValues, booking: BookingValues,
                         paxes_amount,
                         paxTitular_id: paxId,
                         early_check:early_checkin,
-                        late_check:late_checkout                    }
+                        late_check:late_checkout,
+                        user_id:user_id?.data[0]?.id            }
                 ])
-            
-            bookingId = new_booking[0]?.id
-            localStorage.setItem("Unique_id",JSON.stringify(new_booking[0]?.id))
+                if(new_booking){
+                bookingId = new_booking[0]?.id
+                localStorage.setItem("Unique_id",JSON.stringify(new_booking[0]?.id))
+        }
         }
         /*--------------------------------HASTA ACA YA HAY UNA RESERVA CREADA--------------------------------------*/
         const { totalPrice, payment_method, payment_status} = payment
 
-        const { data: payment_exist }: any = await supabase
+        const { data: payment_exist }= await supabase
             .from("payments")
             .select("*")
             .eq("id", paymentId)
         if (payment_exist) {
             paymentId = payment_exist[0].id
         } else {
-            const { data: new_payment }: any = await supabase
+            const { data: new_payment }= await supabase
                 .from("payments")
                 .insert([
                     {
@@ -101,15 +111,55 @@ export const post_pax_booking_payment = (pax: PaxValues, booking: BookingValues,
                 if(new_payment){
                 localStorage.setItem("Payment",JSON.stringify(new_payment[0]?.id))}
         }
-        const { data: booking_pax_exist }: any = await supabase
+        if(withBalance){
+        const { data: payWithBalance }= await supabase
+            .from("payments")
+            .select("*")
+            .eq("id", with_ballance)
+        if (payWithBalance) {
+            paymentId = payWithBalance[0].id
+        } else {
+            const { data: newBallancePay }= await supabase
+                .from("payments")
+                .insert([
+                    {
+                        totalPrice:withBalance.totalPrice,
+                        booking_id: bookingId,
+                        payment_method:withBalance.payment_method,
+                        payment_status:withBalance.payment_status
+                    }
+                ])
+                if(newBallancePay){
+                localStorage.setItem("WithBalance",JSON.stringify(newBallancePay[0]?.id))}
+            }
+        }
+
+        const {data:email_status}=await supabase
+        .from("bookings")
+        .select("email_send")
+        .eq('id',`${bookingId}`)
+        console.log(email_status)
+        if(email_status){
+            if(!email_status[0].email_send){
+                const sendEmail= axios.post('http://localhost:4000/emails/',info)
+                const {data:control_email}=await supabase
+                .from("bookings")
+                .update({"email_send":true})
+                .eq('id',`${bookingId}`)
+            }
+        }
+
+
+
+        const { data: booking_pax_exist }= await supabase
             .from("booking_pax")
             .select("*")
             .eq("booking_id", `${bookingId}`)
 
-        if (booking_pax_exist[0]?.id) {
+        if (booking_pax_exist) {
             return
         } else {
-            const { data: relation_create }: any = await supabase
+            const { data: relation_create }= await supabase
                 .from("booking_pax")
                 .insert([
                     {
@@ -118,20 +168,7 @@ export const post_pax_booking_payment = (pax: PaxValues, booking: BookingValues,
                     }
                 ])
         }
-        const {data:email_status}=await supabase
-        .from("bookings")
-        .select("email_send")
-        .eq('id',`${bookingId}`)
-        console.log(email_status)
-        if(email_status){
-            if(!email_status[0].email_send){
-                const sendEmail= axios.post('http://localhost:4000/emails',info)
-                const {data:control_email}=await supabase
-                .from("bookings")
-                .update({"email_send":true})
-                .eq('id',`${bookingId}`)
-            }
-        }
+        
         
         
 
@@ -140,13 +177,7 @@ export const post_pax_booking_payment = (pax: PaxValues, booking: BookingValues,
 
 export const setGuests=(user_email:any,guests_nights?:any|undefined,accomodation?:any)=>{
     return async(dispatch:Dispatch<any>)=>{
-        if(accomodation){
-            const {data:acomodation_prebooking}:any=await supabase
-            .from("pre_booking")
-            .update({acomodation_step:`${accomodation}`})
-            .eq('user_email',`${user_email}`)
-            localStorage.setItem("Accomodation",accomodation)            
-        }else{
+       if(guests_nights){
             const{data:existPreBooking}:any=await supabase
             .from("pre_booking")
             .select("*")
@@ -162,15 +193,22 @@ export const setGuests=(user_email:any,guests_nights?:any|undefined,accomodation
                 localStorage.setItem("Check&Guests",guests_nights)            
             }else{
                 const {data:createPreBooking}=await supabase
-        .from("pre_booking")
-        .insert([
-            {
-                user_email,
-                guests_nights
+                .from("pre_booking")
+                .insert([
+                {
+                    user_email,
+                    guests_nights
+                }
+                ])}}
+                if(accomodation){
+                    const {data:acomodation_prebooking}:any=await supabase
+                    .from("pre_booking")
+                    .update({acomodation_step:`${accomodation}`})
+                    .eq('user_email',`${user_email}`)
+                    localStorage.setItem("Accomodation",accomodation)            
+                }
             }
-        ])}}
-    }
-}
+            }
 
 
 export const get_pre= (user_email?: string | undefined, preference_id?: string) => {
@@ -205,7 +243,6 @@ export const pre_booking_empty=(payload:any=[])=>{
         payload
     }
 }
-
 const pre_booking_action = (payload: any) => {    //Trae toda la pre-booking en base al email
     return {
         type: GET_INPROGRESS,

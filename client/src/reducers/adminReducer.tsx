@@ -1,7 +1,7 @@
 import { SIDEBAR_VIEW, CHANGE_PAGE } from "../Admin/actions/adminUi"
 
 
-export interface initialStateProps {
+export interface AdminReducer {
     adminui: any,
     sidebarColapsed: boolean
 }

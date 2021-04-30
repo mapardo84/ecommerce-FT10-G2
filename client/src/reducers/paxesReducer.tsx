@@ -5,17 +5,17 @@ interface actionProps {
     payload: any
 }
 
-interface IState {
+export interface PaxesInterface {
     paxes: any[],
     pax: any
 }
 
-const InitialState: IState = {
+const InitialState: PaxesInterface = {
     paxes: [],
     pax: ''
 }
 
-export function paxesReducer(state: IState = InitialState, action: actionProps) {
+export function paxesReducer(state: PaxesInterface = InitialState, action: actionProps) {
     switch (action.type) {
         case GET_ALL_PAXES:
             return {

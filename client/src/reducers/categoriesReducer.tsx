@@ -10,8 +10,7 @@ import { Category } from "../Admin/components/Categories/Categories";
 export interface initialStateProps {
   categories: any
 }
-
-export interface IState {
+export interface Categories {
   categories: Category[];
   categoriesNames: Category[];
 }
@@ -21,13 +20,13 @@ interface actionProps {
   payload: any;
 }
 
-const initialState: IState = {
+const initialState: Categories = {
   categories: [],
   categoriesNames:[]
 };
 
 export function categoriesReducer(
-  state: IState = initialState,
+  state: Categories = initialState,
   action: actionProps
 ) {
   switch (action.type) {

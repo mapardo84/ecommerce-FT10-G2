@@ -4,6 +4,10 @@ const initialState={
     pre_booking:[],
     user_data:[]
 }
+export interface PreBookingInterface{
+    pre_booking:any[]
+    user_data:any[]
+}
 
 interface Pre_Booking{
     type:string,

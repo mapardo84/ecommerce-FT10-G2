@@ -1,24 +1,26 @@
 import { FunctionComponent, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import '../booking/StepsBooking.less'
-import { Button, Form, Input, Steps } from 'antd';
+import { Button, Steps } from 'antd';
 import { PaxForm } from './paxForm/PaxForm';
 import { AccomodationsSelect } from './accomodationsSelect/AccomodationsSelect';
 import { bookingType, GuestsForm } from './guestsForm/GuestsForm';
-import { getCategoriesForUser, getPax, setBookData, setLoading, stepChange } from '../../actions/Booking/bookingAction';
+import { getCategoriesForUser, setBookData, setLoading, stepChange } from '../../actions/Booking/bookingAction';
 import { supabase } from '../../SupaBase/conection';
 import { Pre_booking } from '../Pre_booking/Pre_booking';
 import { delete_pre_booking, get_pre, pre_booking_empty, setGuests } from '../../actions/Booking/pre_booking_action'
 import Modal from 'antd/lib/modal/Modal';
 import { Link } from 'react-router-dom';
+import { RootReducer } from '../../reducers/rootReducer';
+import {CheckinLocalInterface} from '../Pre_booking/Pre_booking'
 
 const { Step } = Steps;
 export const StepsBooking: FunctionComponent = () => {
-  const selectedStep: number = useSelector((state: any) => state.bookings.step);
+  const selectedStep: number = useSelector((state: RootReducer) => state.bookings.step);
 
 
-  const pre_Booking_state = useSelector((state: any) => state.pre_booking);
-  const { pre_booking, user_data } = pre_Booking_state
+  const pre_Booking_state = useSelector((state: RootReducer) => state.pre_booking);
+  const { pre_booking} = pre_Booking_state
   const [continueBooking, setContinueBooking] = useState<boolean>(false)
   const [inProgress, setInProgress] = useState({
     pending: true,
@@ -27,18 +29,18 @@ export const StepsBooking: FunctionComponent = () => {
   })
   const dispatch = useDispatch();
 
-  interface Local_Guest {
-    in_out: string[],
-    nights: number,
-    paxes: number
-  }
+  // interface Local_Guest {
+  //   in_out: string[],
+  //   nights: number,
+  //   paxes: number
+  // }
 
 
   useEffect(() => {
     if (supabase.auth.session()) {
       dispatch(get_pre(supabase.auth.user()?.email))
     }
-  }, [])
+  }, [dispatch])
 
   // useEffect(() => {
   //   return () => {
@@ -96,7 +98,7 @@ export const StepsBooking: FunctionComponent = () => {
     else {
       dispatch(stepChange(0))
     }
-  }, [inProgress, pre_Booking_state])
+  }, [inProgress, pre_Booking_state,pre_booking,dispatch])
 
   useEffect(() => {
     window.scroll(0, 0)
@@ -110,7 +112,7 @@ export const StepsBooking: FunctionComponent = () => {
         }
       }
     }
-  }, [inProgress])
+  }, [inProgress,pre_booking])
 
 
   const continuePreBooking = () => {
@@ -129,6 +131,8 @@ export const StepsBooking: FunctionComponent = () => {
     setInProgress({ pending: false, continue: false, delete: true })
     localStorage.removeItem("Check&Guests")
     localStorage.removeItem("Accomodation")
+    localStorage.removeItem("total_price")
+    localStorage.removeItem("payWithBalance")
     dispatch(pre_booking_empty())
     setContinueBooking(false)
 

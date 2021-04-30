@@ -1,8 +1,8 @@
 import {GET_IDBYMAIL} from '../actions/getUserIdByMail/index';
+// import {GET_CHECKOUT} from '../actions/getUserIdByMail/index';
 
-
-export interface IuserID{
-    userId:[]
+export interface IdByEmailReducer{
+    userId:any
 }
 
 interface actionProps {
@@ -10,13 +10,13 @@ interface actionProps {
     payload:[]
 }
 
-const initialState:IuserID = {
-    userId: []
+const initialState:IdByEmailReducer = {
+    userId: ''
 }
 
 
 
-export function getIdByEmailReducer (state = initialState,action:actionProps){
+export function getIdByEmailReducer (state:IdByEmailReducer = initialState,action:actionProps){
     if(action.type === GET_IDBYMAIL){
         return{
             ...state,

@@ -1,11 +1,6 @@
-import { ConsoleSqlOutlined } from '@ant-design/icons'
-import { Button } from 'antd'
-import { strict } from 'node:assert'
 import React, { useEffect } from 'react'
-import { useDispatch, useSelector } from 'react-redux'
-import { Redirect, useParams } from 'react-router'
-import { Link } from 'react-router-dom'
-import { idText } from 'typescript'
+import { useDispatch } from 'react-redux'
+import { Redirect} from 'react-router'
 import { delete_pre_booking, get_pre, post_pax_booking_payment, update_balance } from '../../actions/Booking/pre_booking_action'
 import { supabase } from '../../SupaBase/conection'
 import { PaxValues } from '../booking/paxForm/PaxForm'
@@ -47,7 +42,6 @@ export interface ConfirmationEmail{
 
 export function SuccessPayment() {
     const dispatch = useDispatch()
-    const { pre_booking } = useSelector((state: any) => state.pre_booking)
 
 
     useEffect(() => {
@@ -57,13 +51,9 @@ export function SuccessPayment() {
         }
         let preference_id: any;
         window.location.search.split("&")               //Seteo el preference id proveniente del param
-            .map(e => e.split("="))
-            .filter(e => {
-                if (e[0].includes("preference_id")) {
-                    preference_id = e[1]
-                }
-            })
-
+        .map(e => e.split("="))
+        .filter(e => e[0].includes("preference_id")?preference_id = e[1]:null)
+        
         if (preference_id) {                 //Si existe, despacho la creacion de la reserva directamente corroborando que haya id de booking en el storage
             dispatch(get_pre(preference_id))
         }
@@ -93,9 +83,14 @@ export function SuccessPayment() {
                 room_id: str.room_id,
                 paxes_amount: str.paxes,
             }
+                const pay_with_balance:PaymentValues={
+                    totalPrice:localStorage.getItem("payWithBalance")? Number(localStorage.getItem("payWithBalance")):0,
+                    payment_method: "Positive Balance",
+                    payment_status: "Approved",
+                }
 
             const payment: PaymentValues = {
-                totalPrice: localStorage.getItem("total_price") ? Number(localStorage.getItem("total_price")) : str.nights * str.unit_price,
+                totalPrice: Number(localStorage.getItem("total_price"))!==0 ? Number(localStorage.getItem("total_price")) : str.nights * str.unit_price,
                 payment_method: "mercadopago",
                 payment_status: "Approved",
             }
@@ -116,15 +111,18 @@ export function SuccessPayment() {
 
 
 
-
+            if(localStorage.getItem("payWithBalance")){
+                dispatch(post_pax_booking_payment(paxInfo, bookingInfo, payment,email,pay_with_balance))    
+            }else{
             dispatch(post_pax_booking_payment(paxInfo, bookingInfo, payment,email))
+            }
         }
         localStorage.removeItem("Check&Guests")
         localStorage.removeItem("Accomodation")
         localStorage.removeItem("total_price")
 
         dispatch(delete_pre_booking(supabase.auth.user()?.email))
-    }, [])
+    }, [dispatch])
 
     let str: any = localStorage.getItem("BookingInfo")
     if (str) {
