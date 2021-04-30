@@ -12,7 +12,7 @@ import { getPromotions } from "../../actions/Promotions/promotionsAction";
 import '../Promotions/PromotionsViewer.less';
 import HomeDescription from "../home/homeDescription/HomeDescription";
 import { HomeExperiences } from "../home/homeExperiences/HomeExperiences";
-
+import {HomeFeatures} from '../home/HomeFeatures/HomeFeatures'
 const { Content } = Layout;
 
 export const HomeLayout = (): JSX.Element => {
@@ -54,6 +54,7 @@ export const HomeLayout = (): JSX.Element => {
           <HomeSlides />
           <HomeDescription />
           <HomeExperiences />
+          <HomeFeatures/>
           {/* { promotions? <PromotionsViewer promo={promotions}/> : <p>There are not current promotions</p> } */}
         </Content>
         <FooterLayout />
