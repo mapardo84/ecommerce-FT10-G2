@@ -1,136 +1,121 @@
-import { promises } from "dns";
-import { useHistory } from "react-router";
 import { Dispatch } from "redux";
+import { UserBooking } from "../../reducers/userBookingsReducer";
 import { supabase } from "../../SupaBase/conection";
 
-export const GET_USER_BOOKINGS = 'GET_USER_BOOKINGS';
-export const SET_LOADING = 'SET_LOADING';
-
+export const GET_USER_BOOKINGS = "GET_USER_BOOKINGS";
+export const SET_LOADING = "SET_LOADING";
 
 export const getUserBookings = () => {
+  return async (dispatch: Dispatch<any>) => {
+    dispatch(setLoading(true));
 
-    return async (dispatch: Dispatch<any>) => {
+    const user = supabase.auth.user();
 
-        dispatch(setLoading(true))
+    if (user?.aud === "authenticated") {
+      let userEmail = await supabase
+        .from("users")
+        .select("uuid , id")
+        .eq("email", user.email)
+        .limit(1)
+        .single();
 
-        const user: any = supabase.auth.user()
+      let userBookings: UserBooking[] = [];
+      
+      var bookings = await supabase
+        .from("bookings")
+        .select(
+          "*, payments(totalPrice, payment_method), room_id(name, category_id(name, price), type_id(name, beds))"
+        )
+        .eq("user_id", userEmail.data.id);
+      if (!bookings.data) {
+        return;
+      }
+      try {
+        bookings.data.forEach((bookings: any) => {
+          let checkinDate: any = new Date();
 
-        if (user?.aud === "authenticated") {
+          if (bookings?.checkin) {
+            checkinDate = new Date(bookings?.checkin?.replaceAll("-", ","));
+          }
 
-            let userEmail: any = await supabase
-                .from('users')
-                .select('uuid , id')
-                .eq('email', user.email)
+          let resta = checkinDate - Date.now();
+          resta = Math.round(resta / (1000 * 60 * 60 * 24));
 
-            let paxes: any = await supabase
-                .from('paxes')
-                .select('id')
-                .eq("uuid", userEmail.data[0].uuid)
+          const bookingDetails = {
+            bookingStatus: bookings?.status,
+            bookingId: bookings?.id,
+            checkin: bookings?.checkin,
+            checkout: bookings?.checkout,
+            roomNumber: bookings?.room_id.name,
+            category: bookings?.room_id.category_id.name,
+            type: bookings?.room_id.type_id.name,
+            totalPrice: bookings?.payments[0]?.totalPrice,
+            paymentMethod: bookings?.payments[0]?.payment_method,
+            paxes: bookings?.paxes_amount,
+            actual: false,
+            moneyBack: resta + 1 > 7 ? true : false,
+            userId: userEmail?.data.id,
+          };
 
-            let paxBookingsId: any = await supabase
-                .from('booking_pax')
-                .select('booking_id')
-                .eq("pax_id", paxes.data[0]?.id)
+          userBookings.push(bookingDetails);
+        });
+        dispatch(saveUserBookings(userBookings));
+        dispatch(setLoading(false));
+      } catch (error) {
+        console.log(error);
+      }
+    } else {
+      dispatch(setLoading(false));
+    }
+  };
+};
 
-            let userBookings: any = []
+const saveUserBookings = (params: UserBooking[]) => {
+  return {
+    type: GET_USER_BOOKINGS,
+    payload: params,
+  };
+};
 
-            if (paxBookingsId.data !== null) {
+export const setLoading = (params: boolean) => {
+  return {
+    type: SET_LOADING,
+    payload: params,
+  };
+};
 
-                const bx: any = paxBookingsId.data.map((booking: any) => {
+export const cancelUserBooking = (
+  bookingId: number,
+  price: number,
+  userId: number,
+  moneyBack: boolean
+) => {
+  return async (dispatch: Dispatch<any>) => {
+    await supabase
+      .from("bookings")
+      .update({ status: false })
+      .eq("id", bookingId);
+    dispatch(getUserBookings());
 
-                    return (
-                        supabase
-                            .from('bookings')
-                            .select('*, payments(totalPrice, payment_method), room_id(name, category_id(name, price), type_id(name, beds))')
-                            .eq("id", booking.booking_id)
-                    )
-                })
-
-                Promise.all(bx).then((r: any) => {
-
-                    try {
-                        r.forEach((bookings: any) => {
-
-                            let checkinDate: any
-
-                            if (bookings?.data[0]?.checkin) {
-                                checkinDate = new Date(bookings?.data[0]?.checkin?.replaceAll("-", ","));
-                            }
-
-                            let resta = checkinDate - Date.now()
-                            resta = Math.round(resta / (1000 * 60 * 60 * 24))
-
-                            if (bookings.data[0].status) {
-                                const bookingDetails = {
-                                    bookingId: bookings.data[0]?.id,
-                                    checkin: bookings.data[0]?.checkin,
-                                    checkout: bookings.data[0]?.checkout,
-                                    roomNumber: bookings.data[0]?.room_id.name,
-                                    category: bookings.data[0]?.room_id.category_id.name,
-                                    type: bookings.data[0]?.room_id.type_id.name,
-                                    totalPrice: bookings.data[0]?.payments[0]?.totalPrice,
-                                    paymentMethod: bookings.data[0]?.payments[0]?.payment_method,
-                                    paxes: bookings.data[0]?.paxes_amount,
-                                    actual: false,
-                                    moneyBack: (resta + 1) > 7 ? true : false,
-                                    userId: userEmail.data[0]?.id
-                                }
-                                userBookings.push(bookingDetails)
-                            }
-                        })
-                        dispatch(saveUserBookings(userBookings))
-                        dispatch(setLoading(false))
-
-                    } catch (error) {
-                        console.log(error)
-                    }
-
-
-
-                }
-                )
-            } else {
-                dispatch(setLoading(false))
-            }
+    if (moneyBack) {
+      try {
+        let positiveBalance = await supabase
+          .from("users")
+          .select("positive_balance")
+          .eq("id", userId);
+        if (positiveBalance.data) {
+          const balancePositivo: number =
+            positiveBalance?.data[0]?.positive_balance + price;
+          await supabase
+            .from("users")
+            .update({
+              positive_balance: balancePositivo,
+            })
+            .eq("id", userId);
         }
+      } catch (err) {
+        console.log(err);
+      }
     }
-}
-
-const saveUserBookings = (params: any) => {
-    return {
-        type: GET_USER_BOOKINGS,
-        payload: params
-    }
-}
-
-export const setLoading = (params: any) => {
-    return {
-        type: SET_LOADING,
-        payload: params
-    }
-}
-
-
-export const cancelUserBooking = (bookingId: number, price: number, userId: number, moneyBack: boolean) => {
-
-    return async (dispatch: Dispatch<any>) => {
-
-        await supabase
-            .from('bookings')
-            .update({ status: false })
-            .eq("id", bookingId)
-        dispatch(getUserBookings())
-
-        if (moneyBack) {
-            let positiveBalance: any = await supabase
-                .from('users')
-                .select('positive_balance')
-                .eq('id', userId)
-            await supabase
-                .from('users')
-                .update({ positive_balance: positiveBalance.data[0].positive_balance + price })
-                .eq("id", userId)
-        }
-    }
-}
-
+  };
+};
