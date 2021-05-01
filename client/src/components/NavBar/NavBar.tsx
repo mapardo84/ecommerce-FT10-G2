@@ -112,6 +112,11 @@ export const NavBar = () => {
                       Accomodations
                     </Button>
                   </NavLink>
+                  <NavLink to="/events">
+                    <Button className="navButton" size="large" type="text">
+                      Events
+                    </Button>
+                  </NavLink>
                   <div className="navLoginButton">
                     {
                       authValidation() ?

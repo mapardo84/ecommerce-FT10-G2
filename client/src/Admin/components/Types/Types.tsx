@@ -78,7 +78,7 @@ export const Types = () => {
     ]
 
     useEffect(() => {
-        dispatch(getAllTypes())
+        dispatch(getAllTypes());
     }, [dispatch])
 
     const closeModal = () => {
@@ -114,7 +114,6 @@ export const Types = () => {
             { name: ['beds'], value: index.beds },
         ])
     }
-
     return (
         <div>
             <div className="types_upbar">
@@ -154,10 +153,8 @@ export const Types = () => {
                             Save
                         </Button>
                     </div>
-
                 </Form>
             </Modal>
-
         </div>
     )
 }
