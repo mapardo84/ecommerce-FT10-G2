@@ -10,18 +10,18 @@ import { Category } from '../Categories/Categories';
 import moment from 'moment';
 
 export interface IDiscounts {
-    id: number,
-    description: string,
-    value: number,
-    categoryToApply: number,
-    releaseDate: string,
+    id:number,
+    description:string,
+    value:number,
+    categoryToApply:number,
+    releaseDate:string,
     expirationDate:string,
-    published: boolean,
+    published:boolean,
 }
 
 interface IFields {
-    name: string[],
-    value: string | number | boolean
+    name:string[],
+    value:string | number | boolean
 }
 
 const campos: IFields[] = [

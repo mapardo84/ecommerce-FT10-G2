@@ -34,11 +34,8 @@ export const Halls = () => {
   
 
     useEffect(() => {
-        dispatch(getAllHalls()) 
-    
-    }, [ dispatch])
-
-  
+        dispatch(getAllHalls());
+    }, [dispatch]);
 
     const handleEdit = ( id:number ) => {
         setIsModalVisible(true)

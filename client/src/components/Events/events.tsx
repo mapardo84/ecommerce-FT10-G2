@@ -1,13 +1,37 @@
 import "./events.less";
 import renderphoto from "./images/photo1.jpg"
-import React, { useEffect } from "react";
-
+import React from "react";
 import { BackTop, Card } from "antd";
 import { getAllHalls } from "../../Admin/actions/adminEventsActions";
-import { useDispatch} from "react-redux";
+import  {store} from "../../store/store"
+import { IHalls } from "../../Admin/components/Events/Halls";
 
 
-const tabListNoTitle = [
+
+export  class Events extends React.Component {
+constructor(props:any){
+    super(props)
+    this.state = []
+}
+
+
+    statee = {
+        key: "greatroom",
+        noTitleKey: "greatroom",
+      };
+
+
+    async componentDidMount() {
+        await store.dispatch(getAllHalls());
+            this.setState(store.getState().adminEvents) 
+ 
+   console.log( store.getState().adminEvents)
+   let x = this.state
+   console.log(this.state)
+   }
+
+
+ tabListNoTitle = [
     {
       key: "greatroom",
       tab: "Great Room"
@@ -34,42 +58,30 @@ const tabListNoTitle = [
 
   
 
-  
-  const contentListNoTitle:any = {
-    greatroom:
-    
-    <p className="contentEvents">  <h1 style={{fontSize:"60px"}}>Great Room</h1><img className="imgEventOk" src="https://media.kempinski.com/34372941/kempinski-adlonsept2018-15.jpg;width=1024;height=576;mode=crop;anchor=middlecenter;autorotate=true;quality=85;scale=both;progressive=true;encoder=freeimage;format=jpg"alt="Img not found" /><br></br><br></br><p ></p ><p style={{fontSize:"20px"}}>218 m2, ceiling height 5 m. Independent direct access from plaza level. Direct access from hotel and to the lounge and restaurant. Spacious foyer with natural daylight. Built-in speaker system and screens/In house audiovisual company and support. Independent control room, ideal for simultaneous interpretation.</p></p>,
-    studio1: <p>  <h1 style={{fontSize:"60px"}}>Studio 1</h1><img className="imgEventOk" src="https://media.kempinski.com/1070/bild_lounge.jpg;width=1024;height=576;mode=crop;anchor=middlecenter;autorotate=true;quality=85;scale=both;progressive=true;encoder=freeimage;format=jpg"alt="Img not found" /><br></br><br></br><p ></p ><p style={{fontSize:"20px"}}>  At Hotel Adlon Kempinski Berlin, you have the option of conducting smaller private meetings in a relaxed atmosphere. At the Bundeszimmer, for example, you have a wonderful view of the Brandenburg Gate. In this pleasant and unique atmosphere, each meeting will be a unique experience.
+//   {cat?.categoriesNames.map((category: any, i: number) => {
+//     return (
+//       <Option value={category.id} key={i}>{category.name}</Option>
+//     )
+//   })}
 
-    Our team stays in the background. Discretion is very important to us.
+   contentListNoTitle:any = {
     
-    A private lunch or dinner is of course possible in all rooms</p></p>,
-    studio2:<p>ok</p>,
-    foyer3a:<p>ok</p>,
-    foyer3b:<p>ok</p>,
-    lounge:<p>ok</p>
+     greatroom: <p className="contentEvents">  <h1 style={{fontSize:"60px"}}>{<div>{store.getState().adminEvents.halls[0]?.name}</div>}</h1><img className="imgEventOk" src={store.getState().adminEvents.halls[0]?.image}alt="Img not found" /><br></br><br></br><p ></p ><p style={{fontSize:"20px"}}>{store.getState().adminEvents.halls[0]?.description}</p></p>,
+
+    // studio1:<p className="contentEvents">  <h1 style={{fontSize:"60px"}}>{<div>{this.events[0]?.name}</div>}</h1><img className="imgEventOk" src={this.events[0]?.image}alt="Img not found" /><br></br><br></br><p ></p ><p style={{fontSize:"20px"}}>{this.events[0]?.description}</p></p>,
+
+    // studio2:<p className="contentEvents">  <h1 style={{fontSize:"60px"}}>{<div>{this.events[0]?.name}</div>}</h1><img className="imgEventOk" src={this.events[0]?.image}alt="Img not found" /><br></br><br></br><p ></p ><p style={{fontSize:"20px"}}>{this.events[0]?.description}</p></p>,
+
+    // foyer3a: <p className="contentEvents">  <h1 style={{fontSize:"60px"}}>{<div>{this.events[0]?.name}</div>}</h1><img className="imgEventOk" src={this.events[0]?.image}alt="Img not found" /><br></br><br></br><p ></p ><p style={{fontSize:"20px"}}>{this.events[0]?.description}</p></p>,
+
+    // foyer3b: <p className="contentEvents">  <h1 style={{fontSize:"60px"}}>{<div>{this.events[0]?.name}</div>}</h1><img className="imgEventOk" src={this.events[0]?.image}alt="Img not found" /><br></br><br></br><p ></p ><p style={{fontSize:"20px"}}>{this.events[0]?.description}</p></p>,
+
+    // lounge: <p className="contentEvents">  <h1 style={{fontSize:"60px"}}>{<div>{this.events[0]?.name}</div>}</h1><img className="imgEventOk" src={this.events[0]?.image}alt="Img not found" /><br></br><br></br><p ></p ><p style={{fontSize:"20px"}}>{this.events[0]?.description}</p></p>,
 
   };
 
 
-
-  
-
-export  class Events extends React.Component {
-  
-    async componentDidMount() {
-        const resolve = await getAllHalls();
-        
-        console.log(resolve)
-        this.setState({ data:resolve })
-    }
-    
-
-      state = {
-          data:[],
-        key: "greatroom",
-        noTitleKey: "greatroom"
-      };
+     
     
       onTabChange = (key: any, type: any) => {
         console.log(key, type);
@@ -78,11 +90,11 @@ export  class Events extends React.Component {
     
     
       render(){
-        const { data } = this.state;
+     
         return (
-    
+        
             <div className="descriptionBackground">
-                {console.log(data)}
+                
                  <img className="imageAccomodation" src={renderphoto} alt="Img not found" />
             <div >
                 <div className="titleHotel">
@@ -98,15 +110,15 @@ export  class Events extends React.Component {
     
     <Card className="CardEvent"
           style={{ width: "80%" }}
-          tabList={tabListNoTitle}
-          activeTabKey={this.state.noTitleKey}
+          tabList={this.tabListNoTitle}
+          activeTabKey={this.statee.noTitleKey}
           tabBarExtraContent={<a href="/events/quote">Make your quote now!
           </a>}
           onTabChange={(key) => {
             this.onTabChange(key, "noTitleKey");
           }}
         >
-          {contentListNoTitle[this.state.noTitleKey]}
+          {this.contentListNoTitle[this.statee.noTitleKey]}
         </Card>
           
     </div>
