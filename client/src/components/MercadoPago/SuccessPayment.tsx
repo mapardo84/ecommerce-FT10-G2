@@ -90,7 +90,7 @@ export function SuccessPayment() {
                 }
 
             const payment: PaymentValues = {
-                totalPrice: Number(localStorage.getItem("total_price"))!==0 ? Number(localStorage.getItem("total_price")) : str.nights * str.unit_price,
+                totalPrice: Number(localStorage.getItem("total_price"))!==0 ? Number(localStorage.getItem("total_price")) : 0,
                 payment_method: "mercadopago",
                 payment_status: "Approved",
             }
@@ -111,15 +111,17 @@ export function SuccessPayment() {
 
 
 
-            if(localStorage.getItem("payWithBalance")){
-                dispatch(post_pax_booking_payment(paxInfo, bookingInfo, payment,email,pay_with_balance))    
+            if(localStorage.getItem("payWithBalance")&&localStorage.getItem("payWithBalance")){
+                console.log(payment)
+                dispatch(post_pax_booking_payment(paxInfo, bookingInfo, email,payment,pay_with_balance))    
             }else{
-            dispatch(post_pax_booking_payment(paxInfo, bookingInfo, payment,email))
+                dispatch(post_pax_booking_payment(paxInfo, bookingInfo,email,payment))
             }
         }
         localStorage.removeItem("Check&Guests")
         localStorage.removeItem("Accomodation")
         localStorage.removeItem("total_price")
+        localStorage.removeItem("payWithBalance")
 
         dispatch(delete_pre_booking(supabase.auth.user()?.email))
     }, [dispatch])
@@ -135,6 +137,7 @@ export function SuccessPayment() {
             localStorage.removeItem("BookingInfo")
             localStorage.removeItem("Unique_id")
             localStorage.removeItem("Payment")
+            localStorage.removeItem("WithBalance")
         };
     }, []);
 

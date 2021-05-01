@@ -29,25 +29,24 @@ export const MercadoPago = (props: any) => {
   useEffect(() => {
     // axios.post('http://localhost:4000/mercadopago/postPax',form)
     //   .then(()=>axios.post('http://localhost:4000/mercadopago/postBooking',createBooking))
-    let quantity=booking.nights
     console.log(hola)
-    let total_price:number=booking.fee
+    let total_price:number=booking.fee*booking.nights
       if(early_checkin){                                  //Si hay EARLY CHECKIN, el precio va a ser el valor de la noche * la cantidad de noches, y a eso se le suma 1/2 noche
-        total_price=total_price*quantity+booking?.original_price/2
-        quantity=1
+        total_price=Math.round(total_price+booking?.original_price/2)
+        
       }if(late_checkout){                                   //Si hay LATE CHECKOUT, lo mismo pero aca 
-        total_price=(total_price*quantity)+booking?.original_price/2
-        quantity=1
+        total_price=Math.round((total_price)+booking?.original_price/2)
+        
     }if(positive_balance){                                    //Si hay balance positivo...
-      if((total_price*quantity)-positive_balance <= 0){  
+      if((total_price)-positive_balance <= 0){  
         localStorage.setItem("payWithBalance",String(total_price))
-        setActual_ballance(positive_balance-(total_price*quantity))                    //En el caso de que nos quede balance a favor, el precio se setea en 0, se hace la reserva automaticamente y se descuenta del saldo
+        setActual_ballance(positive_balance-(total_price))                    //En el caso de que nos quede balance a favor, el precio se setea en 0, se hace la reserva automaticamente y se descuenta del saldo
         setBookingNow(true)  
         total_price=0
       }else{         
-        localStorage.setItem("payWithBalance",String(positive_balance))                                             //En caso de que el saldo sea menor que el nuevo monto, se descuenta el saldo del total, se deja en 0 el saldo pendiente, y se genera una orden de pago con el monto restante      
-        total_price=(total_price*quantity)-positive_balance
-        quantity=1
+        localStorage.setItem("payWithBalance",String(positive_balance))                                          //En caso de que el saldo sea menor que el nuevo monto, se descuenta el saldo del total, se deja en 0 el saldo pendiente, y se genera una orden de pago con el monto restante      
+        total_price=(total_price)-positive_balance
+        
       }
     }else{
       localStorage.removeItem("payWithBalance")
@@ -56,7 +55,7 @@ export const MercadoPago = (props: any) => {
     localStorage.setItem("total_price",String(total_price))
     
  
-    axios.get(`http://localhost:4000/mercadopago?quantity=${quantity}&unit_price=${total_price}&title=HotelHenry`)
+    axios.get(`http://localhost:4000/mercadopago?quantity=1&unit_price=${total_price}&title=HotelHenry`)
       .then((res) => {
         setPreferenceId(res?.data?.preferenceId)
         const prefer = res?.data?.preferenceId
