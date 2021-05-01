@@ -49,21 +49,21 @@ const Category = (props: any): JSX.Element => {
 
 
   return (
-    <div data-aos="fade-left" data-aos-duration="700"  data-aos-once="true"  className="category_cardContainer">
+    <div data-aos="fade-left" data-aos-duration="700" data-aos-once="true" className="category_cardContainer">
       <img className="category_cardImage" src={categ.images[0]} alt="IMG NOT FOUND" />
 
       <div className="category_cardWishlist">
         < Tooltip title="Add to WishList" >
-          <Button style={{height:"45px"}} size="large" onClick={handleClick} type="primary" ><StarOutlined style={{fontSize:"24px"}} /></Button>
+          <Button style={{ height: "45px", backgroundColor: "#1e212d", border: "none" }} size="large" onClick={handleClick} type="primary" ><StarOutlined style={{ fontSize: "24px" }} /></Button>
         </Tooltip >
         <Link to={`/accomodations/${categ.id}`}>
-          <Button style={{height:"45px"}} className="category_cardButton2" size="large" type='primary'>
+          <Button style={{ height: "45px", backgroundColor: "#1e212d", border: "none" }} className="category_cardButton2" size="large" type='primary'>
             More Info...
           </Button>
         </Link>
       </div>
 
-      <div>
+      <div className="category_cardRight">
         <div className="category_cardName">
           {categ.name}
         </div>
@@ -71,6 +71,10 @@ const Category = (props: any): JSX.Element => {
           {categ.description}
         </div>
       </div>
+
+      <Modal title="Confirmation" visible={isModalVisible} onOk={handleOk} onCancel={handleCancel}>
+        <p>Do you want to add this category to your Wishlist?</p>
+      </Modal>
 
     </div >
   )

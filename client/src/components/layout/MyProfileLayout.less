@@ -1,8 +1,35 @@
-.myProfileLayout{
-    height: 100%;
+.profileLayout{
+    overflow-x: hidden;
+    width: 100vw;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-image: linear-gradient(
+        to right,
+        rgba(248, 248, 248, 0.801),
+        rgba(243, 243, 243, 0.801)
+      ),
+      url("./img/b23.jpg") !important;
+    }
+.contentMyProfile{
+    overflow-x: hidden;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
 }
 
-.contentMyProfile{
-    min-height: 85vh;
-    overflow-x: hidden;
+.imageProfileBg{
+    width: 100vw;
+    height: 300px;
+    object-fit: cover;
+}
+
+.profilebgTitle{
+    font-size: 80px;
+    color: white;
+    font-weight: 500;
+    position: absolute;
+    margin-top: 110px;
+    text-shadow: 1px 1px 10px rgba(0, 0, 0, 0.589);
 }

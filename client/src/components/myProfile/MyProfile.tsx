@@ -29,7 +29,6 @@ const MyProfile = () => {
 
     return (
         <div className="myProfileContainer">
-
             <div className="myProfileDiv1">
                 <div className="myProfileTitles">PERSONAL DATA <PicLeftOutlined style={{ marginLeft: "10px" }} /></div>
                 <div className="myProfileInfo">
