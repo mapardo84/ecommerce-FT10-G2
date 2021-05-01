@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Select } from "antd";
-import "./Category.less";
+import "./Categories.less";
 import { initialStateProps } from "./../../reducers/categoriesReducer";
 import { getCategories, getCategoriesNames } from "../../actions";
 import Category from "./Category";
@@ -61,7 +61,7 @@ const Categories = (): JSX.Element => {
         </Select>
 
       </div>
-      <div>
+      <div className="categories_CardsContainer">
         {cat.categories?.map((categ: Icategory, key: number) => (
           <Category categ={categ} num={num++} key={key} />
         ))}

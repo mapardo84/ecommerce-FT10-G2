@@ -124,7 +124,7 @@ export const NavBar = () => {
                     </Button>
                   </NavLink>
                   <NavLink to="/events">
-                    <Button className="navButton" size="large" type="text">
+                    <Button className={navBar ? 'navButtonActive' : "navButton" } size="large" type="text">
                       Events
                     </Button>
                   </NavLink>

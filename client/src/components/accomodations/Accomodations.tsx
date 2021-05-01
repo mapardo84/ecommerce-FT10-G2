@@ -15,18 +15,18 @@ const Accomodations = (): ReactElement => {
 
   return (
     <div>
-      <img className="imageAccomodation" src={beach} alt="Img not found" />
+      <div>
+        <img className="imageAccomodation" src={beach} alt="Img not found" />
+        <div className="ActitleHotel">
+          ACCOMMODATIONS
+        </div>
+        <div className="AcSloganHotel">
+          Find the Perfect Retreat for You...
+        </div>
+      </div>
 
       <div className="accomodationsDiv">
-
         <div className="descriptionBackground">
-          <div className="titleHotel">
-            ACCOMMODATIONS
-        </div>
-          <h3 className="subtitle2">
-            Find the Perfect Retreat for You
-            </h3>
-
           <br></br>
           <h4 className="description">
             Accommodations at Henry Hotel a tranquil escape for mind and body. Our palapa-style bungalows and beach houses showcase Mayan-inspired architecture, with thatched roofs, traditional materials, and local decor, while the surrounding gardens and greenery make you feel one with nature. Staying here, you’ll enjoy a carefree, unplugged escape — our rooms do not feature TVs, though we provide Wi-Fi just in case you need help staying connected and entertained.
