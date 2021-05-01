@@ -25,7 +25,7 @@ export const reviewsReducer = (state:ReviewsReducerInterface = initialState,acti
     case POST_REVIEW:
         return{
             ...state,
-            reviews: [action.payload[0],...state.reviews]
+            reviews: [...state.reviews, action.payload[0],]
         }
  }
 

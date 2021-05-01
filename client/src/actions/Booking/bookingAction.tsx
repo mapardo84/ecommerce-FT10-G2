@@ -60,21 +60,21 @@ export interface bookAction {
     payload: any
 }
 
-export const stepChange = (inputs: number) => {
+export const stepChange = (inputs:number) => {
     return {
         type: STEP_CHANGE,
         payload: inputs
     }
 }
 
-export const setBookData = (booking: bookingType) => {
+export const setBookData = (booking:any) => {
     return {
         type: SET_BOOK_DATA,
         payload: { booking }
     }
 }
 
-export const setCategory = (input: any) => {
+export const setCategory = (input:any) => {
     return {
         type: SET_CATEGORY,
         payload: input
@@ -132,8 +132,7 @@ export const getCategoriesForUser = (userBooking: bookingType) => {
         //Seleccionar categorias correspondientes a los rooms libres
         let result: categoryType[] = []
         for (let i = 0; i < freeRooms.length; i++) {
-
-            if (!result.some((x: categoryType) => x.id === freeRooms[i].category_id)) {
+            if (!result.some((x:categoryType) => x.id === freeRooms[i].category_id)) {
                 let { data: categories } = await supabase
                     .from('categories')
                     .select('*')
@@ -170,15 +169,14 @@ export const roomSelected = (categoryPax: any, freeRooms: roomType[]|null) => {
     }
 }
 
-const bookedRoom = (payload: any) => {
-    console.log(payload,"bookedRoom")
+const bookedRoom = (payload:number|undefined) => {
     return {
         type: BOOKED_ROOM,
         payload
     }
 }
 
-export const setLoading = (payload: boolean) => {
+export const setLoading = (payload:boolean) => {
     return {
         type: SET_LOADING,
         payload

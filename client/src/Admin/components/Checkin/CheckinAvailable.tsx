@@ -93,7 +93,7 @@ export const CheckinAvailable = ({ steps }: { steps: Function }): JSX.Element =>
         // console.log("Pasajero: ", mainPax)
         // console.log("Current booking", booking)
         // console.log("checkout", checkoutDate)
-        console.log("paxes:", paxes)
+        //console.log("paxes:", paxes)
 
         //si existe booking no se crea... solo se modifica el room (availability, current pax y booking )
         if (booking && roomSelected) {
@@ -155,11 +155,14 @@ export const CheckinAvailable = ({ steps }: { steps: Function }): JSX.Element =>
     const onSelect = (value: string) => {
         //console.log('onSelect', value);
         let selected = value.split('.')
-        setSearch(selected[1])
+        //console.log(selected)
+        if (selected[1] !== '') {
+            setSearch(selected[1])
+            setMainPax(bookingStore?.byLastUuid[0]?.id)
+            setMainPaxName(bookingStore?.byLastUuid[0]?.first_name)
+            closeModal()
+        }
         //console.log('onSelect', search);
-        setMainPax(bookingStore?.byLastUuid[0]?.id)
-        setMainPaxName(bookingStore?.byLastUuid[0]?.first_name)
-        closeModal()
     };
 
     const handleCreate = () => {
@@ -304,8 +307,9 @@ export const CheckinAvailable = ({ steps }: { steps: Function }): JSX.Element =>
                     onSelect={onSelect}
                     onSearch={onChange}
                     value={search}
+                    onKeyDown={(e) => e.keyCode === 13 ? e.preventDefault() : ''}
                 >
-                    <Input.Search size="large" placeholder="Search Pax" onSearch={onSelect} />
+                    {/* <Input.Search size="large" placeholder="Search Pax" onSearch={onSelect} enterButton onKeyDown={(e) => e.keyCode === 13 ? e.preventDefault() : ''} /> */}
                 </AutoComplete>
                 <br />
                 <br />

@@ -1,4 +1,4 @@
-import { CalendarOutlined, UserOutlined } from '@ant-design/icons'
+import { CalendarOutlined, UserOutlined, DownOutlined } from '@ant-design/icons'
 import { Affix, Collapse, Divider } from 'antd'
 import React, { SetStateAction, useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
@@ -84,7 +84,7 @@ export const Pre_booking = (type:any) => {
                 <div className="containerBookingData">
                     <Affix offsetTop={100}>
                         <Collapse style={{ backgroundColor: "#5296a5", color: "white" }}>
-                            <Panel style={{ color: "white" }} header="My booking" key="1">
+                            <Panel showArrow={false} style={{ color: "white" }} header={<div style={{ color: "white" }}><DownOutlined style={{ marginRight: "10px" }} />My Booking<CalendarOutlined style={{ marginLeft: "8px" }} /></div>} key="1">
                                 <div style={{ display: "flex", flexDirection: "column" }}>
                                     {guests ? <span><strong>Check-in:</strong> {guests.in_out[0]}</span> : null}
                                     {guests ? <span><strong>Check-out:</strong> {guests.in_out[1]}</span> : null}

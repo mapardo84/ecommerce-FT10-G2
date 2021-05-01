@@ -9,7 +9,6 @@ import { promotionType } from "../../../actions/Promotions/promotionsAction";
 import { supabase } from "../../../SupaBase/conection";
 import { setGuests } from "../../../actions/Booking/pre_booking_action";
 import { RootReducer } from "../../../reducers/rootReducer";
-import { RoomReducer } from "../../../reducers/roomsReducer";
 import { TypesCategoriesInterface } from "../../../reducers/bookingsReducer";
 // import { IoIosArrowBack } from "react-icons/io";
 const { Option } = Select;
@@ -127,7 +126,7 @@ export const AccomodationsSelect = (): JSX.Element => {
             </Button>
 
           {categoriesFind.userCategories.length > 0 ? categoriesFind.userCategories?.map((categ: categoryType, i: number) => (
-            <div>
+            <div key={i}>
 
               <AccomodationsCards beds={userSelection?.type?.beds} prom={promo} categ={categ} key={i} types={categoriesFind.types} />
 
@@ -147,7 +146,7 @@ export const AccomodationsSelect = (): JSX.Element => {
                         return (
                           <Option key={i} value={t.name}>{t.name}</Option>
                         )
-                      } else { return <Option key={i} value={t.name} disabled>-</Option> }
+                       }
                     })
                     }
                   </Select>

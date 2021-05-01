@@ -10,6 +10,22 @@ export interface UserBookingInterface {
     loading: boolean
 }
 
+export interface UserBooking {
+    actual: boolean;
+    bookingId: number;
+    bookingStatus: boolean;
+    category: string;
+    checkin: string;
+    checkout: string;
+    moneyBack: boolean;
+    paxes: number;
+    paymentMethod: string;
+    roomNumber: string;
+    totalPrice: number;
+    type: string;
+    userId: number;
+  }
+
 const InitialState: UserBookingInterface = {
     data: [],
     loading: false
