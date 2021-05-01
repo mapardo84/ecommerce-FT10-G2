@@ -4,6 +4,7 @@ import { analyzeNextSteps } from "../chatbot/analyzeNextSteps";
 import "./Chatbot.less";
 import { getAllCategories } from "../../Admin/actions/categoriesActions";
 import { useDispatch, useSelector } from "react-redux";
+import { getAllHalls } from "../../Admin/actions/adminEventsActions";
 
 interface ResponseBotObject {
   purpose: string;
@@ -25,17 +26,18 @@ const Chatbot: React.FC = () => {
 
 
   const { categories } = useSelector((state: any) => state?.categories);
+  const { halls } = useSelector((state: any) => state?.adminEvents);
 
   useEffect(() => {
     dispatch(getAllCategories())
+    dispatch(getAllHalls())
 }, [dispatch])
 
   // setting next step when there's response and option click
-  const setNextStep = (response: string, category: any) => {
-      console.log(category)
+  const setNextStep = (response: string, categoryOrHall: any) => {
     setStep(prevState => prevState + 1);
     setSendUserResponse(response);
-    let res = analyzeNextSteps(step, response, category, categories);
+    let res = analyzeNextSteps(step, response, categoryOrHall, categories, halls);
     setBotResponse({ ...res, sender: "bot" });
     setUserResponse("");
     
@@ -43,14 +45,20 @@ const Chatbot: React.FC = () => {
 
   const optionClick = (e: React.MouseEvent<HTMLElement>) => {
     let option = e.currentTarget.dataset.id;
-    console.log(option)
 
     if (option) {
       let category = categories?.find( (cat:any) => cat?.name?.includes(option))
-      console.log(category)
-      let nocategory = { name: 'nocategory'}
-      category?setNextStep(option, category):setNextStep(option, nocategory)
-
+      let hall = halls?.find( (h:any) => h?.name?.includes(option))
+      let nohall = { name: 'nohall'}
+      if(category) {
+        setNextStep(option, category)
+      } else {
+        if(hall) {
+          setNextStep(option, hall)
+        } else {
+          setNextStep(option, nohall)
+        }
+      }
   }
 }
 
