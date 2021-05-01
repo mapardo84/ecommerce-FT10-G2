@@ -27,7 +27,7 @@ export const getPromotions = () => {
             // Trae de BD las promotions que estén en vigencia y publicadas
             const { data: promotions } = await supabase
                 .from("discounts")
-                .select('*, categoryToApply(name)')
+                .select('*')
                 .eq('published', true)
                 .gte('expirationDate', today)
                 .lte('releaseDate', today);

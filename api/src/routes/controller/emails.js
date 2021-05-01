@@ -1,39 +1,38 @@
-var nodemailer = require('nodemailer');
+var nodemailer = require("nodemailer");
 
+const confirmation_email = async (req, res) => {
+    const {
+        first_name,
+        last_name,
+        uuid,
+        country,
+        checkin,
+        checkout,
+        category,
+        type,
+        paxes,
+        email,
+    } = req.body;
 
-const confirmation_email=async(req,res)=>{
-const {
-    first_name,
-    last_name,
-    uuid,
-    country,
-    checkin,
-    checkout,
-    category,
-    type,
-    paxes,
-    email} = req.body
-    
-    contentHTML=`
+    contentHTML = `
         <div>HOLA A TODOS BROTHER<div>
         <span> asdsadsas <span>
     `;
-    console.log(contentHTML)
-
+    console.log(contentHTML);
 
     var transporter = nodemailer.createTransport({
-        host: 'smtp.gmail.com',
+        host: "smtp.gmail.com",
         port: 465,
         auth: {
-            user: 'software.hotelhenry@gmail.com',
-            pass: 'zjyhnxrvdjrnsyrx'
-        }
-        })
-        var mailOptions = {
-            from: "'HenryHotel' <software.hotelhenry@gmail.com>",
-            to: `${email}`,
-            subject: 'Booking Info',
-            html: `
+            user: "software.hotelhenry@gmail.com",
+            pass: "zjyhnxrvdjrnsyrx",
+        },
+    });
+    var mailOptions = {
+        from: "'HenryHotel' <software.hotelhenry@gmail.com>",
+        to: `${email}`,
+        subject: "Booking Info",
+        html: `
             <table cellspacing="0" border="0" cellpadding="0" width="100%" bgcolor="#f2f3f8"
         style="@import url(https://fonts.googleapis.com/css?family=Rubik:300,400,500,700|Open+Sans:300,400,600,700); font-family: 'Open Sans', sans-serif;">
         <tr>
@@ -100,31 +99,30 @@ const {
     </table>
 
     
-            `
+            `,
+    };
+
+    const info = await transporter.sendMail(mailOptions);
+
+    console.log("Message Sent", info.messageID);
+    res.send("hola");
 };
+const cancel_email = async (req, res) => {
+    const { email, positive_balance } = req.body;
 
-const info=await transporter.sendMail(mailOptions);
-
-    console.log("Message Sent", info.messageID)
-    res.send('hola')
-}
-const cancel_email=async(req,res)=>{
-    const {email,positive_balance} = req.body
-    
-    
-        var transporter = nodemailer.createTransport({
-            host: 'smtp.gmail.com',
-            port: 465,
-            auth: {
-                user: 'software.hotelhenry@gmail.com',
-                pass: 'zjyhnxrvdjrnsyrx'
-            }
-            })
-            var mailOptions = {
-                from: "'HenryHotel' <software.hotelhenry@gmail.com>",
-                to: `${email}`,
-                subject: 'Cancel Booking',
-                html: `
+    var transporter = nodemailer.createTransport({
+        host: "smtp.gmail.com",
+        port: 465,
+        auth: {
+            user: "software.hotelhenry@gmail.com",
+            pass: "zjyhnxrvdjrnsyrx",
+        },
+    });
+    var mailOptions = {
+        from: "'HenryHotel' <software.hotelhenry@gmail.com>",
+        to: `${email}`,
+        subject: "Cancel Booking",
+        html: `
                 <table cellspacing="0" border="0" cellpadding="0" width="100%" bgcolor="#f2f3f8"
                 style="@import url(https://fonts.googleapis.com/css?family=Rubik:300,400,500,700|Open+Sans:300,400,600,700); font-family: 'Open Sans', sans-serif;">
                 <tr>
@@ -154,7 +152,7 @@ const cancel_email=async(req,res)=>{
                                                 <h1 style="color:#1e1e2d; font-weight:500; margin:0;font-size:32px;font-family:'Rubik',sans-serif;"> Booking cancelled </h1>
                                                 <span
                                                     style="display:inline-block; vertical-align:middle; margin:29px 0 26px; border-bottom:1px solid #cecece; width:100px;"></span>
-                                               
+                                            
                     <h2> Positive Balance:  ${positive_balance}</h2>                 
 
                                                 
@@ -179,13 +177,13 @@ const cancel_email=async(req,res)=>{
                         </table>
                     </td>
                 </tr>
-            </table> `
+            </table> `,
     };
-    
-    const info=await transporter.sendMail(mailOptions);
-    
-        console.log("Message Sent", info.messageID)
-        res.send('hola')
-    }
 
-module.exports={confirmation_email,cancel_email}
+    const info = await transporter.sendMail(mailOptions);
+
+    console.log("Message Sent", info.messageID);
+    res.send("hola");
+};
+
+module.exports = { confirmation_email, cancel_email };

@@ -24,9 +24,10 @@ export const getUserBookings = () => {
       var bookings = await supabase
         .from("bookings")
         .select(
-          "*, payments(totalPrice, payment_method), room_id(name, category_id(name, price), type_id(name, beds))"
+          "*, payments(totalPrice), room_id(name, category_id(name, price), type_id(name, beds))"
         )
         .eq("user_id", userEmail.data.id);
+        console.log(bookings)
       if (!bookings.data) {
         return;
       }
@@ -96,6 +97,14 @@ export const cancelUserBooking = (
       .update({ status: false })
       .eq("id", bookingId);
     dispatch(getUserBookings());
+    console.log(moneyBack)
+    await fetch("http://localhost:4000/emails/cancel",{
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({email:supabase.auth.user()?.email,positive_balance:0})
+    } )
 
     if (moneyBack) {
       try {
