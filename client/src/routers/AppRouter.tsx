@@ -32,6 +32,7 @@ import { EventsLayout } from "../Admin/components/EventsLayout";
 import { HallsRequestsLayout } from "../Admin/components/Events/HallsRequestsLayout";
 import { HallsBookingsLayout } from "../Admin/components/Events/HallsBookingLayout";
 import { HallsLayout } from "../Admin/components/Events/HallsLayout";
+import { FormEventsLayout } from "../components/layout/formEventsLayout";
 
 //ACA VAN TODAS LAS RUTAS
 
@@ -46,7 +47,7 @@ export const AppRouter = () => {
           <Route exact path="/logIn" component={LogIn} />
           <Route exact path="/booking" component={BookingLayout} />
           <Route exact path="/events" component={EventLayout} />
-          <Route exact path="/events/quote" component={EventLayout} />
+          <Route exact path="/events/quote" component={FormEventsLayout} />
           <Route exact path="/faq" component={FaqLayout} />
           <Route exact path="/myProfile" component={MyProfileLayout} />
           <Route exact path="/myBookings" component={MyBookingsLayout} />
