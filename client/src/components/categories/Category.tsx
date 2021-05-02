@@ -54,10 +54,10 @@ const Category = (props: any): JSX.Element => {
 
       <div className="category_cardWishlist">
         < Tooltip title="Add to WishList" >
-          <Button style={{ height: "45px", backgroundColor: "#1e212d", border: "none" }} size="large" onClick={handleClick} type="primary" ><StarOutlined style={{ fontSize: "24px" }} /></Button>
+          <Button className="categoryCardButtonsAc" size="large" onClick={handleClick} type="primary" ><StarOutlined className="starIcon" /></Button>
         </Tooltip >
         <Link to={`/accomodations/${categ.id}`}>
-          <Button style={{ height: "45px", backgroundColor: "#1e212d", border: "none" }} className="category_cardButton2" size="large" type='primary'>
+          <Button  className="categoryCardButtonsAc category_cardButton2" size="large" type='primary'>
             More Info...
           </Button>
         </Link>
@@ -80,23 +80,6 @@ const Category = (props: any): JSX.Element => {
   )
 }
 
-// imagen   <img className="newImageCategory" src={categ.images[0]} alt="IMG NOT FOUND" />
-//name  {categ.name}
-//description    {categ.description}
-
-//     < Tooltip title = "Add to WishList" >
-//       <Button className="buttonContainerCategory1" size="large" onClick={handleClick} type="primary" ><StarOutlined /></Button>
-// </Tooltip >
-
-//   <Link to={`/accomodations/${categ.id}`}>
-//     <Button className="buttonContainerCategory2" size="large" type='text'>
-//       More Info...
-// </Button>
-//   </Link>
-
-{/* <Modal title="Confirmation" visible={isModalVisible} onOk={handleOk} onCancel={handleCancel}>
-<p>Do you want to add this category to your Wishlist?</p>
-</Modal> */}
 
 
 

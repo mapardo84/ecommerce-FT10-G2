@@ -6,6 +6,8 @@ import { getAllCategories } from "../../Admin/actions/categoriesActions";
 import { useDispatch, useSelector } from "react-redux";
 import { Affix, Collapse } from "antd";
 import { CalendarOutlined, DownOutlined } from "@ant-design/icons";
+import { BsChatDotsFill } from "react-icons/bs"
+
 
 interface ResponseBotObject {
   purpose: string;
@@ -68,34 +70,39 @@ const Chatbot: React.FC = () => {
     setNextStep(userResponse, null);
   };
 
+  const [visibleBot, setvisibleBot] = useState(false)
+
+  const changev = () => {
+    setvisibleBot(!visibleBot)
+  }
+
+
   return (
+    <div className={visibleBot ? "help-button-wrapper expanded" : "help-button-wrapper"}>
+      <div className="help-list">
+        <div className="chat-container">
+          <Chats
+            userResponse={userResponse}
+            botResponse={botResponse}
+            sendUserResponse={sendUserResponse}
+            optionClick={optionClick}
+          />
+          <form onSubmit={e => handleSubmit(e)} className="form-container">
+            <input
+              onChange={e => handleInputChange(e)}
+              value={userResponse}
+            ></input>
+            <button>
+              <i className="far fa-paper-plane"></i>
+            </button>
+          </form>
+        </div>
+      </div>
 
-    <Affix offsetBottom={100} style={{ position: 'absolute', bottom:"0", right:"0" }}>
-      <Collapse style={{ backgroundColor: "#5296a5", color: "white" }}>
-        <Panel showArrow={false} style={{ color: "white" }} header={<div style={{ color: "white" }}><DownOutlined style={{ marginRight: "10px" }} />Chat</div>} key="1">
-
-          <div className="chat-container">
-            <Chats
-              userResponse={userResponse}
-              botResponse={botResponse}
-              sendUserResponse={sendUserResponse}
-              optionClick={optionClick}
-            />
-            <form onSubmit={e => handleSubmit(e)} className="form-container">
-              <input
-                onChange={e => handleInputChange(e)}
-                value={userResponse}
-              ></input>
-              <button>
-                <i className="far fa-paper-plane"></i>
-              </button>
-            </form>
-          </div>
-        </Panel>
-      </Collapse>
-    </Affix>
-
-
+      <button onClick={changev} className="help-button">
+        <BsChatDotsFill style={{ fontSize: "30px", color: "white" }} />
+      </button>
+    </div>
   );
 };
 
