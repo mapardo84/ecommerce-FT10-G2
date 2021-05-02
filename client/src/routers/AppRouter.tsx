@@ -30,6 +30,7 @@ import { Pre_booking } from "../components/Pre_booking/Pre_booking";
 import { EventLayout } from "../components/layout/EventsLayout";
 import { EventsAdminLayout } from "../Admin/components/EventsAdminLayout";
 import { NewsLetterLayout } from '../Admin/components/NewsLetterLayout';
+import Chatbot from "../components/chatbot/Chatbot";
 
 //ACA VAN TODAS LAS RUTAS
 
@@ -48,6 +49,8 @@ export const AppRouter = () => {
           <Route exact path="/myProfile" component={MyProfileLayout} />
           <Route exact path="/myBookings" component={MyBookingsLayout} />
           <Route exact path="/wishlist" component={WishlistLayout} />
+          <Route exact path="/chatbot" ><Chatbot /></Route>
+
           <Route exact path="/pre" component={Pre_booking} />
 
           {/* Parte administrativa */}
