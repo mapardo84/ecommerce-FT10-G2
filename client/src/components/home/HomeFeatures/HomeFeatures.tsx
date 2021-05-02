@@ -45,7 +45,7 @@ export const HomeFeatures = () =>{
               <div className='TitleIconFeatures'><img className='ImgFeaturesHome' src={air_conditioner}/>Air Conditioner</div> 
                         <div  className='TitleIconFeatures'><img className='ImgFeaturesHome' src={cocktail}/>Cocktail</div>
                             <div className='TitleIconFeatures'><img className='ImgFeaturesHome' src={gym}/>Gym</div>
-                                <div className='TitleIconFeatures'><img className='ImgFeaturesHome' src={laundry}/>Lundry</div>
+                                <div className='TitleIconFeatures'><img className='ImgFeaturesHome' src={laundry}/>Laundry</div>
                                     <div className='TitleIconFeatures'><img className='ImgFeaturesHome' src={parking}/>Parking</div>     
                                 </div>
                          </div>
