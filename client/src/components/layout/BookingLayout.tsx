@@ -11,7 +11,7 @@ const { Content } = Layout;
 export const BookingLayout: FunctionComponent = () => {
   return (
     <>
-      <Layout style={{ overflowX: "hidden" }}>
+      <Layout className="bookingStepBg" style={{ overflowX: "hidden" }}>
         <NavBar />
         <Content className='sticky'>
           <div className="stepsBackground"></div>

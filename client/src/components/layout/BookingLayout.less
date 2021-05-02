@@ -2,16 +2,31 @@
     min-height: 100vh !important;
 }
 
+.bookingStepBg{
+    background-image: linear-gradient(
+        to right,
+        rgba(238, 238, 238, 0.801),
+        rgba(241, 241, 241, 0.801)
+      ),
+      url("./img/b23.jpg") !important;
+}
+
 .stepsBackground{
     width: 100vw;
-    height: 500px;
-    object-fit: cover;
-    z-index: 10;
+    height: 160px;
     position: absolute;
+    z-index: 10;
     background-image: linear-gradient(
         to bottom,
         rgba(241, 241, 241, 0.199),
         rgba(241, 241, 241, 0.301)
       ),
-      url("./img/prof1.jpg") !important;
+      url("./img/events.jpg") !important;
+      z-index: 0;
+      background-size: cover;
+      filter: brightness(40%);
+}
+
+.ant-steps-item-title{
+    color: white !important;
 }

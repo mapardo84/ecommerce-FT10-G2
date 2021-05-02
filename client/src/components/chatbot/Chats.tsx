@@ -69,6 +69,7 @@ const Chats: React.FC<Props> = props => {
             <p>{chat.message}</p>
           </div>
           {chat.options ? (
+
             <div className="options">
               <div>
                 <i className="far fa-hand-pointer"></i>
@@ -83,6 +84,7 @@ const Chats: React.FC<Props> = props => {
                 </p>
               ))}
             </div>
+            
           ) : null}
           <div ref={dummyRef} className="dummy-div"></div>
         </div>
