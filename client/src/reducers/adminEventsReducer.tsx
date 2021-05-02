@@ -1,4 +1,4 @@
-import { GET_BOOKED_EVENTS, GET_ALL_HALLS, GET_ALL_REQUESTS, UPDATE_HALL, DELETE_HALL, UPDATE_EVENT, UPDATE_REQUEST, DELETE_REQUEST } from '../Admin/actions/adminEventsActions';
+import { GET_BOOKED_EVENTS, GET_ALL_HALLS, GET_ALL_REQUESTS, UPDATE_HALL, DELETE_HALL, UPDATE_EVENT, UPDATE_REQUEST, DELETE_REQUEST, DELETE_EVENT } from '../Admin/actions/adminEventsActions';
 import { IHalls } from '../Admin/components/Events/Halls';
 import { IBookedEvents } from '../Admin/components/Events/HallsBookings';
 import { IRequests } from '../Admin/components/Events/HallsRequests';
@@ -19,8 +19,8 @@ export const adminEventsReducer = (state = initialState, action:any) => {
             return { ...state, requests: action.payload };
         case UPDATE_HALL:
             return { ...state, halls: state.halls.map((h:IHalls) => {
-                if (h.id === action.payload[0].id) {
-                    return action.payload[0];
+                if (h.id === action.payload.id) {
+                    return action.payload;
                 }
                 return h;
             })
@@ -30,17 +30,21 @@ export const adminEventsReducer = (state = initialState, action:any) => {
                 halls: state.halls.filter((h:IHalls) => h.id !== action.payload)
             };
         case UPDATE_EVENT:
-            return { ...state, bookings: state.bookings.map((b:IBookedEvents) => {
-                if (b.id === action.payload[0].id) {
-                    return action.payload[0];
+            return { ...state, bookings: state.bookings.map((b:IBookedEvents, i:number) => {
+                if (b.id === action.payload.id) {
+                    return action.payload;
                 }
                 return b;
             })
         };
+        case DELETE_EVENT:
+            return { ...state,
+                bookings: state.bookings.filter((e:IBookedEvents) => e.id !== action.payload)
+            };
         case UPDATE_REQUEST:
-            return { ...state, requests: state.requests.map((r:IRequests) => {
-                if (r.id === action.payload[0].id) {
-                    return action.payload[0];
+            return { ...state, requests: state.requests.map((r:IRequests, i:number) => {
+                if (r.id === action.payload.id) {
+                    return action.payload;
                 }
                 return r;
             })

@@ -1,8 +1,9 @@
-import { Button, Table, Form, Modal, Input, Tooltip, Popconfirm, Select } from 'antd';
+import { Button, Table, Form, Modal, Input, Tooltip, Popconfirm, Select, DatePicker, InputNumber } from 'antd';
 import { FaTrashAlt, FaPencilAlt } from 'react-icons/fa';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { addRequest, deleteRequest, getAllRequests, updateRequest } from '../../actions/adminEventsActions';
+import moment from 'moment';
 
 export interface IRequests {
     id:number;
@@ -63,8 +64,8 @@ export const HallsRequests = () => {
             { name: ['company'], value: index.company },
             { name: ['email'], value: index.email },
             { name: ['telephone'], value: index.telephone },
-            { name: ['startDate'], value: index.startDate },
-            { name: ['finishDate'], value: index.finishDate },
+            { name: ['startDate'], value: moment(index.startDate) },
+            { name: ['finishDate'], value: moment(index.finishDate) },
             { name: ['eventName'], value: index.eventName },
             { name: ['requestSalon'], value: index.requestSalon },
             { name: ['requestCatering'], value: index.requestCatering },
@@ -243,13 +244,13 @@ export const HallsRequests = () => {
                         label="Start Date"
                         name="startDate"
                         rules={[{ required: true, message: 'Please input the start date' }]}>
-                        <Input placeholder="startDate"></Input>
+                        <DatePicker placeholder='Start Date' format='YYYY-MM-DD'/>
                     </Form.Item>
                     <Form.Item
                         label="Finish Date"
                         name="finishDate"
                         rules={[{ required: true, message: 'Please input the finish date' }]}>
-                        <Input placeholder="finishDate"></Input>
+                        <DatePicker placeholder='Finish Date' format='YYYY-MM-DD'/>
                     </Form.Item>
                     <Form.Item
                         label="Event's name"
@@ -261,7 +262,7 @@ export const HallsRequests = () => {
                         label="Request Salon"
                         name="requestSalon"
                         rules={[{ required: true, message: 'Please input number of people' }]}>
-                        <Input placeholder="requestSalon"></Input>
+                        <InputNumber placeholder="requestSalon"></InputNumber>
                     </Form.Item>
                     <Form.Item
                         label="Request Catering"

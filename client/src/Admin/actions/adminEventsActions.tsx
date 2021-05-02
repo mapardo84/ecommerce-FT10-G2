@@ -9,8 +9,10 @@ export const GET_BOOKED_EVENTS = 'GET_ALL_BOOKED_EVENTS';
 export const GET_ALL_REQUESTS = 'GET_ALL_REQUESTS';
 export const ADD_HALL = 'ADD_HALL';
 export const ADD_REQUEST = 'ADD_REQUEST';
+export const ADD_EVENT = 'ADD_EVENT';
 export const DELETE_HALL = 'DELETE_HALL';
 export const DELETE_REQUEST = 'DELETE_REQUEST';
+export const DELETE_EVENT = 'DELETE_EVENT';
 export const UPDATE_HALL = 'UPDATE_HALL';
 export const UPDATE_EVENT = 'UPDATE_EVENT';
 export const UPDATE_REQUEST = 'UPDATE_REQUEST';
@@ -209,14 +211,76 @@ const updateEventAction = (data:IBookedEvents) => ({
     payload: data
 });
 
+export const addEvent = (newData:IBookedEvents) => {
+    return async (dispatch:Dispatch) => {
+        try {
+            const { data:bookings, error } = await supabase
+                .from('bookingsEvents')
+                .insert([{
+                    name: newData.name,
+                    startDate: newData.startDate,
+                    finishDate: newData.finishDate,
+                    methodPayment: newData.methodPayment,
+                    hall_id: newData.hall_id
+                },]);
+            // const { data:bookedHall } = await supabase
+            //     .from('booking_halls')
+            //     .insert([{
+            //         booking_id:,
+            //         hall_id: newData.hall_id
+            //     }])
+            if (error) {
+                errorMsg(JSON.stringify(error));
+            } else {
+                success('Event added');
+                // console.log(bookedHall);
+                dispatch(addEventAction(bookings?.pop()));
+            }
+        } catch (err) {
+            console.log(err);
+            errorMsg("Internal server error. Try again");
+        }
+    }
+}
+
+const addEventAction = (data:IBookedEvents) => ({
+    type: ADD_EVENT,
+    payload: data
+});
+
+export const deleteEvent = (id:number|undefined) => {
+    return async (dispatch:Dispatch) => {
+        try {
+            const { error } = await supabase
+                .from('bookingsEvents')
+                .delete()
+                .eq('id', id);
+            if (error) {
+                errorMsg(JSON.stringify(error));
+            } else {
+                success('Event deleted');
+                dispatch(deleteEventAction(id));
+            }
+        } catch (err) {
+            console.log(err);
+            errorMsg("Internal server error. Try again");
+        }
+    }
+}
+
+const deleteEventAction = (data:number|undefined) => ({
+    type: DELETE_EVENT,
+    payload: data 
+});
+
 export const updateRequest = (dataChange: IRequests) => {
     return async (dispatch:Dispatch) => {
         try {
             const { error, data } = await supabase
-                .from('eventsRequests')
+                .from('eventRequests')
                 .update({
                     name: dataChange.name,
-                    lastName: dataChange.lastName,
+                    last_name: dataChange.lastName,
                     company: dataChange.company,
                     telephone: dataChange.telephone,
                     startDate: dataChange.startDate,
@@ -250,11 +314,12 @@ const updateRequestAction = (data:IRequests) => ({
 export const addRequest = (newData:IRequests) => {
     return async (dispatch:Dispatch) => {
         try {
+            console.log(newData);
             const { data, error } = await supabase
-                .from('eventsRequests')
+                .from('eventRequests')
                 .insert([{
                     name: newData.name,
-                    lastName: newData.lastName,
+                    last_name: newData.lastName,
                     company: newData.company,
                     telephone: newData.telephone,
                     startDate: newData.startDate,
@@ -288,7 +353,7 @@ export const deleteRequest = (id:number) => {
     return async (dispatch:Dispatch) => {
         try {
             const { error } = await supabase
-                .from('eventsRequests')
+                .from('eventRequests')
                 .delete()
                 .eq('id', id)
             if (error) {
