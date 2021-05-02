@@ -146,7 +146,7 @@ const Details = (): JSX.Element => {
           </div>
         </div>
         <div
-          className="categoryResponsiveDetails"
+          className="categoryResponsiveAmenities"
           style={{ fontSize: "30px", marginTop: "50px" }}
         >
           AMENITIES
@@ -170,7 +170,7 @@ const Details = (): JSX.Element => {
 
       <div className="reviewsContainerGlobal">
         <div
-          className="categoryResponsiveDetails"
+          className=".categoryResponsiveAmenities"
           style={{ fontSize: "30px", marginTop: "0px" }}
         >
           REVIEWS

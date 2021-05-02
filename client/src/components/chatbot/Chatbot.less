@@ -1,0 +1,41 @@
+// Color variables (appears count calculates by raw css)
+@color0: #393e46; // Appears 2 times
+
+
+
+.chat-container {
+	border-radius: 10px;
+	border: 0.5px solid #d8d8d8;
+	display: flex;
+	flex-direction: column;
+	height: 60vh;
+	justify-content: space-between;
+	width: 500px;
+	.form-container {
+		display: flex;
+		justify-content: space-between;
+		input {
+			border-radius: 10px;
+			border-style: none;
+			border: 0.5px solid @color0;
+			font-size: 1em;
+			padding: 0.5em;
+			width: 92%;
+			&:focus {
+				outline: none;
+			}
+		}
+		button {
+			background: #e5dfdf;
+			border-radius: 10px;
+			border-style: none;
+			color: @color0;
+			font-size: 1em;
+			padding: 0.5em;
+			&:hover {
+				cursor: pointer;
+				opacity: 0.8;
+			}
+		}
+	}
+}

@@ -14,7 +14,8 @@ import HomeDescription from "../home/homeDescription/HomeDescription";
 import { HomeExperiences } from "../home/homeExperiences/HomeExperiences";
 import HomeDiscounts from "../home/homeDiscounts/HomeDiscounts";
 
-import {HomeFeatures} from '../home/HomeFeatures/HomeFeatures'
+import { HomeFeatures } from '../home/HomeFeatures/HomeFeatures'
+import Chatbot from "../chatbot/Chatbot";
 const { Content } = Layout;
 
 export const HomeLayout = (): JSX.Element => {
@@ -57,7 +58,8 @@ export const HomeLayout = (): JSX.Element => {
           <HomeDescription />
           <HomeExperiences />
           {promotions && <HomeDiscounts promo={promotions} />}
-          <HomeFeatures/>
+          <HomeFeatures />
+          <Chatbot />
         </Content>
         <FooterLayout />
       </Layout>
