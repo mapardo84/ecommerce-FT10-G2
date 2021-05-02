@@ -3,7 +3,7 @@ const cookieParser = require('cookie-parser');
 const bodyParser = require('body-parser');
 const morgan = require('morgan');
 const routes = require('./routes/mercadopago.routes.js');
-const { getIPN } = require('./routes/controller/mercadopago.js');
+
 
 
 const server = express();
@@ -21,9 +21,9 @@ server.use((req, res, next) => {
   next();
 });
 
-server.use('/mercadopago', routes);
-server.use('/emails',routes)
-
+server.use('/mercadopago', require("./routes/mercadopago.routes"));
+server.use('/emails',require('./routes/emails.routes'))
+server.use(express.json())
 server.use((err, req, res, next) => { // eslint-disable-line no-unused-vars
   const status = err.status || 500;
   const message = err.message || err;

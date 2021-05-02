@@ -1,7 +1,7 @@
 import { DATA_BOOKING, BOOKING_ID, DATA_PAYMENTS, DATA_PAXES } from "../Admin/actions/bookingsActions"
 import { FREE_ROOMS, GET_CATEGORIES_AD, GET_PAX_INFO, GET_TYPES_AD, successMSG } from "../Admin/actions/createBookAdmin"
 
-export interface IFinitialState {
+export interface BookingsAdminInterface {
     bookingPax: any[],
     bookings: any[],
     roomsId: any[],
@@ -19,7 +19,7 @@ interface actions {
     payload: any
 }
 
-const InitialState: IFinitialState = {
+const InitialState: BookingsAdminInterface = {
     bookingPax: [],
     bookings: [],
     roomsId: [],
@@ -33,7 +33,7 @@ const InitialState: IFinitialState = {
 
 }
 
-export function bookingsAdminReducer(state: IFinitialState = InitialState, action: actions) {
+export function bookingsAdminReducer(state: BookingsAdminInterface = InitialState, action: actions) {
     
     switch (action.type) {
         case DATA_BOOKING:

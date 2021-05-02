@@ -93,7 +93,7 @@ export const CheckinAvailable = ({ steps }: { steps: Function }): JSX.Element =>
         // console.log("Pasajero: ", mainPax)
         // console.log("Current booking", booking)
         // console.log("checkout", checkoutDate)
-        console.log("paxes:", paxes)
+        //console.log("paxes:", paxes)
 
         //si existe booking no se crea... solo se modifica el room (availability, current pax y booking )
         if (booking && roomSelected) {
@@ -155,7 +155,7 @@ export const CheckinAvailable = ({ steps }: { steps: Function }): JSX.Element =>
     const onSelect = (value: string) => {
         //console.log('onSelect', value);
         let selected = value.split('.')
-        console.log(selected)
+        //console.log(selected)
         if (selected[1] !== '') {
             setSearch(selected[1])
             setMainPax(bookingStore?.byLastUuid[0]?.id)

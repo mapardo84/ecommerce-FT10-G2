@@ -15,7 +15,7 @@ export const getDataBooking = (param: string, type: string | boolean, value: str
         if(param === 'all') {
             return async (dispatch:Dispatch<any>)=>{
                 
-                const {data}:any=await supabase
+                const {data}=await supabase
                 .from("booking_pax")
                 .select(`*`)
                 dispatch(dataBookingPax(data))
@@ -24,17 +24,23 @@ export const getDataBooking = (param: string, type: string | boolean, value: str
         if(param === 'next') {
             return async (dispatch:Dispatch<any>)=>{
                 
-                const books:any=await supabase
+                const books=await supabase
                 .from("bookings")
                 .select(`*`)
                 .gte('checkin', today)
-                const booksPax = books.data.map((e:any)=>{
+
+                
+
+                const booksPax = books.data?.map((e:any)=>{
                     return supabase
                     .from("booking_pax")
                     .select('*')
                     .eq('booking_id',`${e.id}`)
                 })
                 const dataConcatenada:any[]=[]
+
+                if(!booksPax) return
+
                 Promise.all(booksPax).then(res=>res.forEach((e:any)=>dataConcatenada.push(e.data)))
                 .then(()=>dispatch(dataBookingPax(dataConcatenada.flat()))).then(res => console.log(res))
             }
@@ -42,17 +48,20 @@ export const getDataBooking = (param: string, type: string | boolean, value: str
         if(param === 'prev') {
             return async (dispatch:Dispatch<any>)=>{
                 
-                const books:any=await supabase
+                const books=await supabase
                 .from("bookings")
                 .select(`*`)
                 .lte('checkout', today)
-                const booksPax = books.data.map((e:any)=>{
+                const booksPax = books.data?.map((e:any)=>{
                     return supabase
                     .from("booking_pax")
                     .select('*')
                     .eq('booking_id',`${e.id}`)
                 })
                 const dataConcatenada:any[]=[]
+
+                if(!booksPax) return
+
                 Promise.all(booksPax)
                 .then(res=>res.forEach((e:any)=>dataConcatenada.push(e.data)))
                 .then(()=>dispatch(dataBookingPax(dataConcatenada.flat())))
@@ -66,18 +75,25 @@ export const getDataBooking = (param: string, type: string | boolean, value: str
         if(type === 'uuid' || type === 'first_name' || type === 'last_name') {
             return async (dispatch: Dispatch<any>) => {
                 console.log(type, value)
-                const bookByPax: any= await supabase 
+
+                const bookByPax= await supabase 
                         .from('paxes')
                         .select('*')
                         .eq(type, value)
                         console.log(bookByPax)
-                const booksPax = bookByPax.data.map((e:any)=>{
+                
+                if (!bookByPax){ return }
+
+                const booksPax = bookByPax.data?.map((e:any)=>{
                         return supabase
                         .from("booking_pax")
                         .select('*')
                         .eq('pax_id',`${e.id}`)
                 })
                 const dataConcatenada:any[]=[]
+
+                if (!booksPax) return
+
                 Promise.all(booksPax)
                 .then(res=>res.forEach((e:any)=>dataConcatenada.push(e.data)))
                 
@@ -89,7 +105,7 @@ export const getDataBooking = (param: string, type: string | boolean, value: str
 
         if(type === 'booking_id') {
             return async(dispatch:Dispatch<any>) => {
-                const booking: any = await supabase
+                const booking = await supabase
                     .from('booking_pax')
                     .select('*')
                     .eq(type, value)

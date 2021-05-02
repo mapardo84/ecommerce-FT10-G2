@@ -2,15 +2,15 @@ import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { getDataBooking, getBookingsId, getPayments, getPaxId } from '../../actions/bookingsActions'
 import { Form, DatePicker, Input, InputNumber, Button, Select, Table, Cascader, Switch, Tooltip, Popconfirm, Modal } from 'antd';
-import { finalCreateBooking,  getRoomsAvailable, inactiveBooking, searchOrCreatePax } from '../../actions/createBookAdmin';
+import { finalCreateBooking, getRoomsAvailable, inactiveBooking, searchOrCreatePax } from '../../actions/createBookAdmin';
 import { getAllRooms } from '../../actions/roomsActions';
 import moment from 'moment';
 import { residences } from '../../../components/booking/paxForm/PaxForm'
 import { roomType } from '../../../components/booking/accomodationsSelect/AccomodationsSelect';
 import { AiFillCloseCircle } from "react-icons/ai"
 import { SearchBooking } from '../SearchBar/SearchBar'
-const { RangePicker } = DatePicker;
 
+const { RangePicker } = DatePicker;
 export let loading = false;
 
 export const Bookings = () => {
@@ -299,22 +299,22 @@ export const Bookings = () => {
         setFormPayment(false)
         dispatch(searchOrCreatePax(null))
 
-            let secondsToGo = 5;
-            const modal = Modal.success({
-              title: 'Your booking has been successful!',
-              content: `This will be closed after ${secondsToGo} second.`,
-            });
-            const timer = setInterval(() => {
-              secondsToGo -= 1;
-              modal.update({
+        let secondsToGo = 5;
+        const modal = Modal.success({
+            title: 'Your booking has been successful!',
+            content: `This will be closed after ${secondsToGo} second.`,
+        });
+        const timer = setInterval(() => {
+            secondsToGo -= 1;
+            modal.update({
                 content: `This will be closed after ${secondsToGo} second.`,
-              });
-            }, 1000);
-            setTimeout(() => {
-              clearInterval(timer);
-              modal.destroy();
-            }, secondsToGo * 1000);
-        
+            });
+        }, 1000);
+        setTimeout(() => {
+            clearInterval(timer);
+            modal.destroy();
+        }, secondsToGo * 1000);
+
 
         // dispatch(getDataBooking('all')) //BOOKING_PAX
         // dispatch(getBookingsId()) //BOOKINGS    
@@ -376,7 +376,7 @@ export const Bookings = () => {
         });
 
         console.log(bookingState, e, roomSelected)
-        if(roomSelected) {
+        if (roomSelected) {
             dispatch(finalCreateBooking(bookingState, e, roomSelected.id))
         } else {
             setNoRoomMSG(true)
@@ -402,7 +402,7 @@ export const Bookings = () => {
             </div>
 
             <div>
-                <Modal title="Create Booking" visible={isModalVisible} onCancel={closeModal} footer={null} destroyOnClose={true} >
+                <Modal zIndex={5} title="Create Booking" visible={isModalVisible} onCancel={closeModal} footer={null} destroyOnClose={true} >
                     <Form name="time_related_controls" {...formItemLayout} onFinish={onFinishFirstForm} initialValues={{ country: ['United States'], prefix: '1', remember: true }} scrollToFirstError >
 
 
@@ -417,7 +417,7 @@ export const Bookings = () => {
                         {/* FORM DATA PAX && DATA BOOKING*/}
                         {openForm ? <div>
                             {/* DATA PAX EXISTENTE */}
-                            {storeBooking?.paxInfo.length > 0 ? storeBooking?.paxInfo.map((p: {id: number | string, first_name: string, last_name: string, country: string}, i: number) => (
+                            {storeBooking?.paxInfo.length > 0 ? storeBooking?.paxInfo.map((p: { id: number | string, first_name: string, last_name: string, country: string }, i: number) => (
                                 <div key={`pI${i}`} >
                                     <h3>{p.first_name} {p.last_name}</h3>
                                     <h3>{p.country}</h3>
@@ -471,13 +471,15 @@ export const Bookings = () => {
                             </Form.Item>
 
                             {/* CheckIn CheckOut */}
-                            <Form.Item name="range-picker" label="CheckIn - CheckOut"  rules={[{ type: 'array', required: true, message: 'Please select category!' }]} >
-                                <RangePicker onChange={e => onChangeRange(e)} disabled={loadingRange}  />
+                            <Form.Item name="range-picker" label="CheckIn - CheckOut" rules={[{ type: 'array', required: true, message: 'Please select category!' }]} >
+                                <div className="containerRp">
+                                    <RangePicker onChange={e => onChangeRange(e)} disabled={loadingRange} />
+                                </div>
                             </Form.Item>
 
                             {dateMSJ.length > 0 ? <div style={{ color: 'red' }}>{dateMSJ}</div> : <div></div>}
-                            {noRoomMSG? <div style={{ color: 'red' }}>There are no rooms available for this date!</div> : <div></div>}
-                            
+                            {noRoomMSG ? <div style={{ color: 'red' }}>There are no rooms available for this date!</div> : <div></div>}
+
                             {/* Category */}
 
                             <Form.Item label="Category" name='category' rules={[{ required: true, message: 'Please select category!' }]}>

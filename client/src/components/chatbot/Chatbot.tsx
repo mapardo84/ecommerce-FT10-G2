@@ -5,6 +5,8 @@ import "./Chatbot.less";
 import { getAllCategories } from "../../Admin/actions/categoriesActions";
 import { useDispatch, useSelector } from "react-redux";
 import { getAllHalls } from "../../Admin/actions/adminEventsActions";
+import { BsChatDotsFill } from "react-icons/bs"
+
 
 interface ResponseBotObject {
   purpose: string;
@@ -12,6 +14,7 @@ interface ResponseBotObject {
   options?: string[];
   sender: string;
 }
+
 
 const Chatbot: React.FC = () => {
   const [userResponse, setUserResponse] = useState<string>("");
@@ -40,7 +43,7 @@ const Chatbot: React.FC = () => {
     let res = analyzeNextSteps(step, response, categoryOrHall, categories, halls);
     setBotResponse({ ...res, sender: "bot" });
     setUserResponse("");
-    
+
   };
 
   const optionClick = (e: React.MouseEvent<HTMLElement>) => {
@@ -60,8 +63,7 @@ const Chatbot: React.FC = () => {
         }
       }
   }
-}
-
+  }
   // event handlers
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setUserResponse(e.target.value);
@@ -72,23 +74,38 @@ const Chatbot: React.FC = () => {
     setNextStep(userResponse, null);
   };
 
+  const [visibleBot, setvisibleBot] = useState(false)
+
+  const changev = () => {
+    setvisibleBot(!visibleBot)
+  }
+
+
   return (
-    <div className="chat-container">
-      <Chats
-        userResponse={userResponse}
-        botResponse={botResponse}
-        sendUserResponse={sendUserResponse}
-        optionClick={optionClick}
-      />
-      <form onSubmit={e => handleSubmit(e)} className="form-container">
-        <input
-          onChange={e => handleInputChange(e)}
-          value={userResponse}
-        ></input>
-        <button>
-          <i className="far fa-paper-plane"></i>
-        </button>
-      </form>
+    <div className={visibleBot ? "help-button-wrapper expanded" : "help-button-wrapper"}>
+      <div className="help-list">
+        <div className="chat-container">
+          <Chats
+            userResponse={userResponse}
+            botResponse={botResponse}
+            sendUserResponse={sendUserResponse}
+            optionClick={optionClick}
+          />
+          <form onSubmit={e => handleSubmit(e)} className="form-container">
+            <input
+              onChange={e => handleInputChange(e)}
+              value={userResponse}
+            ></input>
+            <button>
+              <i className="far fa-paper-plane"></i>
+            </button>
+          </form>
+        </div>
+      </div>
+
+      <button onClick={changev} className="help-button">
+        <BsChatDotsFill style={{ fontSize: "30px", color: "white" }} />
+      </button>
     </div>
   );
 };

@@ -31,7 +31,8 @@ export const Register = (): JSX.Element => {
 
         <Form.Item
           name="firstName"
-          rules={[{ required: true, message: "Please, put your first name!" }]}
+          rules={[{ required: true, message: "Please, put your first name!" },
+                  {type:"number", message:"Only words"}]}
           style={{ display: 'inline-block', width: 'calc(50% - 8px)' }}
 
         >

@@ -2,27 +2,30 @@
 @color0: #393e46; // Appears 2 times
 
 
-
 .chat-container {
+	background-color: white;
+	padding: 20px;
+	transition: 1s;
 	border-radius: 10px;
 	border: 0.5px solid #d8d8d8;
+	box-shadow: 0 0 15px 0 rgba(0, 0, 0, 0.562);
 	display: flex;
 	flex-direction: column;
 	height: 60vh;
 	justify-content: space-between;
-	padding: 2em;
-	width: 80vw;
+	width: 500px;
+	padding-right: 5px;
 	.form-container {
 		display: flex;
 		justify-content: space-between;
 		input {
 			border-radius: 10px;
 			border-style: none;
-			border: 0.5px solid @color0;
+			border: 1px solid rgb(145, 145, 145);
 			font-size: 1em;
 			padding: 0.5em;
 			width: 92%;
-			&:focus {
+			&:focus {	
 				outline: none;
 			}
 		}
@@ -40,3 +43,70 @@
 		}
 	}
 }
+
+
+.help-button-wrapper {
+    position: fixed;
+    bottom: 10px;
+    right: 1px !important;
+	margin-right: 15px !important;
+  }
+  .help-button {
+    height: 5em !important;
+    width: 5em !important;
+    font-size: 14px;
+    border-radius: 50%;
+    border: 0 none;
+    background: #1e212d;
+    color: #fff;
+    cursor: pointer;
+    box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.26);
+    transform: scale(1);
+    transition: all 200ms ease;
+  }
+  .help-button:hover,
+  .help-button:focus,
+  .help-button:active {
+    box-shadow: 0 8px 17px 0 rgba(0, 0, 0, 0.2);
+    outline: 0;
+  }
+  .help-button span {
+    display: block;
+    font-size: 2em;
+    transform: scale(1);
+    transition: transform 100ms ease;
+  }
+  .help-button:hover span,
+  .expanded .help-button span,
+  .expanded .help-button span {
+    transform: scale(1.25);
+  }
+  .expanded .help-button {
+    transform: scale(0.7);
+    color: rgba(255, 255, 255, 0.5);
+    background: #4b75cd;
+	margin-top: 20px;
+  }
+
+  .help-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    transition: all 200ms ease;
+    transform: translate(0, 90px) scale(0.5);
+    transform-origin: bottom center;
+    opacity: 0;
+	margin-left: -430px ;
+	margin-top: -100px ;
+  }
+  .expanded .help-list {
+    transform: translate(0px, 20px) scale(1);
+    opacity: 1;
+  }
+  .help-list li {
+    margin-bottom: 1em;
+  }
+  .help-list a {
+    color: #212121;
+  }
+  

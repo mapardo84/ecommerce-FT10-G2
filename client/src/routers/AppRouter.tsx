@@ -27,12 +27,14 @@ import { BookingsLayout } from "../Admin/components/BookingsLayout";
 import {DiscountsLayout} from "../Admin/components/DiscountsLayout"
 import { SuccessLayout } from "../components/layout/SuccesLayout";
 import { Pre_booking } from "../components/Pre_booking/Pre_booking";
-import Chatbot from "../components/chatbot/Chatbot";
-import { EventLayout } from "../components/layout/EventsLayout";
 import { EventsLayout } from "../Admin/components/EventsLayout";
 import { HallsRequestsLayout } from "../Admin/components/Events/HallsRequestsLayout";
 import { HallsBookingsLayout } from "../Admin/components/Events/HallsBookingLayout";
 import { HallsLayout } from "../Admin/components/Events/HallsLayout";
+import { EventLayout } from "../components/layout/EventsLayout";
+// import { EventsAdminLayout } from "../Admin/components/EventsAdminLayout";
+import { NewsLetterLayout } from '../Admin/components/NewsLetterLayout';
+import Chatbot from "../components/chatbot/Chatbot";
 
 //ACA VAN TODAS LAS RUTAS
 
@@ -70,6 +72,8 @@ export const AppRouter = () => {
           <Route exact path="/admin/events/bookings" component={HallsBookingsLayout} />
           <Route exact path="/admin/events/halls" component={HallsLayout} />
 
+          {/* <Route exact path="/admin/events" component={EventsAdminLayout}/> */}
+          <Route exact path="/admin/newsletter" component={NewsLetterLayout}/>
           {/* Parte administrativa */}
 
           <Route exact path="/accomodations" component={AccomodationLayout} />

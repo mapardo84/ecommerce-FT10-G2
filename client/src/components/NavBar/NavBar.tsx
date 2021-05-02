@@ -8,9 +8,8 @@ import { supabase } from '../../SupaBase/conection'
 import { logOut } from "../../helpers/logOut";
 import { useDispatch, useSelector } from "react-redux";
 import { setModalState } from "../../actions/loginActions";
-import { NavLink, useHistory, Link } from "react-router-dom";
+import { NavLink, useHistory} from "react-router-dom";
 import hotel from "./logoHotel.png"
-
 import { SiHotelsDotCom } from "react-icons/si";
 import { MdHotel } from "react-icons/md";
 import { AiFillHome, AiFillStar, AiFillCalendar } from "react-icons/ai";
@@ -19,9 +18,9 @@ import { RiLogoutBoxFill, RiLoginBoxFill } from "react-icons/ri";
 import { IconContext } from "react-icons/lib";
 
 
-import { get_pre, pre_booking_empty} from "../../actions/Booking/pre_booking_action";
+import {pre_booking_empty} from "../../actions/Booking/pre_booking_action";
 
-const { Header } = Layout;
+// const { Header } = Layout;
 
 export const NavBar = () => {
 
@@ -68,6 +67,18 @@ export const NavBar = () => {
   const [regOrLog, setRegOrLog] = useState<string>("logIn")
 
 
+  const [navBar, setNavBar] = useState(false)
+
+  const changeBackground = () => {
+    if (window.scrollY >= 20) {
+      setNavBar(true)
+    } else  {
+      setNavBar(false);
+    }
+  }
+  window.addEventListener('scroll', changeBackground)
+
+
   //Resposive Nav
   const [resNavVisivle, setResNavVisivle] = useState<boolean>(false)
   const handleNavResponsive = () => {
@@ -90,30 +101,30 @@ export const NavBar = () => {
 
   return (
     <>
-      <IconContext.Provider value={{ color: "grey",  size: '24px', style: { verticalAlign: 'middle', marginRight: "20px" } }}>
-        <div className="NavBarLayout">
+      <IconContext.Provider value={{ color: "grey", size: '24px', style: { verticalAlign: 'middle', marginRight: "20px" } }}>
+        <div className={navBar ? 'NavBarLayoutActive' : "NavBarLayout"}>
           {/* Normal navBar content */}
           <div className="navBarMenu">
             <div className="colContainer">
               <Col span={12}>
                 <div className="navLeft">
-                  <NavLink to="/home"><img className="imagen" src={hotel} alt="IMG NOT FOUND" /></NavLink>
+                  <NavLink to="/home"><img className={navBar ? 'imagenNavBarActive' : "imagenNavBar"} src={hotel} alt="IMG NOT FOUND" /></NavLink>
                 </div>
               </Col>
               <Col span={12}>
                 <div className="navRight">
                   <NavLink to="/home">
-                    <Button className="navButton" size="large" type="text">
+                    <Button className={navBar ? 'navButtonActive' : "navButton" }size="large" type="text">
                       Home
                     </Button>
                   </NavLink>
                   <NavLink to="/accomodations">
-                    <Button className="navButton" size="large" type="text">
+                    <Button className={navBar ? 'navButtonActive' : "navButton" } size="large" type="text">
                       Accomodations
                     </Button>
                   </NavLink>
                   <NavLink to="/events">
-                    <Button className="navButton" size="large" type="text">
+                    <Button className={navBar ? 'navButtonActive' : "navButton" } size="large" type="text">
                       Events
                     </Button>
                   </NavLink>
@@ -125,7 +136,7 @@ export const NavBar = () => {
                           overlay={menu}
                           // trigger={['click']}
                           placement="bottomCenter">
-                          <Button className="btn-nav" type="primary">
+                          <Button className={navBar ? 'navButtonActive' : "navButton" }  type="text">
                             <UserOutlined />Account <DownOutlined />
                           </Button>
                         </Dropdown>
@@ -133,10 +144,10 @@ export const NavBar = () => {
                         :
                         <Button
                           onClick={() => setVisible(true)}
-                          className="navButton"
+                          className={navBar ? 'navButtonActive' : "navButton" }
                           type="text">
                           Log In
-                         </Button>
+                        </Button>
                     }
                   </div>
                   <NavLink to="/booking">
@@ -157,15 +168,16 @@ export const NavBar = () => {
           <div className="navResponsiveMenu" >
 
             <div className="navImageContainer">
-              <NavLink to="/home"><img className="imagen" src={hotel} alt="IMG NOT FOUND" /></NavLink>
+              <NavLink to="/home"><img className={navBar ? 'imagenNavBarActive' : "imagenNavBar"} src={hotel} alt="IMG NOT FOUND" /></NavLink>
             </div>
 
-            <div className="navButtonMenu">
+            <div className={"navButtonMenu"}>
               <Button type="text" onClick={handleNavResponsive} >
-                <MenuOutlined style={{ fontSize: '24px', color: 'white' }} />
+                <MenuOutlined style={navBar ? {fontSize:"24px", color:"black"}: {fontSize:"24px", color:"white"}} />
               </Button>
             </div>
           </div>
+
         </div>
 
 
@@ -190,12 +202,12 @@ export const NavBar = () => {
             </Button>
             </NavLink>
             <NavLink to="/accomodations">
-              <Button  onClick={handleNavResponsiveClose} className="navButton" size="large" type="text">
+              <Button onClick={handleNavResponsiveClose} className="navButton" size="large" type="text">
                 <MdHotel />Accomodations
             </Button>
             </NavLink>
             <NavLink to="/home">
-              <Button  onClick={handleNavResponsiveClose} className="navButton" size="large" type="text">
+              <Button onClick={handleNavResponsiveClose} className="navButton" size="large" type="text">
                 <AiFillHome /> Home
             </Button>
             </NavLink>
@@ -220,7 +232,7 @@ export const NavBar = () => {
                       <AiFillCalendar />  Bookings
                   </Button>
                   </NavLink>
-                  <Button style={{ marginTop: "5px" }}  onClick={() => logOutSession()} className="navButton" size="large" type="text">
+                  <Button style={{ marginTop: "5px" }} onClick={() => logOutSession()} className="navButton" size="large" type="text">
                     <RiLogoutBoxFill /> Log Out
                  </Button>
 

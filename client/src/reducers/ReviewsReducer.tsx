@@ -2,7 +2,7 @@ import { POST_REVIEW } from '../actions/addReview'
 import {GET_REVIEWS} from '../actions/Reviews/Reviews'
 
 
-export interface initialStateProps {
+export interface ReviewsReducerInterface {
     reviews:[]
 }
 
@@ -11,11 +11,11 @@ interface actionreviews {
     payload: any
 }
 
-const initialState: initialStateProps={
+const initialState: ReviewsReducerInterface={
     reviews:[]
 }
 
-export const reviewsReducer = (state:initialStateProps = initialState,action:actionreviews) =>{
+export const reviewsReducer = (state:ReviewsReducerInterface = initialState,action:actionreviews) =>{
  switch (action.type) {
     case GET_REVIEWS:
         return {
@@ -25,7 +25,7 @@ export const reviewsReducer = (state:initialStateProps = initialState,action:act
     case POST_REVIEW:
         return{
             ...state,
-            reviews: [action.payload[0],...state.reviews]
+            reviews: [...state.reviews, action.payload[0],]
         }
  }
 

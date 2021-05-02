@@ -3,24 +3,39 @@
     flex-direction: column;
     align-content: center;
     align-items: center;
+    margin-top: 50px;
 }
 
-.descriptionBackground{
-    background-image: linear-gradient(
-        to bottom,
-        rgba(255, 255, 255, 0.863),
-        #f0f2f5
-      ),
-      url("./images/palmTree.jpg");
-    background-repeat: no-repeat;
-    background-size: cover;
+.accomodationsBackground{
+}
+
+.ActitleHotel{
+     font-size: 90px;
+     font-weight: 500;
+     position: absolute;
+     color: white;
+     margin-top: -320px;
+     text-align: center;
+     width: 100vw;
+}
+
+.AcSloganHotel{
+     font-size: 30px;
+     font-weight: 500;
+     position: absolute;
+     color: white;
+     margin-top: -160px;
+     text-align: center;
+     width: 100vw;
+     text-align: end;
+     margin-left: -340px;
 }
 
 .imageAccomodation{
     width: 100vw;
     height: 60vh;
     object-fit: cover;
-    filter: brightness(80%);
+    filter: brightness(40%) !important; 
 }
 
 .accomodationTitle {
@@ -72,7 +87,45 @@
 }
 
 
-@media only screen and (max-width: 1400px) {
+@media only screen and (max-width: 1200px) {
+    .ActitleHotel{
+        font-size: 70px;
+   }
+      .AcSloganHotel{
+        font-size: 30px;
+        margin-left: -170px;
+   }
+}
 
+@media only screen and (max-width: 870px) {
+    .ActitleHotel{
+        font-size: 60px;
+   }
+      .AcSloganHotel{
+        font-size: 26px;
+        margin-left: -170px;
+        margin-top: -180px;
+   }
+}
 
+@media only screen and (max-width: 700px) {
+    .ActitleHotel{
+        font-size: 40px;
+   }
+      .AcSloganHotel{
+        font-size: 16px;
+        margin-left: -170px;
+        margin-top: -220px;
+   }
+}
+
+@media only screen and (max-width: 520px) {
+    .ActitleHotel{
+        font-size: 30px;
+   }
+      .AcSloganHotel{
+        font-size: 16px;
+        margin-left: -50px;
+        margin-top: -220px;
+   }
 }

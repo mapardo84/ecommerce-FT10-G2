@@ -146,7 +146,7 @@ export const updatePaxRoom = async (data: IRoomUpdate) => {
             console.log(error)
             errorMsg("Checkout error. Try again")
         } else {
-            console.log("Los pasajeros", data.paxes)
+            //console.log("Los pasajeros", data.paxes)
             const prom = data.paxes.map((pax: any) => {
                 return supabase
                     .from('booking_pax')
