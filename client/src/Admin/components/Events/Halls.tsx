@@ -2,8 +2,7 @@ import { Button, Table, Form, Modal, Input, Tooltip, Popconfirm } from 'antd';
 import { FaTrashAlt, FaPencilAlt } from 'react-icons/fa';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { getAllHalls } from '../../actions/adminEventsActions';
-
+import { addHall, deleteHall, getAllHalls, updateHall } from '../../actions/adminEventsActions';
 
 export interface IHalls {
     id:number;
@@ -24,18 +23,15 @@ const campos: IFields[] = [
 ];
   
 export const Halls = () => {
-
     const [ isModalVisible, setIsModalVisible ] = useState<boolean>(false);
     const [ editId, setEditId ] = useState<null | IHalls>(null)
     const [ fields, setFields ] = useState<IFields[]>(campos);
     const halls = useSelector((state: any) => state?.adminEvents.halls);
     const dispatch = useDispatch();
     
-  
-
     useEffect(() => {
         dispatch(getAllHalls());
-    }, [dispatch]);
+    }, [dispatch, halls]);
 
     const handleEdit = ( id:number ) => {
         setIsModalVisible(true)
@@ -54,26 +50,26 @@ export const Halls = () => {
         setIsModalVisible(false)
     }
 
-    const onFinish = (values: IHalls) => {
+    const onFinish = (values:IHalls) => {
         if (editId) {
             const data = { ...values, id: editId.id }
-            // dispatch(updateType(data))
-            setIsModalVisible(false)
-            setEditId(null)
+            dispatch(updateHall(data));
+            setIsModalVisible(false);
+            setEditId(null);
         } else {
-            // dispatch(addType(values))
-            setIsModalVisible(false)
+            dispatch(addHall(values));
+            setIsModalVisible(false);
         }
     }
 
     const handleDelete = (id: number) => {
         const index = halls.find((type: IHalls) => type.id === id)
-        // dispatch(deleteType(index.id))
+        dispatch(deleteHall(index.id));
     };
 
     const columns:any = [
         {
-            title: 'Type Name',
+            title: 'Name',
             dataIndex: 'name',
             key: 'name',
             sorter: (a:IHalls, b:IHalls) => a.name.length - b.name.length,
@@ -110,10 +106,7 @@ export const Halls = () => {
         }
     ]
     return (
- 
         <div>
-            {console.log(halls)}
-            <h1>hola</h1>
             <div className="halls_upbar">
                 <Button type="primary" onClick={() => setIsModalVisible(true)} >Add Hall</Button>
             </div>

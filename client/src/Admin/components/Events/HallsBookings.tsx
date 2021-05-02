@@ -1,8 +1,8 @@
-import { Button, Table, Form, Modal, Input, InputNumber, Tooltip, Popconfirm, Select, DatePicker } from 'antd';
+import { Button, Table, Form, Modal, Input, Tooltip, Popconfirm, Select, DatePicker } from 'antd';
 import { FaTrashAlt, FaPencilAlt } from 'react-icons/fa';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { getAllHalls, getBookedEvents } from '../../actions/adminEventsActions';
+import { addEvent, deleteEvent, getAllHalls, getBookedEvents, updateEvent } from '../../actions/adminEventsActions';
 import moment from 'moment';
 import { IHalls } from './Halls';
 
@@ -17,7 +17,7 @@ export interface IBookedEvents {
 
 interface IFields {
     name: string[],
-    value: string | number | undefined
+    value: string | number
 };
 
 const campos: IFields[] = [
@@ -29,19 +29,18 @@ const campos: IFields[] = [
 ];
 
 export const HallsBookings = () => {
-    const { Option } = Select;
     const dispatch = useDispatch();
     const [ isModalVisible, setIsModalVisible ] = useState<boolean>(false);
     const [ editId, setEditId ] = useState<IBookedEvents|null>();
     const [ fields, setFields ] = useState<IFields[]>(campos);
     const [ form ] = Form.useForm();
-    const bookings:IBookedEvents[] =  useSelector((state:any) => state.adminEvents.bookings);
-    const halls = useSelector((state: any) => state?.adminEvents.halls);
+    const bookings =  useSelector((state:any) => state.adminEvents.bookings);
+    const halls = useSelector((state:any) => state?.adminEvents.halls);
     
     useEffect(() => {
         dispatch(getBookedEvents());
         dispatch(getAllHalls());
-    }, [dispatch]);
+    }, [dispatch, bookings]);
 
     const columns: any = [
         {
@@ -62,7 +61,7 @@ export const HallsBookings = () => {
             dataIndex: 'finishDate',
             key: 'finishDate',
             render: (_: undefined, record:any) =>{
-                const x = halls?.find((h:any) => h.id === record?.hall_id);
+                const x = halls?.find((h:IHalls) => h.id === record?.hall_id);
                 if ( x ) return <span>{x.name}</span>
                 else return <span>-</span>
             }
@@ -75,7 +74,7 @@ export const HallsBookings = () => {
             dataIndex: 'hall_id',
             key: 'hall_id',
             render: (_: undefined, record:any) =>{
-                const x = halls?.find((h:any) => h.id === record?.hall_id);
+                const x = halls?.find((h:IHalls) => h.id === record?.hall_id);
                 if ( x ) return <span>{x.name}</span>
                 else return <span>-</span>
             }
@@ -83,7 +82,7 @@ export const HallsBookings = () => {
             title: 'Action',
             dataIndex: 'operation',
             key: 'description',
-            render: (_: undefined, record: { id: number }) =>
+            render: (_: undefined, record: { id:number }) =>
             bookings.length > 0 ? (
                 <>
                     <Tooltip title="Edit">
@@ -107,36 +106,36 @@ export const HallsBookings = () => {
         setIsModalVisible(false);
     }
 
-    const onFinish = (values: IBookedEvents) => {
+    const onFinish = (values:IBookedEvents) => {
         if (editId) {
             const data = { ...values, id: editId.id };
-            // dispatch(updateDiscounts(data));
+            dispatch(updateEvent(data));
             setIsModalVisible(false);
             setEditId(null);
         }
         else{
-            // dispatch(addDiscount(values));
+            dispatch(addEvent(values));
             setIsModalVisible(false);
         }
     }
 
-    const handleDelete = (id:number) => {
-        const index = bookings.find((type: IBookedEvents) => type.id === id);
-        // dispatch(deleteDiscount(index.id));
+    const handleDelete = ( id:number ) => {
+        const index = bookings.find((b:IBookedEvents) => b.id === id);
+        index? dispatch(deleteEvent(index.id)): console.log('nothing to delete');
     }
 
-    const handleEdit = (id: number) => {
+    const handleEdit = ( id:number ) => {
         setIsModalVisible(true);
-        const index = bookings.find((booked:IBookedEvents) => booked?.id === id);
+        const index = bookings.find((booked:IBookedEvents) => booked.id === id);
         setEditId(index);
         setFields([
-            { name: ['id'], value: index?.id },
-            { name: ['name'], value: index?.name },
-            { name: ['startDate'], value: index?.startDate },
-            { name: ['finishDate'], value: index?.finishDate },
-            { name: ['methodPayment'], value: index?.methodPayment },
-            { name: ['hall_id'], value: index?.hall_id },
-        ])
+            { name: ['id'], value: index.id },
+            { name: ['name'], value: index.name },
+            { name: ['startDate'], value: moment(index.startDate) },
+            { name: ['finishDate'], value: moment(index.finishDate) },
+            { name: ['methodPayment'], value: index.methodPayment },
+            { name: ['hall_id'], value: index.hall_id },
+        ]);
     }
    
     return (

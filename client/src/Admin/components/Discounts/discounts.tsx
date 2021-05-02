@@ -154,6 +154,7 @@ export const Discounts = () =>{
     const handleEdit = (id: number) => {
         setIsModalVisible(true);
         const index = adminDiscounts.find((discount: IDiscounts) => discount.id === id);
+        console.log(index);
         setEditId(index);
         setFields([
             { name: ['id'], value: index.id },
