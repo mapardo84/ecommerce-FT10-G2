@@ -21,10 +21,11 @@ export const FooterLayout = () => {
       <Footer className="laclande">
 
         <div className='containletterfooter'>
-          <Button className="info" type="text">Contact us</Button>
-          <NavLink to='/admin'>
+        <NavLink to='/admin'>
             <Button className="info" type="text">Admin panel</Button>
           </NavLink>
+          <Button className="info" type="text">Contact us</Button>
+         
 
           <Button className="info" type="text">About us</Button>
         </div>
