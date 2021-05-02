@@ -1,5 +1,6 @@
 {
   "dependencies": {
+    "@supabase/supabase-js": "^1.11.9",
     "axios": "^0.21.1",
     "countries-list": "^2.6.1"
   }
