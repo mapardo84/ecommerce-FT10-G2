@@ -1,7 +1,10 @@
 import { GET_BOOKED_EVENTS, GET_ALL_HALLS, GET_ALL_REQUESTS } from '../Admin/actions/adminEventsActions';
 
 
-
+export interface initialStatePropsEvents {
+    adminEvents: any;
+    halls: any
+  }
 
 const initialState = {
     requests: [],

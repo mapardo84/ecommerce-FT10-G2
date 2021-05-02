@@ -7,7 +7,7 @@ import  {store} from "../../store/store"
 import { IHalls } from "../../Admin/components/Events/Halls";
 import { useDispatch, useSelector } from "react-redux";
 import { DatabaseFilled } from "@ant-design/icons";
-import initialStatePropsEvents from "./../../reducers/adminEventsReducer"
+import {initialStatePropsEvents} from "./../../reducers/adminEventsReducer"
 
 
 export const Event = () =>  {
