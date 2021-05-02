@@ -15,6 +15,11 @@ import { HomeExperiences } from "../home/homeExperiences/HomeExperiences";
 import HomeDiscounts from "../home/homeDiscounts/HomeDiscounts";
 
 import {HomeFeatures} from '../home/HomeFeatures/HomeFeatures'
+import { getUserProfile } from "../../actions/userProfile/userProfileActions";
+import { RootReducer } from "../../reducers/rootReducer";
+import Modal from "antd/lib/modal/Modal";
+import { Register } from "../LogIn/Register";
+import { UpdateRegister } from "../LogIn/UpdateRegister";
 const { Content } = Layout;
 
 export const HomeLayout = (): JSX.Element => {
@@ -22,15 +27,34 @@ export const HomeLayout = (): JSX.Element => {
   var [name, setName] = useState("empty");
   const dispatch = useDispatch();
   const promotions = useSelector((state: any) => state.promotions)
+  const userProfile = useSelector((state:RootReducer) => state.userProfile)
 
+
+  const [updateRegister, setUpdateRegister] = useState<boolean>(false)
   useEffect(() => {
     window.scrollTo(0, 0);
     supabase.auth.onAuthStateChange((event, session) => {
       getSession(session);
     });
     dispatch(getPromotions());
+    dispatch(getUserProfile())
   }, []);
 
+  useEffect(() => {
+    dispatch(getUserProfile())
+    if(userProfile.data.uuid){
+      if(userProfile.data.uuid.length>24){
+      setUpdateRegister(true)
+      }else{
+      setUpdateRegister(false)
+    }
+    }}, [userProfile])
+
+    useEffect(() => {
+      dispatch(getUserProfile())
+    }, [supabase.auth.user()?.email])
+
+  
   const showName = async () => {
     const user: any = supabase.auth.user()
     if (user?.aud === "authenticated") {
@@ -44,7 +68,6 @@ export const HomeLayout = (): JSX.Element => {
     } else return false
   }
   showName()
-
   return (
     <>
       <Layout className="container">
@@ -61,6 +84,10 @@ export const HomeLayout = (): JSX.Element => {
         </Content>
         <FooterLayout />
       </Layout>
+      <Modal
+      visible={updateRegister}>
+        <UpdateRegister/>
+      </Modal>
     </>
   );
 };

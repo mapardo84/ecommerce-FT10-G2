@@ -21,7 +21,6 @@ const HomeDiscounts = (props: { promo: promotionType[] }) => {
 
     const { promo } = props;
 
-    console.log(promo)
     return (
         <div data-aos="fade-up" data-aos-duration="1000"  data-aos-once="true" className="HomeDiscounts_container">
             <div className="HomeDiscounts_left">

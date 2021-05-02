@@ -34,14 +34,14 @@ export const getUserBookings = () => {
       try {
         bookings.data.forEach((bookings: any) => {
           let checkinDate: any = new Date();
-
           if (bookings?.checkin) {
             checkinDate = new Date(bookings?.checkin?.replaceAll("-", ","));
           }
 
           let resta = checkinDate - Date.now();
           resta = Math.round(resta / (1000 * 60 * 60 * 24));
-
+          const mixtos=bookings?.payments.reduce((acc:{totalPrice:number},elem:{totalPrice:number})=>{
+            return {totalPrice:acc.totalPrice+elem.totalPrice}})
           const bookingDetails = {
             bookingStatus: bookings?.status,
             bookingId: bookings?.id,
@@ -50,7 +50,7 @@ export const getUserBookings = () => {
             roomNumber: bookings?.room_id.name,
             category: bookings?.room_id.category_id.name,
             type: bookings?.room_id.type_id.name,
-            totalPrice: bookings?.payments[0]?.totalPrice,
+            totalPrice: mixtos.totalPrice,
             paymentMethod: bookings?.payments[0]?.payment_method,
             paxes: bookings?.paxes_amount,
             actual: false,

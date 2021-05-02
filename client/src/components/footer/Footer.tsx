@@ -5,10 +5,22 @@ import palm from './img/palm.png'
 import palm2 from './img/palm2.png'
 import instagram from './img/instagram.png'
 import facebook from './img/facebook.png'
+import {getUserProfile} from '../../actions/userProfile/userProfileActions'
+import { useDispatch, useSelector } from "react-redux";
+import { useEffect } from "react";
+import { RootReducer } from "../../reducers/rootReducer";
 
 const { Footer } = Layout;
 
 export const FooterLayout = () => {
+  const dispatch = useDispatch()
+  const userProfile = useSelector((state:RootReducer) => state.userProfile)
+  const {data}:any=userProfile
+  const{role}=data
+    useEffect(() => {
+      dispatch(getUserProfile())      
+    }, [dispatch])
+
   return (
     <div className='containFooter'>
       <img className='palmBeach' src={palm} />
@@ -22,9 +34,9 @@ export const FooterLayout = () => {
 
         <div className='containletterfooter'>
           <Button className="info" type="text">Contact us</Button>
-          <NavLink to='/admin'>
+          {role==="admin"?<NavLink to='/admin'>
             <Button className="info" type="text">Admin panel</Button>
-          </NavLink>
+          </NavLink>:null}
 
           <Button className="info" type="text">About us</Button>
         </div>

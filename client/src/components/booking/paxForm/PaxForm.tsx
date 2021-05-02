@@ -123,9 +123,16 @@ export function PaxForm() {
     useEffect(() => {
     }, [pax_data])
 
-
-
-
+    
+    const validator=(string?:any)=>{
+        for(var i=0;i<10;i++){
+                if(string.includes(i)){
+                    setMp(false)
+                    return true
+                    }
+                }
+            return false
+    }
 
     const handleClickBack = (e: SyntheticEvent) => {
         e.preventDefault();
@@ -171,7 +178,11 @@ export function PaxForm() {
             address,
         }
         await localStorage.setItem("BookingInfo", JSON.stringify(bookingInfo))
-        if (supabase.auth.user()) {
+        if (
+            supabase.auth.user()
+            &&!validator(allvalues.first_name)
+            &&!validator(allvalues.last_name)
+            &&!isNaN(allvalues.phone)) {
             setMp(true)
         }
     }
@@ -302,6 +313,13 @@ export function PaxForm() {
                                 required: true,
                                 message: 'Please input your name!',
                                 whitespace: true,
+                            },
+                            {
+                                validator: async (_, firstName) => {
+                                    if (validator(firstName)) {
+                                    return Promise.reject(new Error("Words please"));
+                                    }
+                                },
                             }
                         ]}
                     >
@@ -316,6 +334,14 @@ export function PaxForm() {
                                 message: 'Please input your last name!',
                                 whitespace: true,
                             },
+                            {
+                                validator: async (_, lastName) => {
+                                    console.log(lastName)
+                                    if (validator(lastName)) {
+                                    return Promise.reject(new Error("Words please"));
+                                    }
+                                },
+                            }
                         ]}
                     >
                         <Input placeholder="Last Name" className='paxForm_input' />
@@ -381,6 +407,15 @@ export function PaxForm() {
                                 required: true,
                                 message: 'Please input your phone number!',
                             },
+                            
+                            {
+                                validator: async (_, phone) => {
+                                    if (isNaN(phone)) {
+                                        setMp(false)
+                                    return Promise.reject(new Error("Only numbers"));
+                                    }
+                                },
+                            }   
                         ]}
                     >
                         <Input

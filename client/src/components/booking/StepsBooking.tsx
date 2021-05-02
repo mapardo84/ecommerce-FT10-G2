@@ -12,7 +12,6 @@ import { delete_pre_booking, get_pre, pre_booking_empty, setGuests } from '../..
 import Modal from 'antd/lib/modal/Modal';
 import { Link } from 'react-router-dom';
 import { RootReducer } from '../../reducers/rootReducer';
-import {CheckinLocalInterface} from '../Pre_booking/Pre_booking'
 
 const { Step } = Steps;
 export const StepsBooking: FunctionComponent = () => {
