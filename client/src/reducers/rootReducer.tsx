@@ -22,6 +22,8 @@ import { newsletterReducer } from './newsletterReducer';
 
 import { PreBookingInterface, pre_booking_reducer } from "./preBookingReducer";
 import { promotionType } from "../actions/Promotions/promotionsAction";
+import {newsletterSubsReducer} from './newsletterSubsReducer';
+
 export interface RootReducer{
   categories: Categories
   rooms: RoomReducer
@@ -68,4 +70,6 @@ export const rootReducer = combineReducers({
   promotions: promotionsReducer,
   pre_booking:pre_booking_reducer,
   newsletters: newsletterReducer,
+  newsletterSubsReducer,
+  
 });

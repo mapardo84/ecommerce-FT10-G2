@@ -4,8 +4,6 @@ import { analyzeNextSteps } from "../chatbot/analyzeNextSteps";
 import "./Chatbot.less";
 import { getAllCategories } from "../../Admin/actions/categoriesActions";
 import { useDispatch, useSelector } from "react-redux";
-import { Affix, Collapse } from "antd";
-import { CalendarOutlined, DownOutlined } from "@ant-design/icons";
 import { BsChatDotsFill } from "react-icons/bs"
 
 
@@ -15,8 +13,6 @@ interface ResponseBotObject {
   options?: string[];
   sender: string;
 }
-
-const { Panel } = Collapse;
 
 const Chatbot: React.FC = () => {
   const [userResponse, setUserResponse] = useState<string>("");

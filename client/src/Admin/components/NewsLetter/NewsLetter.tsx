@@ -1,6 +1,6 @@
 import { ReactElement } from 'react'
 import { useState, useEffect } from 'react';
-import { Button, Table, Form, Modal, Input, Tooltip, Popconfirm, Select, Space, DatePicker } from 'antd';
+import { Button, Table, Form, Modal, Input} from 'antd';
 import TextArea from 'antd/lib/input/TextArea';
 import { useSelector, useDispatch } from 'react-redux';
 import { getAllNewsletter, post_newsletter, IEmail } from '../../actions/newsletterActions';
@@ -74,12 +74,14 @@ export function NewsLetter({ }: Props): ReactElement {
                 <Form.Item
                     label="Title"
                     name="email_title"
-                >
+                    rules={[{ required: true, message: 'Please input a title!' }]}>
+                
                     <Input placeholder="Title"></Input>
                 </Form.Item>
                 <Form.Item
                     label="Content"
                     name="email_content"
+                    rules={[{ required: true, message: 'Please input a content!' }]}
                 >
                     <TextArea placeholder="Content"></TextArea>
                 </Form.Item>

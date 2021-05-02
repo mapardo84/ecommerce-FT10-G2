@@ -29,7 +29,7 @@ export default function Wishlist() {
     if (idUser !== "") {
       dispatch(getWishlist(idUser?.userId[0]?.id))
     }
-  }, [dispatch, idUser, wishlist])
+  }, [dispatch])
 
 
 
