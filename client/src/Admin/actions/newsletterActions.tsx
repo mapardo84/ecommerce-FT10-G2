@@ -14,13 +14,18 @@ export interface IEmail {
     email_title: string;
     email_content: string;
     email_image: string;
+    emails:[];
 }
 
 
 export const post_newsletter = (info: IEmail) => {
     return async (dispatch: Dispatch<any>) => {
         try{
-        //const sendEmail = axios.post('http://localhost:4000/emails', info)
+            const {data:emails}=await supabase
+            .from('newsletterSubs')
+            .select('email')
+            .eq('active', 'active')
+        const sendEmail = axios.post('http://localhost:4000/emails/newsletter', [info,emails])
         const { email_title, email_content, email_image } = info
         const { data, error } = await supabase
             .from('newsletterEmails')
@@ -44,7 +49,7 @@ export const post_newsletter = (info: IEmail) => {
 export const getAllNewsletter = () => {
     return async (dispatch: Dispatch<any>) => {
         try {
-            const { data, error } = await supabase.from('newsletterEmails').select('*')
+            const { data, error } = await supabase.from('newsletterEmails').select('*').order('id',{ascending:false})
             if (!error) {
                 dispatch(getNewsletter(data))
             } else {

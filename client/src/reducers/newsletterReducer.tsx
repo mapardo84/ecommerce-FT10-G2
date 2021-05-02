@@ -1,5 +1,6 @@
 import { ADD_NEWSLETTER, GET_NEWSLETTER } from '../Admin/actions/newsletterActions';
 
+
 interface actionProps {
     type: string,
     payload: any
