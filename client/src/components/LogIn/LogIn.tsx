@@ -67,7 +67,7 @@ export const LogIn = () => {
   return (
     <>
       <Form
-        className="container"
+        className="containerLogin"
         name="basic"
         initialValues={{ remember: true }}
         onFinish={onFinish}
