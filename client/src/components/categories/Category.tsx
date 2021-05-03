@@ -57,7 +57,7 @@ const Category = (props: any): JSX.Element => {
           <Button className="categoryCardButtonsAc" size="large" onClick={handleClick} type="primary" ><StarOutlined className="starIcon" /></Button>
         </Tooltip >
         <Link to={`/accomodations/${categ.id}`}>
-          <Button  className="categoryCardButtonsAc category_cardButton2" size="large" type='primary'>
+          <Button className="categoryCardButtonsAc category_cardButton2" size="large" type='primary'>
             More Info...
           </Button>
         </Link>

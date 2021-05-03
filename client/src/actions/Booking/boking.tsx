@@ -20,29 +20,27 @@ export const getUserBookings = () => {
         .single();
 
       let userBookings: UserBooking[] = [];
-
+      
       var bookings = await supabase
         .from("bookings")
         .select(
-          "*, payments(totalPrice), room_id(name, category_id(name, price), type_id(name, beds))"
+          "*, payments(totalPrice, payment_method), room_id(name, category_id(name, price), type_id(name, beds))"
         )
         .eq("user_id", userEmail.data.id);
-      console.log(bookings)
       if (!bookings.data) {
         return;
       }
       try {
         bookings.data.forEach((bookings: any) => {
           let checkinDate: any = new Date();
+
           if (bookings?.checkin) {
             checkinDate = new Date(bookings?.checkin?.replaceAll("-", ","));
           }
 
           let resta = checkinDate - Date.now();
           resta = Math.round(resta / (1000 * 60 * 60 * 24));
-          const mixtos = bookings?.payments.reduce((acc: { totalPrice: number }, elem: { totalPrice: number }) => {
-            return { totalPrice: acc.totalPrice + elem.totalPrice }
-          }, 0)
+
           const bookingDetails = {
             bookingStatus: bookings?.status,
             bookingId: bookings?.id,
@@ -51,7 +49,7 @@ export const getUserBookings = () => {
             roomNumber: bookings?.room_id.name,
             category: bookings?.room_id.category_id.name,
             type: bookings?.room_id.type_id.name,
-            totalPrice: mixtos.totalPrice,
+            totalPrice: bookings?.payments[0]?.totalPrice,
             paymentMethod: bookings?.payments[0]?.payment_method,
             paxes: bookings?.paxes_amount,
             actual: false,
@@ -98,14 +96,6 @@ export const cancelUserBooking = (
       .update({ status: false })
       .eq("id", bookingId);
     dispatch(getUserBookings());
-    console.log(moneyBack)
-    await fetch("http://localhost:4000/emails/cancel", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json"
-      },
-      body: JSON.stringify({ email: supabase.auth.user()?.email, positive_balance: 0 })
-    })
 
     if (moneyBack) {
       try {
