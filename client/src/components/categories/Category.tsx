@@ -3,9 +3,8 @@ import { Modal, Button, Tooltip } from 'antd';
 import { Link } from 'react-router-dom';
 import './Category.less';
 import { StarOutlined } from "@ant-design/icons";
-import { addWishlist } from '../../actions/WishlistAction';
+import { addWishlist, getWishlist } from '../../actions/WishlistAction';
 import { useEffect, useState } from 'react';
-import { getUserIdByMail } from '../../actions/getUserIdByMail/index';
 import { supabase } from "../../SupaBase/conection";
 import { Dispatch } from 'react'
 import AOS from 'aos';
@@ -19,6 +18,7 @@ const Category = (props: any): JSX.Element => {
   const [isModalVisible, setIsModalVisible] = useState(false);
 
   const handleOk = () => {
+    dispatch(addWishlist(categ.id, idUser?.userId[0]?.id))
     setIsModalVisible(false);
   };
 
@@ -27,26 +27,29 @@ const Category = (props: any): JSX.Element => {
   };
 
 
-  const getIdByMail = async (valor: any, dispatch: Dispatch<any>) => {
-    const x = await getUserIdByMail(valor);
-    dispatch(x)
-  }
+  const wishlist = useSelector((state: any) => state.wishlist.userWishlist)
 
   const handleClick = (e: any) => {
     e.preventDefault();
-    dispatch(addWishlist(categ.id, idUser?.userId[0]?.id))
     setIsModalVisible(true);
   }
+
+  const visibleButton = () => {
+    return !wishlist.some((cat: any) =>
+      cat.category_id === categ.id
+    )
+  }
+
+
   const session = supabase.auth.session();
   const idUser = useSelector((state: any) => state.idByMail)
 
-
-
   useEffect(() => {
-    getIdByMail(session?.user.email, dispatch)
-    AOS.init();
+    if (supabase.auth.user()) {
+      AOS.init();
+      dispatch(getWishlist())
+    }
   }, [dispatch])
-
 
   return (
     <div data-aos="fade-left" data-aos-duration="700" data-aos-once="true" className="category_cardContainer">
@@ -54,7 +57,7 @@ const Category = (props: any): JSX.Element => {
 
       <div className="category_cardWishlist">
         < Tooltip title="Add to WishList" >
-          <Button className="categoryCardButtonsAc" size="large" onClick={handleClick} type="primary" ><StarOutlined className="starIcon" /></Button>
+          <Button className="buttonContainerCategory1" size="large" onClick={handleClick} type="primary" style={{ visibility: session && visibleButton() ? 'visible' : 'hidden' }}  ><StarOutlined /></Button>
         </Tooltip >
         <Link to={`/accomodations/${categ.id}`}>
           <Button className="categoryCardButtonsAc category_cardButton2" size="large" type='primary'>

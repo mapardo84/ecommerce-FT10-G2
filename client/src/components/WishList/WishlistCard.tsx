@@ -32,7 +32,7 @@ export default function WishlistCard(data: any) {
 
 
   return (
-    <div onClick={() => history.push("/booking")} >
+    <div >
       <div data-aos="fade-left" data-aos-duration="1000" data-aos-once="true" className="wishlistCardContainer" >
         <img className="wishlistCardImage" src={data.data.categories.images[0]} alt="IMG NOT FOUND" />
         <div className="cardwishName">{(data.data.categories.name).toUpperCase()}</div>

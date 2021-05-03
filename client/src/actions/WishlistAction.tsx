@@ -12,18 +12,20 @@ const errorMsg = (err: string, time: number=3) => {
 };
 
 
-export const getWishlist = (id:any) => {
+export const getWishlist = () => {
   return async (dispatch: Dispatch<any>) => {
-    // supabase
-    //                     .from('bookings')
-    //                     .select('*, payments(totalPrice, payment_method), room_id(name, category_id(name, price), type_id(name, beds))')
-    //                     .eq("id", booking.booking_id)
-    //             )
-    
+      const{data:user} = await supabase
+      .from("users")
+      .select("id")
+      .eq("email",supabase.auth.user()?.email)
+      .limit(1)
+      .single()
+
+      
           const{data:wishlist,error} = await supabase
                   .from('wishlist')
                   .select("*, categories(name,images) ")
-                  .eq('user_id',id)
+                  .eq('user_id',user.id)
           if (!error) {
               
               dispatch(saveWishlist(wishlist))
@@ -39,11 +41,18 @@ const saveWishlist = (payload:any) =>({
 
 export const addWishlist = ( category_id?: number, userId?: number, ) => {
   return async(dispatch: Dispatch<any>)=>{
+    const{data:user} = await supabase
+    .from("users")
+    .select("id")
+    .eq("email",supabase.auth.user()?.email)
+    .limit(1)
+    .single()
+
       try{
           const {data,error} = await supabase.from('wishlist').insert([
               {
                   category_id: category_id,
-                  user_id: userId,
+                  user_id: user.id,
               }
           ]);console.log(data)
           if (!error) {
@@ -65,14 +74,13 @@ const handleWishlist= (data:any)=>({
 
 export const deleteWishlist = (id:any) =>{
   return async(dispatch:Dispatch <any>)=>{
-    console.log(id)
-    const { data, error } = await supabase
+    const { error } = await supabase
   .from('wishlist')
   .delete()
   .eq('id', id)
 
   if(!error){
-    dispatch(handleDeleteWishlist(data))}
+    dispatch(handleDeleteWishlist(id))}
   }
 }
  
