@@ -2,6 +2,7 @@ import { Dispatch } from 'react'
 import { supabase } from '../../SupaBase/conection'
 import { message } from 'antd';
 import moment from 'moment';
+import { loadingAdmin } from './adminUi';
 
 export const ROOM_SELECTED = 'ROOM_SELECTED'
 export const ROOM_NEXT_BOOKING = 'ROOM_NEXT_BOOKING'
@@ -27,6 +28,7 @@ export const nextBookingRoom = (roomId: number) => {
     //const today = new Date()
     const today = moment().format('YYYY-MM-DD')
     return async (dispatch: Dispatch<any>) => {
+        dispatch(loadingAdmin(true))
         try {
             const { error, data } = await supabase
                 .from('bookings')
@@ -45,11 +47,13 @@ export const nextBookingRoom = (roomId: number) => {
         } catch (err) {
             errorMsg("Internal server error. Try again")
         }
+        dispatch(loadingAdmin(false))
     }
 }
 
 export const getRoomBooking = (bookingId: number) => {
     return async (dispatch: Dispatch<any>) => {
+        dispatch(loadingAdmin(true))
         try {
             const { error, data } = await supabase
                 .from('bookings')
@@ -63,11 +67,13 @@ export const getRoomBooking = (bookingId: number) => {
         } catch (err) {
             errorMsg("Internal server error. Try again")
         }
+        dispatch(loadingAdmin(false))
     }
 }
 
 export const getPaimentsOfBooking = (bookingId: number) => {
     return async (dispatch: Dispatch<any>) => {
+        dispatch(loadingAdmin(true))
         try {
             const { error, data } = await supabase
                 .from('payments')
@@ -79,6 +85,7 @@ export const getPaimentsOfBooking = (bookingId: number) => {
         } catch (err) {
             errorMsg("Internal server error. Try again")
         }
+        dispatch(loadingAdmin(false))
     }
 }
 
