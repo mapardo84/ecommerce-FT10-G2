@@ -42,7 +42,7 @@ export const getUserBookings = () => {
           resta = Math.round(resta / (1000 * 60 * 60 * 24));
           const mixtos = bookings?.payments.reduce((acc: { totalPrice: number }, elem: { totalPrice: number }) => {
             return { totalPrice: acc.totalPrice + elem.totalPrice }
-          }, 0)
+          })
           const bookingDetails = {
             bookingStatus: bookings?.status,
             bookingId: bookings?.id,

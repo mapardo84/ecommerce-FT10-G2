@@ -16,7 +16,6 @@ export const FooterLayout = () => {
   const dispatch = useDispatch()
   const userProfile = useSelector((state:RootReducer) => state.userProfile)
   const {data}:any=userProfile
-  const{role}=data
     useEffect(() => {
       dispatch(getUserProfile())      
     }, [dispatch])
@@ -34,7 +33,7 @@ export const FooterLayout = () => {
 
         <div className='containletterfooter'>
           <Button className="info" type="text">Contact us</Button>
-          {role==="admin"?<NavLink to='/admin'>
+          {data?.role==="admin"?<NavLink to='/admin'>
             <Button className="info" type="text">Admin panel</Button>
           </NavLink>:null}
 

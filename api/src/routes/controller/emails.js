@@ -155,6 +155,10 @@ const cancel_email = async (req, res) => {
                                                     style="display:inline-block; vertical-align:middle; margin:29px 0 26px; border-bottom:1px solid #cecece; width:100px;"></span>
                                                
                     <h2> Positive Balance:  ${positive_balance}</h2>                 
+                                            
+                            <h2>Your booking was succesfully cancelled </h2>
+                            <h3>We regret this fact, and we hope that you will soon be able to visit our hotel.</h3>             
+
                                                 
                                             </td>
                                         </tr>
@@ -189,24 +193,24 @@ const cancel_email = async (req, res) => {
 const newsletter_email = async (req, res) => {
     const { email_title, email_content, email_image } = req.body[0]
     const emails = req.body[1]
-   
 
 
-    for(let i =0; i<emails.length;i++){
 
-    var transporter = nodemailer.createTransport({
-        host: 'smtp.gmail.com',
-        port: 465,
-        auth: {
-            user: 'software.hotelhenry@gmail.com',
-            pass: 'zjyhnxrvdjrnsyrx'
-        }
-    })   
-    var mailOptions = {
-        from: "'HenryHotel' <software.hotelhenry@gmail.com>",
-        to: `${emails[i].email}`,
-        subject: 'Henry Hotel Newsletter',
-        html: `
+    for (let i = 0; i < emails.length; i++) {
+
+        var transporter = nodemailer.createTransport({
+            host: 'smtp.gmail.com',
+            port: 465,
+            auth: {
+                user: 'software.hotelhenry@gmail.com',
+                pass: 'zjyhnxrvdjrnsyrx'
+            }
+        })
+        var mailOptions = {
+            from: "'HenryHotel' <software.hotelhenry@gmail.com>",
+            to: `${emails[i].email}`,
+            subject: 'Henry Hotel Newsletter',
+            html: `
         <table cellspacing="0" border="0" cellpadding="0" width="100%" bgcolor="#f2f3f8"
     style="@import url(https://fonts.googleapis.com/css?family=Rubik:300,400,500,700|Open+Sans:300,400,600,700); font-family: 'Open Sans', sans-serif;">
     <tr>
@@ -263,31 +267,31 @@ const newsletter_email = async (req, res) => {
     </tr>
 </table>
         `
-    };
+        };
 
-    const info = await transporter.sendMail(mailOptions);
-}
-   
+        const info = await transporter.sendMail(mailOptions);
+    }
+
     res.send('hola')
 }
 
 
-const cancelSuscription = async (req, res) => { 
-      
-    try{
-    const {data,error} = await supabase
-    .from('newsletterSubs')
-    .update({active:'cancelled'})
-    .eq('email',req.query.mail)
-    
-    res.send('Subscription cancelled')
-}catch{
-    res.send('Error')
+const cancelSuscription = async (req, res) => {
+
+    try {
+        const { data, error } = await supabase
+            .from('newsletterSubs')
+            .update({ active: 'cancelled' })
+            .eq('email', req.query.mail)
+
+        res.send('Subscription cancelled')
+    } catch {
+        res.send('Error')
+    }
 }
-}
 
 
 
 
 
-module.exports = { confirmation_email, cancel_email, newsletter_email,cancelSuscription }
+module.exports = { confirmation_email, cancel_email, newsletter_email, cancelSuscription }

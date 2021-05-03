@@ -8,7 +8,7 @@ import { bookingType, GuestsForm } from './guestsForm/GuestsForm';
 import { getCategoriesForUser, setBookData, setLoading, stepChange } from '../../actions/Booking/bookingAction';
 import { supabase } from '../../SupaBase/conection';
 import { Pre_booking } from '../Pre_booking/Pre_booking';
-import { delete_pre_booking, get_pre, pre_booking_empty, setGuests } from '../../actions/Booking/pre_booking_action'
+import { create_pre_booking, delete_pre_booking, get_pre, pre_booking_empty, setGuests } from '../../actions/Booking/pre_booking_action'
 import Modal from 'antd/lib/modal/Modal';
 import { Link } from 'react-router-dom';
 import { RootReducer } from '../../reducers/rootReducer';
@@ -46,6 +46,18 @@ export const StepsBooking: FunctionComponent = () => {
   //   setContinueBooking(false)
   //   };
   // }, [])
+  useEffect(() => {
+    if(pre_booking.length<1){
+      console.log("entre")
+      if(localStorage.getItem("Check&Guests")&&localStorage.getItem("Accomodation")){
+        console.log("hay ambos")
+        dispatch(create_pre_booking(localStorage.getItem("Check&Guests"),localStorage.getItem("Accomodation")))
+      }if(localStorage.getItem("Check&Guests")&&!localStorage.getItem("Accomodation")){
+        console.log("hay uno")
+        dispatch(create_pre_booking(localStorage.getItem("Check&Guests")))
+      }
+    }
+  }, [pre_booking])
 
 
 

@@ -260,6 +260,7 @@ export function PaxForm() {
                     visible={visible}
                     width={450}
                     destroyOnClose={true}
+                    footer={null}
                     onCancel={() => {
                         setvisible(false)
                     }}
