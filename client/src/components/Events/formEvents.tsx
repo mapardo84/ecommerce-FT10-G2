@@ -90,7 +90,8 @@ Please complete the fields in the following form. It will be a pleasure for us t
 
       </Form.Item>
       <Form.Item name='eventName' label="Name of the Event" rules={[{ required: false }]}>
-        <Input />
+        <Input /> 
+        
       </Form.Item>
       <Form.Item name= 'requestSalon' label="Request Salon Capacity" rules={[{ type: 'number', min: 0, max: 200 }]}>
         <InputNumber />
