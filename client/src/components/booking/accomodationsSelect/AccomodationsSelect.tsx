@@ -86,7 +86,6 @@ export const AccomodationsSelect = (): JSX.Element => {
 
   const handleSelectType = (value:string) => {
     const resul = categoriesFind?.types?.find((x: TypesCategoriesInterface) => x.name === value);
-    console.log(promo)
     setUserSelection({ ...userSelection, type: resul });
   }
 

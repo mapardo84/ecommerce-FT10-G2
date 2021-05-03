@@ -267,6 +267,38 @@ const pre_booking_action = (payload: any) => {    //Trae toda la pre-booking en 
     }
 }
 
+export const create_pre_booking = (check?:string|null,accomodation?:string|null)=>{
+    return async () => {
+        const {data:pre_booking_exist}=await supabase
+        .from("pre_booking")
+        .select("*")
+        .eq("user_email",supabase.auth.user()?.email)
+        console.log(pre_booking_exist)
+        if(pre_booking_exist){
+            if(pre_booking_exist.length===0){
+                console.log("entre")
+                if(check && accomodation){
+                    return await supabase
+                    .from("pre_booking")
+                    .insert([{
+                        'user_email':supabase.auth.user()?.email,
+                        'guests_nights':check,
+                        'acomodation_step':accomodation
+                    }])
+                }if(!accomodation){
+                    console.log("tambien entre")
+                    return await supabase
+                    .from("pre_booking")
+                    .insert([{
+                        'user_email':supabase.auth.user()?.email,
+                        'guests_nights':check,
+                    }])                    
+                }
+            }
+        }
+    }
+}
+
 export const delete_pre_booking = (user_email: string | undefined) => {
     return async () => {
         const { data: delete_pb }: any = await supabase
