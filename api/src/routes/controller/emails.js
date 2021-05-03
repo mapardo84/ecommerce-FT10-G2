@@ -1,5 +1,5 @@
 var nodemailer = require('nodemailer');
-
+var supabase = require('../../SupaBase/conection')
 
 const confirmation_email = async (req, res) => {
     const {
@@ -187,7 +187,6 @@ const cancel_email = async (req, res) => {
 }
 
 const newsletter_email = async (req, res) => {
-
     const { email_title, email_content, email_image } = req.body[0]
     const emails = req.body[1]
    
@@ -237,7 +236,6 @@ const newsletter_email = async (req, res) => {
                                     <h1 style="color:#1e1e2d; font-weight:500; margin:0;font-size:32px;font-family:'Rubik',sans-serif;">${email_title}</h1>
                                     <span
                                         style="display:inline-block; vertical-align:middle; margin:29px 0 26px; border-bottom:1px solid #cecece; width:100px;"></span>
-                                   
         <h2> ${email_content}</h2>
                                  <img src='${email_image}' alt=''>
                                 </td>
@@ -253,7 +251,9 @@ const newsletter_email = async (req, res) => {
                 <tr>
                     <td style="text-align:center;">
                         <p style="font-size:14px; color:rgba(69, 80, 86, 0.7411764705882353); line-height:18px; margin:0 0 0;">&copy; <strong>HENRY HOTEL</strong></p>
+                        <a href="http://localhost:4000/emails/cancelSuscription?mail=${emails[i].email}">Cancel Subscription</a>  
                     </td>
+                                      
                 </tr>
                 <tr>
                     <td style="height:80px;">&nbsp;</td>
@@ -272,5 +272,22 @@ const newsletter_email = async (req, res) => {
 }
 
 
+const cancelSuscription = async (req, res) => { 
+      
+    try{
+    const {data,error} = await supabase
+    .from('newsletterSubs')
+    .update({active:'cancelled'})
+    .eq('email',req.query.mail)
+    
+    res.send('Subscription cancelled')
+}catch{
+    res.send('Error')
+}
+}
 
-module.exports = { confirmation_email, cancel_email, newsletter_email }
+
+
+
+
+module.exports = { confirmation_email, cancel_email, newsletter_email,cancelSuscription }
