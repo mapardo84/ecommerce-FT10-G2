@@ -10,7 +10,7 @@ import { IRequests } from './HallsRequests';
 export interface IBookedEvents {
     id:number;
     name:string;
-    lastName:string;
+    last_name:string;
     company:string,
     email:string;
     telephone:string;
@@ -71,7 +71,7 @@ export const HallsBookings = () => {
             title: 'Last Name',
             dataIndex: 'last_name',
             key: 'last_name',
-            sorter: (a:IRequests, b:IRequests) => a.lastName.length - b.lastName.length,
+            sorter: (a:IRequests, b:IRequests) => a.last_name.length - b.last_name.length,
         },
         {
             title: 'Company',
@@ -89,24 +89,27 @@ export const HallsBookings = () => {
             title: 'Telephone',
             dataIndex: 'telephone',
             key: 'telephone',
-            sorter: (a:IRequests, b:IRequests) => a.telephone.length - b.telephone.length,
         } ,
         {
             title: "Event's name",
             dataIndex: 'eventName',
-            key: 'eventName'
+            key: 'eventName',
+            sorter: (a:IRequests, b:IRequests) => a.eventName.length - b.eventName.length,
         },  {
             title: 'Start Date',
             dataIndex: 'startDate',
             key: 'startDate',
+            sorter: (a:IRequests, b:IRequests) => a.startDate.length - b.startDate.length,
         }, {
             title: 'Finish Date',
             dataIndex: 'finishDate',
             key: 'finishDate',
+            sorter: (a:IRequests, b:IRequests) => a.finishDate.length - b.finishDate.length,
         },{
             title: 'Payment Method',
             dataIndex: 'methodPayment',
             key: 'methodPayment',
+            sorter: (a:IRequests, b:IRequests) => a.eventName.length - b.eventName.length,
         }, {
             title: 'Booked ID',
             dataIndex: 'hall_id',
@@ -169,7 +172,7 @@ export const HallsBookings = () => {
         setFields([
             { name: ['id'], value: index.id },
             { name: ['name'], value: index.name },
-            { name: ['lastName'], value: index.lastName },
+            { name: ['last_name'], value: index.last_name },
             { name: ['company'], value: index.company },
             { name: ['email'], value: index.email },
             { name: ['telephone'], value: index.telephone },
@@ -180,6 +183,10 @@ export const HallsBookings = () => {
             { name: ['hall_id'], value: index.hall_id },
         ]);
     }
+
+    const disabledDate = ((current:any) => {
+        return current && current < moment().subtract(1, 'd');
+    });
    
     return (
         <div>
@@ -210,13 +217,13 @@ export const HallsBookings = () => {
                         label="Start Date"
                         name="startDate"
                         rules={[{ required: true, message: 'Please input the start date!' }]}>
-                        <DatePicker placeholder='Start Date' format='YYYY-MM-DD'/>
+                        <DatePicker placeholder='Start Date' format='YYYY-MM-DD' disabledDate={disabledDate}/>
                     </Form.Item>
                     <Form.Item
                         label="Finish Date"
                         name="finishDate"
                         rules={[{ required: true, message: 'Please input the finish date!' }]}>
-                        <DatePicker placeholder='Finish Date' format='YYYY-MM-DD'/>
+                        <DatePicker placeholder='Finish Date' format='YYYY-MM-DD' disabledDate={disabledDate}/>
                     </Form.Item>
                     <Form.Item
                         label="Method Payment"
@@ -247,7 +254,7 @@ export const HallsBookings = () => {
                     </Form.Item>
                     <Form.Item
                         label="Last Name"
-                        name="lastName"
+                        name="last_name"
                         rules={[{ required: true, message: 'Please input the last name!' }]}>
                         <Input placeholder="lastName"></Input>
                     </Form.Item>

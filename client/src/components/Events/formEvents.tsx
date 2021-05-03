@@ -8,7 +8,7 @@ import { useDispatch, useSelector } from 'react-redux';
 export interface IRequests {
     id:number;
     name:string;
-    lastName:string;
+    last_name:string;
     company:string;
     email:string;
     telephone:string;
@@ -69,7 +69,7 @@ Please complete the fields in the following form. It will be a pleasure for us t
       <Form.Item name='name'label="Name" rules={[{ required: true }]}>
         <Input />
       </Form.Item>
-      <Form.Item name='lastName' label="Last Name" rules={[{ required: true }]}>
+      <Form.Item name='last_name' label="Last Name" rules={[{ required: true }]}>
         <Input />
       </Form.Item>
       <Form.Item name='company' label="Company" rules={[{ required: true }]}>

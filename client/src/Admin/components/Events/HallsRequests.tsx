@@ -8,7 +8,7 @@ import moment from 'moment';
 export interface IRequests {
     id:number;
     name:string;
-    lastName:string;
+    last_name:string;
     company:string;
     email:string;
     telephone:string;
@@ -29,7 +29,7 @@ interface IFields {
 
 const campos: IFields[] = [
     { name: ['name'], value: '' },
-    { name: ['lastName'], value: '' },
+    { name: ['last_name'], value: '' },
     { name: ['company'], value: '' },
     { name: ['email'], value: '' },
     { name: ['telephone'], value: '' },
@@ -60,7 +60,7 @@ export const HallsRequests = () => {
         setEditId(index)
         setFields([
             { name: ['name'], value: index.name },
-            { name: ['lastName'], value: index.lastName },
+            { name: ['last_name'], value: index.last_name },
             { name: ['company'], value: index.company },
             { name: ['email'], value: index.email },
             { name: ['telephone'], value: index.telephone },
@@ -113,7 +113,7 @@ export const HallsRequests = () => {
             title: 'Last Name',
             dataIndex: 'last_name',
             key: 'lastName',
-            sorter: (a:IRequests, b:IRequests) => a.lastName.length - b.lastName.length,
+            sorter: (a:IRequests, b:IRequests) => a.last_name.length - b.last_name.length,
         },
         {
             title: 'Company',
@@ -222,7 +222,7 @@ export const HallsRequests = () => {
                     </Form.Item>
                     <Form.Item
                         label="Last Name"
-                        name="lastName"
+                        name="last_name"
                         rules={[{ required: true, message: 'Please input the last name!' }]}>
                         <Input placeholder="lastName"></Input>
                     </Form.Item>
