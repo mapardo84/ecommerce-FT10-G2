@@ -8,7 +8,7 @@ import moment from 'moment';
 export interface IRequests {
     id:number;
     name:string;
-    lastName:string;
+    last_name:string;
     company:string;
     email:string;
     telephone:string;
@@ -29,7 +29,7 @@ interface IFields {
 
 const campos: IFields[] = [
     { name: ['name'], value: '' },
-    { name: ['lastName'], value: '' },
+    { name: ['last_name'], value: '' },
     { name: ['company'], value: '' },
     { name: ['email'], value: '' },
     { name: ['telephone'], value: '' },
@@ -60,7 +60,7 @@ export const HallsRequests = () => {
         setEditId(index)
         setFields([
             { name: ['name'], value: index.name },
-            { name: ['lastName'], value: index.lastName },
+            { name: ['last_name'], value: index.last_name },
             { name: ['company'], value: index.company },
             { name: ['email'], value: index.email },
             { name: ['telephone'], value: index.telephone },
@@ -98,6 +98,10 @@ export const HallsRequests = () => {
         dispatch(deleteRequest(index.id));
     };
 
+    const disabledDate = ((current:any) => {
+        return current && current < moment().subtract(1, 'd');
+    });
+
     const columns:any = [
         {
             title: 'Name',
@@ -107,9 +111,9 @@ export const HallsRequests = () => {
         },
         {
             title: 'Last Name',
-            dataIndex: 'lastName',
+            dataIndex: 'last_name',
             key: 'lastName',
-            sorter: (a:IRequests, b:IRequests) => a.lastName.length - b.lastName.length,
+            sorter: (a:IRequests, b:IRequests) => a.last_name.length - b.last_name.length,
         },
         {
             title: 'Company',
@@ -206,7 +210,7 @@ export const HallsRequests = () => {
                 dataSource={requests}
                 columns={columns}
                 pagination={{ position: ['bottomCenter'] }}
-                rowKey="name"
+                rowKey="eventName"
             />
             <Modal title="Add Request" visible={isModalVisible} onCancel={closeModal} footer={null} >
                 <Form onFinish={onFinish} fields={fields}>
@@ -218,14 +222,14 @@ export const HallsRequests = () => {
                     </Form.Item>
                     <Form.Item
                         label="Last Name"
-                        name="lastName"
+                        name="last_name"
                         rules={[{ required: true, message: 'Please input the last name!' }]}>
                         <Input placeholder="lastName"></Input>
                     </Form.Item>
                     <Form.Item
                         label="Company"
                         name="company"
-                        rules={[{ required: true, message: 'Please input a company'}]}>
+                        rules={[{ required: false, message: 'Please input a company'}]}>
                         <Input placeholder="company"></Input>
                     </Form.Item>
                     <Form.Item
@@ -237,49 +241,49 @@ export const HallsRequests = () => {
                     <Form.Item
                         label="E-mail"
                         name="email"
-                        rules={[{ required: true, message: 'Please input an email' }]}>
+                        rules={[{ required: true, message: 'Please input an email', type: 'email'}]}>
                         <Input placeholder="email"></Input>
                     </Form.Item>
                     <Form.Item
                         label="Start Date"
                         name="startDate"
                         rules={[{ required: true, message: 'Please input the start date' }]}>
-                        <DatePicker placeholder='Start Date' format='YYYY-MM-DD'/>
+                        <DatePicker placeholder='Start Date' format='YYYY-MM-DD' disabledDate={disabledDate}/>
                     </Form.Item>
                     <Form.Item
                         label="Finish Date"
                         name="finishDate"
                         rules={[{ required: true, message: 'Please input the finish date' }]}>
-                        <DatePicker placeholder='Finish Date' format='YYYY-MM-DD'/>
+                        <DatePicker placeholder='Finish Date' format='YYYY-MM-DD' disabledDate={disabledDate}/>
                     </Form.Item>
                     <Form.Item
                         label="Event's name"
                         name="eventName"
-                        rules={[{ required: true, message: "Please input the event's name" }]}>
+                        rules={[{ required: false, message: "Please input the event's name" }]}>
                         <Input placeholder="eventName"></Input>
                     </Form.Item>
                     <Form.Item
                         label="Request Salon"
                         name="requestSalon"
                         rules={[{ required: true, message: 'Please input number of people' }]}>
-                        <InputNumber placeholder="requestSalon"></InputNumber>
+                        <InputNumber placeholder="requestSalon" min='1' max='200'></InputNumber>
                     </Form.Item>
                     <Form.Item
                         label="Request Catering"
                         name="requestCatering"
-                        rules={[{ required: true, message: 'Please input catering requisition' }]}>
+                        rules={[{ required: false, message: 'Please input catering requisition' }]}>
                         <Input placeholder="requestCatering"></Input>
                     </Form.Item>
                     <Form.Item
                         label="Additional Services"
                         name="additionalServices"
-                        rules={[{ required: true, message: 'Please input additional services' }]}>
+                        rules={[{ required: false, message: 'Please input additional services' }]}>
                         <Input placeholder="additionalServices"></Input>
                     </Form.Item>
                     <Form.Item
                         label="Comments"
                         name="comments"
-                        rules={[{ required: true, message: 'Please input comments' }]}>
+                        rules={[{ required: false, message: 'Please input comments' }]}>
                         <Input placeholder="comments"></Input>
                     </Form.Item>
                     <Form.Item

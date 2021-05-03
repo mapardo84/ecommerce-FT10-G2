@@ -182,17 +182,29 @@ const deleteHallAction = (data:number) => ({
 export const updateEvent = (dataChange:IBookedEvents) => {
     return async (dispatch:Dispatch) => {
         try {
-
             const { error, data } = await supabase
                 .from('bookingsEvents')
                 .update({
                     name: dataChange.name,
+                    last_name: dataChange.last_name,
+                    company: dataChange.company,
+                    email: dataChange.email,
+                    telephone: dataChange.telephone,
+                    eventName: dataChange.eventName,
                     startDate: dataChange.startDate,
                     finishDate: dataChange.finishDate,
                     methodPayment: dataChange.methodPayment,
                     hall_id: dataChange.hall_id
                 })
                 .eq('id', dataChange.id);
+
+            const { data:updated } = await supabase
+                .from('bookings_halls')
+                .update({
+                    hall_id: dataChange.hall_id
+                })
+                .eq('booking_id', dataChange.id)
+
             if (error) {
                 errorMsg(JSON.stringify(error));
             } else {
@@ -218,22 +230,27 @@ export const addEvent = (newData:IBookedEvents) => {
                 .from('bookingsEvents')
                 .insert([{
                     name: newData.name,
+                    last_name: newData.last_name,
+                    company: newData.company,
+                    email: newData.email,
+                    telephone: newData.telephone,
+                    eventName: newData.eventName,
                     startDate: newData.startDate,
                     finishDate: newData.finishDate,
                     methodPayment: newData.methodPayment,
                     hall_id: newData.hall_id
                 },]);
-            // const { data:bookedHall } = await supabase
-            //     .from('booking_halls')
-            //     .insert([{
-            //         booking_id:,
-            //         hall_id: newData.hall_id
-            //     }])
+                let aux = bookings?.pop();
+                const { data:bookedHall } = await supabase
+                    .from('bookings_halls')
+                    .insert([{ 
+                        booking_id: aux.id,
+                        hall_id: newData.hall_id
+                    }])
             if (error) {
                 errorMsg(JSON.stringify(error));
             } else {
                 success('Event added');
-                // console.log(bookedHall);
                 dispatch(addEventAction(bookings?.pop()));
             }
         } catch (err) {
@@ -251,10 +268,16 @@ const addEventAction = (data:IBookedEvents) => ({
 export const deleteEvent = (id:number|undefined) => {
     return async (dispatch:Dispatch) => {
         try {
-            const { error } = await supabase
+            const { data: erased } = await supabase
+                .from('bookings_halls')
+                .delete()
+                .eq('booking_id', id);
+
+            const { data: deleted, error } = await supabase
                 .from('bookingsEvents')
                 .delete()
                 .eq('id', id);
+
             if (error) {
                 errorMsg(JSON.stringify(error));
             } else {
@@ -280,8 +303,9 @@ export const updateRequest = (dataChange: IRequests) => {
                 .from('eventRequests')
                 .update({
                     name: dataChange.name,
-                    last_name: dataChange.lastName,
+                    last_name: dataChange.last_name,
                     company: dataChange.company,
+                    email: dataChange.email,
                     telephone: dataChange.telephone,
                     startDate: dataChange.startDate,
                     finishDate: dataChange.finishDate,
@@ -314,12 +338,12 @@ const updateRequestAction = (data:IRequests) => ({
 export const addRequest = (newData:IRequests) => {
     return async (dispatch:Dispatch) => {
         try {
-            console.log(newData.email);
+            console.log(newData);
             const { data, error } = await supabase
                 .from('eventRequests')
                 .insert([{
                     name: newData.name,
-                    last_name: newData.lastName,
+                    last_name: newData.last_name,
                     company: newData.company,
                     telephone: newData.telephone,
                     startDate: newData.startDate,
