@@ -18,11 +18,10 @@ const confirmation_email = async (req, res) => {
         <div>HOLA A TODOS BROTHER<div>
         <span> asdsadsas <span>
     `;
-    console.log(contentHTML)
-
+    console.log(contentHTML);
 
     var transporter = nodemailer.createTransport({
-        host: 'smtp.gmail.com',
+        host: "smtp.gmail.com",
         port: 465,
         auth: {
             user: 'software.hotelhenry@gmail.com',
@@ -154,8 +153,9 @@ const cancel_email = async (req, res) => {
                                                 <h1 style="color:#1e1e2d; font-weight:500; margin:0;font-size:32px;font-family:'Rubik',sans-serif;"> Booking cancelled </h1>
                                                 <span
                                                     style="display:inline-block; vertical-align:middle; margin:29px 0 26px; border-bottom:1px solid #cecece; width:100px;"></span>
-                                               
-                    <h2> Positive Balance:  ${positive_balance}</h2>                 
+                                            
+                            <h2>Your booking was succesfully cancelled </h2>
+                            <h3>We regret this fact, and we hope that you will soon be able to visit our hotel.</h3>             
 
                                                 
                                             </td>
@@ -179,7 +179,7 @@ const cancel_email = async (req, res) => {
                         </table>
                     </td>
                 </tr>
-            </table> `
+            </table> `,
     };
 
     const info = await transporter.sendMail(mailOptions);

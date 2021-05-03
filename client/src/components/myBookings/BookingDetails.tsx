@@ -13,8 +13,8 @@ const BookingDetails = (userData: IUserData) => {
     category,
     type,
     totalPrice,
-    paxes,
     paymentMethod,
+    paxes,
   } = userData.userData;  
 
   return (
