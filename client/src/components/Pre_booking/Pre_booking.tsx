@@ -55,9 +55,9 @@ export const Pre_booking = (type:any) => {
 
     if (acomodation) {
         if (guests?.early_check ^ guests?.late_check) {
-            total_price = Math.floor((acomodation?.total_price * guests?.nights) + (acomodation?.total_price / 2))
+            total_price = Math.floor((acomodation?.total_price * guests?.nights) + (acomodation?.original_price / 2))
         } else if (guests?.early_check && guests?.late_check) {
-            total_price = Math.floor((acomodation?.total_price * guests?.nights) + acomodation?.total_price)
+            total_price = Math.floor((acomodation?.total_price * guests?.nights) + acomodation?.original_price)
         } else {
             total_price = Math.floor(acomodation?.total_price * guests?.nights)
         }
@@ -94,12 +94,12 @@ export const Pre_booking = (type:any) => {
 
                                     <span>
                                         {guests?.early_check ?
-                                            <span><strong> Early check-in : </strong><span> ${acomodation?.total_price ? acomodation.total_price / 2 : null}</span></span> : null}
+                                            <span><strong> Early check-in : </strong><span> ${acomodation?.original_price ? acomodation.original_price / 2 : null}</span></span> : null}
                                     </span>
 
                                     <span>
                                         {guests?.late_check ?
-                                            <span><strong>Late check-out : </strong><span> ${acomodation?.total_price ? acomodation.total_price / 2 : null}</span> </span> : null}
+                                            <span><strong>Late check-out : </strong><span> ${acomodation?.original_price ? acomodation.original_price / 2 : null}</span> </span> : null}
                                     </span>
 
                                     <span><strong>Unit Price : </strong>{acomodation ? <span>{Math.floor(acomodation.total_price)}</span> : <span>Seleccionando...</span>}</span>
@@ -144,12 +144,12 @@ export const Pre_booking = (type:any) => {
 
                     <span>
                         {guests?.early_check ?
-                            <span><strong> Early check-in: </strong><span> ${acomodation?.total_price ? acomodation.total_price / 2 : null}</span></span> : null}
+                            <span><strong> Early check-in: </strong><span> ${acomodation?.original_price ? acomodation.original_price / 2 : null}</span></span> : null}
                     </span>
 
                     <span>
                         {guests?.late_check ?
-                            <span><strong>Late check-out: </strong><span> ${acomodation?.total_price ? acomodation.total_price / 2 : null}</span> </span> : null}
+                            <span><strong>Late check-out: </strong><span> ${acomodation?.original_price ? acomodation.original_price / 2 : null}</span> </span> : null}
                     </span>
                 </div>
 

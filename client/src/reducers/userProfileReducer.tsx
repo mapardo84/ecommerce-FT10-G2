@@ -1,4 +1,4 @@
-import { GET_USER_PROFILE } from "../actions/userProfile/userProfileActions";
+import { GET_USER_PROFILE ,UPDATE_USER_DATA} from "../actions/userProfile/userProfileActions";
 
 
 interface actionProps {
@@ -7,13 +7,15 @@ interface actionProps {
 }
 
 export interface UserProfileInterface {
-    data: {},
-    loading: boolean
+    data: any,
+    loading: boolean,
+    update:any
 }
 
 const InitialState: UserProfileInterface = {
     data: {},
-    loading: false
+    loading: false,
+    update:[]
 }
 
 export function userProfileReducer(state: UserProfileInterface = InitialState, action: actionProps) {
@@ -22,6 +24,12 @@ export function userProfileReducer(state: UserProfileInterface = InitialState, a
             return {
                 ...state,
                 data: action.payload
+            }
+        case UPDATE_USER_DATA:
+            console.log(action.payload)
+            return {
+                ...state,
+                update:action.payload
             }
         default:
             return state
