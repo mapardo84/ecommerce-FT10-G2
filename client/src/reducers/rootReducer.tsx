@@ -18,8 +18,8 @@ import { SearchBookingInterface, searchBookingReducer } from "./searchBarReducer
 import { bookingsAdminReducer,BookingsAdminInterface } from "./bookingsAdminReducer";
 import {discountsAdminReducer,DiscountsAdminInterface} from "./discountsAdminReducer"
 import { promotionsReducer } from './promotionsReducer';
+import { adminEventsReducer } from '../reducers/adminEventsReducer';
 import { newsletterReducer } from './newsletterReducer';
-
 import { PreBookingInterface, pre_booking_reducer } from "./preBookingReducer";
 import { promotionType } from "../actions/Promotions/promotionsAction";
 import {newsletterSubsReducer} from './newsletterSubsReducer';
@@ -69,6 +69,7 @@ export const rootReducer = combineReducers({
   adminDiscounts:discountsAdminReducer,
   promotions: promotionsReducer,
   pre_booking:pre_booking_reducer,
+  adminEvents: adminEventsReducer,
   newsletters: newsletterReducer,
   newsletterSubsReducer,
   

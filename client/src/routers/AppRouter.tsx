@@ -27,8 +27,12 @@ import { BookingsLayout } from "../Admin/components/BookingsLayout";
 import {DiscountsLayout} from "../Admin/components/DiscountsLayout"
 import { SuccessLayout } from "../components/layout/SuccesLayout";
 import { Pre_booking } from "../components/Pre_booking/Pre_booking";
+import { EventsLayout } from "../Admin/components/EventsLayout";
+import { HallsRequestsLayout } from "../Admin/components/Events/HallsRequestsLayout";
+import { HallsBookingsLayout } from "../Admin/components/Events/HallsBookingLayout";
+import { HallsLayout } from "../Admin/components/Events/HallsLayout";
 import { EventLayout } from "../components/layout/EventsLayout";
-import { EventsAdminLayout } from "../Admin/components/EventsAdminLayout";
+// import { EventsAdminLayout } from "../Admin/components/EventsAdminLayout";
 import { NewsLetterLayout } from '../Admin/components/NewsLetterLayout';
 import Chatbot from "../components/chatbot/Chatbot";
 
@@ -63,7 +67,12 @@ export const AppRouter = () => {
           <Route exact path="/admin/paxes" component={PaxesLayout} />
           <Route exact path="/admin/bookings" component={BookingsLayout} />
           <Route exact path="/admin/discounts" component={DiscountsLayout}/>
-          <Route exact path="/admin/events" component={EventsAdminLayout}/>
+          <Route exact path="/admin/events" component={EventsLayout}/>
+          <Route exact path="/admin/events/requests" component={HallsRequestsLayout} />
+          <Route exact path="/admin/events/bookings" component={HallsBookingsLayout} />
+          <Route exact path="/admin/events/halls" component={HallsLayout} />
+
+          {/* <Route exact path="/admin/events" component={EventsAdminLayout}/> */}
           <Route exact path="/admin/newsletter" component={NewsLetterLayout}/>
           {/* Parte administrativa */}
 
