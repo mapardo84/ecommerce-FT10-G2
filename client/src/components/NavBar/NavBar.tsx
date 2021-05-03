@@ -8,7 +8,7 @@ import { supabase } from '../../SupaBase/conection'
 import { logOut } from "../../helpers/logOut";
 import { useDispatch, useSelector } from "react-redux";
 import { setModalState } from "../../actions/loginActions";
-import { NavLink, useHistory} from "react-router-dom";
+import { NavLink, useHistory } from "react-router-dom";
 import hotel from "./logoHotel.png"
 import Notifications from "../Notifications/Notifications"
 import { SiHotelsDotCom } from "react-icons/si";
@@ -19,7 +19,7 @@ import { RiLogoutBoxFill, RiLoginBoxFill } from "react-icons/ri";
 import { IconContext } from "react-icons/lib";
 
 
-import {pre_booking_empty} from "../../actions/Booking/pre_booking_action";
+import { pre_booking_empty } from "../../actions/Booking/pre_booking_action";
 
 // const { Header } = Layout;
 
@@ -73,7 +73,7 @@ export const NavBar = () => {
   const changeBackground = () => {
     if (window.scrollY >= 20) {
       setNavBar(true)
-    } else  {
+    } else {
       setNavBar(false);
     }
   }
@@ -115,17 +115,17 @@ export const NavBar = () => {
               <Col span={12}>
                 <div className="navRight">
                   <NavLink to="/home">
-                    <Button className={navBar ? 'navButtonActive' : "navButton" }size="large" type="text">
+                    <Button className={navBar ? 'navButtonActive' : "navButton"} size="large" type="text">
                       Home
                     </Button>
                   </NavLink>
                   <NavLink to="/accomodations">
-                    <Button className={navBar ? 'navButtonActive' : "navButton" } size="large" type="text">
+                    <Button className={navBar ? 'navButtonActive' : "navButton"} size="large" type="text">
                       Accomodations
                     </Button>
                   </NavLink>
                   <NavLink to="/events">
-                    <Button className={navBar ? 'navButtonActive' : "navButton" } size="large" type="text">
+                    <Button className={navBar ? 'navButtonActive' : "navButton"} size="large" type="text">
                       Events
                     </Button>
                   </NavLink>
@@ -137,7 +137,7 @@ export const NavBar = () => {
                           overlay={menu}
                           // trigger={['click']}
                           placement="bottomCenter">
-                          <Button className={navBar ? 'navButtonActive' : "navButton" }  type="text">
+                          <Button className={navBar ? 'navButtonActive' : "navButton"} type="text">
                             <UserOutlined />Account <DownOutlined />
                           </Button>
                         </Dropdown>
@@ -145,13 +145,14 @@ export const NavBar = () => {
                         :
                         <Button
                           onClick={() => setVisible(true)}
-                          className={navBar ? 'navButtonActive' : "navButton" }
+                          className={navBar ? 'navButtonActive' : "navButton"}
                           type="text">
                           Log In
                         </Button>
                     }
                   </div>
-                  <div><Notifications /></div>
+                  <div>
+                    <Notifications /></div>
                   <NavLink to="/booking">
                     <Button
                       size="large"
@@ -175,7 +176,7 @@ export const NavBar = () => {
 
             <div className={"navButtonMenu"}>
               <Button type="text" onClick={handleNavResponsive} >
-                <MenuOutlined style={navBar ? {fontSize:"24px", color:"black"}: {fontSize:"24px", color:"white"}} />
+                <MenuOutlined style={navBar ? { fontSize: "24px", color: "black" } : { fontSize: "24px", color: "white" }} />
               </Button>
             </div>
           </div>

@@ -15,7 +15,7 @@ import { HomeExperiences } from "../home/homeExperiences/HomeExperiences";
 import HomeDiscounts from "../home/homeDiscounts/HomeDiscounts";
 import Chatbot from "../chatbot/Chatbot";
 import { HomeNewsletter } from "../home/homeNewsletter/HomeNewsletter";
-import {HomeFeatures} from '../home/HomeFeatures/HomeFeatures'
+import { HomeFeatures } from '../home/HomeFeatures/HomeFeatures'
 import { getUserProfile } from "../../actions/userProfile/userProfileActions";
 import { RootReducer } from "../../reducers/rootReducer";
 import Modal from "antd/lib/modal/Modal";
@@ -28,7 +28,7 @@ export const HomeLayout = (): JSX.Element => {
   var [name, setName] = useState("empty");
   const dispatch = useDispatch();
   const promotions = useSelector((state: any) => state.promotions)
-  const userProfile = useSelector((state:RootReducer) => state.userProfile)
+  const userProfile = useSelector((state: RootReducer) => state.userProfile)
 
 
   const [updateRegister, setUpdateRegister] = useState<boolean>(false)
@@ -43,19 +43,20 @@ export const HomeLayout = (): JSX.Element => {
 
   useEffect(() => {
     dispatch(getUserProfile())
-    if(userProfile?.data?.uuid){
-      if(userProfile?.data?.uuid?.length>24){
-      setUpdateRegister(true)
-      }else{
-      setUpdateRegister(false)
+    if (userProfile?.data?.uuid) {
+      if (userProfile?.data?.uuid?.length > 24) {
+        setUpdateRegister(true)
+      } else {
+        setUpdateRegister(false)
+      }
     }
-    }}, [userProfile])
+  }, [userProfile])
 
-    useEffect(() => {
-      dispatch(getUserProfile())
-    }, [supabase.auth.user()?.email])
+  useEffect(() => {
+    dispatch(getUserProfile())
+  }, [supabase.auth.user()?.email])
 
-  
+
   const showName = async () => {
     const user: any = supabase.auth.user()
     if (user?.aud === "authenticated") {
@@ -88,8 +89,9 @@ export const HomeLayout = (): JSX.Element => {
         <FooterLayout />
       </Layout>
       <Modal
-      visible={updateRegister}>
-        <UpdateRegister/>
+        footer={null}
+        visible={updateRegister}>
+        <UpdateRegister />
       </Modal>
     </>
   );

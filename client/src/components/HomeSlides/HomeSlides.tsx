@@ -25,10 +25,10 @@ export const HomeSlides = () => {
                     We have the best destination e have the best destination
                   </div>
                 <div className="sliceButton">
-                    <NavLink to="/booking"><Button type="primary" size="large">Book Now</Button></NavLink>
+                    <NavLink to="/booking"><Button className="slidesButtonBN" size="large">Book Now</Button></NavLink>
                 </div>
                 <div className="sliceButtonResponsive">
-                    <NavLink to="/booking"><Button type="primary">Book Now</Button></NavLink>
+                    <NavLink to="/booking"><Button className="slidesButtonBN">Book Now</Button></NavLink>
                 </div>
             </div>
 

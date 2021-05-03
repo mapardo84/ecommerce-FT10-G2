@@ -1,5 +1,5 @@
 import { useDispatch, useSelector } from "react-redux";
-import { Select, Button, Radio, Skeleton, Card, RadioChangeEvent} from "antd";
+import { Select, Button, Radio, Skeleton, Card, RadioChangeEvent } from "antd";
 import { AccomodationsCards } from "./AccomodationsCards";
 import { setBookData, stepChange } from '../../../actions/Booking/bookingAction';
 import { bookingType } from '../guestsForm/GuestsForm';
@@ -36,9 +36,9 @@ export interface categoryType {
 export const AccomodationsSelect = (): JSX.Element => {
   const dispatch = useDispatch();
   const promo = useSelector((state: RootReducer) => state.promotions)
-  const [userSelection, setUserSelection] = useState<{category:string;type:TypesCategoriesInterface|undefined}>({
+  const [userSelection, setUserSelection] = useState<{ category: string; type: TypesCategoriesInterface | undefined }>({
     category: '',
-    type: { id:0,name:"",capacity:0,beds: 1 }
+    type: { id: 0, name: "", capacity: 0, beds: 1 }
   });
   const booking: bookingType = useSelector((state: RootReducer) => state.bookings.booking);
   const categoriesFind = useSelector((state: RootReducer) => state.bookings.categoriesToShow);
@@ -55,7 +55,7 @@ export const AccomodationsSelect = (): JSX.Element => {
     e.preventDefault();
     booking.category = userSelection;
     booking.original_price = booking.category.category.price * booking.category.type.beds
-    const foundPromo: promotionType|undefined = promo.find((p: promotionType) => p.categoryToApply === booking.category.category.id);
+    const foundPromo: promotionType | undefined = promo.find((p: promotionType) => p.categoryToApply === booking.category.category.id);
     foundPromo ? booking.fee = Math.floor((booking.category.category.price * booking.category.type.beds * (1 - foundPromo.value / 100))) :
       booking.fee = Math.floor(booking.category.category.price * booking.category.type.beds);
     booking.category = [userSelection];
@@ -84,15 +84,9 @@ export const AccomodationsSelect = (): JSX.Element => {
     dispatch(stepChange(2));
   }
 
-  const handleSelectType = (value:string) => {
+  const handleSelectType = (value: any, categ: any) => {
     const resul = categoriesFind?.types?.find((x: TypesCategoriesInterface) => x.name === value);
-    setUserSelection({ ...userSelection, type: resul });
-  }
-
-  const handleRadioGroup = (e: RadioChangeEvent) => {
-    const { checked, value } = e.target;
-    checked ? setUserSelection({ ...userSelection, category: value }) :
-      setUserSelection({ ...userSelection, category: '' });
+    setUserSelection({ ...userSelection, type: resul, category: categ });
   }
 
   if (loadingStatus) {
@@ -136,7 +130,7 @@ export const AccomodationsSelect = (): JSX.Element => {
                 <div className="selectButtonBooking">
                   <Select key='selectType'
                     placeholder="Select Type"
-                    onChange={handleSelectType}
+                    onChange={(e) => handleSelectType(e, categ)}
                   // className="accomodationsSelect_si"
                   >
                     {categoriesFind.types?.map((t: TypesCategoriesInterface, i: number) => {
@@ -146,14 +140,10 @@ export const AccomodationsSelect = (): JSX.Element => {
                         return (
                           <Option key={i} value={t.name}>{t.name}</Option>
                         )
-                       }
+                      }
                     })
                     }
                   </Select>
-
-                  <Radio.Group buttonStyle="solid" onChange={handleRadioGroup} value={userSelection.category}>
-                    <Radio.Button value={categ}>Select</Radio.Button>
-                  </Radio.Group>
                 </div>
 
                 <div className="booking_Buttons">
@@ -164,7 +154,7 @@ export const AccomodationsSelect = (): JSX.Element => {
           ))
             :
             <div className="accommodationNoResults">
-            Sorry, we don't have rooms available, try again. :v
+              Sorry, we don't have rooms available, try again. :v
           </div>
           }
         </div>

@@ -45,7 +45,7 @@ export default function Notifications() {
 }
     return (
         <div>
-            <Button onClick={notify}><BellOutlined /></Button>
+            <Button className="buttonNotificationNav" type="text" onClick={notify}><BellOutlined className="iconNotifi" /></Button>
         </div>
     )
 }
