@@ -314,7 +314,7 @@ const updateRequestAction = (data:IRequests) => ({
 export const addRequest = (newData:IRequests) => {
     return async (dispatch:Dispatch) => {
         try {
-            console.log(newData);
+            console.log(newData.email);
             const { data, error } = await supabase
                 .from('eventRequests')
                 .insert([{
@@ -324,6 +324,7 @@ export const addRequest = (newData:IRequests) => {
                     telephone: newData.telephone,
                     startDate: newData.startDate,
                     finishDate: newData.finishDate,
+                    email: newData.email,
                     eventName: newData.eventName,
                     requestSalon: newData.requestSalon,
                     requestCatering: newData.requestCatering,

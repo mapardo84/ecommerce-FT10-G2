@@ -4,6 +4,8 @@ import { FooterLayout } from "../footer/Footer";
 import { FunctionComponent } from "react";
 import { FormEvents } from "../Events/formEvents";
 
+
+
 const { Content } = Layout;
 
 export const FormEventsLayout: FunctionComponent = () => {

@@ -1,8 +1,28 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import "./events.less";
 import { Form, Input, InputNumber, Button, DatePicker, Select } from 'antd';
+import { addRequest, getAllRequests } from '../../Admin/actions/adminEventsActions';
+import moment from 'moment';
+import { useDispatch, useSelector } from 'react-redux';
 
+export interface IRequests {
+    id:number;
+    name:string;
+    lastName:string;
+    company:string;
+    email:string;
+    telephone:string;
+    startDate:string;
+    finishDate:string;
+    eventName:string;
+    requestSalon:number;
+    requestCatering:string;
+    additionalServices:string;
+    comments:string;
+    type:string;
+};
 
+  
 const layout = {
     labelCol: { span: 8 },
     wrapperCol: { span: 20 },
@@ -23,9 +43,19 @@ const layout = {
 
 
 export const FormEvents = () => {
-    const onFinish = (values: any) => {
-        console.log(values);
+   
+
+      
+
+     
+      
+      const dispatch = useDispatch();
+
+      const onFinish = (values: IRequests) => {
+        dispatch(addRequest(values))
       };
+
+    
     
     return (
         <div className="descriptionBackground">
@@ -35,53 +65,46 @@ export const FormEvents = () => {
             <p className="description">
 Please complete the fields in the following form. It will be a pleasure for us to contact you within the next 24  hours to discuss our proposal. Our contact telephone number is +5411 4123.4567</p>
 
-<Form {...layout} name="nest-messages" className="formEvents" onFinish={onFinish} validateMessages={validateMessages}>
-      <Form.Item name={['user', 'name']} label="Name" rules={[{ required: true }]}>
+<Form {...layout}  name="nest-messages" className="formEvents" onFinish={onFinish} validateMessages={validateMessages}>
+      <Form.Item name='name'label="Name" rules={[{ required: true }]}>
         <Input />
       </Form.Item>
-      <Form.Item name={['user', 'last_name']} label="Last Name" rules={[{ required: true }]}>
+      <Form.Item name='lastName' label="Last Name" rules={[{ required: true }]}>
         <Input />
       </Form.Item>
-      <Form.Item name={['user', 'company']} label="Company" rules={[{ required: true }]}>
+      <Form.Item name='company' label="Company" rules={[{ required: true }]}>
         <Input />
       </Form.Item>
-      <Form.Item name={['user', 'email']} label="Email" rules={[{ type: 'email',required:true }]}>
-        <Input />
-      </Form.Item>
-      <Form.Item name={['user', 'telephone']} label="Telephone" rules={[{ required: true }]}>
+      <Form.Item name='telephone' label="Telephone" rules={[{ required: true }]}>
       <Input />
       </Form.Item>
-      <Form.Item name={['user', 'startDate']} label="Start Date" rules={[{ required: true }]}>
-      <DatePicker />
-
-      </Form.Item>
-      <Form.Item name={['user', 'finishDate']} label="Finish Date" rules={[{ required: true }]}>
-      <DatePicker />
-
-      </Form.Item>
-      <Form.Item name={['user', 'nameEvent']} label="Name of the Event" rules={[{ required: false }]}>
+      <Form.Item name='email' label="Email" rules={[{ type: 'email',required:true }]}>
         <Input />
       </Form.Item>
-      <Form.Item name={['user', 'requestSalon']}label="Select" rules={[{ required: true }]}>
-          <Select>
-            <Select.Option value="greatroom">Great Room</Select.Option>
-            <Select.Option value="studio1">Studio 1</Select.Option>
-            <Select.Option value="studio2">Studio 2</Select.Option>
-            <Select.Option value="foyer3a">Foyer 3A</Select.Option>
-            <Select.Option value="foyer3b">Foyer 3B</Select.Option>
-            <Select.Option value="lounge">Lounge</Select.Option>
-          </Select>
-        </Form.Item>
-        <Form.Item name={['user', 'requestCatering']} label="Requests for Catering">
+      <Form.Item name='startDate' label="Start Date" rules={[{ required: true }]}>
+      <DatePicker />
+
+      </Form.Item>
+      <Form.Item name= 'finishDate' label="Finish Date" rules={[{ required: true }]}>
+      <DatePicker />
+
+      </Form.Item>
+      <Form.Item name='eventName' label="Name of the Event" rules={[{ required: false }]}>
+        <Input />
+      </Form.Item>
+      <Form.Item name= 'requestSalon' label="Request Salon Capacity" rules={[{ type: 'number', min: 0, max: 200 }]}>
+        <InputNumber />
+      </Form.Item>
+        <Form.Item name= 'requestCatering' label="Requests for Catering">
         <Input.TextArea />
       </Form.Item>
-      <Form.Item name={['user', 'additionalServices']} label="Additional Services">
+      <Form.Item name='additionalServices' label="Additional Services">
         <Input.TextArea />
       </Form.Item>
-      <Form.Item name={['user', 'comments']} label="Comments">
+      <Form.Item name= 'comments' label="Comments">
         <Input.TextArea />
       </Form.Item>
-      <Form.Item name={['user', 'type']}label="Type of Events" rules={[{ required: true }]}>
+      <Form.Item name= 'type'label="Type of Events" rules={[{ required: true }]}>
           <Select>
             <Select.Option value="greatroom">Social</Select.Option>
             <Select.Option value="studio1">Business</Select.Option>
