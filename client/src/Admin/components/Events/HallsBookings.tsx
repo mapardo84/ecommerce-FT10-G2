@@ -44,6 +44,11 @@ export const HallsBookings = () => {
     const [ isModalVisible, setIsModalVisible ] = useState<boolean>(false);
     const [ editId, setEditId ] = useState<IBookedEvents|null>();
     const [ fields, setFields ] = useState<IFields[]>(campos);
+    const [ bookedDate, setBookedDate ] = useState({
+        start: '',
+        end: ''
+    });
+    const [ freeHalls, setFreeHalls ] = useState([]);
     const [ form ] = Form.useForm();
     const bookings =  useSelector((state:any) => state.adminEvents.bookings);
     const halls = useSelector((state:any) => state?.adminEvents.halls);
@@ -54,6 +59,23 @@ export const HallsBookings = () => {
         dispatch(getAllHalls());
         dispatch(getAllRequests());
     }, [dispatch, bookings]);
+
+    useEffect(() => {
+        const crashedBookings = bookings.filter((b:IBookedEvents) => {
+            return (
+                (bookedDate.start >= b.startDate && bookedDate.start <= b.finishDate) ||
+                (bookedDate.start <= b.startDate && bookedDate.end >= b.finishDate) ||
+                (bookedDate.end >= b.startDate && bookedDate.end <= b.finishDate)
+            )        
+        });
+        const busyHalls = crashedBookings.map((b:IBookedEvents) => {
+            return b.hall_id;
+        });
+        console.log(busyHalls);
+        setFreeHalls(halls.filter((h:IHalls) => {
+            return !busyHalls.includes(h.id)
+        }));
+    }, [bookedDate])
 
     const columns: any = [
         {
@@ -187,7 +209,7 @@ export const HallsBookings = () => {
     const disabledDate = ((current:any) => {
         return current && current < moment().subtract(1, 'd');
     });
-   
+
     return (
         <div>
             <div className="types_upbar">
@@ -217,13 +239,15 @@ export const HallsBookings = () => {
                         label="Start Date"
                         name="startDate"
                         rules={[{ required: true, message: 'Please input the start date!' }]}>
-                        <DatePicker placeholder='Start Date' format='YYYY-MM-DD' disabledDate={disabledDate}/>
+                        <DatePicker placeholder='Start Date' format='YYYY-MM-DD' disabledDate={disabledDate} 
+                        onChange={(_value, mode) => setBookedDate({...bookedDate, start: mode})}/>
                     </Form.Item>
                     <Form.Item
                         label="Finish Date"
                         name="finishDate"
                         rules={[{ required: true, message: 'Please input the finish date!' }]}>
-                        <DatePicker placeholder='Finish Date' format='YYYY-MM-DD' disabledDate={disabledDate}/>
+                        <DatePicker placeholder='Finish Date' format='YYYY-MM-DD' disabledDate={disabledDate}
+                         onChange={(_value, mode) => setBookedDate({...bookedDate, end: mode})}/>
                     </Form.Item>
                     <Form.Item
                         label="Method Payment"
@@ -240,7 +264,7 @@ export const HallsBookings = () => {
                         rules={[{ required: true, message: 'Please input a hall!' }]}>
                         <Select style={{ width: "200px" }} >
                             {
-                                halls.map((hall:IHalls) => {
+                                freeHalls.map((hall:IHalls) => {
                                     return (<Select.Option key={hall.id} value={hall.id}>{hall.name}</Select.Option>)
                                 })
                             }
