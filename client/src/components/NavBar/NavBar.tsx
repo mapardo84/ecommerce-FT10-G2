@@ -10,7 +10,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { setModalState } from "../../actions/loginActions";
 import { NavLink, useHistory, Link } from "react-router-dom";
 import hotel from "./logoHotel.png"
-
+import Notifications from "../Notifications/Notifications"
 import { SiHotelsDotCom } from "react-icons/si";
 import { MdHotel } from "react-icons/md";
 import { AiFillHome, AiFillStar, AiFillCalendar } from "react-icons/ai";
@@ -134,6 +134,7 @@ export const NavBar = () => {
                          </Button>
                     }
                   </div>
+                  <div><Notifications /></div>
                   <NavLink to="/booking">
                     <Button
                       size="large"
