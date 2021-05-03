@@ -35,6 +35,7 @@ import { EventLayout } from "../components/layout/EventsLayout";
 // import { EventsAdminLayout } from "../Admin/components/EventsAdminLayout";
 import { NewsLetterLayout } from '../Admin/components/NewsLetterLayout';
 import Chatbot from "../components/chatbot/Chatbot";
+import { FormEventsLayout } from "../components/layout/formEventsLayout";
 
 //ACA VAN TODAS LAS RUTAS
 
@@ -49,6 +50,7 @@ export const AppRouter = () => {
           <Route exact path="/logIn" component={LogIn} />
           <Route exact path="/booking" component={BookingLayout} />
           <Route exact path="/events" component={EventLayout} />
+          <Route exact path="/events/quote" component={FormEventsLayout} />
           <Route exact path="/faq" component={FaqLayout} />
           <Route exact path="/myProfile" component={MyProfileLayout} />
           <Route exact path="/myBookings" component={MyBookingsLayout} />
