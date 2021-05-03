@@ -1,13 +1,11 @@
 import { useDispatch, useSelector } from 'react-redux';
-import { Modal, Button, Layout, Tooltip } from 'antd';
+import { Modal, Button, Tooltip } from 'antd';
 import { Link } from 'react-router-dom';
 import './Category.less';
 import { StarOutlined } from "@ant-design/icons";
 import { addWishlist, getWishlist } from '../../actions/WishlistAction';
 import { useEffect, useState } from 'react';
-import { getUserIdByMail } from '../../actions/getUserIdByMail/index';
 import { supabase } from "../../SupaBase/conection";
-const { Sider, Content } = Layout
 
 
 
@@ -18,6 +16,7 @@ const Category = (props:any): JSX.Element => {
   const [isModalVisible, setIsModalVisible] = useState(false);
 
   const handleOk = () => {
+    dispatch(addWishlist(categ.id, idUser?.userId[0]?.id))
     setIsModalVisible(false);
   };
 
@@ -25,49 +24,35 @@ const Category = (props:any): JSX.Element => {
     setIsModalVisible(false);
   };
 
-
-  const getIdByMail = async (valor: any, dispatch: any) => {
-    const x = await getUserIdByMail(valor);
-    dispatch(x)
-  }
   
-  let ids:any = []
 const wishlist = useSelector((state:any )=> state.wishlist.userWishlist)
 
   const handleClick = (e: any) => {
     e.preventDefault();
-    dispatch(addWishlist(categ.id, idUser?.userId[0]?.id))
-    ids.push(categ.id)
     setIsModalVisible(true);
   }
 
   const visibleButton = () =>{
-    console.log(ids)
-    ids.includes(wishlist.category_id)
+    return !wishlist.some((cat:any) =>
+      cat.category_id === categ.id
+    )
   }
 
   
   const session = supabase.auth.session();
   const idUser = useSelector((state: any) => state.idByMail)
 
-   useEffect(() => {
-     if(idUser !== ""){
-        dispatch(getWishlist(idUser?.userId[0]?.id))
-     }
- }, [dispatch])
-
-  
-
-
-   useEffect(() => {
-     getIdByMail(session?.user.email, dispatch)
-   }, [dispatch])
+  useEffect(() => {
+    if(supabase.auth.user()){
+       dispatch(getWishlist())
+    }
+}, [dispatch])
 
   return (
 
     <div className="newGlobalCategory">
 
-      <div className={num % 2 == 1 ? "newCategory_Container": "newCategory_Container2"}>
+      <div className={num % 2 === 1 ? "newCategory_Container": "newCategory_Container2"}>
 
         <img className="newImageCategory" src={categ.images[0]} alt="IMG NOT FOUND" />
 
@@ -85,7 +70,7 @@ const wishlist = useSelector((state:any )=> state.wishlist.userWishlist)
 
           <div className="containerCategory2">
             <Tooltip title="Add to WishList">
-                  <Button className="buttonContainerCategory1" size="large" onClick={handleClick} type="primary" style={{ visibility: session? 'visible': 'hidden'}}  ><StarOutlined /></Button>
+                  <Button className="buttonContainerCategory1" size="large" onClick={handleClick} type="primary" style={{ visibility: session && visibleButton()? 'visible': 'hidden'}}  ><StarOutlined /></Button>
             </Tooltip>
 
             <Link to={`/accomodations/${categ.id}`}>

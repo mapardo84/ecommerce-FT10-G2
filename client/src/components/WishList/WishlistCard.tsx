@@ -35,8 +35,8 @@ export default function WishlistCard(data:any) {
         
       </Modal>
                     <div className="card-wishlist">
-                            <img className="imagesWishlist" src={data.data.categories.images[0]} alt="IMG NOT FOUND"/>
-                        <div className="card-head">{data.data.categories.name}</div>
+                            <img className="imagesWishlist" src={data?.data?.categories?.images[0]} alt="IMG NOT FOUND"/>
+                        <div className="card-head">{data?.data?.categories?.name}</div>
                     </div>
             </div>
         </div>

@@ -4,7 +4,6 @@ import {Button} from 'antd'
 import { BellOutlined } from "@ant-design/icons";
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect } from "react";
-import { getUserIdByMail } from "../../actions/getUserIdByMail";
 import { supabase } from "../../SupaBase/conection";
 import {getWishlist} from "../../actions/WishlistAction"
 
@@ -15,26 +14,13 @@ export default function Notifications() {
     const wishlist = useSelector((state:any )=> state.wishlist.userWishlist)
     const promotions = useSelector((state:any)=> state.promotions)
 
-  
-    const getIdByMail = async (valor:any, dispatch:any)=>{
-        const x =await getUserIdByMail(valor);
-        dispatch(x)
-      }
-    
+  useEffect(() => {
+    if(supabase.auth.user()){
+       dispatch(getWishlist())
+    }
+}, [dispatch])
 
-    const session = supabase.auth.session();
-    const idUser = useSelector((state:any) =>state?.idByMail)
 
-  useEffect(()=>{
-        getIdByMail(session?.user?.email,dispatch)
-      },[dispatch])
-
-      
-     useEffect(() => {
-       if(idUser !== ""){
-          dispatch(getWishlist(idUser?.userId[0]?.id))
-       }
-   }, [dispatch])
 
   
 
@@ -56,10 +42,6 @@ export default function Notifications() {
              
      
         }
-        
-        
-        
-       
 }
     return (
         <div>

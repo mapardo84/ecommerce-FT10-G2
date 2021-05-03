@@ -10,23 +10,9 @@ export default function Wishlist() {
   const dispatch = useDispatch()
   const wishlist = useSelector((state:any )=> state.wishlist.userWishlist)
 
-    const getIdByMail = async (valor:any, dispatch:any)=>{
-        const x =await getUserIdByMail(valor);
-        dispatch(x)
-      }
-    
-
-    const session = supabase.auth.session();
-    const idUser = useSelector((state:any) =>state?.idByMail)
-
-  useEffect(()=>{
-        getIdByMail(session?.user?.email,dispatch)
-      },[dispatch])
-
-  
     useEffect(() => {
-      if(idUser !== ""){
-         dispatch(getWishlist(idUser?.userId[0]?.id))
+      if(supabase.auth.user()){
+         dispatch(getWishlist())
       }
   }, [dispatch])
   
