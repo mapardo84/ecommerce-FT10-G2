@@ -1,6 +1,7 @@
 import { Dispatch } from 'react'
 import { supabase } from '../../SupaBase/conection'
 import { message } from 'antd';
+import { loadingAdmin } from './adminUi';
 
 export const GET_ALL_ROOMS: string = "GET_ALL_ROOMS"
 export const FILTER_ROOM: string = "FILTER_ROOM"
@@ -22,8 +23,8 @@ const success = (mensaje: string) => {
 };
 
 export const getAllRooms = () => {
-    
     return async (dispatch: Dispatch<any>) => {
+        dispatch(loadingAdmin(true))
         try {
             const { data, error } = await supabase.from('rooms').select('*,categories(name)')
             if (!error) {
@@ -35,6 +36,7 @@ export const getAllRooms = () => {
             console.log(err)
             errorMsg("Internal server error. Try again")
         }
+        dispatch(loadingAdmin(false))
     }
 }
 
@@ -122,10 +124,11 @@ export const addRoom = (newData: any) => {
     }
 }
 
-export const changeRoomAvailable = (roomId: number)=>{
+export const changeRoomAvailable = (roomId: number) => {
     return async (dispatch: Dispatch<any>) => {
+        dispatch(loadingAdmin(true))
         try {
-            const { data , error } = await supabase
+            const { data, error } = await supabase
                 .from('rooms')
                 .update({
                     availability: 'available'
@@ -140,9 +143,10 @@ export const changeRoomAvailable = (roomId: number)=>{
         } catch (err) {
             errorMsg("Internal server error. Try again")
         }
+        dispatch(loadingAdmin(false))
     }
 }
-    
+
 
 
 

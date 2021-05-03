@@ -1,6 +1,7 @@
 import { Dispatch } from "react";
 import { supabase } from "../../SupaBase/conection";
 import { message } from "antd";
+import { loadingAdmin } from './adminUi';
 
 export const GET_ADMIN_CATEGORIES: string = "GET_CATEGORIES";
 export const FILTER_CATEGORY: string = "FILTER_CATEGORY";
@@ -8,7 +9,7 @@ export const UPDATE_CATEGORY: string = "UPDATE_CATEGORY";
 export const CREATE_CATEGORY: string = "CREATE_CATEGORY";
 
 
-const errorMsg = (err: string, time: number=3) => {
+const errorMsg = (err: string, time: number = 3) => {
   message.error(err, time)
 };
 const success = (mensaje: string) => {
@@ -23,6 +24,7 @@ const success = (mensaje: string) => {
 
 export const getAllCategories = () => {
   return async (dispatch: Dispatch<any>) => {
+    dispatch(loadingAdmin(true))
     try {
       const { data, error } = await supabase.from("categories").select("*");
 
@@ -37,6 +39,7 @@ export const getAllCategories = () => {
       console.log(err);
       errorMsg("Internal server error. Try again");
     }
+    dispatch(loadingAdmin(false))
   };
 };
 export const deleteCategory = (id: number) => {
@@ -47,8 +50,9 @@ export const deleteCategory = (id: number) => {
         if (JSON.stringify(error).includes('violates foreign key constraint')) {
           errorMsg("The category you want to delete has rooms assigned to it. Reassign the rooms to another category in order to delete it", 10)
           return
-      } else{
-        errorMsg(JSON.stringify(error));}
+        } else {
+          errorMsg(JSON.stringify(error));
+        }
       } else {
         success("Category deleted");
         dispatch(filterCategory(id));

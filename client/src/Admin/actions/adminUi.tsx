@@ -3,6 +3,7 @@ import { supabase } from '../../SupaBase/conection'
 
 export const SIDEBAR_VIEW = 'SIDEBAR_VIEW'
 export const CHANGE_PAGE = 'CHANGE_PAGE'
+export const LOADING_ADMING = 'LOADING_ADMING'
 
 const errorMsg = (msg: string, time: number = 3) => {
     message.error(msg, time);
@@ -40,3 +41,7 @@ export const changePage = (page: string) => ({
     payload: page,
 })
 
+export const loadingAdmin = (state: boolean) => ({
+    type: LOADING_ADMING,
+    payload: state
+})

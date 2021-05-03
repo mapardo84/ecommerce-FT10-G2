@@ -2,6 +2,7 @@ import { Dispatch } from 'react'
 import { supabase } from '../../SupaBase/conection'
 import { message } from 'antd';
 import { IPaxes } from '../components/Paxes/Paxes';
+import { loadingAdmin } from './adminUi';
 
 export const GET_ALL_PAXES: string = 'GET_ALL_PAXES'
 export const UPDATE_PAXES: string = 'UPDATE_PAXES'
@@ -108,6 +109,7 @@ export const checkUuid = async (uid: string) => {
 
 export const addPaxes = (newData: any) => {
     return async (dispatch: Dispatch<any>) => {
+        dispatch(loadingAdmin(true))
         try {
             const { data, error } = await supabase
                 .from('paxes')
@@ -131,11 +133,13 @@ export const addPaxes = (newData: any) => {
             console.log(err)
             errorMsg('Internal server error. Try again')
         }
+        dispatch(loadingAdmin(false))
     }
 }
 
 export const getOnePax = (userId: number) => {
     return async (dispatch: Dispatch<any>) => {
+        dispatch(loadingAdmin(true))
         try {
             const { data, error } = await supabase.from('paxes').select('*').eq('id', userId).limit(1).single()
             if (!error) {
@@ -147,6 +151,7 @@ export const getOnePax = (userId: number) => {
             console.log(err)
             errorMsg('Internal server error. Try again')
         }
+        dispatch(loadingAdmin(false))
     }
 }
 

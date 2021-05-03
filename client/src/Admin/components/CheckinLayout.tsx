@@ -1,10 +1,11 @@
-import { Layout } from "antd";
+import { Layout, Spin } from "antd";
 import { MenuLeft } from "../MenuLeft";
 import { HeaderAdmin } from "../HeaderAdmin";
 import { FooterAdmin } from "../FooterAdmin";
 import { Checkin } from './Checkin/Checkin';
 import { useState } from "react";
 import { CheckinRoom } from "./Checkin/CheckinRoom";
+import { useSelector } from "react-redux";
 
 
 //////////////////////////////////////////////////////////
@@ -30,26 +31,33 @@ import { CheckinRoom } from "./Checkin/CheckinRoom";
 export const CheckinLayout = () => {
     const [step, setStep] = useState(0)
 
+    const { loading } = useSelector((state: any) => state.adminui)
+
 
     const { Content } = Layout;
 
     return (
-        <Layout style={{ minHeight: "100vh" }}>
-            <MenuLeft />
+        <>
+            { loading &&
+                <Spin tip="Loading..." size="large" ></Spin>
+            }
+            <Layout style={{ minHeight: "100vh" }}>
+                <MenuLeft />
 
-            <Layout>
-                <HeaderAdmin />
-                <Content style={{ margin: "0 16px" }}>
+                <Layout>
+                    <HeaderAdmin />
+                    <Content style={{ margin: "0 16px" }}>
 
-                    {/* aca va el componente */}
-                    {step === 0 && <Checkin steps={setStep} />}
-                    {step === 1 && <CheckinRoom steps={setStep} />}
+                        {/* aca va el componente */}
+                        {step === 0 && <Checkin steps={setStep} />}
+                        {step === 1 && <CheckinRoom steps={setStep} />}
 
 
 
-                </Content>
-                <FooterAdmin />
+                    </Content>
+                    <FooterAdmin />
+                </Layout>
             </Layout>
-        </Layout>
+        </>
     )
 }

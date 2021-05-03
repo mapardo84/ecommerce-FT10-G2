@@ -130,38 +130,12 @@ export const Checkin = ({ steps }: { steps: Function }): JSX.Element => {
             title: 'Price per night',
             dataIndex: 'category_id',
             key: 'price',
-            //filters: filterPrice(roomsList, categories, types),
-            //filterMultiple: false,
-            // onFilter: (value: any) => {
-            //     //console.log(a)
-            //     return rooms.category_id === value
-            // },
             render: (_: undefined, record: Room) => {
                 const categoryPrice = categories?.find((category: Category) => category.id === record.category_id).price
                 const roomType = types.find((type: IType) => type.id === record.type_id)?.beds
                 return (<>USD {categoryPrice * roomType}</>)
             },
-        },
-        {
-            title: 'Action',
-            dataIndex: 'operation',
-            key: 'name',
-            // render: (_: undefined, record: { id: number }) =>
-            //     roomsList.length >= 1 ? (
-            //         <>
-            //             <Tooltip title="Edit">
-            //                 <span className='adminrooms_options' onClick={() => handleEdit(record.id)}><FaPencilAlt size="18" color="orange" /> </span>
-            //             </Tooltip>
-            //             <Tooltip title="Delete">
-            //                 <span className='adminrooms_options'>
-            //                     <Popconfirm placement="left" title="Sure to delete?" onConfirm={() => handleDelete(record.id)}>
-            //                         <FaTrashAlt size="18" color="red" />
-            //                     </Popconfirm>
-            //                 </span>
-            //             </Tooltip>
-            //         </>
-            //     ) : null,
-        },
+        }
     ]
 
     useEffect(() => {
