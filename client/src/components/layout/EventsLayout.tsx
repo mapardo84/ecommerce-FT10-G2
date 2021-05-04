@@ -5,6 +5,7 @@ import { FunctionComponent } from "react";
 import { Event } from "../Events/events";
 import Chatbot from "../chatbot/Chatbot";
 import "./EventsLayout.less"
+
 const { Content } = Layout;
 
 export const EventLayout: FunctionComponent = () => {
@@ -13,6 +14,7 @@ export const EventLayout: FunctionComponent = () => {
     <>
       <Layout className="eventsLayoutBg" style={{ overflowX: "hidden" }}>
         <NavBar />
+       
         <Content >
           <Event/>
         </Content>
