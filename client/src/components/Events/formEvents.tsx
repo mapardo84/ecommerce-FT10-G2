@@ -58,7 +58,7 @@ export const FormEvents = () => {
     
     
     return (
-        <div className="descriptionBackground">
+        <div className="descriptionBackground1">
             <br></br> <br></br> 
             <h1 className="titleHotel">Quotes</h1>
             <h2 className="subtitle2">REQUEST A QUOTE FOR YOUR EVENT</h2>
