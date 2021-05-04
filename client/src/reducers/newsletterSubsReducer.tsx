@@ -1,4 +1,4 @@
-import { POST_EMAIL_NEWSLETTER } from '../actions/addNewsletterSub/index';
+import { POST_EMAIL_NEWSLETTER,GET_SUBS,UPDATE_SUB } from '../actions/addNewsletterSub/index';
 
 interface actionProps {
     type: string,
@@ -6,11 +6,13 @@ interface actionProps {
 }
 
 interface IState { 
-    newsletterSubs: any[]
+    newsletters: any[],
+    newslettersCancelled: any[]
 }
 
 const InitialState: IState = { 
-    newsletterSubs: []
+    newsletters: [],
+    newslettersCancelled:[]
 }
 
 
@@ -19,7 +21,22 @@ export function newsletterSubsReducer(state: IState = InitialState,action : acti
         case POST_EMAIL_NEWSLETTER:
             return{
                 ...state,
-                newsletters:[...state.newsletterSubs, action.payload[0]]
+                newsletters:[...state.newsletters, action.payload[0]]
+            }
+        case GET_SUBS:
+            return{
+                ...state,
+                newslettersCancelled: action.payload
+            }
+        case UPDATE_SUB:
+            return{
+                ...state,
+                newsletters: state.newsletters.map(newsletter=>{
+                    if(newsletter.email === action.payload[0].email){
+                        return action.payload[0]
+                    }
+                    return newsletter
+                })
             }
         default:
             return state
