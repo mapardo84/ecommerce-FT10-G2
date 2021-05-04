@@ -85,9 +85,9 @@ export const Event = () => {
   return (
     <div className="descriptionBackground">
 
-      <img className="imageAccomodation" src={renderphoto} alt="Img not found" />
-      <div className="eventsContainerGlobal"> 
-        <div className="titleHotel">
+      <img className="imageAccomodation" style={{height:"500px"}} src={renderphoto} alt="Img not found" />
+      <div className="eventsContainerGlobal">
+        <div className="ActitleHotel">
           EVENTS
             </div>
         <h3 className="subtitle2">
