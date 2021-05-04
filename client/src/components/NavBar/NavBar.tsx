@@ -18,8 +18,8 @@ import { FaUserCircle } from "react-icons/fa";
 import { RiLogoutBoxFill, RiLoginBoxFill } from "react-icons/ri";
 import { IconContext } from "react-icons/lib";
 
-
 import { pre_booking_empty } from "../../actions/Booking/pre_booking_action";
+import { getWishlist } from "../../actions/WishlistAction";
 
 // const { Header } = Layout;
 
@@ -98,8 +98,15 @@ export const NavBar = () => {
       setVisible(false)
       dispatch(setModalState(0))
     }
-  }, [number, dispatch])
+  }, [])
 
+  useEffect(() => {
+    if (supabase.auth.user()) {
+      dispatch(getWishlist())
+    }
+  }, [])
+
+  const wishlist = useSelector((state: any) => state.wishlist.userWishlist)
   return (
     <>
       <IconContext.Provider value={{ color: "grey", size: '24px', style: { verticalAlign: 'middle', marginRight: "20px" } }}>
@@ -151,8 +158,11 @@ export const NavBar = () => {
                         </Button>
                     }
                   </div>
+
                   <div>
-                    <Notifications /></div>
+                    <Notifications navState={navBar} />
+                  </div>
+
                   <NavLink to="/booking">
                     <Button
                       size="large"

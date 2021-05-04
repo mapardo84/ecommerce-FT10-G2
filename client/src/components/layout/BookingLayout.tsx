@@ -4,6 +4,7 @@ import { FooterLayout } from "../footer/Footer";
 import { FunctionComponent } from "react";
 import { StepsBooking } from "../booking/StepsBooking";
 import '../layout/BookingLayout.less'
+import Chatbot from "../chatbot/Chatbot";
 
 
 const { Content } = Layout;
@@ -17,6 +18,7 @@ export const BookingLayout: FunctionComponent = () => {
           <div className="stepsBackground"></div>
           <StepsBooking />
         </Content>
+        <Chatbot />
         <FooterLayout />
       </Layout>
     </>

@@ -1,5 +1,5 @@
 .newsLetterContainer{
-    height: 300px;
+    height: 360px;
     width: 100vw;
     background-color: rgb(61, 112, 121);
     display: flex;
@@ -8,23 +8,86 @@
     align-items: center;
     background-image: linear-gradient(
         to right,
-        rgba(114, 114, 114, 0),
-        rgba(145, 145, 145, 0)
+        rgba(160, 160, 160, 0.13),
+        rgba(163, 163, 163, 0.062)
       ),
-      url("./img/sea.jpg") !important;
+      url("./img/seaNL.jpg") !important;
     background-size: cover;
 }
-
 .newsLetterForm{
     display: flex;
 }
 
 .newsLetterTitle{
     font-size: 40px;
-    color: white;
-    margin-bottom: 30px;
+    color: rgb(0, 0, 0);
+    margin-bottom: 20px;
+    font-weight: 500;
+    padding-right: 10px;
+    padding-left: 10px;
+}
+
+.newsLetterDescription{
+    font-size: 20px;
+    margin-bottom: 40px;
 }
 
 .newsLetterInput{
     width: 400px;
+}
+@media screen and (max-width:850px){
+    .newsLetterTitle{
+        font-size: 30px;
+        padding-right: 10px;
+        padding-left: 10px;
+    }
+
+.newsLetterDescription{
+    font-size: 16px;
+    margin-bottom: 40px;
+}
+
+}
+
+@media screen and (max-width:570px){
+    .newsLetterTitle{
+        font-size: 25px;
+    }
+
+.newsLetterDescription{
+    text-align: center;
+    font-size: 14px;
+    margin-bottom: 40px;
+}
+.newsLetterInput{
+    width: 300px;
+}
+}
+
+@media screen and (max-width:500px){
+    .newsLetterTitle{
+        font-size: 20px;
+    text-align: center;
+    padding-right: 10px;
+    padding-left: 10px;
+    }
+
+.newsLetterDescription{
+    text-align: center;
+    padding-left:10px;
+    padding-right: 10px;
+    font-size: 12px;
+    margin-bottom: 40px;
+}
+.newsLetterInput{
+    width: 250px;
+}
+
+.newsLetterForm{
+    display: flex;
+    flex-direction: column;
+}
+
+
+
 }

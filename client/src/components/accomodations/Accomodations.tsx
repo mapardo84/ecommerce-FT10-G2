@@ -40,7 +40,6 @@ const Accomodations = (): ReactElement => {
 
       </div>
       <Categories />
-      <BackTop />
     </div>
   );
 };

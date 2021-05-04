@@ -1,24 +1,29 @@
 import { Layout } from "antd";
 import { NavBar } from "../NavBar/NavBar";
-import {FooterLayout} from '../footer/Footer'
+import { FooterLayout } from '../footer/Footer'
 import { FunctionComponent } from "react";
 import { SuccessPayment } from "../MercadoPago/SuccessPayment";
 import './SuccessLayout.less'
-
+import Chatbot from "../chatbot/Chatbot";
+import successImg from "./img/bookingSuccess.jpg";
 
 const { Content } = Layout;
 
 export const SuccessLayout: FunctionComponent = () => {
   return (
     <>
-      <Layout style={{minHeight:"100vh"}}>
+      <Layout className="succesLayoutBg" style={{ minHeight: "100vh" }}>
         <NavBar />
-        <Content style={{height:"80vh"}}>
-            <div className="success">
-                <SuccessPayment />
-            </div>
+        <div>
+          <img className="succesImgL" src={successImg} alt="Img not found" />
+        </div>
+        <Content >
+          <div className="success">
+            <SuccessPayment />
+          </div>
         </Content>
-            <FooterLayout/>
+        <Chatbot />
+        <FooterLayout />
       </Layout>
     </>
   );

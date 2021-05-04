@@ -291,7 +291,4 @@ const cancelSuscription = async (req, res) => {
 }
 
 
-
-
-
-module.exports = { confirmation_email, cancel_email, newsletter_email, cancelSuscription }
+module.exports = { confirmation_email, cancel_email, newsletter_email,cancelSuscription }

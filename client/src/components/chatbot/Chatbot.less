@@ -49,7 +49,9 @@
     position: fixed;
     bottom: 10px;
     right: 1px !important;
-	margin-right: 15px !important;
+  	margin-right: 15px !important;
+    height: auto !important;
+    z-index: 100;
   }
   .help-button {
     height: 5em !important;
@@ -110,3 +112,57 @@
     color: #212121;
   }
   
+
+  @media screen and (max-width:530px){
+   .chat-container {
+      width: 450px;
+   }
+
+   .help-list{
+    	margin-left: -380px ;
+   }
+   .help-button{
+    height: 4em !important;
+    width: 4em !important;
+  }
+  }
+
+  @media screen and (max-width:470px){
+    .chat-container {
+       width: 350px;
+    }
+ 
+    .help-list{
+       margin-left: -280px ;
+    }
+    .help-button{
+      height: 4em !important;
+      width: 4em !important;
+    }
+   }
+
+
+   @media screen and (max-width:375px){
+    .chat-container {
+       width: 300px;
+    }
+ 
+    .help-list{
+       margin-left: -230px ;
+    }
+
+    .message{
+       font-size: 11px;
+       margin-bottom: 0;
+    }
+
+    .options{
+      font-size: 8px;
+    }
+
+    .help-button{
+      height: 4em !important;
+      width: 4em !important;
+    }
+   }
+   

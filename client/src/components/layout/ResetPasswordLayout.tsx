@@ -8,6 +8,7 @@ import { errorMsgcaptcha } from "../../helpers/logIn"
 import { Form, Input, Button, message, Divider } from "antd";
 import { useHistory } from "react-router-dom";
 import "./ResetPasswordLayout.less"
+import Chatbot from "../chatbot/Chatbot";
 import password from './img/password.jpg'
 
 const { Content } = Layout;

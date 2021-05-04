@@ -13,6 +13,7 @@ export default function WishlistCard(data: any) {
 
   useEffect(() => {
     AOS.init();
+    window.scroll(0, 0)
   }, []);
 
   const [isModalVisible, setIsModalVisible] = useState(false);
@@ -34,10 +35,10 @@ export default function WishlistCard(data: any) {
   return (
     <div >
       <div data-aos="fade-left" data-aos-duration="1000" data-aos-once="true" className="wishlistCardContainer" >
-        <img className="wishlistCardImage" src={data.data.categories.images[0]} alt="IMG NOT FOUND" />
-        <div className="cardwishName">{(data.data.categories.name).toUpperCase()}</div>
+        <img className="wishlistCardImage" src={data?.data?.categories?.images[0]} alt="IMG NOT FOUND" />
+        <div className="cardwishName">{(data?.data?.categories?.name)?.toUpperCase()}</div>
         <div className="cardwishborder"></div>
-        <Button className="cardwishButton1" type="primary" onClick={handleClick} >X</Button>
+        <Button className="cardwishButton1" onClick={handleClick} >X</Button>
 
         <Modal title="DeleteWishlist" visible={isModalVisible} onOk={handleOk} onCancel={handleCancel}>
           <p>Do you want to delete this accomodation from your Wishlist?</p>

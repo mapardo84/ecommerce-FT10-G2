@@ -12,7 +12,7 @@ export const HomeSlides = () => {
         autoplay: true,
         autoplaySpeed: 4000,
         pauseOnHover: false,
-        
+
     };
 
     return (

@@ -21,6 +21,7 @@ import { promotionsReducer } from './promotionsReducer';
 import { adminEventsReducer } from '../reducers/adminEventsReducer';
 import { newsletterReducer } from './newsletterReducer';
 import { PreBookingInterface, pre_booking_reducer } from "./preBookingReducer";
+import { discountsInterface, promotionHomeReducer } from "./promotionHomeReducer";
 import { promotionType } from "../actions/Promotions/promotionsAction";
 import {newsletterSubsReducer} from './newsletterSubsReducer';
 
@@ -44,6 +45,7 @@ export interface RootReducer{
   bookingsAdminR: BookingsAdminInterface
   adminDiscounts:DiscountsAdminInterface
   promotions:promotionType[]
+  discount: discountsInterface
   pre_booking:PreBookingInterface
 }
 //ACA SE AGREGA CADA REDUCER QUE UTILICEN
@@ -68,6 +70,7 @@ export const rootReducer = combineReducers({
   bookingsAdminR: bookingsAdminReducer,
   adminDiscounts:discountsAdminReducer,
   promotions: promotionsReducer,
+  discount: promotionHomeReducer,
   pre_booking:pre_booking_reducer,
   adminEvents: adminEventsReducer,
   newsletters: newsletterReducer,

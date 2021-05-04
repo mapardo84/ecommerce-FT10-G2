@@ -5,6 +5,7 @@ import MyBookings from "../myBookings/MyBookings";
 import MyProfile from "../myProfile/MyProfile";
 import "./MyProfileLayout.less"
 import back from "./img/prof1.jpg"
+import Chatbot from "../chatbot/Chatbot";
 
 const { Content } = Layout;
 
@@ -18,6 +19,7 @@ export const MyProfileLayout = () => {
                     <div className="profilebgTitle">MY PROFILE</div>
                     <MyProfile />
                 </Content>
+                <Chatbot />
                 <FooterLayout />
             </Layout>
         </>

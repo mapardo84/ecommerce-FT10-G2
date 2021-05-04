@@ -3,6 +3,7 @@ import { NavBar } from "../NavBar/NavBar";
 import { FooterLayout } from '../footer/Footer'
 import MyBookings from "../myBookings/MyBookings";
 import "./MyBookingsLayout.less"
+import Chatbot from "../chatbot/Chatbot";
 
 const { Content } = Layout;
 
@@ -16,6 +17,7 @@ export const MyBookingsLayout = () => {
                         <MyBookings />
                     </div>
                 </Content>
+                <Chatbot />
                 <FooterLayout />
             </Layout>
         </>

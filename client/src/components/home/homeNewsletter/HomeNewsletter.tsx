@@ -1,7 +1,7 @@
-import { ReactElement } from 'react'
-import { Button, Table, Form, Modal, Input } from 'antd';
-import { AddSub } from '../../../actions/addNewsletterSub/index';
-import { useDispatch } from 'react-redux';
+import { ReactElement, useEffect } from 'react'
+import { Button, Form, Input } from 'antd';
+import { AddSub, GetSub, UpdateSub } from '../../../actions/addNewsletterSub/index';
+import { useDispatch, useSelector } from 'react-redux';
 import "./HomeNewsletter.less"
 
 interface Props {
@@ -12,16 +12,34 @@ export function HomeNewsletter({ }: Props): ReactElement {
     const [form] = Form.useForm();
     const dispatch = useDispatch();
 
+    const emailsCancelled = useSelector((state: any) => state.newsletterSubsReducer.newslettersCancelled)
+
+    let emailsCancelledMap = emailsCancelled.map((e: any) => {
+        return e.email
+    })
+
     const onFinish = (values: { Email: string }) => {
-        dispatch(AddSub(values.Email))
-        form.resetFields();
+        if (emailsCancelledMap.includes(values.Email)) {
+            dispatch(UpdateSub(values.Email))
+            form.resetFields();
+        } else {
+            dispatch(AddSub(values.Email))
+            form.resetFields();
+        }
+
     }
+
+    useEffect(() => {
+        dispatch(GetSub())
+    }, [dispatch])
 
 
 
     return (
         <div className="newsLetterContainer">
-            <div className="newsLetterTitle">SUBSCRIBE NEWSLETTER</div>
+            <div className="newsLetterTitle">SUBSCRIBE TO OUR NEWSLETTER</div>
+            <div className="newsLetterDescription">to receive our latest news and discounts, subscribe to our newsletter</div>
+            
             <Form className="newsLetterForm" form={form} autoComplete='off' onFinish={onFinish}>
                 <Form.Item
                     className="newsLetterInput"
@@ -33,7 +51,7 @@ export function HomeNewsletter({ }: Props): ReactElement {
                 >
                     <Input placeholder='Enter your email...'></Input>
                 </Form.Item>
-                <Button type='primary' htmlType='submit'>
+                <Button style={{zIndex:0}} type='primary' htmlType='submit'>
                     Subscribe
                 </Button>
             </Form>

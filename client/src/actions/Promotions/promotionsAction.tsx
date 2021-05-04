@@ -1,5 +1,6 @@
 import { supabase } from '../../SupaBase/conection';
 export const GET_PROMOTIONS = 'GET_PROMOTIONS';
+export const GET_NAMES = 'GET_NAMES';
 
 export interface promotionType {
     id: number,
@@ -32,7 +33,18 @@ export const getPromotions = () => {
                 .gte('expirationDate', today)
                 .lte('releaseDate', today);
 
+
+            const promoNames = await supabase
+                .from("discounts")
+                .select('*, categoryToApply(name)')
+                .eq('published', true)
+                .gte('expirationDate', today)
+                .lte('releaseDate', today);
+
+
             dispatch(getPromotionsAction(promotions));
+            dispatch(getNamePromosAction(promoNames.data))
+
         } catch (e) { console.error('Hubo un problema al acceder a supabase', e) };
     }
 }
@@ -40,6 +52,13 @@ export const getPromotions = () => {
 const getPromotionsAction = (payload: promotionType[] | null) => {
     return {
         type: GET_PROMOTIONS,
+        payload
+    }
+}
+
+const getNamePromosAction = (payload: any) => {
+    return {
+        type: GET_NAMES,
         payload
     }
 }
