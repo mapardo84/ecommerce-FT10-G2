@@ -95,13 +95,13 @@ export const AccomodationsSelect = (): JSX.Element => {
         <div className="containerSelectLoading">
           <div className="textLoadingBooking">We are looking for the best room for you!</div>
           <Card
-            style={{ width: "86vw", height: "500px", marginTop: 40, boxShadow: "0 8px 10px 0 rgba(0, 0, 0, 0.055)" }}>
+            style={{ width: "66vw", height: "500px", marginTop: 40, boxShadow: "0 8px 10px 0 rgba(0, 0, 0, 0.055)" }}>
             <Skeleton active />
             <Skeleton active />
             <Skeleton active />
           </Card>
           <Card
-            style={{ width: "85vw", height: "500", marginTop: 40, boxShadow: "0 8px 10px 0 rgba(0, 0, 0, 0.055)" }}>
+            style={{ width: "66vw", height: "500", marginTop: 40, boxShadow: "0 8px 10px 0 rgba(0, 0, 0, 0.055)" }}>
             <Skeleton active />
             <Skeleton active />
             <Skeleton active />
