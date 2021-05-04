@@ -60,12 +60,11 @@ export const FormEvents = () => {
     return (
         <div className="descriptionBackground1">
             <br></br> <br></br> 
-            <h1 className="titleHotel">Quotes</h1>
             <h2 className="subtitle2">REQUEST A QUOTE FOR YOUR EVENT</h2>
             <p className="description">
 Please complete the fields in the following form. It will be a pleasure for us to contact you within the next 24  hours to discuss our proposal. Our contact telephone number is +5411 4123.4567</p>
 
-<Form {...layout}  name="nest-messages" className="formEvents" onFinish={onFinish} validateMessages={validateMessages}>
+<Form {...layout}  name="nest-messages" className="formEvents1" onFinish={onFinish} validateMessages={validateMessages}>
       <Form.Item name='name'label="Name" rules={[{ required: true }]}>
         <Input />
       </Form.Item>
@@ -112,9 +111,11 @@ Please complete the fields in the following form. It will be a pleasure for us t
           </Select>
         </Form.Item>
       <Form.Item wrapperCol={{ ...layout.wrapperCol, offset: 8 }}>
+        <div className='buttonSubmitEvents'>
         <Button type="primary" htmlType="submit">
           Submit
         </Button>
+        </div>
       </Form.Item>
     </Form>
          

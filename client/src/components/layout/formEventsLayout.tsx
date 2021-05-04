@@ -3,6 +3,7 @@ import { NavBar } from "../NavBar/NavBar";
 import { FooterLayout } from "../footer/Footer";
 import { FunctionComponent } from "react";
 import { FormEvents } from "../Events/formEvents";
+import imgEventsNavbar from './img/eventsBgForm.jpg'
 
 
 
@@ -14,6 +15,10 @@ export const FormEventsLayout: FunctionComponent = () => {
     <>
       <Layout>
         <NavBar />
+                    <img className="ImgEventsNavbar" src={imgEventsNavbar} alt="Img not found" />
+                    <div className="EventsFormNavbar1">
+                        QUOTES
+                    </div>
         <Content style={{ overflowX: "hidden" }}>
           <FormEvents/>
         </Content>
