@@ -123,15 +123,15 @@ export function PaxForm() {
     useEffect(() => {
     }, [pax_data])
 
-    
-    const validator=(string?:any)=>{
-        for(var i=0;i<10;i++){
-                if(string.includes(i)){
-                    setMp(false)
-                    return true
-                    }
-                }
-            return false
+
+    const validator = (string?: any) => {
+        for (var i = 0; i < 10; i++) {
+            if (string.includes(i)) {
+                setMp(false)
+                return true
+            }
+        }
+        return false
     }
 
     const handleClickBack = (e: SyntheticEvent) => {
@@ -166,8 +166,8 @@ export function PaxForm() {
             nights: booking.nights,
             unit_price: booking.fee,
             room_id: booking.room_id,
-            early_checkin:booking.early_checkin,
-            late_checkout:booking.late_checkout,
+            early_checkin: booking.early_checkin,
+            late_checkout: booking.late_checkout,
             uuid,
             first_name,
             last_name,
@@ -180,9 +180,9 @@ export function PaxForm() {
         await localStorage.setItem("BookingInfo", JSON.stringify(bookingInfo))
         if (
             supabase.auth.user()
-            &&!validator(allvalues.first_name)
-            &&!validator(allvalues.last_name)
-            &&!isNaN(allvalues.phone)) {
+            && !validator(allvalues.first_name)
+            && !validator(allvalues.last_name)
+            && !isNaN(allvalues.phone)) {
             setMp(true)
         }
     }
@@ -200,8 +200,8 @@ export function PaxForm() {
             uuid: pax_data.uuid,
             first_name: pax_data.first_name,
             last_name: pax_data.last_name,
-            early_checkin:booking.early_checkin,
-            late_checkout:booking.late_checkout,
+            early_checkin: booking.early_checkin,
+            late_checkout: booking.late_checkout,
             paxes: booking.guests,
             phone: pax_data.phone,
             country: pax_data.country,
@@ -318,7 +318,7 @@ export function PaxForm() {
                             {
                                 validator: async (_, firstName) => {
                                     if (validator(firstName)) {
-                                    return Promise.reject(new Error("Words please"));
+                                        return Promise.reject(new Error("Words please"));
                                     }
                                 },
                             }
@@ -339,7 +339,7 @@ export function PaxForm() {
                                 validator: async (_, lastName) => {
                                     console.log(lastName)
                                     if (validator(lastName)) {
-                                    return Promise.reject(new Error("Words please"));
+                                        return Promise.reject(new Error("Words please"));
                                     }
                                 },
                             }
@@ -408,15 +408,15 @@ export function PaxForm() {
                                 required: true,
                                 message: 'Please input your phone number!',
                             },
-                            
+
                             {
                                 validator: async (_, phone) => {
                                     if (isNaN(phone)) {
                                         setMp(false)
-                                    return Promise.reject(new Error("Only numbers"));
+                                        return Promise.reject(new Error("Only numbers"));
                                     }
                                 },
-                            }   
+                            }
                         ]}
                     >
                         <Input

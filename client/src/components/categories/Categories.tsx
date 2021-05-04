@@ -62,7 +62,7 @@ const Categories = (): JSX.Element => {
 
       </div>
       <div className="categories_CardsContainer">
-        {cat.categories?.map((categ: Icategory, key: number) => (
+        {cat?.categories.map((categ: Icategory, key: number) => (
           <Category categ={categ} num={num++} key={key} />
         ))}
       </div>

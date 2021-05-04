@@ -16,11 +16,11 @@ const Accomodations = (): ReactElement => {
   return (
     <div className="accomodationsBackground">
       <div>
-        <img className="imageAccomodation" src={beach} alt="Img not found" />
+        <img className="imageAccomodation" style={{height:"500px"}} src={beach} alt="Img not found" />
         <div className="ActitleHotel">
           ACCOMMODATIONS
         </div>
-        <div className="AcSloganHotel">
+        <div className="subtitle2">
           Find the Perfect Retreat for You...
         </div>
       </div>

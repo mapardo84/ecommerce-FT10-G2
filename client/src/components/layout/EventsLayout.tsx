@@ -4,16 +4,16 @@ import { FooterLayout } from "../footer/Footer";
 import { FunctionComponent } from "react";
 import { Event } from "../Events/events";
 import Chatbot from "../chatbot/Chatbot";
-
+import "./EventsLayout.less"
 const { Content } = Layout;
 
 export const EventLayout: FunctionComponent = () => {
 
   return (
     <>
-      <Layout>
+      <Layout className="eventsLayoutBg" style={{ overflowX: "hidden" }}>
         <NavBar />
-        <Content style={{ overflowX: "hidden" }}>
+        <Content >
           <Event/>
         </Content>
         <Chatbot />

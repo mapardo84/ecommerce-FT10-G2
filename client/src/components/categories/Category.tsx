@@ -45,19 +45,19 @@ const Category = (props: any): JSX.Element => {
   const idUser = useSelector((state: any) => state.idByMail)
 
   useEffect(() => {
+    AOS.init();
     if (supabase.auth.user()) {
-      AOS.init();
       dispatch(getWishlist())
     }
   }, [dispatch])
 
   return (
-    <div data-aos="fade-left" data-aos-duration="700" data-aos-once="true" className="category_cardContainer">
+    <div data-aos="fade-left" data-aos-duration="1100" data-aos-once="true" className="category_cardContainer">
       <img className="category_cardImage" src={categ.images[0]} alt="IMG NOT FOUND" />
 
       <div className="category_cardWishlist">
         < Tooltip title="Add to WishList" >
-          <Button className="buttonContainerCategory1"  onClick={handleClick} type="text" style={{ visibility: session && visibleButton() ? 'visible' : 'hidden' }}  ><StarOutlined /></Button>
+          <Button className="buttonContainerCategory1" onClick={handleClick} type="text" style={{ visibility: session && visibleButton() ? 'visible' : 'hidden' }}  ><StarOutlined /></Button>
         </Tooltip >
         <Link to={`/accomodations/${categ.id}`}>
           <Button className="categoryCardButtonsAc category_cardButton2" size="large" type='primary'>
