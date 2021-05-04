@@ -37,7 +37,7 @@ export default function WishlistCard(data: any) {
         <img className="wishlistCardImage" src={data.data.categories.images[0]} alt="IMG NOT FOUND" />
         <div className="cardwishName">{(data.data.categories.name).toUpperCase()}</div>
         <div className="cardwishborder"></div>
-        <Button className="cardwishButton" type="primary" onClick={handleClick} >X</Button>
+        <Button className="cardwishButton1" type="primary" onClick={handleClick} >X</Button>
 
         <Modal title="DeleteWishlist" visible={isModalVisible} onOk={handleOk} onCancel={handleCancel}>
           <p>Do you want to delete this accomodation from your Wishlist?</p>

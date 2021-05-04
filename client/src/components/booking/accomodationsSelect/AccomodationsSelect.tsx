@@ -131,6 +131,7 @@ export const AccomodationsSelect = (): JSX.Element => {
                   <Select key='selectType'
                     placeholder="Select Type"
                     onChange={(e) => handleSelectType(e, categ)}
+                    size={'small'}
                   // className="accomodationsSelect_si"
                   >
                     {categoriesFind.types?.map((t: TypesCategoriesInterface, i: number) => {
@@ -147,8 +148,9 @@ export const AccomodationsSelect = (): JSX.Element => {
                 </div>
 
                 <div className="booking_Buttons">
-                  <Button onClick={handleClickNext} disabled={!(userSelection.type && userSelection.category)}>Next</Button>
+                  <Button onClick={handleClickNext} disabled={!(userSelection.type && userSelection.category)} size={'small'} >Next</Button>
                 </div>
+                
               </div>
             </div>
           ))
