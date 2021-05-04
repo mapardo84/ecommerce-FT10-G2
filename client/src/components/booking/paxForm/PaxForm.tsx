@@ -1,5 +1,4 @@
-import React, { SyntheticEvent, useEffect, useState } from 'react';
-//import 'antd/dist/antd.css';
+import { SyntheticEvent, useState } from 'react';
 import { Form, Input, Cascader, Select, DatePicker, Checkbox, Button } from 'antd';
 import { sendPax } from '../../../actions/Booking/PaxFormActions';
 import './PaxForm.less'
@@ -8,8 +7,8 @@ import { useDispatch, useSelector } from 'react-redux';
 import { MercadoPago } from '../../MercadoPago/MercagoPago';
 import { supabase } from '../../../SupaBase/conection'
 import Modal from 'antd/lib/modal/Modal';
-import { Pre_booking } from '../../Pre_booking/Pre_booking';
-import countries, { Country } from 'countries-list'
+import { PreBooking } from '../../PreBooking/PreBooking';
+import countries from 'countries-list'
 import { RootReducer } from '../../../reducers/rootReducer';
 
 const { Option } = Select;
@@ -119,11 +118,6 @@ export function PaxForm() {
     const [mp, setMp] = useState<boolean>(false)
     const [mpModal, setMpModal] = useState<boolean>(false)
 
-
-    useEffect(() => {
-    }, [pax_data])
-
-
     const validator = (string?: any) => {
         for (var i = 0; i < 10; i++) {
             if (string.includes(i)) {
@@ -147,7 +141,7 @@ export function PaxForm() {
 
 
 
-    const onChange = async (value: string, allvalues: any) => {
+    const onChange = async (_: string, allvalues: any) => {
         for (let i in allvalues) {
             if (!allvalues[i]) {
                 return setMp(false)
@@ -232,7 +226,7 @@ export function PaxForm() {
                 <div className="formBookingSearch">
                     <div>
                         <h1 className="Login">IDENTIFICATION</h1>
-                        <div className="searchPaymentText">If you have an account, please enter your identification.</div>
+                        <div className="searchPaymentText">If you have already made a reservation before, please enter your ID number </div>
                         <Form>
                             <Form.Item>
                                 <Input.Search
@@ -251,14 +245,15 @@ export function PaxForm() {
 
                 </div>
                 <div>
-                    <Pre_booking type={1} />
+                    <PreBooking type={1} />
                 </div>
             </div>
 
             <div>
                 <Modal
                     visible={visible}
-                    width={450}
+                    width={380}
+                    title={"USER INFORMATION"}
                     destroyOnClose={true}
                     footer={null}
                     onCancel={() => {
@@ -272,14 +267,16 @@ export function PaxForm() {
                                 </div>
                             :
                             pax_data && setInfo ?
-                                <ul>
+                                <div className="paxDataClass">
                                     <div>First name : {pax_data.first_name}</div>
                                     <div>Last name : {pax_data.last_name}</div>
                                     <div>Uuid : {pax_data.uuid}</div>
                                     <div>Country : {pax_data.country}</div>
-                                    <Button onClick={() => confirm_pax("modal")}>Confirm</Button>
-                                    {mpModal ? <MercadoPago /> : null}
-                                </ul>
+                                    <div className="modalButtonsPaxForm">
+                                        <Button type="primary" onClick={() => confirm_pax("modal")}>Confirm</Button>
+                                        {mpModal ? <MercadoPago /> : null}
+                                    </div>
+                                </div>
                                 :
                                 <div>No hay nada</div>
                     }
@@ -289,7 +286,7 @@ export function PaxForm() {
             </div>
             <div className='formBookingPayment'>
                 <h1 className="Login">GUEST INFORMATION</h1>
-                <div className="searchPaymentText2">If you don't have an account, please fill this form</div>
+                <div className="searchPaymentText2">if this is your first time at Henry Hotel, please fill out the form below.</div>
 
                 <Form
                     {...formItemLayout}

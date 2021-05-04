@@ -1,11 +1,8 @@
-import { Button, Layout, Image, Modal, Tooltip } from 'antd';
-import { Link } from 'react-router-dom';
+import { Button, Modal } from 'antd';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { getPromotions, promotionType } from '../../../actions/Promotions/promotionsAction';
 import '../accomodationsSelect/AccomodationsCards.less'
-
-const { Sider, Content } = Layout;
 
 export const AccomodationsCards = (props: any): JSX.Element => {
 
@@ -13,7 +10,7 @@ export const AccomodationsCards = (props: any): JSX.Element => {
 
     useEffect(() => {
         dispatch(getPromotions());
-    }, [])
+    }, [dispatch])
 
 
     const [isModalVisible, setIsModalVisible] = useState(false);
@@ -21,7 +18,7 @@ export const AccomodationsCards = (props: any): JSX.Element => {
     const showModal = () => { setIsModalVisible(true) };
     const handleOk = () => { setIsModalVisible(false) };
     const handleCancel = () => { setIsModalVisible(false) };
-    const { categ, key, beds } = props;
+    const { categ, beds } = props;
     const foundProm: promotionType = promo?.find((p: promotionType) => p.categoryToApply === categ.id);
 
     return (
@@ -66,12 +63,12 @@ export const AccomodationsCards = (props: any): JSX.Element => {
             </div >
 
 
-            <Modal title="Amenities" key={key} visible={isModalVisible} onOk={handleOk} onCancel={handleCancel} footer={null}>
+            <Modal title="Amenities" visible={isModalVisible} onOk={handleOk} onCancel={handleCancel} footer={null}>
                 {categ?.details?.map((detail: string, i: number) => {
                     return (
-                        <p key={i} className="p-features">
+                        <div key={i} className="p-features">
                             <div style={{ display: "flex" }}><div className="numDetailCategory">{i}</div><div className="featuresText">{detail}</div></div>
-                        </p>
+                        </div>
                     );
                 })}
             </Modal>

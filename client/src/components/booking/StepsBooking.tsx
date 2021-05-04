@@ -1,4 +1,4 @@
-import { FunctionComponent, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import '../booking/StepsBooking.less'
 import { Button, Steps } from 'antd';
@@ -7,19 +7,17 @@ import { AccomodationsSelect } from './accomodationsSelect/AccomodationsSelect';
 import { bookingType, GuestsForm } from './guestsForm/GuestsForm';
 import { getCategoriesForUser, setBookData, setLoading, stepChange } from '../../actions/Booking/bookingAction';
 import { supabase } from '../../SupaBase/conection';
-import { Pre_booking } from '../Pre_booking/Pre_booking';
+import { PreBooking } from '../PreBooking/PreBooking';
 import { create_pre_booking, delete_pre_booking, get_pre, pre_booking_empty, setGuests } from '../../actions/Booking/pre_booking_action'
 import Modal from 'antd/lib/modal/Modal';
 import { Link } from 'react-router-dom';
 import { RootReducer } from '../../reducers/rootReducer';
 
 const { Step } = Steps;
-export const StepsBooking: FunctionComponent = () => {
+export const StepsBooking = () => {
   const selectedStep: number = useSelector((state: RootReducer) => state.bookings.step);
-
-
   const pre_Booking_state = useSelector((state: RootReducer) => state.pre_booking);
-  const { pre_booking} = pre_Booking_state
+  const { pre_booking } = pre_Booking_state
   const [continueBooking, setContinueBooking] = useState<boolean>(false)
   const [inProgress, setInProgress] = useState({
     pending: true,
@@ -28,12 +26,6 @@ export const StepsBooking: FunctionComponent = () => {
   })
   const dispatch = useDispatch();
 
-  // interface Local_Guest {
-  //   in_out: string[],
-  //   nights: number,
-  //   paxes: number
-  // }
-
 
   useEffect(() => {
     if (supabase.auth.session()) {
@@ -41,23 +33,18 @@ export const StepsBooking: FunctionComponent = () => {
     }
   }, [dispatch])
 
-  // useEffect(() => {
-  //   return () => {
-  //   setContinueBooking(false)
-  //   };
-  // }, [])
   useEffect(() => {
-    if(pre_booking.length<1){
-      console.log("entre")
-      if(localStorage.getItem("Check&Guests")&&localStorage.getItem("Accomodation")){
-        console.log("hay ambos")
-        dispatch(create_pre_booking(localStorage.getItem("Check&Guests"),localStorage.getItem("Accomodation")))
-      }if(localStorage.getItem("Check&Guests")&&!localStorage.getItem("Accomodation")){
-        console.log("hay uno")
+    if (pre_booking.length < 1) {
+      //console.log("entre")
+      if (localStorage.getItem("Check&Guests") && localStorage.getItem("Accomodation")) {
+        //console.log("hay ambos")
+        dispatch(create_pre_booking(localStorage.getItem("Check&Guests"), localStorage.getItem("Accomodation")))
+      } if (localStorage.getItem("Check&Guests") && !localStorage.getItem("Accomodation")) {
+        //console.log("hay uno")
         dispatch(create_pre_booking(localStorage.getItem("Check&Guests")))
       }
     }
-  }, [pre_booking])
+  }, [pre_booking, dispatch])
 
 
 
@@ -109,7 +96,7 @@ export const StepsBooking: FunctionComponent = () => {
     else {
       dispatch(stepChange(0))
     }
-  }, [inProgress, pre_Booking_state,pre_booking,dispatch])
+  }, [inProgress, pre_Booking_state, pre_booking, dispatch])
 
   useEffect(() => {
     window.scroll(0, 0)
@@ -123,7 +110,7 @@ export const StepsBooking: FunctionComponent = () => {
         }
       }
     }
-  }, [inProgress,pre_booking])
+  }, [inProgress, pre_booking])
 
 
   const continuePreBooking = () => {
@@ -168,14 +155,13 @@ export const StepsBooking: FunctionComponent = () => {
       <Modal
 
         visible={continueBooking}
-        footer={[
-          <div style={{ display: "flex", justifyContent: "center" }}>
-            <Link to="/booking">
-              <Button style={{ height: "55px" }} onClick={continuePreBooking}>Continue booking</Button>
-            </Link>
-            <Button onClick={startsAgain} style={{ height: "55px" }}> Clear </Button>
-          </div>
-        ]}>
+        footer={null}>
+        <div style={{ display: "flex", justifyContent: "center" }}>
+          <Link to="/booking">
+            <Button style={{ height: "55px" }} onClick={continuePreBooking}>Continue booking</Button>
+          </Link>
+          <Button onClick={startsAgain} style={{ height: "55px" }}> Clear </Button>
+        </div>
         <div>You had already started a booking, what would you like to do?</div>
       </Modal>
 
@@ -183,7 +169,7 @@ export const StepsBooking: FunctionComponent = () => {
         <>
           <div style={{ display: "flex", flexDirection: "row", alignItems: "center", justifyContent: "space-evenly" }}>
             {window.scroll(0, 0)}
-            <Pre_booking type={0} />
+            <PreBooking type={0} />
             <GuestsForm />
           </div>
         </>
@@ -194,7 +180,7 @@ export const StepsBooking: FunctionComponent = () => {
 
           <div style={{ display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "space-evenly" }}>
             {window.scroll(0, 0)}
-            <Pre_booking type={0} />
+            <PreBooking type={0} />
             <AccomodationsSelect />
           </div>
         </>

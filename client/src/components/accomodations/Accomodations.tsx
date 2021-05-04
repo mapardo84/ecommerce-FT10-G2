@@ -1,5 +1,4 @@
 import { ReactElement } from "react";
-import { BackTop } from "antd";
 import Categories from "../categories/Categories";
 import "./accomodations.less";
 import "./../layout/homeLayout.less";
@@ -16,7 +15,7 @@ const Accomodations = (): ReactElement => {
   return (
     <div className="accomodationsBackground">
       <div>
-        <img className="imageAccomodation" style={{height:"500px"}} src={beach} alt="Img not found" />
+        <img className="imageAccomodation" style={{ height: "500px" }} src={beach} alt="Img not found" />
         <div className="ActitleHotel">
           ACCOMMODATIONS
         </div>

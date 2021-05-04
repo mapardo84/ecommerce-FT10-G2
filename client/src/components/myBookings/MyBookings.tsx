@@ -22,8 +22,6 @@ const MyBookings = () => {
 
     const userBookings = useSelector((state: any) => state.userBookings.data);
     const loading = useSelector((state: any) => state.userBookings.loading);
-    console.log(userBookings)
-    console.log(loading)
 
     let actualBookings: UserBooking[] = [];
     let pastBookings: UserBooking[] = [];
@@ -47,9 +45,14 @@ const MyBookings = () => {
 
     if (loading) {
         return (
-            <div className="userBookingEmpty">
-                Loading...
-            </div>
+            <>
+                <img className="imageBookingBg" src={back} alt="Img not found" />
+                <div className="myBookingsTitle">MY BOOKINGS</div>
+                <div className="userBookingEmpty">
+
+                    Loading...
+               </div>
+            </>
         )
     }
     if (userBookings.length !== 0) {

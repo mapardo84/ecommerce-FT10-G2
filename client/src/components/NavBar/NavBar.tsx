@@ -1,4 +1,4 @@
-import { Layout, Menu, Row, Col, Button, Modal, Divider, Dropdown, Drawer } from "antd";
+import { Menu, Col, Button, Modal, Divider, Dropdown, Drawer } from "antd";
 import { DownOutlined, UserOutlined, ImportOutlined, HeartOutlined, CalendarOutlined, PicLeftOutlined, MenuOutlined } from '@ant-design/icons';
 import LogIn from "../LogIn/LogIn";
 import { useEffect, useState } from "react";
@@ -17,11 +17,8 @@ import { AiFillHome, AiFillStar, AiFillCalendar } from "react-icons/ai";
 import { FaUserCircle } from "react-icons/fa";
 import { RiLogoutBoxFill, RiLoginBoxFill } from "react-icons/ri";
 import { IconContext } from "react-icons/lib";
-
 import { pre_booking_empty } from "../../actions/Booking/pre_booking_action";
 import { getWishlist } from "../../actions/WishlistAction";
-
-// const { Header } = Layout;
 
 export const NavBar = () => {
 
@@ -33,6 +30,8 @@ export const NavBar = () => {
     const user: any = supabase.auth.user()
     if (user?.aud === "authenticated") {
       return true
+    } else {
+      return false
     }
   }
 
@@ -57,8 +56,11 @@ export const NavBar = () => {
       <Menu.Item key="3" onClick={() => history.push("/myBookings")} icon={<CalendarOutlined />}>
         Bookings
       </Menu.Item>
-      <Divider className="dividerNav"></Divider>
-      <Menu.Item key="4" onClick={() => logOutSession()} icon={<ImportOutlined />}>
+      <Menu.Item key="4" >
+        <Divider className="dividerNav"></Divider>
+      </Menu.Item>
+
+      <Menu.Item key="5" onClick={() => logOutSession()} icon={<ImportOutlined />}>
         Log Out
       </Menu.Item>
     </Menu>
@@ -77,7 +79,14 @@ export const NavBar = () => {
       setNavBar(false);
     }
   }
-  window.addEventListener('scroll', changeBackground)
+
+  useEffect(() => {
+    window.addEventListener('scroll', changeBackground)
+    return () => {
+      window.removeEventListener('scroll', changeBackground)
+    }
+  }, [])
+
 
 
   //Resposive Nav
@@ -98,13 +107,13 @@ export const NavBar = () => {
       setVisible(false)
       dispatch(setModalState(0))
     }
-  }, [])
+  }, [dispatch, number])
 
   useEffect(() => {
     if (supabase.auth.user()) {
       dispatch(getWishlist())
     }
-  }, [])
+  }, [dispatch])
 
   return (
     <>
@@ -159,7 +168,7 @@ export const NavBar = () => {
                   </div>
 
                   <div>
-                    {/* <Notifications navState={navBar} /> */}
+                    <Notifications navState={navBar} />
                   </div>
 
                   <NavLink to="/booking">
@@ -184,7 +193,7 @@ export const NavBar = () => {
             </div>
 
             <div className={"navButtonMenu"}>
-              {/* <Notifications navState={navBar} /> */}
+              <Notifications navState={navBar} />
               <Button type="text" onClick={handleNavResponsive} >
                 <MenuOutlined style={navBar ? { fontSize: "24px", color: "black" } : { fontSize: "24px", color: "white" }} />
               </Button>
@@ -266,8 +275,6 @@ export const NavBar = () => {
                 </Button>
 
                 </div>
-
-
             }
 
           </div>

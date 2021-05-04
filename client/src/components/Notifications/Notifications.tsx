@@ -10,6 +10,18 @@ import "./Notification.less"
 
 toast.configure()
 
+const activeBell = (wishlist: any, promotions: any, setbellState: Function) => {
+  for (let i = 0; i < wishlist.length; i++) {
+    for (let j = 0; j < promotions.length; j++) {
+      if (wishlist[i].category_id === promotions[j].categoryToApply) {
+        setbellState(true)
+        return
+      }
+    }
+  }
+  setbellState(false)
+}
+
 export default function Notifications(props: any) {
 
   var { navState } = props
@@ -22,28 +34,17 @@ export default function Notifications(props: any) {
 
   const [bellState, setbellState] = useState<boolean>(false)
 
+
+
   useEffect(() => {
-    activeBell()
+    activeBell(wishlist, promotions, setbellState)
+  }, [promotions, wishlist, setbellState])
+
+  useEffect(() => {
     if (supabase.auth.user()) {
       dispatch(getWishlist())
     }
-  }, [promotions])
-
-
-  const activeBell = () => {
-    for (let i = 0; i < wishlist.length; i++) {
-      for (let j = 0; j < promotions.length; j++) {
-        if (wishlist[i].category_id === promotions[j].categoryToApply) {
-          setbellState(true)
-          return
-        }
-      }
-    }
-    setbellState(false)
-  }
-
-
-
+  }, [dispatch])
 
   const notify = () => {
     dispatch(saveChecked(false))

@@ -6,10 +6,9 @@ import ReCAPTCHA from "react-google-recaptcha";
 import { errorMsgcaptcha } from "../../helpers/logIn"
 import { useState } from "react";
 import { supabase } from "../../SupaBase/conection";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { setModalState } from "../../actions/loginActions";
 import "./LogIn.less";
-import { getUserProfile } from "../../actions/userProfile/userProfileActions";
 
 interface log {
   email: string;
@@ -24,9 +23,6 @@ export const LogIn = () => {
   const dispatch = useDispatch();
   const [form] = Form.useForm();
   const history = useHistory();
-
-  const number = useSelector((state:any) => state.login.number);
-
 
   let captchaData = {
     isVerified: false,

@@ -17,16 +17,16 @@ import { RoomsLayout } from "../Admin/components/RoomsLayout";
 import { CategoriesLayout } from "../Admin/components/CategoriesLayout";
 import { TypesLayout } from "../Admin/components/TypesLayout";
 import { UsersLayout } from "../Admin/components/UsersLayout";
-import {WishlistLayout} from "../components/layout/WishlistLayout";
+import { WishlistLayout } from "../components/layout/WishlistLayout";
 import ResetPasswordLayout from "../components/layout/ResetPasswordLayout";
 import { MyBookingsLayout } from "../components/layout/MyBookingsLayout";
 import { MyProfileLayout } from "../components/layout/MyProfileLayout";
 import { CheckinLayout } from '../Admin/components/CheckinLayout';
-import {PaxesLayout} from '../Admin/components/PaxesLayout';
+import { PaxesLayout } from '../Admin/components/PaxesLayout';
 import { BookingsLayout } from "../Admin/components/BookingsLayout";
-import {DiscountsLayout} from "../Admin/components/DiscountsLayout"
+import { DiscountsLayout } from "../Admin/components/DiscountsLayout"
 import { SuccessLayout } from "../components/layout/SuccesLayout";
-import { Pre_booking } from "../components/Pre_booking/Pre_booking";
+import { PreBooking } from "../components/PreBooking/PreBooking";
 import { EventsLayout } from "../Admin/components/EventsLayout";
 import { HallsRequestsLayout } from "../Admin/components/Events/HallsRequestsLayout";
 import { HallsBookingsLayout } from "../Admin/components/Events/HallsBookingLayout";
@@ -57,7 +57,7 @@ export const AppRouter = () => {
           <Route exact path="/wishlist" component={WishlistLayout} />
           <Route exact path="/chatbot" ><Chatbot /></Route>
 
-          <Route exact path="/pre" component={Pre_booking} />
+          <Route exact path="/pre" component={PreBooking} />
 
           {/* Parte administrativa */}
           <Route exact path="/admin" component={Plantilla} />
@@ -68,14 +68,14 @@ export const AppRouter = () => {
           <Route exact path="/admin/checkin" component={CheckinLayout} />
           <Route exact path="/admin/paxes" component={PaxesLayout} />
           <Route exact path="/admin/bookings" component={BookingsLayout} />
-          <Route exact path="/admin/discounts" component={DiscountsLayout}/>
-          <Route exact path="/admin/events" component={EventsLayout}/>
+          <Route exact path="/admin/discounts" component={DiscountsLayout} />
+          <Route exact path="/admin/events" component={EventsLayout} />
           <Route exact path="/admin/events/requests" component={HallsRequestsLayout} />
           <Route exact path="/admin/events/bookings" component={HallsBookingsLayout} />
           <Route exact path="/admin/events/halls" component={HallsLayout} />
 
           {/* <Route exact path="/admin/events" component={EventsAdminLayout}/> */}
-          <Route exact path="/admin/newsletter" component={NewsLetterLayout}/>
+          <Route exact path="/admin/newsletter" component={NewsLetterLayout} />
           {/* Parte administrativa */}
 
           <Route exact path="/accomodations" component={AccomodationLayout} />

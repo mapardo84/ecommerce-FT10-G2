@@ -1,5 +1,5 @@
 import { useDispatch, useSelector } from "react-redux";
-import { Select, Button, Radio, Skeleton, Card, RadioChangeEvent } from "antd";
+import { Select, Button, Skeleton, Card } from "antd";
 import { AccomodationsCards } from "./AccomodationsCards";
 import { setBookData, stepChange } from '../../../actions/Booking/bookingAction';
 import { bookingType } from '../guestsForm/GuestsForm';
@@ -141,6 +141,8 @@ export const AccomodationsSelect = (): JSX.Element => {
                         return (
                           <Option key={i} value={t.name}>{t.name}</Option>
                         )
+                      } else {
+                        return ''
                       }
                     })
                     }
@@ -150,7 +152,7 @@ export const AccomodationsSelect = (): JSX.Element => {
                 <div className="booking_Buttons">
                   <Button onClick={handleClickNext} disabled={!(userSelection.type && userSelection.category)} size={'small'} >Next</Button>
                 </div>
-                
+
               </div>
             </div>
           ))

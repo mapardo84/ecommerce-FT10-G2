@@ -1,35 +1,27 @@
 import "./events.less";
 import renderphoto from "./images/photo1.jpg"
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { BackTop, Card } from "antd";
 import { getAllHalls } from "../../Admin/actions/adminEventsActions";
 import { useDispatch, useSelector } from "react-redux";
 import { initialStatePropsEvents } from "./../../reducers/adminEventsReducer"
 
+const getHalls = async (dispatch: any) => {
+  const resolve = getAllHalls();
+  dispatch(resolve);
+};
 
 export const Event = () => {
   const [key, setKey] = useState("greatroom");
-  const [noTitleKey, setNoTitleKey] = useState("greatroom");
-
 
   const dispatch = useDispatch()
   const hall = useSelector((state: initialStatePropsEvents) => state.adminEvents.halls);
-  console.log(hall)
-
-
-  const getHalls = async () => {
-    const resolve = await getAllHalls();
-    dispatch(resolve);
-  };
-
 
   useEffect(() => {
-    getHalls()
-  }, []);
-
-  console.log(dispatch)
-
-
+    window.scroll(0, 0)
+    getHalls(dispatch)
+    return () => window.scroll()
+  }, [dispatch]);
 
   const tabListNoTitle = [
     {
@@ -60,32 +52,29 @@ export const Event = () => {
 
   const contentListNoTitle: any = {
 
-    greatroom: <p className="contentEvents">  <h1 style={{ fontSize: "60px" }}>{<div>{hall[0]?.name}</div>}</h1><img className="imgEventOk" style={{ width: "100%", objectFit: "cover" }} src={hall[0]?.image} alt="Img not found" /><br></br><br></br><p ></p ><p style={{ fontSize: "20px" }}>{hall[0]?.description}</p></p>,
+    greatroom: <span className="contentEvents">  <h1 style={{ fontSize: "60px" }}>{<div>{hall[0]?.name}</div>}</h1><img className="imgEventOk" style={{ width: "100%", objectFit: "cover" }} src={hall[0]?.image} alt="Img not found" /><br></br><br></br><p ></p ><p style={{ fontSize: "20px" }}>{hall[0]?.description}</p></span>,
 
-    studio1: <p className="contentEvents">  <h1 style={{ fontSize: "60px" }}>{<div>{hall[1]?.name}</div>}</h1><img className="imgEventOk" style={{ width: "100%", objectFit: "cover" }} src={hall[1]?.image} alt="Img not found" /><br></br><br></br><p ></p ><p style={{ fontSize: "20px" }}>{hall[1]?.description}</p></p>,
+    studio1: <span className="contentEvents">  <h1 style={{ fontSize: "60px" }}>{<div>{hall[1]?.name}</div>}</h1><img className="imgEventOk" style={{ width: "100%", objectFit: "cover" }} src={hall[1]?.image} alt="Img not found" /><br></br><br></br><p ></p ><p style={{ fontSize: "20px" }}>{hall[1]?.description}</p></span>,
 
-    studio2: <p className="contentEvents">  <h1 style={{ fontSize: "60px" }}>{<div>{hall[2]?.name}</div>}</h1><img className="imgEventOk" style={{ width: "100%", objectFit: "cover" }} src={hall[2]?.image} alt="Img not found" /><br></br><br></br><p ></p ><p style={{ fontSize: "20px" }}>{hall[2]?.description}</p></p>,
+    studio2: <span className="contentEvents">  <h1 style={{ fontSize: "60px" }}>{<div>{hall[2]?.name}</div>}</h1><img className="imgEventOk" style={{ width: "100%", objectFit: "cover" }} src={hall[2]?.image} alt="Img not found" /><br></br><br></br><p ></p ><p style={{ fontSize: "20px" }}>{hall[2]?.description}</p></span>,
 
-    foyer3b: <p className="contentEvents">  <h1 style={{ fontSize: "60px" }}>{<div>{hall[3]?.name}</div>}</h1><img className="imgEventOk" style={{ width: "100%", objectFit: "cover" }} src={hall[3]?.image} alt="Img not found" /><br></br><br></br><p ></p ><p style={{ fontSize: "20px" }}>{hall[3]?.description}</p></p>,
+    foyer3b: <span className="contentEvents">  <h1 style={{ fontSize: "60px" }}>{<div>{hall[3]?.name}</div>}</h1><img className="imgEventOk" style={{ width: "100%", objectFit: "cover" }} src={hall[3]?.image} alt="Img not found" /><br></br><br></br><p ></p ><p style={{ fontSize: "20px" }}>{hall[3]?.description}</p></span>,
 
-    lounge: <p className="contentEvents">  <h1 style={{ fontSize: "60px" }}>{<div>{hall[4]?.name}</div>}</h1><img className="imgEventOk" style={{ width: "100%", objectFit: "cover" }} src={hall[4]?.image} alt="Img not found" /><br></br><br></br><p ></p ><p style={{ fontSize: "20px" }}>{hall[4]?.description}</p></p>,
+    lounge: <span className="contentEvents">  <h1 style={{ fontSize: "60px" }}>{<div>{hall[4]?.name}</div>}</h1><img className="imgEventOk" style={{ width: "100%", objectFit: "cover" }} src={hall[4]?.image} alt="Img not found" /><br></br><br></br><p ></p ><p style={{ fontSize: "20px" }}>{hall[4]?.description}</p></span>,
 
-    foyer3a: <p className="contentEvents">  <h1 style={{ fontSize: "60px" }}>{<div>{hall[5]?.name}</div>}</h1><img className="imgEventOk" style={{ width: "100%", objectFit: "cover" }} src={hall[5]?.image} alt="Img not found" /><br></br><br></br><p ></p ><p style={{ fontSize: "20px" }}>{hall[5]?.description}</p></p>,
+    foyer3a: <span className="contentEvents">  <h1 style={{ fontSize: "60px" }}>{<div>{hall[5]?.name}</div>}</h1><img className="imgEventOk" style={{ width: "100%", objectFit: "cover" }} src={hall[5]?.image} alt="Img not found" /><br></br><br></br><p ></p ><p style={{ fontSize: "20px" }}>{hall[5]?.description}</p></span>,
 
   };
 
-  const onTabChange = (key: any, type: any) => {
-    console.log(key, type);
+  const onTabChange = (key: any) => {
     setKey(key)
-    setNoTitleKey(type)
-
   };
 
 
   return (
     <div className="descriptionBackground">
 
-      <img className="imageAccomodation" style={{height:"500px"}} src={renderphoto} alt="Img not found" />
+      <img className="imageAccomodation" style={{ height: "500px" }} src={renderphoto} alt="Img not found" />
       <div className="eventsContainerGlobal">
         <div className="ActitleHotel">
           EVENTS
@@ -103,7 +92,7 @@ export const Event = () => {
           tabBarExtraContent={<a href="/events/quote">Make your quote now!
             </a>}
           onTabChange={(key) => {
-            onTabChange(key, "noTitleKey");
+            onTabChange(key);
           }}
         >
           {contentListNoTitle[key]}

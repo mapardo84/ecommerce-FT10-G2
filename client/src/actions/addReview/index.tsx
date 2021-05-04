@@ -1,6 +1,6 @@
 import { supabase } from '../../SupaBase/conection';
 import { message } from 'antd';
-import {Dispatch} from 'react';
+import { Dispatch } from 'react';
 
 
 export const POST_REVIEW = 'POST_REVIEW';
@@ -11,19 +11,15 @@ const errorMsg = (msg: any) => {
 };
 
 
-export const addReview = (review?: string, catId?: number, userId?:number,rate?:number) => {
-    return async(dispatch: Dispatch<any>)=>{
-        try{
-
-
-
-
-            const {data,error} = await supabase .from('reviews').insert([
+export const addReview = (review?: string, catId?: number, userId?: number, rate?: number) => {
+    return async (dispatch: Dispatch<any>) => {
+        try {
+            const { data, error } = await supabase.from('reviews').insert([
                 {
                     review: review,
                     category_id: catId,
                     rate,
-                    user_id:userId
+                    user_id: userId
                 }
             ]);
             if (!error) {
@@ -31,14 +27,14 @@ export const addReview = (review?: string, catId?: number, userId?:number,rate?:
             } else {
                 errorMsg(JSON.stringify(error))
             }
-        } catch (err){
+        } catch (err) {
             errorMsg('Internal server error. try again')
         }
     }
 }
 
-const addReviews= (review:any)=>({
-    type:POST_REVIEW,
+const addReviews = (review: any) => ({
+    type: POST_REVIEW,
     payload: review
 })
 
@@ -60,9 +56,9 @@ const addReviews= (review:any)=>({
     ])
     if (!error) {
         success();
-        
+
     } else {
         errorMsg(JSON.stringify(error))
     }
-    
+
 } */

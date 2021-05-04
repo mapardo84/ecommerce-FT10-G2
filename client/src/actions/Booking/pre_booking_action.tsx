@@ -144,8 +144,8 @@ export const post_pax_booking_payment = (pax: PaxValues, booking: BookingValues,
             .eq('id', `${bookingId}`)
         if (email_status) {
             if (!email_status[0].email_send) {
-                const sendEmail = axios.post('http://localhost:4000/emails/', info)
-                const { data: control_email } = await supabase
+                axios.post('http://localhost:4000/emails/', info)
+                await supabase
                     .from("bookings")
                     .update({ "email_send": true })
                     .eq('id', `${bookingId}`)
@@ -159,22 +159,23 @@ export const post_pax_booking_payment = (pax: PaxValues, booking: BookingValues,
             .select("*")
             .eq("booking_id", `${bookingId}`)
 
-        if(booking_pax_exist) {
-            console.log("entre")
-            if(booking_pax_exist.length>0){
-                console.log("entre tambien")
-                return}
-                else {
-                    const { data: relation_create } = await supabase
-                        .from("booking_pax")
-                        .insert([
-                            {
-                                booking_id: bookingId,
-                                pax_id: paxId
-                            }
-                        ])
-                    console.log(relation_create)
-                }
+        if (booking_pax_exist) {
+            // console.log("entre")
+            if (booking_pax_exist.length > 0) {
+                // console.log("entre tambien")
+                return
+            }
+            else {
+                await supabase
+                    .from("booking_pax")
+                    .insert([
+                        {
+                            booking_id: bookingId,
+                            pax_id: paxId
+                        }
+                    ])
+                // console.log(relation_create)
+            }
         }
 
 
@@ -184,14 +185,14 @@ export const post_pax_booking_payment = (pax: PaxValues, booking: BookingValues,
 }
 
 export const setGuests = (user_email: any, guests_nights?: any | undefined, accomodation?: any) => {
-    return async (dispatch: Dispatch<any>) => {
+    return async () => {
         if (guests_nights) {
             const { data: existPreBooking }: any = await supabase
                 .from("pre_booking")
                 .select("*")
                 .eq("user_email", `${user_email}`)
             if (existPreBooking.length > 0) {
-                const { data: guests_prebooking } = await supabase
+                await supabase
                     .from("pre_booking")
                     .update({
                         user_email: `${user_email}`
@@ -200,7 +201,7 @@ export const setGuests = (user_email: any, guests_nights?: any | undefined, acco
                     .eq('user_email', `${user_email}`)
                 localStorage.setItem("Check&Guests", guests_nights)
             } else {
-                const { data: createPreBooking } = await supabase
+                await supabase
                     .from("pre_booking")
                     .insert([
                         {
@@ -211,7 +212,7 @@ export const setGuests = (user_email: any, guests_nights?: any | undefined, acco
             }
         }
         if (accomodation) {
-            const { data: acomodation_prebooking }: any = await supabase
+            await supabase
                 .from("pre_booking")
                 .update({ acomodation_step: `${accomodation}` })
                 .eq('user_email', `${user_email}`)
@@ -228,14 +229,8 @@ export const get_pre = (user_email?: string | undefined, preference_id?: string)
                 .from("pre_booking")
                 .select("*")
                 .eq("user_email", `${user_email}`)
-                dispatch(pre_booking_action(inProgress))
-            //     if(inProgress.length<1){
-            //     if(localStorage.getItem("Check&Guests")){
-                    
-            //     }
-            // }else{
-            //         console.log("toyaca")
-            //     }
+            dispatch(pre_booking_action(inProgress))
+
         }
         if (preference_id) { //si se le pasa preference id, se utiliza como metodo de seguridad para corroborar si es el mismo que lleva el link de mercado pago
             const { data: prefer } = await supabase
@@ -267,32 +262,32 @@ const pre_booking_action = (payload: any) => {    //Trae toda la pre-booking en 
     }
 }
 
-export const create_pre_booking = (check?:string|null,accomodation?:string|null)=>{
+export const create_pre_booking = (check?: string | null, accomodation?: string | null) => {
     return async () => {
-        const {data:pre_booking_exist}=await supabase
-        .from("pre_booking")
-        .select("*")
-        .eq("user_email",supabase.auth.user()?.email)
-        console.log(pre_booking_exist)
-        if(pre_booking_exist){
-            if(pre_booking_exist.length===0){
-                console.log("entre")
-                if(check && accomodation){
+        const { data: pre_booking_exist } = await supabase
+            .from("pre_booking")
+            .select("*")
+            .eq("user_email", supabase.auth.user()?.email)
+        // console.log(pre_booking_exist)
+        if (pre_booking_exist) {
+            if (pre_booking_exist.length === 0) {
+                // console.log("entre")
+                if (check && accomodation) {
                     return await supabase
-                    .from("pre_booking")
-                    .insert([{
-                        'user_email':supabase.auth.user()?.email,
-                        'guests_nights':check,
-                        'acomodation_step':accomodation
-                    }])
-                }if(!accomodation){
-                    console.log("tambien entre")
+                        .from("pre_booking")
+                        .insert([{
+                            'user_email': supabase.auth.user()?.email,
+                            'guests_nights': check,
+                            'acomodation_step': accomodation
+                        }])
+                } if (!accomodation) {
+                    // console.log("tambien entre")
                     return await supabase
-                    .from("pre_booking")
-                    .insert([{
-                        'user_email':supabase.auth.user()?.email,
-                        'guests_nights':check,
-                    }])                    
+                        .from("pre_booking")
+                        .insert([{
+                            'user_email': supabase.auth.user()?.email,
+                            'guests_nights': check,
+                        }])
                 }
             }
         }
@@ -301,7 +296,7 @@ export const create_pre_booking = (check?:string|null,accomodation?:string|null)
 
 export const delete_pre_booking = (user_email: string | undefined) => {
     return async () => {
-        const { data: delete_pb }: any = await supabase
+        await supabase
             .from("pre_booking")
             .delete()
             .eq("user_email", `${user_email}`)
@@ -327,7 +322,7 @@ const user_balance = (payload: any) => {
 
 export const update_balance = (email_user: string | undefined, amount: number) => {
     return async () => {
-        const { data: updateBalance }: any = await supabase
+        await supabase
             .from("users")
             .update({ positive_balance: amount })
             .eq("email", `${email_user}`)

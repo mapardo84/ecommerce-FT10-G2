@@ -47,7 +47,7 @@ const saveWishlist = (payload: any) => ({
 })
 
 
-export const addWishlist = (category_id?: number, userId?: number,) => {
+export const addWishlist = (category_id?: number) => {
   return async (dispatch: Dispatch<any>) => {
     const { data: user } = await supabase
       .from("users")
@@ -55,14 +55,13 @@ export const addWishlist = (category_id?: number, userId?: number,) => {
       .eq("email", supabase.auth.user()?.email)
       .limit(1)
       .single()
-
     try {
       const { data, error } = await supabase.from('wishlist').insert([
         {
           category_id: category_id,
           user_id: user.id,
         }
-      ]); console.log(data)
+      ]);
       if (!error) {
         dispatch(handleWishlist(data));
       } else {

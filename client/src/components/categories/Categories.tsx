@@ -11,32 +11,31 @@ import { Category as Icategory } from '../../Admin/components/Categories/Categor
 
 const { Option } = Select;
 
+const getCategoriesDB = async (value: number | undefined, dispatch: any) => {
+  const resolve = await getCategories(value);
+  dispatch(resolve);
+};
+
+const getCategoriesNamesDB = async (dispatch: any) => {
+  const resolve = await getCategoriesNames();
+  dispatch(resolve);
+};
+
 
 const Categories = (): JSX.Element => {
   const dispatch = useDispatch();
   const cat = useSelector((state: initialStateProps) => state.categories);
 
-
-  const getCategoriesDB = async (value: number | undefined) => {
-    const resolve = await getCategories(value);
-    dispatch(resolve);
-  };
-
-  const getCategoriesNamesDB = async () => {
-    const resolve = await getCategoriesNames();
-    dispatch(resolve);
-  };
-
   useEffect(() => {
-    getCategoriesDB(undefined);
-    getCategoriesNamesDB()
+    getCategoriesDB(undefined, dispatch);
+    getCategoriesNamesDB(dispatch)
   }, [dispatch]);
 
   const handleChange = (value: any) => {
     if (value === '0') {
-      getCategoriesDB(undefined);
+      getCategoriesDB(undefined, dispatch);
     } else {
-      getCategoriesDB(value);
+      getCategoriesDB(value, dispatch);
     }
   };
 
@@ -51,7 +50,7 @@ const Categories = (): JSX.Element => {
           className="selectCategoryTitle"
           onChange={handleChange}
         >
-          <Option value="0">All Categories</Option>
+          <Option value="0" key="key0">All Categories</Option>
 
           {cat?.categoriesNames.map((category: Icategory, i: number) => {
             return (

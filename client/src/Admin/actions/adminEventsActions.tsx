@@ -17,7 +17,7 @@ export const UPDATE_HALL = 'UPDATE_HALL';
 export const UPDATE_EVENT = 'UPDATE_EVENT';
 export const UPDATE_REQUEST = 'UPDATE_REQUEST';
 
-const errorMsg = (err: string, time: number=3) => {
+const errorMsg = (err: string, time: number = 3) => {
     message.error(err, time)
 };
 
@@ -32,11 +32,11 @@ const success = (mensaje: string) => {
 };
 
 export const getAllHalls = () => {
-    return async (dispatch:Dispatch) => {
+    return async (dispatch: Dispatch) => {
         try {
             const { data } = await supabase
-            .from('halls')
-            .select('*');
+                .from('halls')
+                .select('*');
             dispatch(getAllHallsAction(data));
         } catch (error) {
             console.error(error);
@@ -45,17 +45,17 @@ export const getAllHalls = () => {
     };
 }
 
-const getAllHallsAction = (data:IHalls[]|null) => ({
+const getAllHallsAction = (data: IHalls[] | null) => ({
     type: GET_ALL_HALLS,
     payload: data,
 });
 
 export const getBookedEvents = () => {
-    return async (dispatch:Dispatch) => {
+    return async (dispatch: Dispatch) => {
         try {
             const { data, error } = await supabase
-            .from("bookingsEvents")
-            .select("*");
+                .from("bookingsEvents")
+                .select("*");
 
             if (!error) dispatch(getBookedEventsAction(data));
             else {
@@ -69,17 +69,17 @@ export const getBookedEvents = () => {
     };
 }
 
-const getBookedEventsAction = (data:any) => ({
+const getBookedEventsAction = (data: any) => ({
     type: GET_BOOKED_EVENTS,
     payload: data,
 });
 
 export const getAllRequests = () => {
-    return async (dispatch:Dispatch) => {
+    return async (dispatch: Dispatch) => {
         try {
             const { data, error } = await supabase
-            .from("eventRequests")
-            .select("*");
+                .from("eventRequests")
+                .select("*");
 
             if (!error) dispatch(getAllRequestsAction(data));
             else {
@@ -93,13 +93,13 @@ export const getAllRequests = () => {
     };
 }
 
-const getAllRequestsAction = (data:any) => ({
+const getAllRequestsAction = (data: any) => ({
     type: GET_ALL_REQUESTS,
     payload: data,
 });
 
 export const updateHall = (dataChange: IHalls) => {
-    return async (dispatch:Dispatch) => {
+    return async (dispatch: Dispatch) => {
         try {
             const { error, data } = await supabase
                 .from('halls')
@@ -121,13 +121,13 @@ export const updateHall = (dataChange: IHalls) => {
     }
 }
 
-const updateHallAction = (data:IHalls[]|null) => ({
+const updateHallAction = (data: IHalls[] | null) => ({
     type: UPDATE_HALL,
     payload: data
 });
 
-export const addHall = (newData:IHalls) => {
-    return async (dispatch:Dispatch) => {
+export const addHall = (newData: IHalls) => {
+    return async (dispatch: Dispatch) => {
         try {
             const { data, error } = await supabase
                 .from('halls')
@@ -149,13 +149,13 @@ export const addHall = (newData:IHalls) => {
     }
 }
 
-const addHallAction = (data:IHalls) => ({
+const addHallAction = (data: IHalls) => ({
     type: ADD_HALL,
     payload: data
 });
 
-export const deleteHall = (id:number) => {
-    return async (dispatch:Dispatch) => {
+export const deleteHall = (id: number) => {
+    return async (dispatch: Dispatch) => {
         try {
             const { error } = await supabase
                 .from('halls')
@@ -174,13 +174,13 @@ export const deleteHall = (id:number) => {
     }
 }
 
-const deleteHallAction = (data:number) => ({
+const deleteHallAction = (data: number) => ({
     type: DELETE_HALL,
-    payload: data 
+    payload: data
 });
 
-export const updateEvent = (dataChange:IBookedEvents) => {
-    return async (dispatch:Dispatch) => {
+export const updateEvent = (dataChange: IBookedEvents) => {
+    return async (dispatch: Dispatch) => {
         try {
             const { error, data } = await supabase
                 .from('bookingsEvents')
@@ -198,7 +198,7 @@ export const updateEvent = (dataChange:IBookedEvents) => {
                 })
                 .eq('id', dataChange.id);
 
-            const { data:updated } = await supabase
+            await supabase
                 .from('bookings_halls')
                 .update({
                     hall_id: dataChange.hall_id
@@ -218,15 +218,15 @@ export const updateEvent = (dataChange:IBookedEvents) => {
     }
 }
 
-const updateEventAction = (data:IBookedEvents) => ({
+const updateEventAction = (data: IBookedEvents) => ({
     type: UPDATE_EVENT,
     payload: data
 });
 
-export const addEvent = (newData:IBookedEvents) => {
-    return async (dispatch:Dispatch) => {
+export const addEvent = (newData: IBookedEvents) => {
+    return async (dispatch: Dispatch) => {
         try {
-            const { data:bookings, error } = await supabase
+            const { data: bookings, error } = await supabase
                 .from('bookingsEvents')
                 .insert([{
                     name: newData.name,
@@ -240,13 +240,13 @@ export const addEvent = (newData:IBookedEvents) => {
                     methodPayment: newData.methodPayment,
                     hall_id: newData.hall_id
                 },]);
-                let aux = bookings?.pop();
-                const { data:bookedHall } = await supabase
-                    .from('bookings_halls')
-                    .insert([{ 
-                        booking_id: aux.id,
-                        hall_id: newData.hall_id
-                    }])
+            let aux = bookings?.pop();
+            await supabase
+                .from('bookings_halls')
+                .insert([{
+                    booking_id: aux.id,
+                    hall_id: newData.hall_id
+                }])
             if (error) {
                 errorMsg(JSON.stringify(error));
             } else {
@@ -260,20 +260,20 @@ export const addEvent = (newData:IBookedEvents) => {
     }
 }
 
-const addEventAction = (data:IBookedEvents) => ({
+const addEventAction = (data: IBookedEvents) => ({
     type: ADD_EVENT,
     payload: data
 });
 
-export const deleteEvent = (id:number|undefined) => {
-    return async (dispatch:Dispatch) => {
+export const deleteEvent = (id: number | undefined) => {
+    return async (dispatch: Dispatch) => {
         try {
-            const { data: erased } = await supabase
+            await supabase
                 .from('bookings_halls')
                 .delete()
                 .eq('booking_id', id);
 
-            const { data: deleted, error } = await supabase
+            const { error } = await supabase
                 .from('bookingsEvents')
                 .delete()
                 .eq('id', id);
@@ -291,13 +291,13 @@ export const deleteEvent = (id:number|undefined) => {
     }
 }
 
-const deleteEventAction = (data:number|undefined) => ({
+const deleteEventAction = (data: number | undefined) => ({
     type: DELETE_EVENT,
-    payload: data 
+    payload: data
 });
 
 export const updateRequest = (dataChange: IRequests) => {
-    return async (dispatch:Dispatch) => {
+    return async (dispatch: Dispatch) => {
         try {
             const { error, data } = await supabase
                 .from('eventRequests')
@@ -330,13 +330,13 @@ export const updateRequest = (dataChange: IRequests) => {
     }
 }
 
-const updateRequestAction = (data:IRequests) => ({
+const updateRequestAction = (data: IRequests) => ({
     type: UPDATE_REQUEST,
     payload: data
 });
 
-export const addRequest = (newData:IRequests) => {
-    return async (dispatch:Dispatch) => {
+export const addRequest = (newData: IRequests) => {
+    return async (dispatch: Dispatch) => {
         try {
             console.log(newData);
             const { data, error } = await supabase
@@ -369,13 +369,13 @@ export const addRequest = (newData:IRequests) => {
     }
 }
 
-const addRequestAction = (data:IRequests) => ({
+const addRequestAction = (data: IRequests) => ({
     type: ADD_REQUEST,
     payload: data
 });
 
-export const deleteRequest = (id:number) => {
-    return async (dispatch:Dispatch) => {
+export const deleteRequest = (id: number) => {
+    return async (dispatch: Dispatch) => {
         try {
             const { error } = await supabase
                 .from('eventRequests')
@@ -394,7 +394,7 @@ export const deleteRequest = (id:number) => {
     }
 }
 
-const deleteRequestAction = (data:number) => ({
+const deleteRequestAction = (data: number) => ({
     type: DELETE_REQUEST,
-    payload: data 
+    payload: data
 });

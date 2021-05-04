@@ -13,7 +13,7 @@ export const FormEventsLayout: FunctionComponent = () => {
 
   return (
     <>
-      <Layout>
+      <Layout className="accomodationLayout">
         <NavBar />
                     <img className="ImgEventsNavbar" src={imgEventsNavbar} alt="Img not found" />
                     <div className="EventsFormNavbar1">

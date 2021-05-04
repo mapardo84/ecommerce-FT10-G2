@@ -27,7 +27,6 @@ export const getUserBookings = () => {
           "*, payments(totalPrice), room_id(name, category_id(name, price), type_id(name, beds))"
         )
         .eq("user_id", userEmail.data.id);
-      console.log(bookings)
       if (!bookings.data) {
         return;
       }

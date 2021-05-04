@@ -1,11 +1,9 @@
-import { Button, Typography } from "antd";
+import { Button } from "antd";
 import './LandingPage.less'
 import LogIn from "../LogIn/LogIn";
 import { NavLink } from "react-router-dom";
 import { useHistory } from "react-router-dom";
 import logo from "./images/logo.png"
-
-const { Title, Text } = Typography;
 
 export const LandingPage = () => {
 

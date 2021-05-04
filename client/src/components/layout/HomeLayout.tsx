@@ -3,7 +3,6 @@ import { Layout } from "antd";
 import { NavBar } from "../NavBar/NavBar";
 import { FooterLayout } from '../footer/Footer'
 import { HomeSlides } from "../HomeSlides/HomeSlides";
-import { PromotionsViewer } from '../Promotions/PromotionsViewer';
 import { supabase } from "../../SupaBase/conection";
 import { getSession } from "../../helpers/logIn"
 import "./homeLayout.less";
@@ -19,9 +18,7 @@ import { HomeFeatures } from '../home/HomeFeatures/HomeFeatures'
 import { getUserProfile } from "../../actions/userProfile/userProfileActions";
 import { RootReducer } from "../../reducers/rootReducer";
 import Modal from "antd/lib/modal/Modal";
-import { Register } from "../LogIn/Register";
 import { UpdateRegister } from "../LogIn/UpdateRegister";
-import { getWishlist } from "../../actions/WishlistAction";
 const { Content } = Layout;
 
 export const HomeLayout = (): JSX.Element => {
@@ -30,21 +27,21 @@ export const HomeLayout = (): JSX.Element => {
   const dispatch = useDispatch();
   const promotions = useSelector((state: any) => state.promotions)
   const userProfile = useSelector((state: RootReducer) => state.userProfile)
-
+  const number = useSelector((state: any) => state.login)
 
   const [updateRegister, setUpdateRegister] = useState<boolean>(false)
-  
+
   useEffect(() => {
     window.scrollTo(0, 0);
-    supabase.auth.onAuthStateChange((event, session) => {
+    supabase.auth.onAuthStateChange((_, session) => {
       getSession(session);
     });
     dispatch(getPromotions());
     dispatch(getUserProfile())
-  }, []);
+  }, [dispatch, number]);
 
   useEffect(() => {
-    dispatch(getUserProfile())
+    //dispatch(getUserProfile())
     if (userProfile?.data?.uuid) {
       if (userProfile?.data?.uuid?.length > 24) {
         setUpdateRegister(true)
@@ -52,11 +49,7 @@ export const HomeLayout = (): JSX.Element => {
         setUpdateRegister(false)
       }
     }
-  }, [userProfile])
-
-  useEffect(() => {
-    dispatch(getUserProfile())
-  }, [supabase.auth.user()?.email])
+  }, [userProfile, number])
 
 
   const showName = async () => {
@@ -83,7 +76,7 @@ export const HomeLayout = (): JSX.Element => {
           <HomeSlides />
           <HomeDescription />
           <HomeExperiences />
-          {promotions && <HomeDiscounts promo={promotions} />}
+          {promotions && <HomeDiscounts />}
           <Chatbot />
           <HomeFeatures />
           <HomeNewsletter />
