@@ -160,7 +160,7 @@ export const NavBar = () => {
                   </div>
 
                   <div>
-                    <Notifications />
+                    <Notifications navState={navBar} />
                   </div>
 
                   <NavLink to="/booking">

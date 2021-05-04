@@ -4,6 +4,7 @@ import { FooterLayout } from "../footer/Footer";
 import { FunctionComponent } from "react";
 import Details from "../categories/Details/Details";
 import "./AccomodationDetails.less"
+import Chatbot from "../chatbot/Chatbot";
 
 
 const { Content } = Layout;
@@ -17,6 +18,7 @@ export const AccomodationDetailsLayout: FunctionComponent = () => {
          <Details />
         </Content>
         <FooterLayout />
+        <Chatbot />
       </Layout>
     </>
   );

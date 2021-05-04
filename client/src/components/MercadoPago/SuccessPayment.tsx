@@ -7,6 +7,8 @@ import { PaxValues } from '../booking/paxForm/PaxForm'
 import './SuccessPayment.less'
 import { FiCheckCircle } from "react-icons/fi";
 import { IconContext } from 'react-icons'
+import { Button } from 'antd'
+import { NavLink } from 'react-router-dom'
 
 
 export interface BookingValues {
@@ -145,16 +147,18 @@ export function SuccessPayment() {
     return (
         <>
             {/* {str ? */}
-            <div>
-                <div className="ContainerBookingSuccess">
-                    <div className="bookingSuccessTitle">BOOKING</div>
-
-                    <IconContext.Provider value={{ color: 'green', size: '50px', style: { verticalAlign: 'middle' } }}>
+            <div className="ContainerBookingSuccess">
+                <div style={{ display: "flex" }}>
+                    <IconContext.Provider value={{ color: 'green', size: '40px', style: { verticalAlign: 'middle' } }}>
                         <FiCheckCircle />
                     </IconContext.Provider>
-
-                    <h2>Booking Info</h2>
-                    <br />
+                    <div className="bookingSuccessTitle">BOOKING CONFIRMED</div>
+                </div>
+                <div className="bookingsuccessText">An email was sent with your booking information</div>
+                <br />
+                <h2>Details</h2>
+                <br />
+                <div className="bookingSuccessDetails">
                     <div><strong>First name :</strong>{str?.first_name}</div>
                     <div><strong>Last name :</strong>{str?.last_name}</div>
                     <div><strong>Uuid :</strong>{str?.uuid}</div>
@@ -163,6 +167,7 @@ export function SuccessPayment() {
                     <div><strong>Checkout :</strong>{str?.checkout}</div>
                     <div><strong>Category & type of room</strong>{str?.category} - {str?.type}</div>
                 </div>
+                <div style={{textAlign:"center"}}><NavLink to="/myBookings"><Button type="primary">BOOKINGS</Button></NavLink></div>
             </div>
             {/* :
                 <Redirect to="/home"></Redirect>} */}

@@ -83,7 +83,7 @@ export const Pre_booking = (type:any) => {
             <>
                 <div className="containerBookingData">
                     <Affix offsetTop={100}>
-                        <Collapse style={{ backgroundColor: "#5296a5", color: "white" }}>
+                        <Collapse style={{ backgroundColor: "#4b75cd", color: "white" }}>
                             <Panel showArrow={false} style={{ color: "white" }} header={<div style={{ color: "white" }}><DownOutlined style={{ marginRight: "10px" }} />My Booking<CalendarOutlined style={{ marginLeft: "8px" }} /></div>} key="1">
                                 <div style={{ display: "flex", flexDirection: "column" }}>
                                     {guests ? <span><strong>Check-in:</strong> {guests.in_out[0]}</span> : null}

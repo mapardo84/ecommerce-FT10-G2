@@ -3,6 +3,7 @@ import { NavBar } from "../NavBar/NavBar";
 import { FooterLayout } from "../footer/Footer";
 import { FunctionComponent } from "react";
 import Accomodations from "../accomodations/Accomodations";
+import Chatbot from "../chatbot/Chatbot";
 import "./AccomodationLayout.less"
 
 const { Content } = Layout;
@@ -15,7 +16,7 @@ export const AccomodationLayout: FunctionComponent = () => {
         <Content>
           <Accomodations />
         </Content>
-        <BackTop />
+        <Chatbot />
         <FooterLayout />
       </Layout>
     </>

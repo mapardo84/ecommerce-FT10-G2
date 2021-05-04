@@ -9,7 +9,11 @@ import { getWishlist, saveChecked } from "../../actions/WishlistAction"
 import "./Notification.less"
 
 toast.configure()
-export default function Notifications() {
+
+export default function Notifications(props: any) {
+
+  var { navState } = props
+
   const dispatch = useDispatch()
   const wishlist = useSelector((state: any) => state.wishlist.userWishlist)
   const promotions = useSelector((state: any) => state.promotions)
@@ -22,9 +26,8 @@ export default function Notifications() {
     activeBell()
     if (supabase.auth.user()) {
       dispatch(getWishlist())
-      console.log("entré 1-----------------------------------------")
     }
-  }, [wishlist, promotions, noChecked ])
+  }, [wishlist, promotions, noChecked])
 
 
   const activeBell = () => {
@@ -67,12 +70,12 @@ export default function Notifications() {
     <div className="bellNavBarI">
       {bellState && noChecked ?
         <Badge count={1}>
-          <Button className="navButton" type="text" onClick={notify}>
+          <Button className={navState ? 'navButtonActive' : "navButton"} type="text" onClick={notify}>
             <BellOutlined className="iconNotifi" />
           </Button>
         </Badge>
         :
-        <Button className="navButton" type="text" onClick={notify}>
+        <Button className={navState ? 'navButtonActive' : "navButton"} type="text" onClick={notify}>
           <BellOutlined className="iconNotifi" />
         </Button>
       }
