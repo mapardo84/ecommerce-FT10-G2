@@ -167,7 +167,7 @@ export const Pre_booking = (type: any) => {
                 <div className="row5ContainerPayment">
                     <span><strong>Total Price: </strong>{acomodation ? <span>${total_price}</span> : null}</span>
                 </div>
-                <div>
+                <div className="row5ContainerPayment">
                     <span><strong>To Pay : </strong>{acomodation ? <span>{to_pay}</span> : null}</span>
                 </div>
 

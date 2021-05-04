@@ -47,9 +47,14 @@ const MyBookings = () => {
 
     if (loading) {
         return (
-            <div className="userBookingEmpty">
-                Loading...
-            </div>
+            <>
+                <img className="imageBookingBg" src={back} alt="Img not found" />
+                <div className="myBookingsTitle">MY BOOKINGS</div>
+                <div className="userBookingEmpty">
+
+                    Loading...
+               </div>
+            </>
         )
     }
     if (userBookings.length !== 0) {

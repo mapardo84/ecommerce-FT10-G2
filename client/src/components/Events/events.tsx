@@ -14,7 +14,6 @@ export const Event = () => {
 
   const dispatch = useDispatch()
   const hall = useSelector((state: initialStatePropsEvents) => state.adminEvents.halls);
-  console.log(hall)
 
 
   const getHalls = async () => {
@@ -24,11 +23,9 @@ export const Event = () => {
 
 
   useEffect(() => {
+    window.scroll(0,0)
     getHalls()
   }, []);
-
-  console.log(dispatch)
-
 
 
   const tabListNoTitle = [
@@ -75,7 +72,6 @@ export const Event = () => {
   };
 
   const onTabChange = (key: any, type: any) => {
-    console.log(key, type);
     setKey(key)
     setNoTitleKey(type)
 

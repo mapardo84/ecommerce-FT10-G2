@@ -50,7 +50,7 @@ const Category = (props: any): JSX.Element => {
   }, [dispatch])
 
   return (
-    <div data-aos="fade-left" data-aos-duration="300" data-aos-once="true" className="category_cardContainer">
+    <div data-aos="fade-left" data-aos-duration="700" data-aos-once="true" className="category_cardContainer">
       <img className="category_cardImage" src={categ.images[0]} alt="IMG NOT FOUND" />
 
       <div className="category_cardWishlist">

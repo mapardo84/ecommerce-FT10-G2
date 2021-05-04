@@ -25,14 +25,7 @@ export const HomeFeatures = () => {
             <div className='ContainerHomeFeatures'>
                 <div className='TitleDescriptionFeatures'>
                     <div className='TitleFeatures'>FEATURES</div>
-                    <div className='DescriptionFeatures'>Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                    Beatae nemo nulla minus, sit eius delectus reprehenderit
-                    praesentium saepe voluptatem at quam nam,
-                    sint itaque tempore ullam culpa unde perspiciatis. Laboriosam
-                    Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                    Beatae nemo nulla minus, sit eius delectus reprehenderit
-                    praesentium saepe voluptatem at quam nam,
-                  sint itaque tempore ullam culpa unde perspiciatis. Laboriosam.</div></div>
+                    <div className='DescriptionFeatures'>To live an adventure with your best friend for life, is what Henry Hotel wants for you, keep beautiful memories in our spaces that in addition to having the required, we always seek to give you an unimaginable experience, enter a beautiful Caribbean environment, where you can access and meet different features that Henry Hotel has prepared for you.</div></div>
                 <div className='ContainerHomeFeatures12'>
                     <div className='ContainerHomeFeatures1'>
                         <div className='TitleIconFeatures'><img className='ImgFeaturesHome' src={petFriendly} />Pet Friendly</div>

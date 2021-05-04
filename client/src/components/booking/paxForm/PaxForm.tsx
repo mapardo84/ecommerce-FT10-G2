@@ -232,7 +232,7 @@ export function PaxForm() {
                 <div className="formBookingSearch">
                     <div>
                         <h1 className="Login">IDENTIFICATION</h1>
-                        <div className="searchPaymentText">If you have an account, please enter your identification.</div>
+                        <div className="searchPaymentText">If you have already made a reservation before, please enter your ID number </div>
                         <Form>
                             <Form.Item>
                                 <Input.Search
@@ -258,7 +258,8 @@ export function PaxForm() {
             <div>
                 <Modal
                     visible={visible}
-                    width={450}
+                    width={380}
+                    title={"USER INFORMATION"}
                     destroyOnClose={true}
                     footer={null}
                     onCancel={() => {
@@ -272,14 +273,16 @@ export function PaxForm() {
                                 </div>
                             :
                             pax_data && setInfo ?
-                                <ul>
+                                <div className="paxDataClass">
                                     <div>First name : {pax_data.first_name}</div>
                                     <div>Last name : {pax_data.last_name}</div>
                                     <div>Uuid : {pax_data.uuid}</div>
                                     <div>Country : {pax_data.country}</div>
-                                    <Button onClick={() => confirm_pax("modal")}>Confirm</Button>
-                                    {mpModal ? <MercadoPago /> : null}
-                                </ul>
+                                    <div className="modalButtonsPaxForm">
+                                        <Button type="primary" onClick={() => confirm_pax("modal")}>Confirm</Button>
+                                        {mpModal ? <MercadoPago /> : null}
+                                    </div>
+                                </div>
                                 :
                                 <div>No hay nada</div>
                     }
@@ -289,7 +292,7 @@ export function PaxForm() {
             </div>
             <div className='formBookingPayment'>
                 <h1 className="Login">GUEST INFORMATION</h1>
-                <div className="searchPaymentText2">If you don't have an account, please fill this form</div>
+                <div className="searchPaymentText2">if this is your first time at Henry Hotel, please fill out the form below.</div>
 
                 <Form
                     {...formItemLayout}
