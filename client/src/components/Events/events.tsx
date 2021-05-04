@@ -60,17 +60,17 @@ export const Event = () => {
 
   const contentListNoTitle: any = {
 
-    greatroom: <p className="contentEvents">  <h1 style={{ fontSize: "60px" }}>{<div>{hall[0]?.name}</div>}</h1><img className="imgEventOk" src={hall[0]?.image} alt="Img not found" /><br></br><br></br><p ></p ><p style={{ fontSize: "20px" }}>{hall[0]?.description}</p></p>,
+    greatroom: <p className="contentEvents">  <h1 style={{ fontSize: "60px" }}>{<div>{hall[0]?.name}</div>}</h1><img className="imgEventOk" style={{ width: "100%", objectFit: "cover" }} src={hall[0]?.image} alt="Img not found" /><br></br><br></br><p ></p ><p style={{ fontSize: "20px" }}>{hall[0]?.description}</p></p>,
 
-    studio1: <p className="contentEvents">  <h1 style={{ fontSize: "60px" }}>{<div>{hall[1]?.name}</div>}</h1><img className="imgEventOk" src={hall[1]?.image} alt="Img not found" /><br></br><br></br><p ></p ><p style={{ fontSize: "20px" }}>{hall[1]?.description}</p></p>,
+    studio1: <p className="contentEvents">  <h1 style={{ fontSize: "60px" }}>{<div>{hall[1]?.name}</div>}</h1><img className="imgEventOk" style={{ width: "100%", objectFit: "cover" }} src={hall[1]?.image} alt="Img not found" /><br></br><br></br><p ></p ><p style={{ fontSize: "20px" }}>{hall[1]?.description}</p></p>,
 
-    studio2: <p className="contentEvents">  <h1 style={{ fontSize: "60px" }}>{<div>{hall[2]?.name}</div>}</h1><img className="imgEventOk" src={hall[2]?.image} alt="Img not found" /><br></br><br></br><p ></p ><p style={{ fontSize: "20px" }}>{hall[2]?.description}</p></p>,
+    studio2: <p className="contentEvents">  <h1 style={{ fontSize: "60px" }}>{<div>{hall[2]?.name}</div>}</h1><img className="imgEventOk" style={{ width: "100%", objectFit: "cover" }} src={hall[2]?.image} alt="Img not found" /><br></br><br></br><p ></p ><p style={{ fontSize: "20px" }}>{hall[2]?.description}</p></p>,
 
-    foyer3b: <p className="contentEvents">  <h1 style={{ fontSize: "60px" }}>{<div>{hall[3]?.name}</div>}</h1><img className="imgEventOk" src={hall[3]?.image} alt="Img not found" /><br></br><br></br><p ></p ><p style={{ fontSize: "20px" }}>{hall[3]?.description}</p></p>,
+    foyer3b: <p className="contentEvents">  <h1 style={{ fontSize: "60px" }}>{<div>{hall[3]?.name}</div>}</h1><img className="imgEventOk" style={{ width: "100%", objectFit: "cover" }} src={hall[3]?.image} alt="Img not found" /><br></br><br></br><p ></p ><p style={{ fontSize: "20px" }}>{hall[3]?.description}</p></p>,
 
-    lounge: <p className="contentEvents">  <h1 style={{ fontSize: "60px" }}>{<div>{hall[4]?.name}</div>}</h1><img className="imgEventOk" src={hall[4]?.image} alt="Img not found" /><br></br><br></br><p ></p ><p style={{ fontSize: "20px" }}>{hall[4]?.description}</p></p>,
+    lounge: <p className="contentEvents">  <h1 style={{ fontSize: "60px" }}>{<div>{hall[4]?.name}</div>}</h1><img className="imgEventOk" style={{ width: "100%", objectFit: "cover" }} src={hall[4]?.image} alt="Img not found" /><br></br><br></br><p ></p ><p style={{ fontSize: "20px" }}>{hall[4]?.description}</p></p>,
 
-    foyer3a: <p className="contentEvents">  <h1 style={{ fontSize: "60px" }}>{<div>{hall[5]?.name}</div>}</h1><img className="imgEventOk" src={hall[5]?.image} alt="Img not found" /><br></br><br></br><p ></p ><p style={{ fontSize: "20px" }}>{hall[5]?.description}</p></p>,
+    foyer3a: <p className="contentEvents">  <h1 style={{ fontSize: "60px" }}>{<div>{hall[5]?.name}</div>}</h1><img className="imgEventOk" style={{ width: "100%", objectFit: "cover" }} src={hall[5]?.image} alt="Img not found" /><br></br><br></br><p ></p ><p style={{ fontSize: "20px" }}>{hall[5]?.description}</p></p>,
 
   };
 
@@ -86,7 +86,7 @@ export const Event = () => {
     <div className="descriptionBackground">
 
       <img className="imageAccomodation" src={renderphoto} alt="Img not found" />
-      <div >
+      <div className="eventsContainerGlobal"> 
         <div className="titleHotel">
           EVENTS
             </div>
@@ -96,21 +96,18 @@ export const Event = () => {
         <p className="description">
           Go longer at Miami Beach. Connect to clients and employees with fun, fresh conferences in one of nine distinct meeting rooms. Our Great Room borders excess with a bright foyer and an attached W Lounge for mingling and networking.  Illuminate your conference with ideal AV equipment such as wired and wireless Internet and LCD projectors. Our Talent includes on-site photographers with TV production services, perfect for capturing the highlights. Our meeting experts make sure to include Recess™, our playful activity menu that breaks up the monotony. Energize with custom catering and prepare for the next gathering at our Wired business center, offering translators, messenger delivery, copy and fax services and more in South Beach, Florida.
         </p>
-        <div>
-
-          <Card className="CardEvent"
-            style={{ width: "80%" }}
-            tabList={tabListNoTitle}
-            activeTabKey={key}
-            tabBarExtraContent={<a href="/events/quote">Make your quote now!
-      </a>}
-            onTabChange={(key) => {
-              onTabChange(key, "noTitleKey");
-            }}
-          >
-            {contentListNoTitle[key]}
-          </Card>
-        </div>
+        <div className="scrollAdviceEvents">Scroll horizontally to see more!</div>
+        <Card className="CardEvent"
+          tabList={tabListNoTitle}
+          activeTabKey={key}
+          tabBarExtraContent={<a href="/events/quote">Make your quote now!
+            </a>}
+          onTabChange={(key) => {
+            onTabChange(key, "noTitleKey");
+          }}
+        >
+          {contentListNoTitle[key]}
+        </Card>
       </div>
       <BackTop />
     </div>

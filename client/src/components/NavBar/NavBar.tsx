@@ -106,7 +106,6 @@ export const NavBar = () => {
     }
   }, [])
 
-  const wishlist = useSelector((state: any) => state.wishlist.userWishlist)
   return (
     <>
       <IconContext.Provider value={{ color: "grey", size: '24px', style: { verticalAlign: 'middle', marginRight: "20px" } }}>
@@ -185,6 +184,7 @@ export const NavBar = () => {
             </div>
 
             <div className={"navButtonMenu"}>
+              <Notifications navState={navBar} />
               <Button type="text" onClick={handleNavResponsive} >
                 <MenuOutlined style={navBar ? { fontSize: "24px", color: "black" } : { fontSize: "24px", color: "white" }} />
               </Button>

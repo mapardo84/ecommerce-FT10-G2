@@ -65,17 +65,16 @@ export default function Notifications(props: any) {
     }
   }
 
-  // console.log("bell", bellState, "CHECKD", noChecked)
   return (
     <div className="bellNavBarI">
       {bellState && noChecked ?
         <Badge count={1}>
-          <Button className={navState ? 'navButtonActive' : "navButton"} type="text" onClick={notify}>
+          <Button className={navState ? 'activeNotifi' : "inactiveNotifi"} type="text" onClick={notify}>
             <BellOutlined className="iconNotifi" />
           </Button>
         </Badge>
         :
-        <Button className={navState ? 'navButtonActive' : "navButton"} type="text" onClick={notify}>
+        <Button className={navState ? 'activeNotifi' : "inactiveNotifi"} type="text" onClick={notify}>
           <BellOutlined className="iconNotifi" />
         </Button>
       }

@@ -28,7 +28,7 @@
 }
 
 .CardEvent {
-  margin-left: 135px !important;
+  width: 80%;
   margin-bottom: 40px !important;
 }
 
@@ -40,4 +40,29 @@
 
 .formEvents {
   padding-right: 350px !important;
+}
+
+.scrollAdviceEvents{
+  display: none;
+}
+
+.eventsContainerGlobal{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+@media screen and (max-width:700px){
+  .CardEvent{
+    width: 100vw;
+  }
+
+  .scrollAdviceEvents{
+    width: 100vw;
+    display: contents;
+    display: flex;
+    justify-content: flex-start;
+    margin-left: 40px;
+    font-size: 16px;
+  }
 }

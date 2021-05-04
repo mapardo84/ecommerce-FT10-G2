@@ -11,9 +11,9 @@ export const EventLayout: FunctionComponent = () => {
 
   return (
     <>
-      <Layout>
+      <Layout style={{ overflowX: "hidden" }}>
         <NavBar />
-        <Content style={{ overflowX: "hidden" }}>
+        <Content >
           <Event/>
         </Content>
         <Chatbot />
