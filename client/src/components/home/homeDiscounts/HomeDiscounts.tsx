@@ -1,9 +1,11 @@
 import React, { useEffect } from 'react'
 import { promotionType } from '../../../actions/Promotions/promotionsAction'
 import "./HomeDiscounts.less"
-import { Carousel } from 'antd';
+import { Button, Carousel } from 'antd';
 import AOS from 'aos';
 import 'aos/dist/aos.css';
+import { useSelector } from 'react-redux';
+import { NavLink } from 'react-router-dom';
 
 const settings = {
     dots: true,
@@ -19,14 +21,17 @@ const HomeDiscounts = (props: { promo: promotionType[] }) => {
         AOS.init();
     }, []);
 
+    const discounts = useSelector((state: any) => state.discount.discounts)
+    console.log("DIS:", discounts)
+
     const { promo } = props;
 
     return (
-        <div data-aos="fade-up" data-aos-duration="1000"  data-aos-once="true" className="HomeDiscounts_container">
+        <div data-aos="fade-up" data-aos-duration="1000" data-aos-once="true" className="HomeDiscounts_container">
             <div className="HomeDiscounts_left">
                 <Carousel  {...settings} className="HomeDiscounts_Carousel">
 
-                    {promo.map((p: promotionType) => {
+                    {discounts.map((p: promotionType) => {
                         return (
                             <div className="DiscountsCardContainer">
 
@@ -50,8 +55,8 @@ const HomeDiscounts = (props: { promo: promotionType[] }) => {
             </div>
             <div className="HomeDiscounts_right">
                 <div className="HomeDiscounts_rightTitle">DISCOUNTS</div>
-                <div className="HomeDiscounts_rightText">take advantage of our great discounts and take the rest you deserve, take advantage of our great discounts and take the rest you deserve.</div>
-
+                <div className="HomeDiscounts_rightText">Take advantage of our great discounts and get the rest you deserve </div>
+                <div><NavLink to="/booking"><Button type="primary" style={{marginBottom:"20px"}}>BOOK NOW</Button></NavLink></div>
             </div>
 
         </div>

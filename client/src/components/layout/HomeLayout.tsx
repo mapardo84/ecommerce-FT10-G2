@@ -33,6 +33,7 @@ export const HomeLayout = (): JSX.Element => {
 
 
   const [updateRegister, setUpdateRegister] = useState<boolean>(false)
+  
   useEffect(() => {
     window.scrollTo(0, 0);
     supabase.auth.onAuthStateChange((event, session) => {

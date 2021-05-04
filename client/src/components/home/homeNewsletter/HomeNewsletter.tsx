@@ -2,6 +2,7 @@ import { ReactElement, useEffect } from 'react'
 import { Button, Form, Input } from 'antd';
 import { AddSub, GetSub, UpdateSub } from '../../../actions/addNewsletterSub/index';
 import { useDispatch, useSelector } from 'react-redux';
+import "./HomeNewsletter.less"
 
 interface Props {
 
@@ -29,8 +30,6 @@ export function HomeNewsletter({ }: Props): ReactElement {
     }
 
     useEffect(() => {
-        //console.log(emailsCancelled[0].email)
-        //console.log(emailsCancelledMap)
         dispatch(GetSub())
     }, [dispatch])
 
@@ -38,7 +37,9 @@ export function HomeNewsletter({ }: Props): ReactElement {
 
     return (
         <div className="newsLetterContainer">
-            <div className="newsLetterTitle">SUBSCRIBE NEWSLETTER</div>
+            <div className="newsLetterTitle">SUBSCRIBE TO OUR NEWSLETTER</div>
+            <div className="newsLetterDescription">to receive our latest news and discounts, subscribe to our newsletter</div>
+            
             <Form className="newsLetterForm" form={form} autoComplete='off' onFinish={onFinish}>
                 <Form.Item
                     className="newsLetterInput"
@@ -50,7 +51,7 @@ export function HomeNewsletter({ }: Props): ReactElement {
                 >
                     <Input placeholder='Enter your email...'></Input>
                 </Form.Item>
-                <Button type='primary' htmlType='submit'>
+                <Button style={{zIndex:0}} type='primary' htmlType='submit'>
                     Subscribe
                 </Button>
             </Form>
