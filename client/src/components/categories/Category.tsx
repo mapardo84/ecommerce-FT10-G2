@@ -57,7 +57,7 @@ const Category = (props: any): JSX.Element => {
 
       <div className="category_cardWishlist">
         < Tooltip title="Add to WishList" >
-          <Button className="buttonContainerCategory1" size="large" onClick={handleClick} type="primary" style={{ visibility: session && visibleButton() ? 'visible' : 'hidden' }}  ><StarOutlined /></Button>
+          <Button className="buttonContainerCategory1"  onClick={handleClick} type="text" style={{ visibility: session && visibleButton() ? 'visible' : 'hidden' }}  ><StarOutlined /></Button>
         </Tooltip >
         <Link to={`/accomodations/${categ.id}`}>
           <Button className="categoryCardButtonsAc category_cardButton2" size="large" type='primary'>
