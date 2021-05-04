@@ -21,6 +21,7 @@ import { RootReducer } from "../../reducers/rootReducer";
 import Modal from "antd/lib/modal/Modal";
 import { Register } from "../LogIn/Register";
 import { UpdateRegister } from "../LogIn/UpdateRegister";
+import { getWishlist } from "../../actions/WishlistAction";
 const { Content } = Layout;
 
 export const HomeLayout = (): JSX.Element => {
