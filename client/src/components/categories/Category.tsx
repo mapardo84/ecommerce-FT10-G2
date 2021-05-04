@@ -6,7 +6,6 @@ import { StarOutlined } from "@ant-design/icons";
 import { addWishlist, getWishlist } from '../../actions/WishlistAction';
 import { useEffect, useState } from 'react';
 import { supabase } from "../../SupaBase/conection";
-import { Dispatch } from 'react'
 import AOS from 'aos';
 import 'aos/dist/aos.css';
 
@@ -40,7 +39,6 @@ const Category = (props: any): JSX.Element => {
     )
   }
 
-
   const session = supabase.auth.session();
   const idUser = useSelector((state: any) => state.idByMail)
 
@@ -52,7 +50,7 @@ const Category = (props: any): JSX.Element => {
   }, [dispatch])
 
   return (
-    <div data-aos="fade-left" data-aos-duration="1100" data-aos-once="true" className="category_cardContainer">
+    <div data-aos="fade-left" data-aos-duration="300" data-aos-once="true" className="category_cardContainer">
       <img className="category_cardImage" src={categ.images[0]} alt="IMG NOT FOUND" />
 
       <div className="category_cardWishlist">

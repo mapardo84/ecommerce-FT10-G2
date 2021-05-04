@@ -159,7 +159,7 @@ export const NavBar = () => {
                   </div>
 
                   <div>
-                    <Notifications navState={navBar} />
+                    {/* <Notifications navState={navBar} /> */}
                   </div>
 
                   <NavLink to="/booking">
@@ -184,7 +184,7 @@ export const NavBar = () => {
             </div>
 
             <div className={"navButtonMenu"}>
-              <Notifications navState={navBar} />
+              {/* <Notifications navState={navBar} /> */}
               <Button type="text" onClick={handleNavResponsive} >
                 <MenuOutlined style={navBar ? { fontSize: "24px", color: "black" } : { fontSize: "24px", color: "white" }} />
               </Button>

@@ -27,7 +27,7 @@ export default function Notifications(props: any) {
     if (supabase.auth.user()) {
       dispatch(getWishlist())
     }
-  }, [wishlist, promotions, noChecked])
+  }, [promotions])
 
 
   const activeBell = () => {
