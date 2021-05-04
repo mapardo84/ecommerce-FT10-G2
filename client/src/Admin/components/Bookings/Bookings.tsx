@@ -398,6 +398,7 @@ export const Bookings = () => {
                     columns={columns}
                     dataSource={storeBooking?.bookingPax}
                     loading={loading}
+                    rowKey='id'
                 />
             </div>
 
@@ -425,40 +426,40 @@ export const Bookings = () => {
                             )) : <div>
 
 
-                                    {/* FIRST NAME  */}
-                                    <Form.Item name="first_name" label="Name" rules={[{
-                                        required: true, message: 'Please input your name!',
-                                        whitespace: true
-                                    }]}>
-                                        <Input />
-                                    </Form.Item>
+                                {/* FIRST NAME  */}
+                                <Form.Item name="first_name" label="Name" rules={[{
+                                    required: true, message: 'Please input your name!',
+                                    whitespace: true
+                                }]}>
+                                    <Input />
+                                </Form.Item>
 
-                                    {/* LAST NAME  */}
-                                    <Form.Item name="last_name" label="Last Name" rules={[{ required: true, message: 'Please input your last name!', whitespace: true }]}>
-                                        <Input />
-                                    </Form.Item>
+                                {/* LAST NAME  */}
+                                <Form.Item name="last_name" label="Last Name" rules={[{ required: true, message: 'Please input your last name!', whitespace: true }]}>
+                                    <Input />
+                                </Form.Item>
 
-                                    {/* BIRTH DATE  */}
-                                    <Form.Item name="birth_date" label="Birth Date" rules={[{ required: true, message: 'Please select your birth date!' }]}>
-                                        <DatePicker />
-                                    </Form.Item>
+                                {/* BIRTH DATE  */}
+                                <Form.Item name="birth_date" label="Birth Date" rules={[{ required: true, message: 'Please select your birth date!' }]}>
+                                    <DatePicker />
+                                </Form.Item>
 
-                                    {/* COUNTRY  */}
-                                    <Form.Item name="country" label="Country" rules={[{ type: 'array', required: true, message: 'Please select your country!' }]}>
-                                        <Cascader options={residences} />
-                                    </Form.Item>
+                                {/* COUNTRY  */}
+                                <Form.Item name="country" label="Country" rules={[{ type: 'array', required: true, message: 'Please select your country!' }]}>
+                                    <Cascader options={residences} />
+                                </Form.Item>
 
-                                    {/* ADDRESS  */}
-                                    <Form.Item name="address" label="Address" rules={[{ required: true, message: 'Please input your address!', whitespace: true }]}>
-                                        <Input />
-                                    </Form.Item>
+                                {/* ADDRESS  */}
+                                <Form.Item name="address" label="Address" rules={[{ required: true, message: 'Please input your address!', whitespace: true }]}>
+                                    <Input />
+                                </Form.Item>
 
-                                    {/* PHONE  */}
-                                    <Form.Item name="phone" label="Phone Number" rules={[{ type: "string", required: true, message: 'Please input your phone number!' }]}>
-                                        <Input style={{ width: '100%' }} />
-                                    </Form.Item>
+                                {/* PHONE  */}
+                                <Form.Item name="phone" label="Phone Number" rules={[{ type: "string", required: true, message: 'Please input your phone number!' }]}>
+                                    <Input style={{ width: '100%' }} />
+                                </Form.Item>
 
-                                </div>
+                            </div>
                             }
 
                             {/* Guests */}

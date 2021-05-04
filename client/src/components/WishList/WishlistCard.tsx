@@ -3,13 +3,11 @@ import { useDispatch } from 'react-redux'
 import "../WishList/Wishlist.less"
 import { deleteWishlist } from "../../actions/WishlistAction"
 import { Button, Modal } from 'antd'
-import { useHistory } from 'react-router';
 import AOS from 'aos';
 import 'aos/dist/aos.css';
 
 export default function WishlistCard(data: any) {
   const dispatch = useDispatch()
-  const history = useHistory()
 
   useEffect(() => {
     AOS.init();
@@ -18,8 +16,7 @@ export default function WishlistCard(data: any) {
 
   const [isModalVisible, setIsModalVisible] = useState(false);
 
-  const handleClick = (e: any) => {
-
+  const handleClick = () => {
     setIsModalVisible(true);
   }
   const handleOk = () => {

@@ -1,6 +1,5 @@
-import React, { useEffect } from 'react'
+import { useEffect } from 'react'
 import { useDispatch } from 'react-redux'
-import { Redirect } from 'react-router'
 import { delete_pre_booking, get_pre, post_pax_booking_payment, update_balance } from '../../actions/Booking/pre_booking_action'
 import { supabase } from '../../SupaBase/conection'
 import { PaxValues } from '../booking/paxForm/PaxForm'
@@ -167,7 +166,7 @@ export function SuccessPayment() {
                     <div><strong>Checkout :</strong>{str?.checkout}</div>
                     <div><strong>Category & type of room</strong>{str?.category} - {str?.type}</div>
                 </div>
-                <div style={{textAlign:"center"}}><NavLink to="/myBookings"><Button type="primary">BOOKINGS</Button></NavLink></div>
+                <div style={{ textAlign: "center" }}><NavLink to="/myBookings"><Button type="primary">BOOKINGS</Button></NavLink></div>
             </div>
             {/* :
                 <Redirect to="/home"></Redirect>} */}

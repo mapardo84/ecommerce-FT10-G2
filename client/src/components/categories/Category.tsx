@@ -11,13 +11,13 @@ import 'aos/dist/aos.css';
 
 
 const Category = (props: any): JSX.Element => {
-  const { categ, num } = props
+  const { categ } = props
 
   const dispatch = useDispatch()
   const [isModalVisible, setIsModalVisible] = useState(false);
 
   const handleOk = () => {
-    dispatch(addWishlist(categ.id, idUser?.userId[0]?.id))
+    dispatch(addWishlist(categ.id))
     setIsModalVisible(false);
   };
 
@@ -40,7 +40,6 @@ const Category = (props: any): JSX.Element => {
   }
 
   const session = supabase.auth.session();
-  const idUser = useSelector((state: any) => state.idByMail)
 
   useEffect(() => {
     AOS.init();
@@ -80,13 +79,5 @@ const Category = (props: any): JSX.Element => {
     </div >
   )
 }
-
-
-
-
-
-
-
-
 
 export default Category;

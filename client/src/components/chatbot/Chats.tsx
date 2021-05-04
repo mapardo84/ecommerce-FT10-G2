@@ -21,34 +21,36 @@ interface MessagesInfo {
 }
 
 const Chats: React.FC<Props> = props => {
-  const [messages, setMessages] = useState<MessagesInfo[]>([]);
+  const [messages, setMessages] = useState<MessagesInfo[]>([
+    {
+      purpose: "introduction",
+      message:
+        `Hi there! If you’re here, that means you’re looking for some guidance.
+        Tell me, what’s your name?`,
+      sender: "bot"
+    }
+  ]);
   const dummyRef = useRef<HTMLDivElement>(null);
   const bodyRef = useRef<HTMLDivElement>(null);
 
   // stacking up messages
   useEffect(() => {
-    if (messages.length === 0 ) {
-      setMessages([
-        {
-          purpose: "introduction",
-          message:
-            `Hi there! If you’re here, that means you’re looking for some guidance.
-            Tell me, what’s your name?`,
-          sender: "bot"
-        }
-      ]);
-    } else {
-      let tempArray = [...messages];
-      tempArray.push({ message: props.sendUserResponse, sender: "user" });
-      setMessages(tempArray);
-
-      setTimeout(() => {
-        let temp2 = [...tempArray];
-        temp2.push(props.botResponse);
-        setMessages(temp2);
-      }, 1000);
+    if (props.sendUserResponse) {
+      setMessages((e) => [...e, { message: props.sendUserResponse, sender: "user" }]);
     }
-  }, [props.sendUserResponse, props.botResponse]);
+
+  }, [props.sendUserResponse]);
+
+  useEffect(() => {
+    const timer1 = setTimeout(() => {
+      if (props.botResponse) {
+        setMessages((e) => [...e, props.botResponse]);
+      }
+    }, 1000);
+    return () => {
+      clearTimeout(timer1);
+    };
+  }, [props.botResponse])
 
   // enable autoscroll after each message
   useEffect(() => {
@@ -59,15 +61,18 @@ const Chats: React.FC<Props> = props => {
       });
     }
   }, [messages]);
-  
+
   let i = 0;
   return (
     <div className="message-container" ref={bodyRef}>
       {messages.map(chat => (
         <div key={`${chat.message}${i++}`}>
-          <div className={`message ${chat.sender}`}>
-            <p>{chat.message}</p>
-          </div>
+          {
+            chat.message !== '' &&
+            <div className={`message ${chat.sender}`}>
+              <p>{chat.message}</p>
+            </div>
+          }
           {chat.options ? (
 
             <div className="options">
@@ -84,7 +89,7 @@ const Chats: React.FC<Props> = props => {
                 </p>
               ))}
             </div>
-            
+
           ) : null}
           <div ref={dummyRef} className="dummy-div"></div>
         </div>

@@ -1,7 +1,6 @@
 import { Layout } from "antd";
 import { NavBar } from "../NavBar/NavBar";
 import { FooterLayout } from '../footer/Footer'
-import MyBookings from "../myBookings/MyBookings";
 import MyProfile from "../myProfile/MyProfile";
 import "./MyProfileLayout.less"
 import back from "./img/prof1.jpg"

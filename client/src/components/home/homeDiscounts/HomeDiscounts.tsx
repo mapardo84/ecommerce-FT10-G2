@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import { useEffect } from 'react'
 import { promotionType } from '../../../actions/Promotions/promotionsAction'
 import "./HomeDiscounts.less"
 import { Button, Carousel } from 'antd';
@@ -15,7 +15,7 @@ const settings = {
     pauseOnHover: false,
 };
 
-const HomeDiscounts = (props: { promo: promotionType[] }) => {
+const HomeDiscounts = () => {
 
     useEffect(() => {
         AOS.init();
@@ -23,16 +23,16 @@ const HomeDiscounts = (props: { promo: promotionType[] }) => {
 
     const discounts = useSelector((state: any) => state.discount.discounts)
 
-    const { promo } = props;
+    // const { promo } = props;
 
     return (
         <div data-aos="fade-up" data-aos-duration="1000" data-aos-once="true" className="HomeDiscounts_container">
             <div className="HomeDiscounts_left">
                 <Carousel  {...settings} className="HomeDiscounts_Carousel">
 
-                    {discounts.map((p: promotionType) => {
+                    {discounts.map((p: promotionType, index: number) => {
                         return (
-                            <div className="DiscountsCardContainer">
+                            <div key={index} className="DiscountsCardContainer">
 
                                 <div className="HomeDiscounts_card">
                                     <div className="HomeDiscounts_cardLeft"></div>
@@ -55,7 +55,7 @@ const HomeDiscounts = (props: { promo: promotionType[] }) => {
             <div className="HomeDiscounts_right">
                 <div className="HomeDiscounts_rightTitle">DISCOUNTS</div>
                 <div className="HomeDiscounts_rightText">Take advantage of our great discounts and get the rest you deserve </div>
-                <div><NavLink to="/booking"><Button type="primary" style={{marginBottom:"20px"}}>BOOK NOW</Button></NavLink></div>
+                <div><NavLink to="/booking"><Button type="primary" style={{ marginBottom: "20px" }}>BOOK NOW</Button></NavLink></div>
             </div>
 
         </div>
@@ -63,15 +63,3 @@ const HomeDiscounts = (props: { promo: promotionType[] }) => {
 }
 
 export default HomeDiscounts
-
-
-// categoryToApply:
-// name: "Suite"
-// __proto__: Object
-// description: "Descuento por 2 dias"
-// expirationDate: "2021-04-30"
-// id: 3
-// published: true
-// releaseDate: "2021-04-28"
-// value: 20
-

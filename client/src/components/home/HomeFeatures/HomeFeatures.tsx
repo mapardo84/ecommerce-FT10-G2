@@ -28,18 +28,18 @@ export const HomeFeatures = () => {
                     <div className='DescriptionFeatures'>To live an adventure with your best friend for life, is what Henry Hotel wants for you, keep beautiful memories in our spaces that in addition to having the required, we always seek to give you an unimaginable experience, enter a beautiful Caribbean environment, where you can access and meet different features that Henry Hotel has prepared for you.</div></div>
                 <div className='ContainerHomeFeatures12'>
                     <div className='ContainerHomeFeatures1'>
-                        <div className='TitleIconFeatures'><img className='ImgFeaturesHome' src={petFriendly} />Pet Friendly</div>
-                        <div className='TitleIconFeatures'><img className='ImgFeaturesHome' src={pool} />Pool</div>
-                        <div className='TitleIconFeatures'><img className='ImgFeaturesHome' src={roomService} />Room Service</div>
-                        <div className='TitleIconFeatures'><img className='ImgFeaturesHome' src={security} />Security</div>
-                        <div className='TitleIconFeatures'><img className='ImgFeaturesHome' src={wifi} />Wifi</div>
+                        <div className='TitleIconFeatures'><img className='ImgFeaturesHome' alt={petFriendly} src={petFriendly} />Pet Friendly</div>
+                        <div className='TitleIconFeatures'><img className='ImgFeaturesHome' alt={pool} src={pool} />Pool</div>
+                        <div className='TitleIconFeatures'><img className='ImgFeaturesHome' alt={roomService} src={roomService} />Room Service</div>
+                        <div className='TitleIconFeatures'><img className='ImgFeaturesHome' alt={security} src={security} />Security</div>
+                        <div className='TitleIconFeatures'><img className='ImgFeaturesHome' alt={wifi} src={wifi} />Wifi</div>
                     </div>
                     <div className='ContainerHomeFeatures2'>
-                        <div className='TitleIconFeatures'><img className='ImgFeaturesHome' src={air_conditioner} />Air Conditioner</div>
-                        <div className='TitleIconFeatures'><img className='ImgFeaturesHome' src={cocktail} />Cocktail</div>
-                        <div className='TitleIconFeatures'><img className='ImgFeaturesHome' src={gym} />Gym</div>
-                        <div className='TitleIconFeatures'><img className='ImgFeaturesHome' src={laundry} />Lundry</div>
-                        <div className='TitleIconFeatures'><img className='ImgFeaturesHome' src={parking} />Parking</div>
+                        <div className='TitleIconFeatures'><img className='ImgFeaturesHome' alt={air_conditioner} src={air_conditioner} />Air Conditioner</div>
+                        <div className='TitleIconFeatures'><img className='ImgFeaturesHome' alt={cocktail} src={cocktail} />Cocktail</div>
+                        <div className='TitleIconFeatures'><img className='ImgFeaturesHome' alt={gym} src={gym} />Gym</div>
+                        <div className='TitleIconFeatures'><img className='ImgFeaturesHome' alt={laundry} src={laundry} />Laundry</div>
+                        <div className='TitleIconFeatures'><img className='ImgFeaturesHome' alt={parking} src={parking} />Parking</div>
                     </div>
                 </div>
             </div>

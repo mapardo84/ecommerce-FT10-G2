@@ -1,7 +1,6 @@
 import { useEffect } from 'react'
 import { useDispatch, useSelector } from "react-redux"
 import { getWishlist } from "../../actions/WishlistAction";
-import { getUserIdByMail } from '../../actions/getUserIdByMail/index';
 import { supabase } from "../../SupaBase/conection";
 import WishlistCard from "./WishlistCard";
 import "../WishList/Wishlist.less"
@@ -14,7 +13,7 @@ export default function Wishlist() {
     if (supabase.auth.user()) {
       dispatch(getWishlist())
     }
-  }, [])
+  }, [dispatch])
 
 
   return (
@@ -29,8 +28,8 @@ export default function Wishlist() {
       </div>
 
       {wishlist.length !== 0 ?
-        wishlist?.map((x: any) => (
-          <WishlistCard data={x} />
+        wishlist?.map((x: any, i: number) => (
+          <WishlistCard key={i} data={x} />
         )
         ) : <div style={{ display: "flex", justifyContent: "center", alignItems: "center", minHeight: "84.2vh", fontSize: "35px", color: "gray" }}>You don't have accomodations on your Wishlist</div>}
     </div>

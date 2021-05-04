@@ -1,4 +1,3 @@
-import { ContactsOutlined } from '@ant-design/icons';
 import { Dispatch } from 'redux';
 import { categoryType, roomType } from '../../components/booking/accomodationsSelect/AccomodationsSelect';
 import { bookingType } from '../../components/booking/guestsForm/GuestsForm';
@@ -13,9 +12,9 @@ export const SET_CATEGORY = "SET_CATEGORY";
 export const SELECTED_CATEGORY_ROOMS = "SELECTED_CATEGORY_ROOMS";
 export const BOOKED_ROOM = "BOOKED_ROOM";
 export const SET_LOADING = 'SET_LOADING';
-export const GET_PAX_DATA='GET_PAX_DATA'
+export const GET_PAX_DATA = 'GET_PAX_DATA'
 
-export interface BookingInfo{
+export interface BookingInfo {
     checkin: string
     checkout: string
     early_check: boolean
@@ -24,13 +23,13 @@ export interface BookingInfo{
     late_check: boolean
     paxTitular_id: number
     paxes_amount: number
-    preference_id: string|null
+    preference_id: string | null
     room_id: number
     status: boolean
-    user_id: number|null
+    user_id: number | null
 }
 
-export interface Result{
+export interface Result {
     capacity: number
     description: string
     details: string[]
@@ -38,18 +37,18 @@ export interface Result{
     images: string[]
     price: number
 }
-export interface RoomsInfo{
+export interface RoomsInfo {
     availability: string
     category_id: number
-    curent_booking: number|null
-    curent_pax: number|null
-    description: string|null
+    curent_booking: number | null
+    curent_pax: number | null
+    description: string | null
     floor: number
     id: number
     name: string
     type_id: number
 }
-export interface Types{
+export interface Types {
     id: number
     name: string
     capacity: number
@@ -60,21 +59,21 @@ export interface bookAction {
     payload: any
 }
 
-export const stepChange = (inputs:number) => {
+export const stepChange = (inputs: number) => {
     return {
         type: STEP_CHANGE,
         payload: inputs
     }
 }
 
-export const setBookData = (booking:any) => {
+export const setBookData = (booking: any) => {
     return {
         type: SET_BOOK_DATA,
         payload: { booking }
     }
 }
 
-export const setCategory = (input:any) => {
+export const setCategory = (input: any) => {
     return {
         type: SET_CATEGORY,
         payload: input
@@ -111,7 +110,7 @@ export const getCategoriesForUser = (userBooking: bookingType) => {
         const { data: booki } = await supabase
             .from("bookings")
             .select('*')
-            .eq('status',true)
+            .eq('status', true)
             .gte('checkout', checkin)
             .lte('checkin', checkout)
         let habitacionesDescartadas: number[] = []
@@ -121,18 +120,16 @@ export const getCategoriesForUser = (userBooking: bookingType) => {
             }
         })
 
-        const freeRooms :roomType[] = rooms?.filter((room: roomType) => {
-            if (!habitacionesDescartadas.includes(room.id)) {
-                return room
-            }
-        })
+        const freeRooms: roomType[] = rooms?.filter((room: roomType) =>
+            !habitacionesDescartadas.includes(room.id)
+        )
 
         if (!freeRooms) return
 
         //Seleccionar categorias correspondientes a los rooms libres
         let result: categoryType[] = []
         for (let i = 0; i < freeRooms.length; i++) {
-            if (!result.some((x:categoryType) => x.id === freeRooms[i].category_id)) {
+            if (!result.some((x: categoryType) => x.id === freeRooms[i].category_id)) {
                 let { data: categories } = await supabase
                     .from('categories')
                     .select('*')
@@ -145,22 +142,22 @@ export const getCategoriesForUser = (userBooking: bookingType) => {
     }
 }
 
-const categoriesToShow = (payload: {userCategories:categoryType[]|null;types:Types[]|null}) => {
+const categoriesToShow = (payload: { userCategories: categoryType[] | null; types: Types[] | null }) => {
     return {
         type: CATEGORIES_TO_SHOW,
         payload
     }
 }
 
-const freeRoomsToShow = (payload: roomType[]|null) => {
+const freeRoomsToShow = (payload: roomType[] | null) => {
     return {
         type: FREE_ROOMS_SHOW,
         payload
     }
 }
 
-export const roomSelected = (categoryPax: any, freeRooms: roomType[]|null) => {
-    console.log(categoryPax,"roomSelected")
+export const roomSelected = (categoryPax: any, freeRooms: roomType[] | null) => {
+    //console.log(categoryPax, "roomSelected")
     return (dispatch: Dispatch) => {
         const roomSelected = freeRooms?.find((r: roomType) => {
             return (r.category_id === categoryPax.category.id && r.type_id === categoryPax.type.id)
@@ -169,36 +166,36 @@ export const roomSelected = (categoryPax: any, freeRooms: roomType[]|null) => {
     }
 }
 
-const bookedRoom = (payload:number|undefined) => {
+const bookedRoom = (payload: number | undefined) => {
     return {
         type: BOOKED_ROOM,
         payload
     }
 }
 
-export const setLoading = (payload:boolean) => {
+export const setLoading = (payload: boolean) => {
     return {
         type: SET_LOADING,
         payload
     }
 }
 
-export const getPax=(uuid:string | undefined)=>{
-    return async(dispatch:Dispatch)=>{
+export const getPax = (uuid: string | undefined) => {
+    return async (dispatch: Dispatch) => {
         dispatch(setLoading(true))
-        const {data:pax}:any = await supabase
-        .from("paxes")
-        .select("*")
-        .eq("uuid",`${uuid}`) 
-        console.log(pax,"getPax")
+        const { data: pax }: any = await supabase
+            .from("paxes")
+            .select("*")
+            .eq("uuid", `${uuid}`)
+        //console.log(pax, "getPax")
         dispatch(get_pax_data(pax[0]))
         dispatch(setLoading(false))
     }
 }
-const get_pax_data=(payload:any)=>{
-    console.log(payload,"get_pax_data")
-    return{
-        type:GET_PAX_DATA,
+const get_pax_data = (payload: any) => {
+    //console.log(payload, "get_pax_data")
+    return {
+        type: GET_PAX_DATA,
         payload,
     }
 }

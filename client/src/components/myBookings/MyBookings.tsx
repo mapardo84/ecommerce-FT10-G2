@@ -22,8 +22,6 @@ const MyBookings = () => {
 
     const userBookings = useSelector((state: any) => state.userBookings.data);
     const loading = useSelector((state: any) => state.userBookings.loading);
-    console.log(userBookings)
-    console.log(loading)
 
     let actualBookings: UserBooking[] = [];
     let pastBookings: UserBooking[] = [];

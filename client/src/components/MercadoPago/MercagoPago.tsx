@@ -1,6 +1,6 @@
 import { Button } from 'antd';
 import axios from 'axios'
-import React, { useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { update_balance } from '../../actions/Booking/pre_booking_action';
@@ -8,12 +8,11 @@ import { RootReducer } from '../../reducers/rootReducer';
 import { supabase } from '../../SupaBase/conection';
 
 
-export const MercadoPago = (props: any) => {
+export const MercadoPago = () => {
   const FORM_ID = 'payment-form';
 
   const [preferenceId, setPreferenceId] = useState<any>(null)
   const [bookingNow, setBookingNow] = useState(false)
-  const hola = useSelector((state: RootReducer) => console.log(state))
   const bookings = useSelector((state: RootReducer) => state?.bookings)
   const { user_data } = useSelector((state: RootReducer) => state?.pre_booking)
   const [actual_ballance, setActual_ballance] = useState(0)
@@ -27,9 +26,6 @@ export const MercadoPago = (props: any) => {
 
 
   useEffect(() => {
-    // axios.post('http://localhost:4000/mercadopago/postPax',form)
-    //   .then(()=>axios.post('http://localhost:4000/mercadopago/postBooking',createBooking))
-    console.log(hola)
     let total_price: number = booking.fee * booking.nights
     if (early_checkin) {                                  //Si hay EARLY CHECKIN, el precio va a ser el valor de la noche * la cantidad de noches, y a eso se le suma 1/2 noche
       total_price = Math.round(total_price + booking?.original_price / 2)
@@ -54,7 +50,6 @@ export const MercadoPago = (props: any) => {
 
     localStorage.setItem("total_price", String(total_price))
 
-
     axios.get(`http://localhost:4000/mercadopago?quantity=1&unit_price=${total_price}&title=HotelHenry`)
       .then((res) => {
         setPreferenceId(res?.data?.preferenceId)
@@ -72,7 +67,7 @@ export const MercadoPago = (props: any) => {
           .eq("user_email", `${data.email}`).then(res => res)
       })
 
-      .catch(e => console.log("hola"))
+      .catch(e => console.log(e))
   }, [booking.fee, booking.nights, booking.original_price, early_checkin, late_checkout, positive_balance])
 
 

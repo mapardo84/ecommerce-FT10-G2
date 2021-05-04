@@ -33,26 +33,26 @@ export interface Category {
 }
 interface IFields {
   name: string[],
-  value: string | number
+  value: string | number | string[]
 }
 
 const campos = [
   { name: ["name"], value: "" },
   { name: ["description"], value: "" },
-  { name: ["details"], value: "" },
+  { name: ["details"], value: [] },
   { name: ["price"], value: "" },
-  { name: ["images"], value: "" },
+  { name: ["images"], value: [] },
 ];
 
 export const Categories = () => {
-  const handleSearch = (selectedKeys: string, confirm: Function, dataIndex: string) => {
-    confirm();    
+  const handleSearch = (_: string, confirm: Function) => {
+    confirm();
   };
 
   const handleReset = (clearFilters: Function) => {
-    clearFilters();    
+    clearFilters();
   };
-  
+
   const [isModalVisible, setIsModalVisible] = useState<boolean>(false);
   const [fields, setFields] = useState<IFields[]>(campos);
   const [editId, setEditId] = useState(null);
@@ -79,7 +79,7 @@ export const Categories = () => {
   };
 
   const onFinish = (values: Category) => {
-    const data = { ...values, id: editId };    
+    const data = { ...values, id: editId };
     if (editId) {
       dispatch(updateCategory(data));
     } else {
@@ -93,7 +93,7 @@ export const Categories = () => {
     setFields(campos);
     setIsModalVisible(false);
     setEditId(null);
-  }; 
+  };
 
   useEffect(() => {
     dispatch(getAllCategories());
@@ -118,13 +118,13 @@ export const Categories = () => {
           onChange={(e) =>
             setSelectedKeys(e.target.value ? [e.target.value] : [])
           }
-          onPressEnter={() => handleSearch(selectedKeys, confirm, dataIndex)}
+          onPressEnter={() => handleSearch(selectedKeys, confirm)}
           style={{ width: 188, marginBottom: 8, display: "block" }}
         />
         <Space>
           <Button
             type="primary"
-            onClick={() => handleSearch(selectedKeys, confirm, dataIndex)}
+            onClick={() => handleSearch(selectedKeys, confirm)}
             icon={<SearchOutlined />}
             size="small"
             style={{ width: 30 }}
@@ -141,7 +141,7 @@ export const Categories = () => {
             size="small"
             style={{ marginLeft: "120px" }}
             onClick={() => {
-              confirm({ closeDropdown: false });             
+              confirm({ closeDropdown: false });
             }}
           >
             Filter
@@ -155,9 +155,9 @@ export const Categories = () => {
     onFilter: (value: string, record: any) =>
       record[dataIndex]
         ? record[dataIndex]
-            .toString()
-            .toLowerCase()
-            .includes(value.toLowerCase())
+          .toString()
+          .toLowerCase()
+          .includes(value.toLowerCase())
         : "",
     render: (text: string) => text,
   });
@@ -166,10 +166,10 @@ export const Categories = () => {
     {
       title: "Id",
       dataIndex: "id",
-      key: "id",      
+      key: "id",
       defaultSortOrder: "descend",
       sorter: (a: Category, b: Category) => a.id - b.id,
-      width: 70      
+      width: 70
     },
     {
       title: "Category name",
@@ -183,7 +183,7 @@ export const Categories = () => {
       dataIndex: "description",
       key: "description",
       ...getColumnSearchProps("description"),
-      width:500      
+      width: 500
     },
     {
       title: "Details",
@@ -205,7 +205,7 @@ export const Categories = () => {
       dataIndex: "price",
       key: "price",
       sorter: (a: Category, b: Category) => a.id - b.id,
-    },    
+    },
     {
       title: "Action",
       dataIndex: "operation",
@@ -314,7 +314,7 @@ export const Categories = () => {
               Save
             </Button>
           </div>
-        </Form>        
+        </Form>
       </Modal>
       ;
     </div>

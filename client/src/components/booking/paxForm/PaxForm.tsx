@@ -1,5 +1,4 @@
-import React, { SyntheticEvent, useEffect, useState } from 'react';
-//import 'antd/dist/antd.css';
+import { SyntheticEvent, useState } from 'react';
 import { Form, Input, Cascader, Select, DatePicker, Checkbox, Button } from 'antd';
 import { sendPax } from '../../../actions/Booking/PaxFormActions';
 import './PaxForm.less'
@@ -8,8 +7,8 @@ import { useDispatch, useSelector } from 'react-redux';
 import { MercadoPago } from '../../MercadoPago/MercagoPago';
 import { supabase } from '../../../SupaBase/conection'
 import Modal from 'antd/lib/modal/Modal';
-import { Pre_booking } from '../../Pre_booking/Pre_booking';
-import countries, { Country } from 'countries-list'
+import { PreBooking } from '../../PreBooking/PreBooking';
+import countries from 'countries-list'
 import { RootReducer } from '../../../reducers/rootReducer';
 
 const { Option } = Select;
@@ -119,11 +118,6 @@ export function PaxForm() {
     const [mp, setMp] = useState<boolean>(false)
     const [mpModal, setMpModal] = useState<boolean>(false)
 
-
-    useEffect(() => {
-    }, [pax_data])
-
-
     const validator = (string?: any) => {
         for (var i = 0; i < 10; i++) {
             if (string.includes(i)) {
@@ -147,7 +141,7 @@ export function PaxForm() {
 
 
 
-    const onChange = async (value: string, allvalues: any) => {
+    const onChange = async (_: string, allvalues: any) => {
         for (let i in allvalues) {
             if (!allvalues[i]) {
                 return setMp(false)
@@ -251,7 +245,7 @@ export function PaxForm() {
 
                 </div>
                 <div>
-                    <Pre_booking type={1} />
+                    <PreBooking type={1} />
                 </div>
             </div>
 

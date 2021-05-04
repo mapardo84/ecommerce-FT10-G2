@@ -8,17 +8,17 @@ import { IHalls } from './Halls';
 import { IRequests } from './HallsRequests';
 
 export interface IBookedEvents {
-    id:number;
-    name:string;
-    last_name:string;
-    company:string,
-    email:string;
-    telephone:string;
-    eventName:string;
-    startDate:string;
-    finishDate:string;
+    id: number;
+    name: string;
+    last_name: string;
+    company: string,
+    email: string;
+    telephone: string;
+    eventName: string;
+    startDate: string;
+    finishDate: string;
     methodPayment: string;
-    hall_id:number;
+    hall_id: number;
 };
 
 interface IFields {
@@ -27,32 +27,32 @@ interface IFields {
 };
 
 const campos: IFields[] = [
-    { name: ['name'], value: ''},
-    { name: ['last_name'], value: ''},
-    { name: ['company'], value: ''},
-    { name: ['email'], value: ''},
-    { name: ['telephone'], value: ''},
-    { name: ['eventName'], value: ''},
-    { name: ['startDate'], value: ''},
-    { name: ['finishDate'], value: ''},
-    { name: ['methodPayment'], value: ''},
-    { name: ['hall_id'], value: ''},
+    { name: ['name'], value: '' },
+    { name: ['last_name'], value: '' },
+    { name: ['company'], value: '' },
+    { name: ['email'], value: '' },
+    { name: ['telephone'], value: '' },
+    { name: ['eventName'], value: '' },
+    { name: ['startDate'], value: '' },
+    { name: ['finishDate'], value: '' },
+    { name: ['methodPayment'], value: '' },
+    { name: ['hall_id'], value: '' },
 ];
 
 export const HallsBookings = () => {
     const dispatch = useDispatch();
-    const [ isModalVisible, setIsModalVisible ] = useState<boolean>(false);
-    const [ editId, setEditId ] = useState<IBookedEvents|null>();
-    const [ fields, setFields ] = useState<IFields[]>(campos);
-    const [ bookedDate, setBookedDate ] = useState({
+    const [isModalVisible, setIsModalVisible] = useState<boolean>(false);
+    const [editId, setEditId] = useState<IBookedEvents | null>();
+    const [fields, setFields] = useState<IFields[]>(campos);
+    const [bookedDate, setBookedDate] = useState({
         start: '',
         end: ''
     });
-    const [ freeHalls, setFreeHalls ] = useState([]);
-    const [ form ] = Form.useForm();
-    const bookings =  useSelector((state:any) => state.adminEvents.bookings);
-    const halls = useSelector((state:any) => state?.adminEvents.halls);
-    const requests = useSelector((state:any) => state?.adminEvents.requests);
+    const [freeHalls, setFreeHalls] = useState([]);
+    const [form] = Form.useForm();
+    const bookings = useSelector((state: any) => state.adminEvents.bookings);
+    const halls = useSelector((state: any) => state?.adminEvents.halls);
+    const requests = useSelector((state: any) => state?.adminEvents.requests);
 
     useEffect(() => {
         dispatch(getBookedEvents());
@@ -61,21 +61,21 @@ export const HallsBookings = () => {
     }, [dispatch, bookings]);
 
     useEffect(() => {
-        const crashedBookings = bookings.filter((b:IBookedEvents) => {
+        const crashedBookings = bookings.filter((b: IBookedEvents) => {
             return (
                 (bookedDate.start >= b.startDate && bookedDate.start <= b.finishDate) ||
                 (bookedDate.start <= b.startDate && bookedDate.end >= b.finishDate) ||
                 (bookedDate.end >= b.startDate && bookedDate.end <= b.finishDate)
-            )        
+            )
         });
-        const busyHalls = crashedBookings.map((b:IBookedEvents) => {
+        const busyHalls = crashedBookings.map((b: IBookedEvents) => {
             return b.hall_id;
         });
-        console.log(busyHalls);
-        setFreeHalls(halls.filter((h:IHalls) => {
+        //console.log(busyHalls);
+        setFreeHalls(halls.filter((h: IHalls) => {
             return !busyHalls.includes(h.id)
         }));
-    }, [bookedDate])
+    }, [bookedDate, bookings, halls])
 
     const columns: any = [
         {
@@ -87,79 +87,79 @@ export const HallsBookings = () => {
             title: 'Name',
             dataIndex: 'name',
             key: 'name',
-            sorter: (a:IRequests, b:IRequests) => a.name.length - b.name.length,
+            sorter: (a: IRequests, b: IRequests) => a.name.length - b.name.length,
         },
         {
             title: 'Last Name',
             dataIndex: 'last_name',
             key: 'last_name',
-            sorter: (a:IRequests, b:IRequests) => a.last_name.length - b.last_name.length,
+            sorter: (a: IRequests, b: IRequests) => a.last_name.length - b.last_name.length,
         },
         {
             title: 'Company',
             dataIndex: 'company',
             key: 'company',
-            sorter: (a:IRequests, b:IRequests) => a.company.length - b.company.length,
+            sorter: (a: IRequests, b: IRequests) => a.company.length - b.company.length,
         },
         {
             title: 'E-mail',
             dataIndex: 'email',
             key: 'email',
-            sorter: (a:IRequests, b:IRequests) => a.email.length - b.email.length,
-        } ,
+            sorter: (a: IRequests, b: IRequests) => a.email.length - b.email.length,
+        },
         {
             title: 'Telephone',
             dataIndex: 'telephone',
             key: 'telephone',
-        } ,
+        },
         {
             title: "Event's name",
             dataIndex: 'eventName',
             key: 'eventName',
-            sorter: (a:IRequests, b:IRequests) => a.eventName.length - b.eventName.length,
-        },  {
+            sorter: (a: IRequests, b: IRequests) => a.eventName.length - b.eventName.length,
+        }, {
             title: 'Start Date',
             dataIndex: 'startDate',
             key: 'startDate',
-            sorter: (a:IRequests, b:IRequests) => a.startDate.length - b.startDate.length,
+            sorter: (a: IRequests, b: IRequests) => a.startDate.length - b.startDate.length,
         }, {
             title: 'Finish Date',
             dataIndex: 'finishDate',
             key: 'finishDate',
-            sorter: (a:IRequests, b:IRequests) => a.finishDate.length - b.finishDate.length,
-        },{
+            sorter: (a: IRequests, b: IRequests) => a.finishDate.length - b.finishDate.length,
+        }, {
             title: 'Payment Method',
             dataIndex: 'methodPayment',
             key: 'methodPayment',
-            sorter: (a:IRequests, b:IRequests) => a.eventName.length - b.eventName.length,
+            sorter: (a: IRequests, b: IRequests) => a.eventName.length - b.eventName.length,
         }, {
             title: 'Booked ID',
             dataIndex: 'hall_id',
             key: 'hall_id',
-            render: (_: undefined, record:any) =>{
-                const x = halls?.find((h:IHalls) => h.id === record?.hall_id);
-                if ( x ) return <span>{x.name}</span>
+            render: (_: undefined, record: any) => {
+                const x = halls?.find((h: IHalls) => h.id === record?.hall_id);
+                if (x) return <span>{x.name}</span>
                 else return <span>-</span>
             }
         }, {
             title: 'Action',
             dataIndex: 'operation',
             key: 'description',
-            render: (_: undefined, record: { id:number }) =>
-            bookings.length > 0 ? (
-                <>
-                    <Tooltip title="Edit">
-                        <span className='adminrooms_options' onClick={() => handleEdit(record.id)}><FaPencilAlt size="18" color="orange" /> </span>
-                    </Tooltip>
-                    <Tooltip title="Delete">
-                        <span className='adminrooms_options'>
-                            <Popconfirm placement="left" title="Sure to delete?" onConfirm={() => handleDelete(record.id)}>
-                                <FaTrashAlt size="18" color="red" />
-                            </Popconfirm>
-                        </span>
-                    </Tooltip>
-                </>
-            ) : null,
+            render: (_: undefined, record: { id: number }) =>
+                bookings.length > 0 ? (
+                    <>
+                        <Tooltip title="Edit">
+                            <span className='adminrooms_options' onClick={() => handleEdit(record.id)}><FaPencilAlt size="18" color="orange" /> </span>
+                        </Tooltip>
+                        <Tooltip title="Delete">
+                            <span className='adminrooms_options'>
+                                <Popconfirm placement="left" title="Sure to delete?" onConfirm={() => handleDelete(record.id)}>
+                                    <FaTrashAlt size="18" color="red" />
+                                </Popconfirm>
+                            </span>
+                        </Tooltip>
+                    </>
+                ) : null,
         }
     ]
     const closeModal = () => {
@@ -169,27 +169,27 @@ export const HallsBookings = () => {
         setIsModalVisible(false);
     }
 
-    const onFinish = (values:IBookedEvents) => {
+    const onFinish = (values: IBookedEvents) => {
         if (editId) {
             const data = { ...values, id: editId.id };
             dispatch(updateEvent(data));
             setIsModalVisible(false);
             setEditId(null);
         }
-        else{
+        else {
             dispatch(addEvent(values));
             setIsModalVisible(false);
         }
     }
 
-    const handleDelete = ( id:number ) => {
-        const index = bookings.find((b:IBookedEvents) => b.id === id);
-        index? dispatch(deleteEvent(index.id)): console.log('nothing to delete');
+    const handleDelete = (id: number) => {
+        const index = bookings.find((b: IBookedEvents) => b.id === id);
+        index ? dispatch(deleteEvent(index.id)) : console.log('nothing to delete');
     }
 
-    const handleEdit = ( id:number ) => {
+    const handleEdit = (id: number) => {
         setIsModalVisible(true);
-        const index = bookings.find((booked:IBookedEvents) => booked.id === id);
+        const index = bookings.find((booked: IBookedEvents) => booked.id === id);
         setEditId(index);
         setFields([
             { name: ['id'], value: index.id },
@@ -206,7 +206,7 @@ export const HallsBookings = () => {
         ]);
     }
 
-    const disabledDate = ((current:any) => {
+    const disabledDate = ((current: any) => {
         return current && current < moment().subtract(1, 'd');
     });
 
@@ -229,7 +229,7 @@ export const HallsBookings = () => {
                         rules={[{ required: true, message: 'Please input a name!' }]}>
                         <Select style={{ width: "200px" }} >
                             {
-                                requests.map((r:IRequests) => {
+                                requests.map((r: IRequests) => {
                                     return (<Select.Option key={r.id} value={r.eventName}>{r.eventName}</Select.Option>)
                                 })
                             }
@@ -239,21 +239,21 @@ export const HallsBookings = () => {
                         label="Start Date"
                         name="startDate"
                         rules={[{ required: true, message: 'Please input the start date!' }]}>
-                        <DatePicker placeholder='Start Date' format='YYYY-MM-DD' disabledDate={disabledDate} 
-                        onChange={(_value, mode) => setBookedDate({...bookedDate, start: mode})}/>
+                        <DatePicker placeholder='Start Date' format='YYYY-MM-DD' disabledDate={disabledDate}
+                            onChange={(_value, mode) => setBookedDate({ ...bookedDate, start: mode })} />
                     </Form.Item>
                     <Form.Item
                         label="Finish Date"
                         name="finishDate"
                         rules={[{ required: true, message: 'Please input the finish date!' }]}>
                         <DatePicker placeholder='Finish Date' format='YYYY-MM-DD' disabledDate={disabledDate}
-                         onChange={(_value, mode) => setBookedDate({...bookedDate, end: mode})}/>
+                            onChange={(_value, mode) => setBookedDate({ ...bookedDate, end: mode })} />
                     </Form.Item>
                     <Form.Item
                         label="Method Payment"
                         name="methodPayment"
                         rules={[{ required: true, message: 'Please input a method of payment!' }]}>
-                        <Select style={{ width: "200px" }} >                            
+                        <Select style={{ width: "200px" }} >
                             <Select.Option key='cash' value='cash'>Cash</Select.Option>
                             <Select.Option key='card' value='card'>Card</Select.Option>
                         </Select>
@@ -264,7 +264,7 @@ export const HallsBookings = () => {
                         rules={[{ required: true, message: 'Please input a hall!' }]}>
                         <Select style={{ width: "200px" }} >
                             {
-                                freeHalls.map((hall:IHalls) => {
+                                freeHalls.map((hall: IHalls) => {
                                     return (<Select.Option key={hall.id} value={hall.id}>{hall.name}</Select.Option>)
                                 })
                             }
@@ -285,19 +285,19 @@ export const HallsBookings = () => {
                     <Form.Item
                         label="Company"
                         name="company"
-                        rules={[{ required: false, message: 'Please input a company'}]}>
+                        rules={[{ required: false, message: 'Please input a company' }]}>
                         <Input placeholder="company"></Input>
                     </Form.Item>
                     <Form.Item
                         label="E-mail"
                         name="email"
-                        rules={[{ required: true, message: 'Please input an email', type: 'email'}]}>
+                        rules={[{ required: true, message: 'Please input an email', type: 'email' }]}>
                         <Input placeholder="email"></Input>
                     </Form.Item>
                     <Form.Item
                         label="Telephone"
                         name="telephone"
-                        rules={[{ required: true, message: 'Please input a telephone'}]}>
+                        rules={[{ required: true, message: 'Please input a telephone' }]}>
                         <Input placeholder="telephone"></Input>
                     </Form.Item>
                     <div className="discounts">

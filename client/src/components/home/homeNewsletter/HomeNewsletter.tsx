@@ -4,11 +4,8 @@ import { AddSub, GetSub, UpdateSub } from '../../../actions/addNewsletterSub/ind
 import { useDispatch, useSelector } from 'react-redux';
 import "./HomeNewsletter.less"
 
-interface Props {
 
-}
-
-export function HomeNewsletter({ }: Props): ReactElement {
+export function HomeNewsletter(): ReactElement {
     const [form] = Form.useForm();
     const dispatch = useDispatch();
 
@@ -39,7 +36,7 @@ export function HomeNewsletter({ }: Props): ReactElement {
         <div className="newsLetterContainer">
             <div className="newsLetterTitle">SUBSCRIBE TO OUR NEWSLETTER</div>
             <div className="newsLetterDescription">to receive our latest news and discounts, subscribe to our newsletter</div>
-            
+
             <Form className="newsLetterForm" form={form} autoComplete='off' onFinish={onFinish}>
                 <Form.Item
                     className="newsLetterInput"
@@ -51,7 +48,7 @@ export function HomeNewsletter({ }: Props): ReactElement {
                 >
                     <Input placeholder='Enter your email...'></Input>
                 </Form.Item>
-                <Button style={{zIndex:0}} type='primary' htmlType='submit'>
+                <Button style={{ zIndex: 0 }} type='primary' htmlType='submit'>
                     Subscribe
                 </Button>
             </Form>

@@ -13,9 +13,9 @@ export const errorMsgcaptcha = () => {
 };
 //Sign in using third-party providers.
 export const loginWith = async (provider: any) => {
-    
+
     try {
-     
+
         const { error } = await supabase.auth.signIn({
             provider
         }, {
@@ -23,7 +23,7 @@ export const loginWith = async (provider: any) => {
         })
         if (!error) {
             //ACA AGARRAR MAIL
-             success()
+            success()
 
         } else {
             errorMsg()
@@ -35,13 +35,13 @@ export const loginWith = async (provider: any) => {
 export const classicLogIn = async (email: string, password: string) => {
 
     try {
-        var  data:any  = await supabase
-        .from('users')
-        .select('active')
-        .eq('email', email)
-        
-        if(data.data[0].active === 1){
-            const {error } = await supabase.auth.signIn({
+        var data: any = await supabase
+            .from('users')
+            .select('active')
+            .eq('email', email)
+
+        if (data.data[0].active === 1) {
+            const { error } = await supabase.auth.signIn({
                 email,
                 password
             }, {
@@ -49,7 +49,7 @@ export const classicLogIn = async (email: string, password: string) => {
             })
             if (!error) {
                 return true
-    
+
             } else {
                 errorMsg()
             }
@@ -57,7 +57,7 @@ export const classicLogIn = async (email: string, password: string) => {
         else {
             errorMsg()
         }
-  
+
     } catch (err) { console.log(err) }
 }
 
@@ -83,7 +83,7 @@ export const getUserData = async () => {
 //get current session
 export const getSession = async (session: any) => {
 
-    console.log(session)
+    //console.log(session)
     if (session !== null) {
 
         const { data } = await supabase

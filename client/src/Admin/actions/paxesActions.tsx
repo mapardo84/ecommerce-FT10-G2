@@ -26,6 +26,7 @@ const success = (mensaje: string) => {
 
 export const getAllPaxes = () => {
     return async (dispatch: Dispatch<any>) => {
+        dispatch(loadingAdmin(true))
         try {
             const { data, error } = await supabase.from('paxes').select('*')
             if (!error) {
@@ -37,6 +38,7 @@ export const getAllPaxes = () => {
             console.log(err)
             errorMsg('Internal server error. Try again')
         }
+        dispatch(loadingAdmin(false))
     }
 }
 

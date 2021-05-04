@@ -1,9 +1,7 @@
-import React, { useEffect, useState } from 'react'
 import "./events.less";
 import { Form, Input, InputNumber, Button, DatePicker, Select } from 'antd';
-import { addRequest, getAllRequests } from '../../Admin/actions/adminEventsActions';
-import moment from 'moment';
-import { useDispatch, useSelector } from 'react-redux';
+import { addRequest } from '../../Admin/actions/adminEventsActions';
+import { useDispatch } from 'react-redux';
 
 export interface IRequests {
   id: number;
@@ -43,19 +41,11 @@ const validateMessages = {
 
 
 export const FormEvents = () => {
-
-
-
-
-
-
   const dispatch = useDispatch();
 
   const onFinish = (values: IRequests) => {
     dispatch(addRequest(values))
   };
-
-
 
   return (
     <div className="descriptionBackground1">
@@ -122,4 +112,3 @@ export const FormEvents = () => {
     </div>
   )
 }
-

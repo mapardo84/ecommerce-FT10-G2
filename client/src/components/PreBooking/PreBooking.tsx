@@ -1,13 +1,11 @@
 import { CalendarOutlined, UserOutlined, DownOutlined } from '@ant-design/icons'
 import { Affix, Collapse, Divider } from 'antd'
-import React, { SetStateAction, useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { getUserBalance } from '../../actions/Booking/pre_booking_action'
-import { CheckinInterface } from '../../reducers/checkinReducer'
-import { PreBookingInterface } from '../../reducers/preBookingReducer'
 import { RootReducer } from '../../reducers/rootReducer'
 import { supabase } from '../../SupaBase/conection'
-import "./Pre_booking.less"
+import "./PreBooking.less"
 
 export interface CheckinLocalInterface {
     paxes: number
@@ -17,13 +15,9 @@ export interface CheckinLocalInterface {
     late_check: boolean
 }
 
-
-export const Pre_booking = (type: any) => {
-
-    var { type } = type;
+export const PreBooking = (type: any) => {
 
     const { Panel } = Collapse;
-
 
     const [guests, setGuests] = useState<any>(localStorage.getItem("Check&Guests"))
     const [acomodation, setAcomodation] = useState<any>(localStorage.getItem("Accomodation"))
@@ -78,45 +72,45 @@ export const Pre_booking = (type: any) => {
         return <div></div>
     }
 
-    if (type === 0) {
+    if (type.type === 0) {
         return (
             <>
                 <div className="containerBookingData">
                     <Affix offsetTop={100}>
                         <Collapse style={{ backgroundColor: "#4b75cd", color: "white" }}>
                             <Panel showArrow={false} style={{ color: "white" }} header={<div style={{ color: "white" }}><DownOutlined style={{ marginRight: "10px" }} />My Booking<CalendarOutlined style={{ marginLeft: "8px" }} /></div>} key="1">
-                                    <div style={{ display: "flex", flexDirection: "column", fontSize:"14px" }}>
-                                        {guests ? <span><strong>Check-in:</strong> {guests.in_out[0]}</span> : null}
-                                        {guests ? <span><strong>Check-out:</strong> {guests.in_out[1]}</span> : null}
-                                        {guests ? <span><strong>Guests:</strong>  {guests.paxes}</span> : null}
-                                        {guests ? <span><strong>Nights:</strong> {guests.nights}</span> : null}
-                                        {
-                                            acomodation && <span><strong>Category & Type : </strong>{acomodation ? <span>{acomodation?.category_type.category.name} - {acomodation.category_type.type.name}</span> : null}</span>
-                                        }
+                                <div style={{ display: "flex", flexDirection: "column", fontSize: "14px" }}>
+                                    {guests ? <span><strong>Check-in:</strong> {guests.in_out[0]}</span> : null}
+                                    {guests ? <span><strong>Check-out:</strong> {guests.in_out[1]}</span> : null}
+                                    {guests ? <span><strong>Guests:</strong>  {guests.paxes}</span> : null}
+                                    {guests ? <span><strong>Nights:</strong> {guests.nights}</span> : null}
+                                    {
+                                        acomodation && <span><strong>Category & Type : </strong>{acomodation ? <span>{acomodation?.category_type.category.name} - {acomodation.category_type.type.name}</span> : null}</span>
+                                    }
 
-                                        <span>
-                                            {guests?.early_check ?
-                                                <span><strong> Early check-in : </strong><span> ${acomodation?.original_price ? acomodation.original_price / 2 : null}</span></span> : null}
-                                        </span>
+                                    <span>
+                                        {guests?.early_check ?
+                                            <span><strong> Early check-in : </strong><span> ${acomodation?.original_price ? acomodation.original_price / 2 : null}</span></span> : null}
+                                    </span>
 
-                                        <span>
-                                            {guests?.late_check ?
-                                                <span><strong>Late check-out : </strong><span> ${acomodation?.original_price ? acomodation.original_price / 2 : null}</span> </span> : null}
-                                        </span>
+                                    <span>
+                                        {guests?.late_check ?
+                                            <span><strong>Late check-out : </strong><span> ${acomodation?.original_price ? acomodation.original_price / 2 : null}</span> </span> : null}
+                                    </span>
 
-                                        <span><strong>Positive Balance :</strong>{balance}</span>
+                                    <span><strong>Positive Balance :</strong>{balance}</span>
 
-                                        {
-                                            acomodation &&
-                                            <>
-                                                <span><strong>Unit Price : </strong>{acomodation ? <span>{Math.floor(acomodation.total_price)}</span> : <span>Seleccionando...</span>}</span>
-                                                <span><strong>Total Price : </strong>{acomodation ? <span>{total_price}</span> : null}</span>
-                                                <span><strong>To Pay : </strong>{acomodation ? <span>{to_pay}</span> : null}</span>
-                                            </>
-                                        }
+                                    {
+                                        acomodation &&
+                                        <>
+                                            <span><strong>Unit Price : </strong>{acomodation ? <span>{Math.floor(acomodation.total_price)}</span> : <span>Seleccionando...</span>}</span>
+                                            <span><strong>Total Price : </strong>{acomodation ? <span>{total_price}</span> : null}</span>
+                                            <span><strong>To Pay : </strong>{acomodation ? <span>{to_pay}</span> : null}</span>
+                                        </>
+                                    }
 
 
-                                    </div>
+                                </div>
                             </Panel>
                         </Collapse>
                     </Affix>

@@ -1,4 +1,4 @@
-import { Layout, BackTop } from "antd";
+import { Layout } from "antd";
 import { NavBar } from "../NavBar/NavBar";
 import { FooterLayout } from "../footer/Footer";
 import { FunctionComponent } from "react";

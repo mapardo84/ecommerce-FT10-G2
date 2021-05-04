@@ -82,7 +82,7 @@ const Details = (): JSX.Element => {
     if (
       reserva != null &&
       reserva.booking_id.checkout.split("-").join("") <
-        fecha.split("-").join("") &&
+      fecha.split("-").join("") &&
       !reviews.some(
         (review: any) =>
           review.category_id === id &&
@@ -91,7 +91,7 @@ const Details = (): JSX.Element => {
     ) {
       setVeri(true);
     }
-  }, [id, checkout.checkOut, reviews]);
+  }, [id, checkout.checkOut, reviews, idUser.userId]);
   //
 
   useEffect(() => {

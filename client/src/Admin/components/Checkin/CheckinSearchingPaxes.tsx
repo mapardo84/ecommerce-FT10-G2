@@ -1,4 +1,4 @@
-import { AutoComplete, Button, Input, message } from 'antd';
+import { AutoComplete, Button, message } from 'antd';
 import { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { getByPaxUuid } from '../../actions/searchBarActions';
