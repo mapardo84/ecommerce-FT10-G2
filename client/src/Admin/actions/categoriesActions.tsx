@@ -29,7 +29,6 @@ export const getAllCategories = () => {
       const { data, error } = await supabase.from("categories").select("*");
 
       if (!error) {
-        /* console.log(data) */
         dispatch(saveCategories(data));
       } else {
         console.log(error);

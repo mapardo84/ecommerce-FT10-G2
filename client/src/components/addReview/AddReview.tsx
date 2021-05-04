@@ -4,8 +4,6 @@ import { addReview } from './../../actions/addReview/index';
 import { supabase } from '../../SupaBase/conection';
 import './AddReview.less';
 import { useDispatch } from 'react-redux';
-import React from 'react';
-import { get_reviews } from '../../actions/Reviews/Reviews';
 
 
 const desc = ['Terrible', 'Bad', 'Normal', 'Good', 'Wonderful'];
@@ -38,7 +36,7 @@ export default function AddReview({ categId, userId, veri }: any): ReactElement 
     return (
 
         <div>
-            { session?.user.email && veri &&
+            { (session?.user.email && veri) &&
 
                 <Form
                     initialValues={{ remember: false }}

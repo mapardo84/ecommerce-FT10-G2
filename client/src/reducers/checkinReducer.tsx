@@ -1,7 +1,7 @@
 import { ROOM_SELECTED, ROOM_NEXT_BOOKING, ROOM_BOOKING, ROOM_PAYMENTS, ROOM_NEXT_DATE } from '../Admin/actions/checkinActions';
 
 
-interface IState {
+export interface CheckinInterface {
     roomId: number,
     nextBooking: string,
     nextBookingId: number,
@@ -16,7 +16,7 @@ interface actionProps {
 
 }
 
-const InitialState: IState = {
+const InitialState: CheckinInterface = {
     roomId: 0,
     nextBooking: 'N/A',
     nextBookingId: 0,
@@ -25,7 +25,7 @@ const InitialState: IState = {
     roomPayments: []
 }
 
-export function checkinReducer(state: IState = InitialState, action: actionProps) {
+export function checkinReducer(state: CheckinInterface = InitialState, action: actionProps) {
     switch (action.type) {
         case ROOM_SELECTED:
             return {

@@ -1,4 +1,4 @@
-import { AutoComplete, Input } from 'antd'
+import { AutoComplete } from 'antd'
 import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { getDataBooking } from '../../actions/bookingsActions';
@@ -9,7 +9,7 @@ export const SearchBooking = () => {
     const dispatch = useDispatch()
     const bookingStore = useSelector((state: any) => state.booking_pax)
     
-    const [search, setSearch] = useState("")
+    const [search, setSearch] = useState<string>("")
     
     useEffect(() => {
         

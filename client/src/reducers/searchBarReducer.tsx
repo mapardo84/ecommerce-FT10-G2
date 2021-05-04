@@ -1,6 +1,12 @@
 import {BYPAXID, BYBOOKINGID, BYFIRSTNAME, BYLASTNAME, BYPAXUUID} from '../Admin/actions/searchBarActions'
 
-
+export interface SearchBookingInterface{
+    bypaxID:any[]
+    bybookingID: any[]
+    byFirstName: any[]
+    byLastName: any[]
+    byLastUuid:any[]
+}
 
 const initialState={
     bypaxID:[],

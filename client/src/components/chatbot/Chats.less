@@ -1,0 +1,75 @@
+// Color variables (appears count calculates by raw css)
+@color0: #393e46; // Appears 4 times
+@color1: #f7f7f7; // Appears 2 times
+
+
+
+.message-container {
+	margin-bottom: 2em;
+	overflow-y: scroll;
+	.message {
+		border-radius: 17px;
+		max-width: 400px;
+		overflow-wrap: break-word;
+		padding: 0.5em;
+      	margin-bottom: 10px !important;
+	}
+	.user {
+		align-self: flex-end;
+		background: #e5dfdf ;
+		color: @color0;
+	}
+	.bot {
+		align-self: flex-start;
+		background: @color0;
+		color: @color1;
+	}
+	.options {
+		align-items: center;
+		background: white;
+		display: flex;
+		flex-wrap: wrap;
+		p {
+			align-self: flex-start;
+			border-radius: 17px;
+			border: 1px solid black;
+			color: black;
+			margin-right: 0.8em;
+			padding: 0.5em;
+			&:hover {
+				cursor: pointer;
+				opacity: 0.7;
+			}
+		}
+	}
+	.options>div {
+		&:first-child {
+			font-size: 1.3em;
+			margin: 0.7em 0.7em 0.9em 0.3em;
+			transform: rotate(90deg);
+			i {
+				animation: arrow-move 1.2s infinite;
+				color: @color0;
+			}
+		}
+	}
+	.dummy-div {
+		padding: 0.5em 0;
+	}
+}
+.message-container>div {
+	display: flex;
+	flex-direction: column;
+}
+
+// @keyframes {
+// 	arrow-move {
+// 		0% { transform: translateY(4px);
+// 	}
+// }
+// 50% {
+// 	transform: translateY(0);
+// }
+// 100% {
+// 	transform: translateY(4px);
+// }

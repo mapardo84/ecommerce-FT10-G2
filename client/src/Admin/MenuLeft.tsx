@@ -4,7 +4,7 @@ import {
 } from "@ant-design/icons";
 //import hotelImg from './hotel.png'
 import { useDispatch, useSelector } from 'react-redux';
-import { initialStateProps } from '../reducers/adminReducer';
+import {AdminReducer } from '../reducers/adminReducer';
 import { changePage, loginUser, sidebarChange } from "./actions/adminUi";
 import { Layout } from "antd";
 import { NavLink, useHistory } from "react-router-dom";
@@ -39,12 +39,11 @@ import { useEffect } from 'react';
 //////////////////////////////////////////////////////////////
 
 
-const paginas = ['Inicio', 'Rooms', 'Categories', 'Types', 'Users', 'Checkin/Checkout', 'Paxes', 'Bookings', 'Discounts']
+const paginas = ['Inicio', 'Rooms', 'Categories', 'Types', 'Users', 'Checkin/Checkout', 'Paxes', 'Bookings', 'Discounts', 'Events', 'NewsLetter']
 
 export const MenuLeft = () => {
-    const dispatch = useDispatch()
-
-    const history = useHistory()
+    const dispatch = useDispatch();
+    const history = useHistory();
     useEffect(() => {
         loginUser()
             .then(r => {
@@ -54,20 +53,16 @@ export const MenuLeft = () => {
             })
     }, [history])
 
-    const { sidebarColapsed, page } = useSelector((state: initialStateProps) => state.adminui)
+    // const { sidebarColapsed, page } = useSelector((state: AdminReducer) => state.adminui)
 
+    const { sidebarColapsed, page } = useSelector((state: AdminReducer) => state.adminui);
     const onCollapse = () => {
-        dispatch(sidebarChange())
+        dispatch(sidebarChange());
     };
-
     const setPage = (page: string) => {
-        dispatch(changePage(page))
+        dispatch(changePage(page));
     }
-
     const { Sider } = Layout;
-
-
-
     return (
         <>
             <Sider collapsible collapsed={sidebarColapsed} onCollapse={onCollapse}>
@@ -118,6 +113,12 @@ export const MenuLeft = () => {
                     </Menu.Item>
                     <Menu.Item key={paginas[8]} icon={<SiCashapp />} onClick={() => setPage(paginas[8])}>
                         <NavLink to="/admin/discounts">{paginas[8]}</NavLink>
+                    </Menu.Item>
+                    <Menu.Item key={paginas[9]} icon={<FaUserAlt />} onClick={() => setPage(paginas[9])}>
+                        <NavLink to="/admin/events">{paginas[9]}</NavLink>
+                    </Menu.Item>
+                    <Menu.Item key={paginas[10]} icon={<SiCashapp />} onClick={() => setPage(paginas[10])}>
+                        <NavLink to="/admin/newsletter">{paginas[10]}</NavLink>
                     </Menu.Item>
                 </Menu>
             </Sider>

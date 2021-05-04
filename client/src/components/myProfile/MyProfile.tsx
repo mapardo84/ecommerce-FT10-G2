@@ -1,6 +1,6 @@
-import { Button, Divider, message, } from 'antd';
-import { WalletOutlined, UserOutlined, CalendarOutlined, PicLeftOutlined } from '@ant-design/icons';
-import React, { useEffect, useState } from 'react'
+import { Button, /*Divider,*/ message, } from 'antd';
+import { WalletOutlined, /*UserOutlined,*/ CalendarOutlined, PicLeftOutlined } from '@ant-design/icons';
+import React, { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux';
 import { getUserProfile } from '../../actions/userProfile/userProfileActions';
 import "./MyProfile.less"
@@ -29,7 +29,6 @@ const MyProfile = () => {
 
     return (
         <div className="myProfileContainer">
-
             <div className="myProfileDiv1">
                 <div className="myProfileTitles">PERSONAL DATA <PicLeftOutlined style={{ marginLeft: "10px" }} /></div>
                 <div className="myProfileInfo">

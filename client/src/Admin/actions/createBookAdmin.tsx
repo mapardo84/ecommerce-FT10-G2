@@ -8,6 +8,8 @@ export const GET_TYPES_AD = 'GET_TYPES_AD'
 export const GET_PAX_INFO = 'GET_PAX_INFO'
 export const LETS_BOOK_ROOM = 'LETS_BOOK_ROOM'
 export const FREE_ROOMS = 'FREE_ROOMS'
+export const successMSG = 'Your booking has been successful!'
+export const errorMSG = 'Something went wrong! Please, try again!'
 
 export const searchOrCreatePax = (iden: any ) => {
     console.log(iden)
@@ -56,7 +58,7 @@ export const getCategoriesForSelect = () => {
 
 export const getRoomsAvailable = (guests: number, range:string[]) => {
     console.log(guests, range)
-    return async (dispatch: any) => {
+    return async (dispatch: Dispatch<any>) => {
             let checkin = range[0]
             let checkout = range[1]
         //Traer los Types que cumple con el criterio de guests
@@ -158,7 +160,30 @@ const dataCategories = (payload:any) => {
     }
 }
 
-export const finalCreateBooking = (infoBookPax:any, {payment_status, totalPrice, payment_method}:any, room:any) => {
+// export interface IFinfoBookPax {
+//     uuid : string,
+//     first_name : string,
+//     category: number,
+//     type: number,
+//     last_name: string,
+//     phone: string,
+//     country: string[],
+//     address: string,
+//     birth_date: any,
+//     guests: string | number,
+//     early_check: any,
+//     late_check: any,
+//     id: string,
+//     'range-picker': string[]
+// }
+
+export interface payment {
+    payment_status: string,
+    totalPrice: string | number,
+    payment_method: string
+}
+
+export const finalCreateBooking = (infoBookPax:any, {payment_status, totalPrice, payment_method}:payment, room:string | number) => {
     console.log(infoBookPax)
     const { uuid, 
         first_name, 
@@ -208,7 +233,7 @@ export const finalCreateBooking = (infoBookPax:any, {payment_status, totalPrice,
                     {
                         checkin,
                         checkout,
-                        room_id : room.id,
+                        room_id : room,
                         paxes_amount: guests,
                         paxTitular_id: paxid,
                         status: true,
@@ -216,10 +241,9 @@ export const finalCreateBooking = (infoBookPax:any, {payment_status, totalPrice,
                         late_check 
                     }
                 ])
-                console.log(booking, bookingError)
 
                 if(booking) {
-                    const {data:bookPax, error} = await supabase
+                    const { error} = await supabase
                             .from('booking_pax')
                             .insert([
                                 {
@@ -240,7 +264,7 @@ export const finalCreateBooking = (infoBookPax:any, {payment_status, totalPrice,
                                         preference_id: booking[0].id
                                     }
                                 ])
-                                console.log(paymen, pay)
+                                dispatch(successfulMSG(true))
                         }
 
                 }
@@ -256,11 +280,19 @@ export const finalCreateBooking = (infoBookPax:any, {payment_status, totalPrice,
 
 }
 
+export const successfulMSG = (payload:boolean) => {
+    return {
+        type: successMSG,
+        payload
+
+    }
+}
+
 
 export const inactiveBooking = (id:number) => {
     console.log(id)
     return async (dispatch: Dispatch<any>) => {
-        const { data, error } = await supabase
+         await supabase
             .from('bookings')
             .update({ status: false })
             .eq('id', id)

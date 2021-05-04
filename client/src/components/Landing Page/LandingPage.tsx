@@ -13,7 +13,6 @@ export const LandingPage = () => {
     const params = new URLSearchParams(window.location.hash)
     params.get('type') === "recovery" && history.push("/password-reset/" + params.get('#access_token'));
 
-
     return (
         <div className="landingBackground">
             <div className='LandingPage'>

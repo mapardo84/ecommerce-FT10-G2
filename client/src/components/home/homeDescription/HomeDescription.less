@@ -1,0 +1,254 @@
+.homeDescription_Container{
+   width: 100vw;
+   background-image: linear-gradient(
+       to bottom,
+       rgba(255, 255, 255, 0.801),
+       rgba(255, 255, 255, 0.767)
+     ),
+     url("./images/b23.jpg");
+   background-repeat: no-repeat;
+   background-size: cover;
+   padding-bottom: 50px;
+}
+
+//First row
+.homeDescription_Row1{
+   display: flex;
+   width: 100vw;
+   justify-content: center;
+   align-items: center;
+   height: 250px;
+}
+
+.homeDescription_Title1{
+   font-size: 50px;
+   font-weight: 600;
+   width: 40%;
+   display: flex;
+   justify-content: center;
+}
+
+
+.homeDescription_Text1{
+    margin-top: 20px;
+    font-size: 22px;
+    width: 60%;
+    padding-right: 150px;
+    font-weight: 400;
+    padding-left: 100px;
+    border-left: 1px solid rgb(199, 199, 199);
+}
+
+//SECOND ROW
+
+.homeDescription_Row2{
+    margin-top: 50px;
+    width: 100vw;
+    display: flex;
+    justify-content: space-around;
+}
+
+//left
+.homeDescription_left{
+   width: 60vw;
+   padding-left: 4vw;
+}
+
+.homeDescription_image{
+   // height: 500px;
+   width: 55vw;
+   object-fit: cover;
+}
+
+.homeDescription_Text2{
+   width: 100%;
+   font-size: 20px;
+   margin-top: 50px;
+}
+
+//right
+.homeDescription_right{
+   width: 40vw;
+   margin-left: 5vw;
+}
+
+.homeDescription_Text3{
+   width: 30vw;
+   font-size: 20px;
+   margin-bottom: 50px;
+   margin-top: 10px;
+}
+
+.homeDescription_image2{
+   width: 30vw;
+   object-fit: cover;
+   margin-bottom: 30px;
+}
+
+.homeDescription_image3{
+   width: 30vw;
+   object-fit: cover;
+   margin-bottom: 30px;
+}
+
+.homeDescription_Title2{
+   font-size: 40px;
+}
+
+@media screen and (max-width:1000px){
+   .homeDescription_Title1{
+      font-size: 40px;
+      font-weight: 600;
+      width: 50%;
+      display: flex;
+      justify-content: center;
+   }
+   
+   .homeDescription_Text1{
+      margin-top: 20px;
+      font-size: 16px;
+      width: 50%;
+      padding-right: 50px;
+      font-weight: 400;
+      padding-left: 60px;
+      border-left: 1px solid rgb(199, 199, 199);
+  }
+
+   .homeDescription_left{
+      width: 60vw;
+      padding-left: 30px;
+   }
+
+   .homeDescription_right{
+      width: 40vw;
+      margin-left: 4vw;
+   }
+
+   .homeDescription_Text2{
+      width: 100%;
+      font-size: 16px;
+      margin-top: 50px;
+   }
+
+   .homeDescription_Text3{
+      width: 30vw;
+      font-size:16px;
+      margin-bottom: 50px;
+      margin-top: 10px;
+   }
+
+}
+
+
+@media screen and (max-width:650px){
+
+      .homeDescription_Row1{
+      display: flex;
+      width: 100vw;
+      // justify-content: center;
+      align-items: center;
+      // height: 250px;
+      flex-direction: column;
+   }
+
+   .homeDescription_Title1{
+      font-size: 30px;
+      font-weight: 600;
+      width: 100%;
+      display: flex;
+      justify-content: center;
+   }
+   
+   .homeDescription_Text1{
+      margin-top: 20px;
+      font-size: 16px;
+      width: 87%;
+      padding-right: 0;
+      font-weight: 400;
+      padding-left: 0;
+      border: none;
+      padding-bottom: 20px;
+      border-bottom: 1px solid rgb(184, 184, 184);
+  }
+
+   .homeDescription_Row2{
+      margin-top: 50px;
+      width: 100vw;
+      display: flex;
+      // justify-content: space-around;
+      flex-direction: column;
+      align-items: center;
+  }
+
+  .homeDescription_right{
+     width: 100vw;
+     order: -1;
+     display: flex;
+     flex-direction: column;
+     align-items: center;
+     margin-left: 0;
+  }
+
+  .homeDescription_Text3{
+     width: 87%;
+     font-size: 16px;
+     margin-bottom: 30px;
+     margin-top: 10px;
+  }
+
+  .homeDescription_image2{
+   display: none;
+  }
+
+  .homeDescription_image3{
+   width: 87%;
+   object-fit: cover;
+   margin-bottom: 10px;
+ }
+
+ .homeDescription_left{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100vw;
+    padding-left: 0;
+ }
+
+ .homeDescription_Text2{
+    order: -1;
+    margin-top: 15px;
+    font-size: 16px;
+    width: 87%;
+ }
+ .homeDescription_image{
+   width: 87%;
+   object-fit: cover;
+   margin-top: 30px;
+}
+.homeDescription_Title2{
+   font-size: 30px;
+   margin-top: 0;
+   padding-bottom: 0;
+}
+
+}
+
+@media screen and (max-width:400px){
+   
+   .homeDescription_Title2{
+      font-size: 25px;
+   }
+   .homeDescription_Text3{
+      width: 87%;
+      font-size: 13px;
+      margin-bottom: 10px;
+      margin-top: 10px;
+   }
+
+   .homeDescription_Text2{
+      order: -1;
+      font-size: 13px;
+      margin-top: 10px;
+      width: 87%;
+   }
+}

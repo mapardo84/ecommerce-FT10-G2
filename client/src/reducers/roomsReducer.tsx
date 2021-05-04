@@ -1,7 +1,7 @@
 import { FILTER_ROOM, GET_ALL_ROOMS, UPDATE_ROOM, ADD_ROOM } from '../Admin/actions/roomsActions';
 import { Room } from '../Admin/components/Rooms/Rooms'
 
-interface IState {
+export interface RoomReducer {
     roomsList: Room[],
 }
 
@@ -10,11 +10,11 @@ interface actionProps {
     payload: any
 }
 
-const InitialState: IState = {
+const InitialState: RoomReducer = {
     roomsList: []
 }
 
-export function roomsReducer(state: IState = InitialState, action: actionProps) {
+export function roomsReducer(state: RoomReducer = InitialState, action: actionProps) {
     switch (action.type) {
         case GET_ALL_ROOMS:
             return {

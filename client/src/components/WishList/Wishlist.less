@@ -8,14 +8,31 @@
   }
 
   .buttonWishlist{
-    display: flex;
-    justify-content: flex-end;
+    // display: flex;
+    // justify-content: flex-end;
     width: 50px;
+    position: absolute;
+    margin-bottom: -50px;
+    z-index: 2;
   }
 
+  .wishImage{
+    width: 100vw;
+    height: 400px;
+    // object-fit: cover;
+    filter: brightness(70%);
+  }
+
+  .wishTitle{
+    position: absolute;
+    font-size: 80px;
+    font-weight: 500;
+    color: white;
+    margin-top: -200px;
+    width: 100vw;
+    text-align: center;
+  }
  
-    
-  
   .containerWishlist {
     display: flex;
     flex-direction: column;
@@ -23,7 +40,6 @@
     margin: auto;
     overflow: hidden;
     transform: skew(5deg);
-    
     
   
     .card-wishlist {
@@ -38,7 +54,7 @@
         transform: rotate(-90deg);
         transform-origin: 0% 0%;
         transition: all 0.5s ease-in-out;
-        min-width: 30%;
+        min-width: 50%;
         text-align: center;
         position: absolute;
         bottom: 0;
@@ -53,6 +69,7 @@
           filter: grayscale(0);
         }
         .card-head {
+          min-width: 100%;
           text-align: center;
           top: calc(100% - 2em);
           color: white;
@@ -66,7 +83,7 @@
         height: 500px  ;
         object-fit: cover;
         transition: all 1s ease-in-out;
-        filter: grayscale(100%);
+        // filter: grayscale(100%);
       }
       &:not(:nth-child(5)) {
         margin-right: 1em;
@@ -84,7 +101,7 @@
 
   @media only screen and (max-width: 540px) {
     .containerMap{
-      margin-top:90px;
+      margin-top:0px;
       min-height: 70vh;
     }
     .bodyWishlist {
@@ -118,7 +135,7 @@
 
   @media only screen and (max-width: 375px) {
     .containerMap{
-      margin-top:80px;
+      margin-top:0px;
       min-height: 72.3vh;
     }
     .imagesWishlist {
@@ -128,9 +145,194 @@
   }
 
 
+//NUEVO
 
 
+.wishTitle{
+  position: absolute;
+  font-size: 80px;
+  font-weight: 500;
+  color: white;
+  margin-top: -200px;
+  width: 100vw;
+  text-align: center;
+}
+
+.wishlistCardContainer{
+  // position: absolute;
+  margin-top: 40px;
+  background-color: #1e212d;
+  height: 400px;
+  width: 900px;
+  display: flex;
+  box-shadow: 5px 10px 15px 0 rgba(0, 0, 0, 0.411);
+  cursor: pointer;
+}
+
+.wishlistCardContainer:hover {
+  transform: scale(1.02);
+  transition: 0.4s;
+}
 
 
+.wishlistCardImage{
+  height: 400px;
+  width: 800px;
+  object-fit: cover;
+}
+
+.containerMap{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 50px;
+}
+
+.cardwishName{
+  color: white;
+  font-size: 30px;
+  writing-mode: vertical-rl;
+  text-orientation: upright;
+  margin-top: 10px;
+  text-align: center;
+  margin-left: 25px;
+}
+.cardwishborder{
+  height: 380px;
+  width: 880px;
+  border: 4px solid white;
+  position: absolute;
+  margin-left: 10px;
+  margin-top: 10px;
+}
+
+.cardwishButton1{
+  font-size: 17px !important;
+  padding:5px !important; 
+  color: #ffffff !important;
+  background-color: #1e212d !important;
+  border: none !important;
+
+}
+
+@media screen and (max-width:1000px){
+  .wishlistCardImage{
+    width: 600px;
+    height: 400px;
+  }
+
+  .cardwishborder{
+    width: 680px;
+    height: 380px;
+  }
+
+  .cardwishName{
+    font-size: 30px;
+  }
+
+  .wishlistCardContainer{
+    width: 700px;
+  }
+
+}
+
+@media screen and (max-width:750px){
+  .wishlistCardImage{
+    width: 400px;
+    height: 300px;
+  }
+
+  .cardwishborder{
+    width: 480px;
+    height: 280px;
+  }
+
+  .cardwishName{
+    font-size: 20px;
+  }
+
+  .wishlistCardContainer{
+    width: 500px;
+   height: 300px !important;
+  }
+
+  .cardwishButton1{
+    margin-left: 20px !important;
+  
+  }
+
+.wishTitle{
+  font-size: 60px;
+}
 
 
+}
+
+@media screen and (max-width:550px){
+  .wishlistCardImage{
+    width: 300px;
+    height: 250px;
+  }
+
+  .cardwishborder{
+    width: 360px;
+    height: 230px;
+  }
+
+  .cardwishName{
+    font-size: 15px;
+  }
+
+  .wishlistCardContainer{
+    width: 380px;
+   height: 250px !important;
+  }
+
+  .cardwishButton1{
+   margin-left:5px !important;
+   font-size: 12px !important;
+   padding:4px !important; 
+  }
+
+  .wishImage{
+    width: 100vw;
+    height: 300px;
+     object-fit: cover;
+    filter: brightness(70%);
+  }
+
+
+}
+
+@media screen and (max-width:400px){
+  .wishlistCardImage{
+    width: 200px;
+    height: 150px;
+  }
+
+  .cardwishborder{
+    width: 260px;
+    height: 130px;
+  }
+
+  .cardwishName{
+    font-size: 9px;
+  }
+
+  .wishlistCardContainer{
+    width: 280px;
+   height: 150px !important;
+  }
+
+  .cardwishButton1{
+   margin-left:15px !important;
+   font-size: 10px !important;
+   padding:4px !important; 
+  }
+
+
+.wishTitle{
+  font-size: 30px;
+}
+
+}

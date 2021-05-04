@@ -25,55 +25,46 @@ export const AccomodationsCards = (props: any): JSX.Element => {
     const foundProm: promotionType = promo?.find((p: promotionType) => p.categoryToApply === categ.id);
 
     return (
+        <>
+            <div className="category_cardContainer1">
 
-        <div>
-            <div className="newGlobalCategory">
-
-                <div className="newCategory_Container">
-                    <div>
-
-                        {foundProm &&
-                            <div className="triangleDiscount">
-                                <div className='bookingCardDiscount'>
-                                    {foundProm.value}% Off
+                <div>
+                    {foundProm &&
+                        <div className="triangleDiscount1">
+                            <div className='bookingCardDiscount1'>
+                                {foundProm.value}% Off
                                 </div>
-                            </div>
-                        }
-                        <img className="newImageCategory" src={categ.images[0]} />
+                        </div>
+                    }
+
+                    <img className="category_cardImage1" src={categ.images[0]} alt="IMG NOT FOUND" />
+                </div>
+
+                <div className="category_cardWishlist1">
+                    <Button onClick={showModal} className="categoryCardButtonsAc1 category_cardButton21" size="large" type='primary'>
+                        More Info...
+                   </Button>
+
+                    <div >Rate: ${categ?.price} USD</div>
+                    <div >{beds ? <div >Total Fee: ${beds * categ.price} USD</div> : <span></span>}</div>
+
+                </div>
+
+                <div className="category_cardRight1">
+                    <div className="category_cardName">
+                        {categ.name}
                     </div>
-
-
-                    <div className="newDescription">
-
-                        <div className="containerCategory1">
-                            <div className="newDescriptionCategory">
-                                {categ.name}
-                            </div>
-
-                            <div className="newDescriptionText">
-                                {categ.description}
-                            </div>
-                        </div>
-
-                        <div className="containerCategory2">
-                            <div className="containerCategoryBookingSpecial">
-
-                                <div style={{ display: "flex", alignItems: "center", marginBottom: "5px" }}>
-                                    <div className='categoryBookingPrice'>Rate: ${categ?.price} USD</div>
-                                    <Button key='learn' style={{ marginBottom: "10px", marginRight: "20px" }} type="primary" onClick={showModal}>
-                                        Learn more..
-                                    </Button>
-                                </div>
-
-                                <div className="AccButtons">
-                                    <div className="">{beds ? <div className="categoryBookingFee">Total Fee: ${beds * categ.price} USD</div> : <span></span>}</div>
-                                </div>
-                            </div>
-
-                        </div>
+                    <div className="category_cardDescription">
+                        {categ.description}
                     </div>
                 </div>
+
+                <Modal title="Confirmation" visible={isModalVisible} onOk={handleOk} onCancel={handleCancel}>
+                    <p>Do you want to add this category to your Wishlist?</p>
+                </Modal>
+
             </div >
+
 
             <Modal title="Amenities" key={key} visible={isModalVisible} onOk={handleOk} onCancel={handleCancel} footer={null}>
                 {categ?.details?.map((detail: string, i: number) => {
@@ -84,7 +75,7 @@ export const AccomodationsCards = (props: any): JSX.Element => {
                     );
                 })}
             </Modal>
-        </div>
+        </>
     )
 }
 

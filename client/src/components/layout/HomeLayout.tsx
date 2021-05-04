@@ -3,29 +3,62 @@ import { Layout } from "antd";
 import { NavBar } from "../NavBar/NavBar";
 import { FooterLayout } from '../footer/Footer'
 import { HomeSlides } from "../HomeSlides/HomeSlides";
-import { PromotionsViewer} from '../Promotions/PromotionsViewer';
+import { PromotionsViewer } from '../Promotions/PromotionsViewer';
 import { supabase } from "../../SupaBase/conection";
 import { getSession } from "../../helpers/logIn"
 import "./homeLayout.less";
 import { useDispatch, useSelector } from "react-redux";
 import { getPromotions } from "../../actions/Promotions/promotionsAction";
 import '../Promotions/PromotionsViewer.less';
-
+import HomeDescription from "../home/homeDescription/HomeDescription";
+import { HomeExperiences } from "../home/homeExperiences/HomeExperiences";
+import HomeDiscounts from "../home/homeDiscounts/HomeDiscounts";
+import Chatbot from "../chatbot/Chatbot";
+import { HomeNewsletter } from "../home/homeNewsletter/HomeNewsletter";
+import { HomeFeatures } from '../home/HomeFeatures/HomeFeatures'
+import { getUserProfile } from "../../actions/userProfile/userProfileActions";
+import { RootReducer } from "../../reducers/rootReducer";
+import Modal from "antd/lib/modal/Modal";
+import { Register } from "../LogIn/Register";
+import { UpdateRegister } from "../LogIn/UpdateRegister";
+import { getWishlist } from "../../actions/WishlistAction";
 const { Content } = Layout;
 
 export const HomeLayout = (): JSX.Element => {
 
   var [name, setName] = useState("empty");
   const dispatch = useDispatch();
-  const promotions = useSelector( (state:any) => state.promotions )
+  const promotions = useSelector((state: any) => state.promotions)
+  const userProfile = useSelector((state: RootReducer) => state.userProfile)
 
-  useEffect( () => {
+
+  const [updateRegister, setUpdateRegister] = useState<boolean>(false)
+  
+  useEffect(() => {
     window.scrollTo(0, 0);
     supabase.auth.onAuthStateChange((event, session) => {
       getSession(session);
     });
     dispatch(getPromotions());
-  }, [dispatch]);
+    dispatch(getUserProfile())
+  }, []);
+
+  useEffect(() => {
+    dispatch(getUserProfile())
+    if (userProfile?.data?.uuid) {
+      if (userProfile?.data?.uuid?.length > 24) {
+        setUpdateRegister(true)
+      } else {
+        setUpdateRegister(false)
+      }
+    }
+  }, [userProfile])
+
+  useEffect(() => {
+    dispatch(getUserProfile())
+  }, [supabase.auth.user()?.email])
+
+
   const showName = async () => {
     const user: any = supabase.auth.user()
     if (user?.aud === "authenticated") {
@@ -39,63 +72,29 @@ export const HomeLayout = (): JSX.Element => {
     } else return false
   }
   showName()
-
   return (
     <>
       <Layout className="container">
         <NavBar />
         {
-          name !== "empty" && <div className="welcomeBox">Welcome, {name}</div>
+          name !== "empty" && <div className="welcomeBox">Welcome {name}!</div>
         }
         <Content>
           <HomeSlides />
-          <div className="text">
-            <div className="titleHotel">HENRY HOTEL</div>
-            <h3 className="subtitle">
-              {" "}
-              A luxurious hotel, open the door to a whole new world.
-            </h3>{" "}
-            <h3 className="subtitle2">
-              {" "}
-              Feel the difference and prepare for a beautiful traveling
-              experience.
-            </h3>
-            <h4 className="description">
-              The Henry Hotel on Miami Beach in South Beach, Florida is in an
-              amazing location, overlooking more than 200 feet of beautiful
-              white sandy tropical beaches on the Atlantic Ocean.{" "}
-            </h4>
-
-            <h4 className="description">
-              Built in 2009 and completely renovated in 2018, our modern Miami
-              hotel offers the highest levels of luxury and comfort. Our leisure
-              facilities include two hot tubs, a state of the art gym with
-              unbeatable panoramic sunset views, as well as three different
-              swimming pools, including 2 beach level family pools and our top
-              floor tranquility pool adults only offering something for every
-              guest.
-            </h4>
-            <h4 className="description">
-              it is perfect for romantic getaways, family vacations, spectacular
-              reunions and events. Unplug and relax with a poolside drink, soak
-              up some sun on the sand, or enjoy a relaxing spa massage or one of
-              our Mayan-inspired treatments. Adventurers will want to explore
-              ancient sites and natural treasures, snorkel through colorful
-              reefs teeming with tropical fish, swim with turtles, discover the
-              magic of cenotes, our Dive Center has been open for more than 35
-              years. meet friendly people in the city.
-            </h4>
-            <div className="description">
-              Accommodations
-              Whether visiting for work or relaxation, The Henry Hotel offers a
-              wide range of comfort and convenience to accommodate our valued
-              guests.
-            </div>
-          </div>
+          <HomeDescription />
+          <HomeExperiences />
+          {promotions && <HomeDiscounts promo={promotions} />}
+          <Chatbot />
+          <HomeFeatures />
+          <HomeNewsletter />
         </Content>
-        { promotions? <PromotionsViewer promo={promotions}/> : <p>There are not current promotions</p> }
         <FooterLayout />
       </Layout>
+      <Modal
+        footer={null}
+        visible={updateRegister}>
+        <UpdateRegister />
+      </Modal>
     </>
   );
 };

@@ -1,17 +1,16 @@
 import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { getDataBooking, getBookingsId, getPayments, getPaxId } from '../../actions/bookingsActions'
-import { Form, DatePicker, Input, InputNumber, Button, Select, Table, Cascader, Switch, Tooltip, Popconfirm } from 'antd';
-import Modal from 'antd/lib/modal/Modal'
-import { finalCreateBooking, getCategoriesForSelect, getRoomsAvailable, inactiveBooking, searchOrCreatePax } from '../../actions/createBookAdmin';
+import { Form, DatePicker, Input, InputNumber, Button, Select, Table, Cascader, Switch, Tooltip, Popconfirm, Modal } from 'antd';
+import { finalCreateBooking, getRoomsAvailable, inactiveBooking, searchOrCreatePax } from '../../actions/createBookAdmin';
 import { getAllRooms } from '../../actions/roomsActions';
 import moment from 'moment';
 import { residences } from '../../../components/booking/paxForm/PaxForm'
 import { roomType } from '../../../components/booking/accomodationsSelect/AccomodationsSelect';
 import { AiFillCloseCircle } from "react-icons/ai"
 import { SearchBooking } from '../SearchBar/SearchBar'
-const { RangePicker } = DatePicker;
 
+const { RangePicker } = DatePicker;
 export let loading = false;
 
 export const Bookings = () => {
@@ -197,14 +196,17 @@ export const Bookings = () => {
         },
     ]
 
-    const [loading, setLoading] = useState(true)
-    const [loadingSelect, setLoadingSelect] = useState(true)
-    const [isModalVisible, setIsModalVisible] = useState(false)
-    const [formPayment, setFormPayment] = useState(false)
-    const [guestsQ, setGuestsQ] = useState(0)
-    const [dateMSJ, setDateMSJ] = useState('')
-    const [disable, setDisable] = useState(false)
-    const [openForm, setOpenForm] = useState(false)
+    const [loading, setLoading] = useState<boolean>(true)
+
+    const [loadingSelect, setLoadingSelect] = useState<boolean>(true)
+    const [loadingRange, setLoadingRange] = useState<boolean>(true)
+    const [isModalVisible, setIsModalVisible] = useState<boolean>(false)
+    const [formPayment, setFormPayment] = useState<boolean>(false)
+    const [guestsQ, setGuestsQ] = useState<number>(0)
+    const [dateMSJ, setDateMSJ] = useState<string>('')
+    const [disable, setDisable] = useState<boolean>(false)
+    const [openForm, setOpenForm] = useState<boolean>(false)
+    const [noRoomMSG, setNoRoomMSG] = useState<boolean>(false)
     const [bookingState, setBookingState] = useState({
         address: "",
         birth_date: {},
@@ -297,6 +299,23 @@ export const Bookings = () => {
         setFormPayment(false)
         dispatch(searchOrCreatePax(null))
 
+        let secondsToGo = 5;
+        const modal = Modal.success({
+            title: 'Your booking has been successful!',
+            content: `This will be closed after ${secondsToGo} second.`,
+        });
+        const timer = setInterval(() => {
+            secondsToGo -= 1;
+            modal.update({
+                content: `This will be closed after ${secondsToGo} second.`,
+            });
+        }, 1000);
+        setTimeout(() => {
+            clearInterval(timer);
+            modal.destroy();
+        }, secondsToGo * 1000);
+
+
         // dispatch(getDataBooking('all')) //BOOKING_PAX
         // dispatch(getBookingsId()) //BOOKINGS    
         // dispatch(getPayments()) //PAYMENTS
@@ -311,6 +330,7 @@ export const Bookings = () => {
     const onChangeGuests = (value: number) => {
         setGuestsQ(value)
         setLoadingSelect(true)
+        setLoadingRange(false)
         // dispatch(getCategoriesForSelect())
     }
 
@@ -356,7 +376,11 @@ export const Bookings = () => {
         });
 
         console.log(bookingState, e, roomSelected)
-        dispatch(finalCreateBooking(bookingState, e, roomSelected))
+        if (roomSelected) {
+            dispatch(finalCreateBooking(bookingState, e, roomSelected.id))
+        } else {
+            setNoRoomMSG(true)
+        }
     }
 
     return (
@@ -378,7 +402,7 @@ export const Bookings = () => {
             </div>
 
             <div>
-                <Modal title="Create Booking" visible={isModalVisible} onCancel={closeModal} footer={null} destroyOnClose={true} >
+                <Modal zIndex={5} title="Create Booking" visible={isModalVisible} onCancel={closeModal} footer={null} destroyOnClose={true} >
                     <Form name="time_related_controls" {...formItemLayout} onFinish={onFinishFirstForm} initialValues={{ country: ['United States'], prefix: '1', remember: true }} scrollToFirstError >
 
 
@@ -393,8 +417,8 @@ export const Bookings = () => {
                         {/* FORM DATA PAX && DATA BOOKING*/}
                         {openForm ? <div>
                             {/* DATA PAX EXISTENTE */}
-                            {storeBooking?.paxInfo.length > 0 ? storeBooking?.paxInfo.map((p: any, i: number) => (
-                                <div key={i} >
+                            {storeBooking?.paxInfo.length > 0 ? storeBooking?.paxInfo.map((p: { id: number | string, first_name: string, last_name: string, country: string }, i: number) => (
+                                <div key={`pI${i}`} >
                                     <h3>{p.first_name} {p.last_name}</h3>
                                     <h3>{p.country}</h3>
                                 </div>
@@ -448,18 +472,21 @@ export const Bookings = () => {
 
                             {/* CheckIn CheckOut */}
                             <Form.Item name="range-picker" label="CheckIn - CheckOut" rules={[{ type: 'array', required: true, message: 'Please select category!' }]} >
-                                <RangePicker onChange={e => onChangeRange(e)} />
+                                <div className="containerRp">
+                                    <RangePicker onChange={e => onChangeRange(e)} disabled={loadingRange} />
+                                </div>
                             </Form.Item>
 
                             {dateMSJ.length > 0 ? <div style={{ color: 'red' }}>{dateMSJ}</div> : <div></div>}
+                            {noRoomMSG ? <div style={{ color: 'red' }}>There are no rooms available for this date!</div> : <div></div>}
 
                             {/* Category */}
 
                             <Form.Item label="Category" name='category' rules={[{ required: true, message: 'Please select category!' }]}>
 
                                 <Select onChange={e => onChangeSelect(e)} loading={loadingSelect} disabled={disable}>
-                                    {storeBooking?.categories?.map((cat: any, i: number) => {
-                                        return (<Select.Option value={cat.id} key={i}>{cat.name}</Select.Option>)
+                                    {storeBooking?.categories?.map((cat: { id: string | number, name: string }, i: number) => {
+                                        return (<Select.Option value={cat.id} key={`c${i}`}>{cat.name}</Select.Option>)
                                     })
                                     }
 
@@ -472,8 +499,8 @@ export const Bookings = () => {
                             {/* Type */}
                             <Form.Item label="Type" name='type' rules={[{ required: true, message: 'Please select type!' }]}>
                                 <Select loading={loadingSelect} disabled={disable}>
-                                    {storeBooking?.types?.map((t: any, i: number) => {
-                                        return (<Select.Option value={t.id} key={i}>{t.name}</Select.Option>)
+                                    {storeBooking?.types?.map((t: { id: string | number, name: string }, i: number) => {
+                                        return (<Select.Option value={t.id} key={`t${i}`}>{t.name}</Select.Option>)
                                     })}
                                 </Select>
                             </Form.Item>

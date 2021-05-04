@@ -1,18 +1,18 @@
-import React, { useEffect } from "react";
+import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Button, Select } from "antd";
-import "./Category.less";
+import { Select } from "antd";
+import "./Categories.less";
 import { initialStateProps } from "./../../reducers/categoriesReducer";
 import { getCategories, getCategoriesNames } from "../../actions";
 import Category from "./Category";
 import "./../accomodations/accomodations.less";
 import "./../layout/homeLayout.less";
-import { NavLink } from "react-router-dom";
+import { Category as Icategory } from '../../Admin/components/Categories/Categories';
 
 const { Option } = Select;
 
 
-const Categories = ({ data }: any): JSX.Element => {
+const Categories = (): JSX.Element => {
   const dispatch = useDispatch();
   const cat = useSelector((state: initialStateProps) => state.categories);
 
@@ -53,7 +53,7 @@ const Categories = ({ data }: any): JSX.Element => {
         >
           <Option value="0">All Categories</Option>
 
-          {cat?.categoriesNames.map((category: any, i: number) => {
+          {cat?.categoriesNames.map((category: Icategory, i: number) => {
             return (
               <Option value={category.id} key={i}>{category.name}</Option>
             )
@@ -61,8 +61,8 @@ const Categories = ({ data }: any): JSX.Element => {
         </Select>
 
       </div>
-      <div>
-        {cat.categories?.map((categ: any, key: number) => (
+      <div className="categories_CardsContainer">
+        {cat?.categories.map((categ: Icategory, key: number) => (
           <Category categ={categ} num={num++} key={key} />
         ))}
       </div>

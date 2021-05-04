@@ -9,6 +9,7 @@ import { supabase } from "../../SupaBase/conection";
 import { useDispatch, useSelector } from "react-redux";
 import { setModalState } from "../../actions/loginActions";
 import "./LogIn.less";
+import { getUserProfile } from "../../actions/userProfile/userProfileActions";
 
 interface log {
   email: string;
@@ -67,7 +68,7 @@ export const LogIn = () => {
   return (
     <>
       <Form
-        className="container"
+        className="containerLogin"
         name="basic"
         initialValues={{ remember: true }}
         onFinish={onFinish}

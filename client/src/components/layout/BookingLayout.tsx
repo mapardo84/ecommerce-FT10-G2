@@ -4,6 +4,7 @@ import { FooterLayout } from "../footer/Footer";
 import { FunctionComponent } from "react";
 import { StepsBooking } from "../booking/StepsBooking";
 import '../layout/BookingLayout.less'
+import Chatbot from "../chatbot/Chatbot";
 
 
 const { Content } = Layout;
@@ -11,10 +12,11 @@ const { Content } = Layout;
 export const BookingLayout: FunctionComponent = () => {
   return (
     <>
-      <Layout style={{overflowX:"hidden"}}>
+      <Layout className="bookingStepBg" style={{ overflowX: "hidden" }}>
         <NavBar />
         <Content className='sticky'>
-          <StepsBooking/>
+          <div className="stepsBackground"></div>
+          <StepsBooking />
         </Content>
         <FooterLayout />
       </Layout>
