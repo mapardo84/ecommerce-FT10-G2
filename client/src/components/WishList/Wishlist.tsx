@@ -14,8 +14,7 @@ export default function Wishlist() {
     if (supabase.auth.user()) {
       dispatch(getWishlist())
     }
-  }, [dispatch])
-
+  }, [])
 
 
   return (

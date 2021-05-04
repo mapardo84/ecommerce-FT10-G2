@@ -22,7 +22,6 @@ const HomeDiscounts = (props: { promo: promotionType[] }) => {
     }, []);
 
     const discounts = useSelector((state: any) => state.discount.discounts)
-    console.log("DIS:", discounts)
 
     const { promo } = props;
 

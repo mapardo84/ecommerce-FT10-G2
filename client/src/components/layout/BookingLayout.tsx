@@ -18,7 +18,6 @@ export const BookingLayout: FunctionComponent = () => {
           <div className="stepsBackground"></div>
           <StepsBooking />
         </Content>
-        <Chatbot />
         <FooterLayout />
       </Layout>
     </>
