@@ -9,6 +9,7 @@ import { Form, Input, Button, message, Divider } from "antd";
 import { useHistory } from "react-router-dom";
 import "./ResetPasswordLayout.less"
 import Chatbot from "../chatbot/Chatbot";
+import password from './img/password.jpg'
 
 const { Content } = Layout;
 
@@ -66,10 +67,20 @@ export const ResetPasswordLayout = (): JSX.Element => {
 
 
     return (
-        <>
+        
+
+            <div className="containerMap1"> 
+                    
+            
             <Layout className="resetLayout">
                 <NavBar />
-                <Content>
+                <div className="">  
+                    <img className="resetPasswordImg" src={password} alt="Img not found" />
+                    <div className="passwordTittle">
+                        RESET PASSWORD
+                    </div>
+                </div>
+              
                     <div className="FormReset" >
                         <h1 className="resetTitle">Enter a new password</h1>
                         <Divider className="dividerRegister"></Divider>
@@ -124,11 +135,11 @@ export const ResetPasswordLayout = (): JSX.Element => {
                                 onChange={onChange} />
                         </div>
                     </div>
-                </Content>
-                <Chatbot />
+               
                 <FooterLayout />
             </Layout>
-        </>
+            </div>
+        
     );
 };
 

@@ -147,6 +147,17 @@
 
 //NUEVO
 
+
+.wishTitle{
+  position: absolute;
+  font-size: 80px;
+  font-weight: 500;
+  color: white;
+  margin-top: -200px;
+  width: 100vw;
+  text-align: center;
+}
+
 .wishlistCardContainer{
   // position: absolute;
   margin-top: 40px;
@@ -197,5 +208,128 @@
 
 .cardwishButton1{
   font-size: 17px !important;
-  padding: 5px !important;
+  padding:5px !important; 
+
+}
+
+@media screen and (max-width:1000px){
+  .wishlistCardImage{
+    width: 600px;
+    height: 400px;
+  }
+
+  .cardwishborder{
+    width: 680px;
+    height: 380px;
+  }
+
+  .cardwishName{
+    font-size: 30px;
+  }
+
+  .wishlistCardContainer{
+    width: 700px;
+  }
+
+}
+
+@media screen and (max-width:750px){
+  .wishlistCardImage{
+    width: 400px;
+    height: 300px;
+  }
+
+  .cardwishborder{
+    width: 480px;
+    height: 280px;
+  }
+
+  .cardwishName{
+    font-size: 20px;
+  }
+
+  .wishlistCardContainer{
+    width: 500px;
+   height: 300px !important;
+  }
+
+  .cardwishButton1{
+    margin-left: 20px !important;
+  
+  }
+
+.wishTitle{
+  font-size: 60px;
+}
+
+
+}
+
+@media screen and (max-width:550px){
+  .wishlistCardImage{
+    width: 300px;
+    height: 250px;
+  }
+
+  .cardwishborder{
+    width: 360px;
+    height: 230px;
+  }
+
+  .cardwishName{
+    font-size: 15px;
+  }
+
+  .wishlistCardContainer{
+    width: 380px;
+   height: 250px !important;
+  }
+
+  .cardwishButton1{
+   margin-left:5px !important;
+   font-size: 12px !important;
+   padding:4px !important; 
+  }
+
+  .wishImage{
+    width: 100vw;
+    height: 300px;
+     object-fit: cover;
+    filter: brightness(70%);
+  }
+
+
+}
+
+@media screen and (max-width:400px){
+  .wishlistCardImage{
+    width: 200px;
+    height: 150px;
+  }
+
+  .cardwishborder{
+    width: 260px;
+    height: 130px;
+  }
+
+  .cardwishName{
+    font-size: 9px;
+  }
+
+  .wishlistCardContainer{
+    width: 280px;
+   height: 150px !important;
+  }
+
+  .cardwishButton1{
+   margin-left:15px !important;
+   font-size: 10px !important;
+   padding:4px !important; 
+  }
+
+
+.wishTitle{
+  font-size: 30px;
+}
+
 }
