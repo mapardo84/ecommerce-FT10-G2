@@ -1,12 +1,13 @@
 import { Dispatch } from 'react'
 import { supabase } from '../../SupaBase/conection'
 import { message } from 'antd';
-import {IDiscounts} from '../components/Discounts/discounts'
+import { IDiscounts } from '../components/Discounts/discounts'
+import { loadingAdmin } from './adminUi';
 
 export const GET_ALL_DISCOUNTS: string = "GET_ALL_DISCOUNTS"
 export const UPDATE_DISCOUNTS: string = "UPDATE_DISCOUNTS"
 export const DELETE_DISCOUNTS: string = "DELETE_DISCOUNTS"
-export const ADD_DISCOUNT:string = "ADD_DISCOUNT"
+export const ADD_DISCOUNT: string = "ADD_DISCOUNT"
 const errorMsg = (msg: string, time: number = 3) => {
     message.error(msg, time);
 };
@@ -23,6 +24,7 @@ const success = (mensaje: string) => {
 
 export const getAllDiscounts = () => {
     return async (dispatch: Dispatch<any>) => {
+        dispatch(loadingAdmin(true))
         try {
             const { data, error } = await supabase.from('discounts').select('*')
             if (!error) {
@@ -34,6 +36,7 @@ export const getAllDiscounts = () => {
             console.log(err)
             errorMsg("Internal server error. Try again")
         }
+        dispatch(loadingAdmin(false))
     }
 }
 
@@ -49,7 +52,7 @@ export const updateDiscounts = (dataChange: IDiscounts) => {
                     categoryToApply: dataChange.categoryToApply,
                     published: dataChange.published,
                     releaseDate: dataChange.releaseDate,
-                    expirationDate:dataChange.expirationDate
+                    expirationDate: dataChange.expirationDate
                 })
                 .eq('id', dataChange.id)
             if (error) {
@@ -99,11 +102,12 @@ export const checkId = async (mail: string) => {
         }
     } else {
         return "Error"
-    } 
+    }
 }
 
 export const addDiscount = (newData: any) => {
     return async (dispatch: Dispatch<any>) => {
+        dispatch(loadingAdmin(true))
         try {
             const { data, error } = await supabase
                 .from('discounts')
@@ -114,7 +118,7 @@ export const addDiscount = (newData: any) => {
                     categoryToApply: newData.categoryToApply,
                     published: newData.published,
                     releaseDate: newData.releaseDate,
-                    expirationDate:newData.expirationDate
+                    expirationDate: newData.expirationDate
                 },
                 ])
             if (error) {
@@ -128,6 +132,7 @@ export const addDiscount = (newData: any) => {
             console.log(err)
             errorMsg("Internal server error. Try again")
         }
+        dispatch(loadingAdmin(false))
     }
 }
 
@@ -143,7 +148,7 @@ const updatedDiscounts = (data: any) => ({
 const deletedDiscounts = (data: any) => ({
     type: DELETE_DISCOUNTS,
     payload: data
-    
+
 })
 const addedDiscount = (data: any) => ({
     type: ADD_DISCOUNT,

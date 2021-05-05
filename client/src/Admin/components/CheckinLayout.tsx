@@ -1,11 +1,10 @@
-import { Layout, Spin } from "antd";
+import { Layout } from "antd";
 import { MenuLeft } from "../MenuLeft";
 import { HeaderAdmin } from "../HeaderAdmin";
 import { FooterAdmin } from "../FooterAdmin";
 import { Checkin } from './Checkin/Checkin';
 import { useState } from "react";
 import { CheckinRoom } from "./Checkin/CheckinRoom";
-import { useSelector } from "react-redux";
 
 
 //////////////////////////////////////////////////////////
@@ -31,16 +30,11 @@ import { useSelector } from "react-redux";
 export const CheckinLayout = () => {
     const [step, setStep] = useState(0)
 
-    const { loading } = useSelector((state: any) => state.adminui)
-
-
     const { Content } = Layout;
 
     return (
         <>
-            { loading &&
-                <Spin tip="Loading..." size="large" ></Spin>
-            }
+
             <Layout style={{ minHeight: "100vh" }}>
                 <MenuLeft />
 

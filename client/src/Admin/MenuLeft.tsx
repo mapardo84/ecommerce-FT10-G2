@@ -1,4 +1,4 @@
-import { Menu } from "antd";
+import { Menu, Spin } from "antd";
 import {
     PieChartOutlined,
 } from "@ant-design/icons";
@@ -62,10 +62,14 @@ export const MenuLeft = () => {
     const setPage = (page: string) => {
         dispatch(changePage(page));
     }
+    const { loading } = useSelector((state: any) => state.adminui)
     const { Sider } = Layout;
     return (
         <>
             <Sider collapsible collapsed={sidebarColapsed} onCollapse={onCollapse}>
+                {loading &&
+                    <Spin tip="Loading..." size="large" ></Spin>
+                }
                 <Menu
                     theme="dark"
                     defaultSelectedKeys={[page]}
