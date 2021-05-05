@@ -121,7 +121,7 @@ export const Rooms = () => {
             filters: filterData(types),
             filterMultiple: false,
             onFilter: (value: number, rooms: Room) => {
-                return rooms.category_id === value
+                return rooms.type_id === value
             }
         },
         {
@@ -150,8 +150,6 @@ export const Rooms = () => {
         dispatch(getAllRooms())
         dispatch(getAllCategories())
         dispatch(getAllTypes())
-        console.log(roomsList)
-
     }, [dispatch])
 
     const onFinish = (values: Room) => {

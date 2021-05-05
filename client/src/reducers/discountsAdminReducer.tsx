@@ -5,15 +5,15 @@ interface actionProps {
     payload: any
 }
 
-interface IState {
+export interface DiscountsAdminInterface {
     discounts: any[],
 }
 
-const InitialState: IState = {
+const InitialState: DiscountsAdminInterface = {
     discounts: []
 }
 
-export function discountsAdminReducer(state: IState = InitialState, action: actionProps) {
+export function discountsAdminReducer(state: DiscountsAdminInterface = InitialState, action: actionProps) {
     switch (action.type) {
         case GET_ALL_DISCOUNTS:
             return {

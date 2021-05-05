@@ -1,6 +1,5 @@
-import React, { useEffect, useState } from 'react';
-//import 'antd/dist/antd.css';
-import { Form, Input, Cascader, Select, DatePicker, Checkbox, Button, Switch } from 'antd';
+import { SyntheticEvent, useState } from 'react';
+import { Form, Input, Cascader, Select, DatePicker, Checkbox, Button } from 'antd';
 import { sendPax } from '../../../actions/Booking/PaxFormActions';
 import './PaxForm.less'
 import { getPax, stepChange } from '../../../actions/Booking/bookingAction';
@@ -8,8 +7,9 @@ import { useDispatch, useSelector } from 'react-redux';
 import { MercadoPago } from '../../MercadoPago/MercagoPago';
 import { supabase } from '../../../SupaBase/conection'
 import Modal from 'antd/lib/modal/Modal';
-import { Pre_booking } from '../../Pre_booking/Pre_booking';
+import { PreBooking } from '../../PreBooking/PreBooking';
 import countries from 'countries-list'
+import { RootReducer } from '../../../reducers/rootReducer';
 
 const { Option } = Select;
 export const prefixSelector = (
@@ -103,30 +103,32 @@ export function PaxForm() {
     const [form] = Form.useForm();
     const dispatch = useDispatch();
 
-    const { pax_data, loading } = useSelector((state: any) => state.bookings); //pax_data
-    const { user_data } = useSelector((state: any) => state.pre_booking);
+    const { pax_data, loading } = useSelector((state: RootReducer) => state.bookings); //pax_data
+    const { user_data } = useSelector((state: RootReducer) => state.pre_booking);
 
 
-    const [uuid_match, setUuid_match] = useState(false)     //searchbar pax
+    // const [uuid_match, setUuid_match] = useState(false)     //searchbar pax
 
     const [setInfo, setSetInfo] = useState(false)
 
 
-    const bookings = useSelector((state: any) => state?.bookings)
+    const bookings = useSelector((state: RootReducer) => state?.bookings)
     const { booking } = bookings
 
-    const [mp, setMp] = useState<any>(false)
-    const [mpModal, setMpModal] = useState<any>(false)
+    const [mp, setMp] = useState<boolean>(false)
+    const [mpModal, setMpModal] = useState<boolean>(false)
 
+    const validator = (string?: any) => {
+        for (var i = 0; i < 10; i++) {
+            if (string.includes(i)) {
+                setMp(false)
+                return true
+            }
+        }
+        return false
+    }
 
-    useEffect(() => {
-    }, [pax_data])
-
-
-
-
-
-    const handleClickBack = (e: any) => {
+    const handleClickBack = (e: SyntheticEvent) => {
         e.preventDefault();
         localStorage.removeItem("Accomodation")
         setMp(false)
@@ -134,15 +136,12 @@ export function PaxForm() {
         dispatch(stepChange(1));
     }
     const onFinish = (values: PaxValues) => {
-        console.log('Received values of form: ', values);
         sendPax(values)
     };
 
 
 
-    const onChange = async (value: any, allvalues: any) => {
-
-        console.log(booking)
+    const onChange = async (_: string, allvalues: any) => {
         for (let i in allvalues) {
             if (!allvalues[i]) {
                 return setMp(false)
@@ -161,6 +160,8 @@ export function PaxForm() {
             nights: booking.nights,
             unit_price: booking.fee,
             room_id: booking.room_id,
+            early_checkin: booking.early_checkin,
+            late_checkout: booking.late_checkout,
             uuid,
             first_name,
             last_name,
@@ -171,14 +172,17 @@ export function PaxForm() {
             address,
         }
         await localStorage.setItem("BookingInfo", JSON.stringify(bookingInfo))
-        if (supabase.auth.user()) {
+        if (
+            supabase.auth.user()
+            && !validator(allvalues.first_name)
+            && !validator(allvalues.last_name)
+            && !isNaN(allvalues.phone)) {
             setMp(true)
         }
     }
 
 
     const confirm_pax = (modal: string) => {
-        console.log(user_data)
         let bookingInfo = {
             checkin: booking.range[0],
             checkout: booking.range[1],
@@ -190,12 +194,14 @@ export function PaxForm() {
             uuid: pax_data.uuid,
             first_name: pax_data.first_name,
             last_name: pax_data.last_name,
+            early_checkin: booking.early_checkin,
+            late_checkout: booking.late_checkout,
             paxes: booking.guests,
             phone: pax_data.phone,
             country: pax_data.country,
             birth_date: pax_data.birth_date,
             address: pax_data.address,
-            positive_balance: user_data.positive_balance
+            positive_balance: user_data[0].positive_balance
         }
         localStorage.setItem("BookingInfo", JSON.stringify(bookingInfo))
         modal === "modal" ? setMpModal(true) : setMp(true)
@@ -220,7 +226,7 @@ export function PaxForm() {
                 <div className="formBookingSearch">
                     <div>
                         <h1 className="Login">IDENTIFICATION</h1>
-                        <div className="searchPaymentText">If you have an account, please enter your identification.</div>
+                        <div className="searchPaymentText">If you have already made a reservation before, please enter your ID number </div>
                         <Form>
                             <Form.Item>
                                 <Input.Search
@@ -239,15 +245,17 @@ export function PaxForm() {
 
                 </div>
                 <div>
-                    <Pre_booking type={1} />
+                    <PreBooking type={1} />
                 </div>
             </div>
 
             <div>
                 <Modal
                     visible={visible}
-                    width={450}
+                    width={380}
+                    title={"USER INFORMATION"}
                     destroyOnClose={true}
+                    footer={null}
                     onCancel={() => {
                         setvisible(false)
                     }}
@@ -259,14 +267,16 @@ export function PaxForm() {
                                 </div>
                             :
                             pax_data && setInfo ?
-                                <ul>
+                                <div className="paxDataClass">
                                     <div>First name : {pax_data.first_name}</div>
                                     <div>Last name : {pax_data.last_name}</div>
                                     <div>Uuid : {pax_data.uuid}</div>
                                     <div>Country : {pax_data.country}</div>
-                                    <Button onClick={() => confirm_pax("modal")}>Confirm</Button>
-                                    {mpModal ? <MercadoPago /> : null}
-                                </ul>
+                                    <div className="modalButtonsPaxForm">
+                                        <Button type="primary" onClick={() => confirm_pax("modal")}>Confirm</Button>
+                                        {mpModal ? <MercadoPago /> : null}
+                                    </div>
+                                </div>
                                 :
                                 <div>No hay nada</div>
                     }
@@ -276,7 +286,7 @@ export function PaxForm() {
             </div>
             <div className='formBookingPayment'>
                 <h1 className="Login">GUEST INFORMATION</h1>
-                <div className="searchPaymentText2">If you don't have an account, please fill this form</div>
+                <div className="searchPaymentText2">if this is your first time at Henry Hotel, please fill out the form below.</div>
 
                 <Form
                     {...formItemLayout}
@@ -302,6 +312,13 @@ export function PaxForm() {
                                 message: 'Please input your name!',
                                 whitespace: true,
                             },
+                            {
+                                validator: async (_, firstName) => {
+                                    if (validator(firstName)) {
+                                        return Promise.reject(new Error("Words please"));
+                                    }
+                                },
+                            }
                         ]}
                     >
                         <Input placeholder="Name" className='paxForm_input' />
@@ -315,6 +332,14 @@ export function PaxForm() {
                                 message: 'Please input your last name!',
                                 whitespace: true,
                             },
+                            {
+                                validator: async (_, lastName) => {
+                                    console.log(lastName)
+                                    if (validator(lastName)) {
+                                        return Promise.reject(new Error("Words please"));
+                                    }
+                                },
+                            }
                         ]}
                     >
                         <Input placeholder="Last Name" className='paxForm_input' />
@@ -356,7 +381,7 @@ export function PaxForm() {
                             },
                         ]}
                     >
-                        <Cascader placeholder="Country" options={residences} className='paxForm_input' />
+                        <Cascader placeholder="Country" options={mapeo} className='paxForm_input' />
                     </Form.Item>
 
                     <Form.Item
@@ -380,6 +405,15 @@ export function PaxForm() {
                                 required: true,
                                 message: 'Please input your phone number!',
                             },
+
+                            {
+                                validator: async (_, phone) => {
+                                    if (isNaN(phone)) {
+                                        setMp(false)
+                                        return Promise.reject(new Error("Only numbers"));
+                                    }
+                                },
+                            }
                         ]}
                     >
                         <Input

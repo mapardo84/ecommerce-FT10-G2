@@ -1,14 +1,14 @@
-import { Menu } from "antd";
+import { Menu, Spin } from "antd";
 import {
     PieChartOutlined,
 } from "@ant-design/icons";
 //import hotelImg from './hotel.png'
 import { useDispatch, useSelector } from 'react-redux';
-import { initialStateProps } from '../reducers/adminReducer';
+import { AdminReducer } from '../reducers/adminReducer';
 import { changePage, loginUser, sidebarChange } from "./actions/adminUi";
 import { Layout } from "antd";
 import { NavLink, useHistory } from "react-router-dom";
-import { FaHotel, FaDoorClosed, FaUserAlt, FaConciergeBell } from "react-icons/fa";
+import { FaHotel, FaDoorClosed, FaUserAlt, FaConciergeBell, FaBook, FaUserFriends, FaBahai, FaEnvelopeOpen } from "react-icons/fa";
 import { IoIosBed } from "react-icons/io";
 import { GiBedLamp } from "react-icons/gi";
 import { SiCashapp } from "react-icons/si";
@@ -39,12 +39,11 @@ import { useEffect } from 'react';
 //////////////////////////////////////////////////////////////
 
 
-const paginas = ['Inicio', 'Rooms', 'Categories', 'Types', 'Users', 'Checkin/Checkout', 'Paxes', 'Bookings', 'Discounts']
+const paginas = ['Inicio', 'Rooms', 'Categories', 'Types', 'Users', 'Checkin/Checkout', 'Paxes', 'Bookings', 'Discounts', 'Events', 'NewsLetter']
 
 export const MenuLeft = () => {
-    const dispatch = useDispatch()
-
-    const history = useHistory()
+    const dispatch = useDispatch();
+    const history = useHistory();
     useEffect(() => {
         loginUser()
             .then(r => {
@@ -54,23 +53,23 @@ export const MenuLeft = () => {
             })
     }, [history])
 
-    const { sidebarColapsed, page } = useSelector((state: initialStateProps) => state.adminui)
+    // const { sidebarColapsed, page } = useSelector((state: AdminReducer) => state.adminui)
 
+    const { sidebarColapsed, page } = useSelector((state: AdminReducer) => state.adminui);
     const onCollapse = () => {
-        dispatch(sidebarChange())
+        dispatch(sidebarChange());
     };
-
     const setPage = (page: string) => {
-        dispatch(changePage(page))
+        dispatch(changePage(page));
     }
-
+    const { loading } = useSelector((state: any) => state.adminui)
     const { Sider } = Layout;
-
-
-
     return (
         <>
             <Sider collapsible collapsed={sidebarColapsed} onCollapse={onCollapse}>
+                {loading &&
+                    <Spin tip="Loading..." size="large" ></Spin>
+                }
                 <Menu
                     theme="dark"
                     defaultSelectedKeys={[page]}
@@ -110,14 +109,20 @@ export const MenuLeft = () => {
                     <Menu.Item key={paginas[5]} icon={<FaConciergeBell />} onClick={() => setPage(paginas[5])}>
                         <NavLink to="/admin/checkin">{paginas[5]}</NavLink>
                     </Menu.Item>
-                    <Menu.Item key={paginas[6]} icon={<FaUserAlt />} onClick={() => setPage(paginas[6])}>
+                    <Menu.Item key={paginas[6]} icon={<FaUserFriends />} onClick={() => setPage(paginas[6])}>
                         <NavLink to="/admin/paxes">{paginas[6]}</NavLink>
                     </Menu.Item>
-                    <Menu.Item key={paginas[7]} icon={<FaUserAlt />} onClick={() => setPage(paginas[7])}>
+                    <Menu.Item key={paginas[7]} icon={<FaBook />} onClick={() => setPage(paginas[7])}>
                         <NavLink to="/admin/bookings">{paginas[7]}</NavLink>
                     </Menu.Item>
                     <Menu.Item key={paginas[8]} icon={<SiCashapp />} onClick={() => setPage(paginas[8])}>
                         <NavLink to="/admin/discounts">{paginas[8]}</NavLink>
+                    </Menu.Item>
+                    <Menu.Item key={paginas[9]} icon={<FaBahai />} onClick={() => setPage(paginas[9])}>
+                        <NavLink to="/admin/events">{paginas[9]}</NavLink>
+                    </Menu.Item>
+                    <Menu.Item key={paginas[10]} icon={<FaEnvelopeOpen />} onClick={() => setPage(paginas[10])}>
+                        <NavLink to="/admin/newsletter">{paginas[10]}</NavLink>
                     </Menu.Item>
                 </Menu>
             </Sider>

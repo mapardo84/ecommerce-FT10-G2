@@ -30,26 +30,28 @@ import { CheckinRoom } from "./Checkin/CheckinRoom";
 export const CheckinLayout = () => {
     const [step, setStep] = useState(0)
 
-
     const { Content } = Layout;
 
     return (
-        <Layout style={{ minHeight: "100vh" }}>
-            <MenuLeft />
+        <>
 
-            <Layout>
-                <HeaderAdmin />
-                <Content style={{ margin: "0 16px" }}>
+            <Layout style={{ minHeight: "100vh" }}>
+                <MenuLeft />
 
-                    {/* aca va el componente */}
-                    {step === 0 && <Checkin steps={setStep} />}
-                    {step === 1 && <CheckinRoom steps={setStep} />}
+                <Layout>
+                    <HeaderAdmin />
+                    <Content style={{ margin: "0 16px" }}>
+
+                        {/* aca va el componente */}
+                        {step === 0 && <Checkin steps={setStep} />}
+                        {step === 1 && <CheckinRoom steps={setStep} />}
 
 
 
-                </Content>
-                <FooterAdmin />
+                    </Content>
+                    <FooterAdmin />
+                </Layout>
             </Layout>
-        </Layout>
+        </>
     )
 }

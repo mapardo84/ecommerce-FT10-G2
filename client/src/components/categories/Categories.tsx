@@ -1,42 +1,41 @@
-import React, { useEffect } from "react";
+import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Button, Select } from "antd";
-import "./Category.less";
+import { Select } from "antd";
+import "./Categories.less";
 import { initialStateProps } from "./../../reducers/categoriesReducer";
 import { getCategories, getCategoriesNames } from "../../actions";
 import Category from "./Category";
 import "./../accomodations/accomodations.less";
 import "./../layout/homeLayout.less";
-import { NavLink } from "react-router-dom";
+import { Category as Icategory } from '../../Admin/components/Categories/Categories';
 
 const { Option } = Select;
 
+const getCategoriesDB = async (value: number | undefined, dispatch: any) => {
+  const resolve = await getCategories(value);
+  dispatch(resolve);
+};
 
-const Categories = ({ data }: any): JSX.Element => {
+const getCategoriesNamesDB = async (dispatch: any) => {
+  const resolve = await getCategoriesNames();
+  dispatch(resolve);
+};
+
+
+const Categories = (): JSX.Element => {
   const dispatch = useDispatch();
   const cat = useSelector((state: initialStateProps) => state.categories);
 
-
-  const getCategoriesDB = async (value: number | undefined) => {
-    const resolve = await getCategories(value);
-    dispatch(resolve);
-  };
-
-  const getCategoriesNamesDB = async () => {
-    const resolve = await getCategoriesNames();
-    dispatch(resolve);
-  };
-
   useEffect(() => {
-    getCategoriesDB(undefined);
-    getCategoriesNamesDB()
+    getCategoriesDB(undefined, dispatch);
+    getCategoriesNamesDB(dispatch)
   }, [dispatch]);
 
   const handleChange = (value: any) => {
     if (value === '0') {
-      getCategoriesDB(undefined);
+      getCategoriesDB(undefined, dispatch);
     } else {
-      getCategoriesDB(value);
+      getCategoriesDB(value, dispatch);
     }
   };
 
@@ -51,9 +50,9 @@ const Categories = ({ data }: any): JSX.Element => {
           className="selectCategoryTitle"
           onChange={handleChange}
         >
-          <Option value="0">All Categories</Option>
+          <Option value="0" key="key0">All Categories</Option>
 
-          {cat?.categoriesNames.map((category: any, i: number) => {
+          {cat?.categoriesNames.map((category: Icategory, i: number) => {
             return (
               <Option value={category.id} key={i}>{category.name}</Option>
             )
@@ -61,8 +60,8 @@ const Categories = ({ data }: any): JSX.Element => {
         </Select>
 
       </div>
-      <div>
-        {cat.categories?.map((categ: any, key: number) => (
+      <div className="categories_CardsContainer">
+        {cat?.categories.map((categ: Icategory, key: number) => (
           <Category categ={categ} num={num++} key={key} />
         ))}
       </div>

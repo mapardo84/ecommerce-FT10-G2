@@ -2,26 +2,49 @@
 @import url("https://fonts.googleapis.com/css2?family=Montserrat:wght@500&display=swap%27");
 
 .NavBarLayout{
+  // position: rela;
+  width: 100vw;
+  left: 0;
+  top: 0;
+  height: 90px;
+  margin-bottom: -90px;
+  background: #5296a500 ;
+  display: flex;
+  justify-content: space-between;
+  z-index: 900;
+  background: linear-gradient(#0000003f, #9198e500);
+}
+
+.imagenNavBarS{
+  height: 25px;
+  filter: brightness(20%);
+  margin-right: 17px;
+
+}
+
+.NavBarLayoutActive{
   position: fixed;
   width: 100vw;
   left: 0;
   top: 0;
   height: 90px;
-  background: #5296a5 !important;
-  z-index: 70;
+  background: white;
   box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.301) !important;
   display: flex;
   justify-content: space-between;
   z-index: 900;
-}
+  animation-name: nav;
+  animation-duration: 0.6s ;
+
+  }
+  @keyframes nav {
+    0%   { top:-90px;}
+    100% { top:0px;}
+  }
 
 .ant-dropdown-menu{
   position: relative  !important;
 }
-
-// .DropNavButton{
-//   position: fixed !important;
-// }
 
 .navTitleRes{
    display: none;
@@ -29,7 +52,7 @@
 
 .navLoginButton {
   margin-bottom: 1.7px;
-  margin-right: 18px;
+  margin-right: 0px;
 }
 .colContainer {
   display: flex;
@@ -56,7 +79,13 @@
   margin-left: 40px;
 }
 
-.imagen {
+.imagenNavBar {
+  height: 70px;
+  margin-right: 20px;
+}
+
+.imagenNavBarActive {
+  filter: brightness(0%);
   height: 70px;
   margin-right: 20px;
 }
@@ -87,22 +116,29 @@
 }
 
 .btnNavbar {
-  background-color: #5296a5 !important;
+  background-color: #4b75cd !important;
   color: rgb(255, 255, 255) !important;
+  border: none !important;
+  transition: 1s;
 }
 
 .btnNavbar:hover {
-  border: 1px solid rgb(192, 192, 192) !important;
-  color: #c2c1c1;
-  background-color: #377c8b !important;
+  transform: scale(1.04);
 }
 
 .navButton {
-  background-color: #5296a5 !important;
+  // background-color: #5296a5 !important;
   color: #ffff !important;
   font-size: 18px !important;
   margin-right: 10px;
 }
+
+.navButtonActive {
+  color: rgb(0, 0, 0) !important;
+  font-size: 18px !important;
+  margin-right: 10px;
+}
+
 .navButton:hover {
   color: #c2c1c1 !important;
 }
@@ -155,16 +191,24 @@
     height: 75px !important;
     grid-template-columns: 1fr 1fr 1fr;
     grid-template-areas: 
-    ". imagen1 menu" 
+    ". imagenNavBar1 menu" 
+  }
+
+.NavBarLayoutActive{
+  z-index: 900;
+  display: grid;
+  height: 75px !important;
+  grid-template-columns: 1fr 1fr 1fr;
+  grid-template-areas: 
+  ". imagenNavBar1 menu" 
   }
 
   .navImageContainer{
-    grid-area: imagen1;
+    grid-area: imagenNavBar1;
     display: flex;
     justify-content: center;
     align-items: center;
   }
-
 
   .navButton {
     background-color: #2e323300 !important;
@@ -174,10 +218,15 @@
   }
 
     
-  .imagen {
+  .imagenNavBar {
     height: 55px;
     margin-right: 0px;
+  }
 
+  .imagenNavBarActive {
+    filter: brightness(0%);
+    height: 55px;
+    margin-right: 0px;
   }
 
   .navDrawerContent{
@@ -216,14 +265,28 @@
     justify-content: flex-end;
     align-items: center;
     height: 75px !important;
-    margin-right: 10px;
+    margin-right: 0;
+    
   }
 }
-
 
 @media only screen and (min-width: 701px)  and (max-width: 1000px) {
 
   .NavBarLayout{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    z-index: 900;
+     padding-left: 25px;
+    padding-right: 10px;
+  }
+
+  .navButtonMenu{
+     
+    display: flex;
+  }
+
+  .NavBarLayoutActive{
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -239,11 +302,17 @@
     margin-right: 10px;
   }
 
-  .imagen {
+  .imagenNavBar {
     height: 65px;
     margin-right: 20px;
     text-align: center;
     // margin-left: 35vw;
+  }
+
+  .imagenNavBarActive {
+    filter: brightness(0%);
+    height: 65px;
+    margin-right: 20px;
   }
 
   .navDrawerContent{
@@ -261,10 +330,18 @@
   }
   .navTitleRes{
     display: contents;
-    color: white;
+    color: rgb(0, 0, 0);
     font-size: 23px;
  }
   .headerNav{ 
     justify-content: flex-end;
   }
+}
+
+@media screen and (min-width:1000px){
+  
+  .drawerResponsive{
+    display: none;
+  }
+
 }

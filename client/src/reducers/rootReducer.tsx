@@ -1,25 +1,53 @@
 import { combineReducers } from "redux";
-import { adminReducer } from "./adminReducer";
-import { categoriesReducer } from "./categoriesReducer";
-import { roomsReducer } from "./roomsReducer";
-import { bookingsReducer } from "./bookingsReducer";
-import { typesReducer } from './typesReducer';
-import { usersReducer } from './usersReducer';
-import { getIdByEmailReducer } from './getIdByEmailReducer'
-import { reviewsReducer } from './ReviewsReducer'
-import { getCheckOut } from './getCheckOut';
-import { loginReducer } from "./loginReducer";
-import { userBookingReducer } from "./userBookingsReducer";
-import { userProfileReducer } from "./userProfileReducer";
-import {wishlistReducer} from "./wishlistReducer"
-import { checkinReducer } from './checkinReducer';
-import { paxesReducer } from './paxesReducer'
-import { searchBookingReducer } from "./searchBarReducer";
-import { bookingsAdminReducer } from "./bookingsAdminReducer";
-import {discountsAdminReducer} from "./discountsAdminReducer"
+import { AdminReducer, adminReducer } from "./adminReducer";
+import { Categories, categoriesReducer } from "./categoriesReducer";
+import { RoomReducer, roomsReducer } from "./roomsReducer";
+import { BookingsReducer, bookingsReducer } from "./bookingsReducer";
+import { TypesReducer, typesReducer } from './typesReducer';
+import { UsersReducer, usersReducer } from './usersReducer';
+import { getIdByEmailReducer, IdByEmailReducer } from './getIdByEmailReducer'
+import { reviewsReducer, ReviewsReducerInterface } from './ReviewsReducer'
+import { getCheckOutReducer,GetCheckoutInterface } from './getCheckOut';
+import { LoginInterface, loginReducer } from "./loginReducer";
+import { UserBookingInterface, userBookingReducer } from "./userBookingsReducer";
+import { userProfileReducer,UserProfileInterface } from "./userProfileReducer";
+import {WishListInterface, wishlistReducer} from "./wishlistReducer"
+import { checkinReducer,CheckinInterface } from './checkinReducer';
+import { paxesReducer, PaxesInterface } from './paxesReducer'
+import { SearchBookingInterface, searchBookingReducer } from "./searchBarReducer";
+import { bookingsAdminReducer,BookingsAdminInterface } from "./bookingsAdminReducer";
+import {discountsAdminReducer,DiscountsAdminInterface} from "./discountsAdminReducer"
 import { promotionsReducer } from './promotionsReducer';
-import { pre_booking_reducer } from "./preBookingReducer";
+import { adminEventsReducer } from '../reducers/adminEventsReducer';
+import { newsletterReducer } from './newsletterReducer';
+import { PreBookingInterface, pre_booking_reducer } from "./preBookingReducer";
+import { discountsInterface, promotionHomeReducer } from "./promotionHomeReducer";
+import { promotionType } from "../actions/Promotions/promotionsAction";
+import {newsletterSubsReducer} from './newsletterSubsReducer';
 
+export interface RootReducer{
+  categories: Categories
+  rooms: RoomReducer
+  adminui: AdminReducer
+  bookings: BookingsReducer
+  types: TypesReducer
+  users: UsersReducer
+  idByMail: IdByEmailReducer
+  reviews: ReviewsReducerInterface
+  getCheckOut:GetCheckoutInterface
+  login: LoginInterface
+  userBookings: UserBookingInterface
+  userProfile: UserProfileInterface
+  wishlist: WishListInterface
+  checkin: CheckinInterface
+  paxes: PaxesInterface
+  booking_pax:SearchBookingInterface
+  bookingsAdminR: BookingsAdminInterface
+  adminDiscounts:DiscountsAdminInterface
+  promotions:promotionType[]
+  discount: discountsInterface
+  pre_booking:PreBookingInterface
+}
 //ACA SE AGREGA CADA REDUCER QUE UTILICEN
 export const rootReducer = combineReducers({
   //ej: ui: uiReducer, <- importamos el reducer
@@ -31,7 +59,7 @@ export const rootReducer = combineReducers({
   users: usersReducer,
   idByMail: getIdByEmailReducer,
   reviews: reviewsReducer,
-  getCheckOut,
+  getCheckOut:getCheckOutReducer,
   login: loginReducer,
   userBookings: userBookingReducer,
   userProfile: userProfileReducer,
@@ -42,5 +70,10 @@ export const rootReducer = combineReducers({
   bookingsAdminR: bookingsAdminReducer,
   adminDiscounts:discountsAdminReducer,
   promotions: promotionsReducer,
-  pre_booking:pre_booking_reducer
+  discount: promotionHomeReducer,
+  pre_booking:pre_booking_reducer,
+  adminEvents: adminEventsReducer,
+  newsletters: newsletterReducer,
+  newsletterSubsReducer,
+  
 });

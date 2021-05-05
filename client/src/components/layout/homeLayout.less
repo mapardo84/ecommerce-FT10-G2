@@ -4,15 +4,23 @@
 .container {
   position: relative;
   overflow-x: hidden;
+  background-image: linear-gradient(
+      to right,
+      rgba(255, 255, 255, 0.801),
+      rgba(255, 255, 255, 0.801)
+    ),
+    url("./img/b23.jpg") !important;
 }
 .welcomeBox {
-  background-color: #ffffffe0;
-  border-radius: 2px;
+  // background-color: #019dce;
+  border-radius: 5px;
+  border: 2px solid white;
   font-size: 27px;
-  color: #000000;
+  color: #ffffff;
   position: absolute;
   top: 130px;
-  right: 10px;
+  right: 25px;
+  font-weight: 600;
   z-index: 1; 
   width: auto;
   padding-left: 10px;
@@ -22,23 +30,8 @@
   }
   @keyframes example {
     0%   {right:-250px; top:130px;}
-    100% {right:10px; top:130px;}
+    100% {right:25px; top:130px;}
   }
-
-.text {
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  background-image: linear-gradient(
-      to bottom,
-      rgb(255, 255, 255, 0.86),
-      rgba(255, 255, 255, 0.86)
-    ),
-    url("./images/palmTree.jpg");
-  background-repeat: no-repeat;
-  background-size: cover;
-}
 
 .titleHotel {
   display: flex;
@@ -112,17 +105,12 @@
     margin-right: 15vw;
   }
 
-  .welcomeBox {
-    background-color: #ffffffe0;
-    border-radius: 2px;
-  
-     }
 
      .welcomeBox {
-      background-color: #ffffffe0;
-      border-radius: 2px;
+      border-radius: 5px;
+      border: 1px solid white;
       font-size: 20px;
-      color: #000000;
+      color: #ffffff;
       position: absolute;
       top: 90px;
       right: 10px;
@@ -137,5 +125,6 @@
         0%   {right:-250px; top:90px;}
         100% {right:10px; top:90px;}
       }
+      
 }
 

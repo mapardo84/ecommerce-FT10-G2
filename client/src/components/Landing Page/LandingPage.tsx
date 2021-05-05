@@ -1,18 +1,15 @@
-import { Button, Typography } from "antd";
+import { Button } from "antd";
 import './LandingPage.less'
 import LogIn from "../LogIn/LogIn";
 import { NavLink } from "react-router-dom";
 import { useHistory } from "react-router-dom";
 import logo from "./images/logo.png"
 
-const { Title, Text } = Typography;
-
 export const LandingPage = () => {
 
     const history = useHistory();
     const params = new URLSearchParams(window.location.hash)
     params.get('type') === "recovery" && history.push("/password-reset/" + params.get('#access_token'));
-
 
     return (
         <div className="landingBackground">

@@ -2,6 +2,7 @@ import { Dispatch } from 'react'
 import { supabase } from '../../SupaBase/conection'
 import { message } from 'antd';
 import { IUser } from '../components/Users/Users';
+import { loadingAdmin } from './adminUi';
 
 export const GET_ALL_USERS: string = "GET_ALL_USERS"
 export const UPDATE_USER: string = "UPDATE_USER"
@@ -24,6 +25,7 @@ const success = (mensaje: string) => {
 
 export const getAllUsers = () => {
     return async (dispatch: Dispatch<any>) => {
+        dispatch(loadingAdmin(true))
         try {
             const { data, error } = await supabase.from('users').select('*').eq('active', 1)
             if (!error) {
@@ -35,6 +37,7 @@ export const getAllUsers = () => {
             console.log(err)
             errorMsg("Internal server error. Try again")
         }
+        dispatch(loadingAdmin(false))
     }
 }
 

@@ -8,8 +8,8 @@ import { errorMsgcaptcha } from "../../helpers/logIn"
 import { Form, Input, Button, message, Divider } from "antd";
 import { useHistory } from "react-router-dom";
 import "./ResetPasswordLayout.less"
+import password from './img/password.jpg'
 
-const { Content } = Layout;
 
 
 interface IPassword {
@@ -65,68 +65,79 @@ export const ResetPasswordLayout = (): JSX.Element => {
 
 
     return (
-        <>
+
+
+        <div className="containerMap1">
+
+
             <Layout className="resetLayout">
                 <NavBar />
-                <Content>
-                    <div className="FormReset" >
-                        <h1 className="resetTitle">Enter a new password</h1>
-                        <Divider className="dividerRegister"></Divider>
-
-
-                        <Form name="basic" initialValues={{ remember: true }} layout="vertical" onFinish={onFinish}>
-                            <Form.Item
-                                name="password"
-                                rules={[
-                                    { required: true, message: "Please insert password" },
-                                    {
-                                        validator: async (_, password) => {
-                                            if (!password || password.length < 6) {
-                                                return Promise.reject(new Error("At least 6 characters"));
-                                            }
-                                        },
-                                    },
-                                ]}
-                            >
-                                <Input.Password placeholder="Password"></Input.Password>
-                            </Form.Item>
-                            <Form.Item
-                                name="repeatPsw"
-                                dependencies={["password"]}
-                                hasFeedback
-                                rules={[
-                                    {
-                                        required: true,
-                                        message: "Please confirm your password!",
-                                    },
-                                    ({ getFieldValue }) => ({
-                                        validator(_, value) {
-                                            if (!value || getFieldValue("password") === value) {
-                                                return Promise.resolve();
-                                            }
-                                            return Promise.reject(
-                                                new Error("The two passwords that you entered do not match!")
-                                            );
-                                        },
-                                    }),
-                                ]}
-                            >
-                                <Input.Password placeholder="Repeat Password"></Input.Password>
-                            </Form.Item>
-                            <Button type="primary" className="sendPassword" htmlType="submit">SEND</Button>
-                            <Button type="primary" className="sendPassword" onClick={cancelChange}>CANCEL</Button>
-
-                        </Form>
-                        <div className="captcha2">
-                            <ReCAPTCHA
-                                sitekey="6LcZXqsaAAAAAN4pWJ2LNrXd68tnxzwHvPclIjex"
-                                onChange={onChange} />
-                        </div>
+                <div className="">
+                    <img className="resetPasswordImg" src={password} alt="Img not found" />
+                    <div className="passwordTittle">
+                        RESET PASSWORD
                     </div>
-                </Content>
+                </div>
+
+                <div className="FormReset" >
+                    <h1 className="resetTitle">Enter a new password</h1>
+                    <Divider className="dividerRegister"></Divider>
+
+
+                    <Form name="basic" initialValues={{ remember: true }} layout="vertical" onFinish={onFinish}>
+                        <Form.Item
+                            name="password"
+                            rules={[
+                                { required: true, message: "Please insert password" },
+                                {
+                                    validator: async (_, password) => {
+                                        if (!password || password.length < 6) {
+                                            return Promise.reject(new Error("At least 6 characters"));
+                                        }
+                                    },
+                                },
+                            ]}
+                        >
+                            <Input.Password placeholder="Password"></Input.Password>
+                        </Form.Item>
+                        <Form.Item
+                            name="repeatPsw"
+                            dependencies={["password"]}
+                            hasFeedback
+                            rules={[
+                                {
+                                    required: true,
+                                    message: "Please confirm your password!",
+                                },
+                                ({ getFieldValue }) => ({
+                                    validator(_, value) {
+                                        if (!value || getFieldValue("password") === value) {
+                                            return Promise.resolve();
+                                        }
+                                        return Promise.reject(
+                                            new Error("The two passwords that you entered do not match!")
+                                        );
+                                    },
+                                }),
+                            ]}
+                        >
+                            <Input.Password placeholder="Repeat Password"></Input.Password>
+                        </Form.Item>
+                        <Button type="primary" className="sendPassword" htmlType="submit">SEND</Button>
+                        <Button type="primary" className="sendPassword" onClick={cancelChange}>CANCEL</Button>
+
+                    </Form>
+                    <div className="captcha2">
+                        <ReCAPTCHA
+                            sitekey="6LcZXqsaAAAAAN4pWJ2LNrXd68tnxzwHvPclIjex"
+                            onChange={onChange} />
+                    </div>
+                </div>
+
                 <FooterLayout />
             </Layout>
-        </>
+        </div>
+
     );
 };
 

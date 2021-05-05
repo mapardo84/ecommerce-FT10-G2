@@ -2,6 +2,7 @@ import { Dispatch } from "redux";
 import { supabase } from "../../SupaBase/conection";
 
 export const GET_USER_PROFILE = 'GET_USER_PROFILE';
+export const UPDATE_USER_DATA="UPDATE_USER_DATA"
 
 
 export const getUserProfile = () => {
@@ -28,3 +29,27 @@ const saveUserProfile = (params: any) => {
         payload: params
     }
 }
+
+export const updateUserProfile=(info:any)=>{
+    const {first_name,last_name,uuid}=info
+    return async(dispatch:Dispatch)=>{
+        const {data:updateUser}=await supabase
+    .from("users")
+    .update({
+        uuid,
+        first_name,
+        last_name
+        })
+    .eq("email",supabase.auth.user()?.email)
+    console.log(updateUser)
+    dispatch(updateUserProfileAction(updateUser))
+    }
+    }
+
+
+    const updateUserProfileAction=(data:any)=>{
+        return{
+            type:UPDATE_USER_DATA,
+            payload:data
+        }
+    }

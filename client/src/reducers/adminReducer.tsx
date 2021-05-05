@@ -1,7 +1,7 @@
-import { SIDEBAR_VIEW, CHANGE_PAGE } from "../Admin/actions/adminUi"
+import { SIDEBAR_VIEW, CHANGE_PAGE, LOADING_ADMING } from '../Admin/actions/adminUi';
 
 
-export interface initialStateProps {
+export interface AdminReducer {
     adminui: any,
     sidebarColapsed: boolean
 }
@@ -13,7 +13,8 @@ interface actionProps {
 
 const InitialState = {
     sidebarColapsed: false,
-    page: 'Inicio'
+    page: 'Inicio',
+    loading: false
 }
 
 export function adminReducer(state = InitialState, action: actionProps) {
@@ -27,6 +28,11 @@ export function adminReducer(state = InitialState, action: actionProps) {
             return {
                 ...state,
                 page: action.payload
+            }
+        case LOADING_ADMING:
+            return {
+                ...state,
+                loading: action.payload
             }
 
         default:
