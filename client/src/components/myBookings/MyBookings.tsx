@@ -97,10 +97,14 @@ const MyBookings = () => {
         )
     } else {
         return (
-            <div className="userBookingEmpty">
-                Sorry, you haven't done any bookings yet
+            <>
+                <img className="imageBookingBg" src={back} alt="Img not found" />
+                <div className="myBookingsTitle">MY BOOKINGS</div>
+                <div className="userBookingEmpty">
+                    Sorry, you haven't done any bookings yet
                 <NavLink to="/booking"><Button style={{ marginTop: "25px" }} type="primary" size="large">BOOK NOW</Button></NavLink>
-            </div>
+                </div>
+            </>
         )
     }
 }

@@ -44,7 +44,7 @@ export default function Notifications(props: any) {
     if (supabase.auth.user()) {
       dispatch(getWishlist())
     }
-  }, [dispatch])
+  }, [promotions, dispatch])
 
   const notify = () => {
     dispatch(saveChecked(false))

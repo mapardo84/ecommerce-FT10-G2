@@ -83,7 +83,6 @@ export const getUserData = async () => {
 //get current session
 export const getSession = async (session: any) => {
 
-    //console.log(session)
     if (session !== null) {
 
         const { data } = await supabase
@@ -102,9 +101,7 @@ export const getSession = async (session: any) => {
                     last_name: name[1]
                 },
             ]);
-            console.log("USUARIO NUEVO REGISTRADO")
         } else {
-            console.log("USUARIO YA EXISTE")
         }
     }
 }

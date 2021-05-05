@@ -41,7 +41,6 @@ export const HomeLayout = (): JSX.Element => {
   }, [dispatch, number]);
 
   useEffect(() => {
-    //dispatch(getUserProfile())
     if (userProfile?.data?.uuid) {
       if (userProfile?.data?.uuid?.length > 24) {
         setUpdateRegister(true)

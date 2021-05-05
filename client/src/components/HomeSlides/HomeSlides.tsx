@@ -22,7 +22,7 @@ export const HomeSlides = () => {
             <div>
                 <div className="sliceTitle">We have the best destination</div>
                 <div className="sliceDescription">
-                    We have the best destination e have the best destination
+                A new experience full of emotions
                   </div>
                 <div className="sliceButton">
                     <NavLink to="/booking"><Button className="slidesButtonBN" size="large">Book Now</Button></NavLink>

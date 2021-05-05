@@ -118,7 +118,7 @@ const Details = (): JSX.Element => {
   };
 
   return (
-    <div>
+    <div className="detailsAC-Container">
       <div>
         <Carousel {...settings} className="DetailsCarousel">
           {category?.images?.map((image: string, i: number) => {

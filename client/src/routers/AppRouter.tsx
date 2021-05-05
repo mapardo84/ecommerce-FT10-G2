@@ -26,16 +26,14 @@ import { PaxesLayout } from '../Admin/components/PaxesLayout';
 import { BookingsLayout } from "../Admin/components/BookingsLayout";
 import { DiscountsLayout } from "../Admin/components/DiscountsLayout"
 import { SuccessLayout } from "../components/layout/SuccesLayout";
-import { PreBooking } from "../components/PreBooking/PreBooking";
 import { EventsLayout } from "../Admin/components/EventsLayout";
 import { HallsRequestsLayout } from "../Admin/components/Events/HallsRequestsLayout";
 import { HallsBookingsLayout } from "../Admin/components/Events/HallsBookingLayout";
 import { HallsLayout } from "../Admin/components/Events/HallsLayout";
 import { EventLayout } from "../components/layout/EventsLayout";
-// import { EventsAdminLayout } from "../Admin/components/EventsAdminLayout";
 import { NewsLetterLayout } from '../Admin/components/NewsLetterLayout';
-import Chatbot from "../components/chatbot/Chatbot";
 import { FormEventsLayout } from "../components/layout/formEventsLayout";
+import { AboutUsLayout } from "../components/layout/AboutUsLayout";
 
 //ACA VAN TODAS LAS RUTAS
 
@@ -55,9 +53,9 @@ export const AppRouter = () => {
           <Route exact path="/myProfile" component={MyProfileLayout} />
           <Route exact path="/myBookings" component={MyBookingsLayout} />
           <Route exact path="/wishlist" component={WishlistLayout} />
-          <Route exact path="/chatbot" ><Chatbot /></Route>
+          <Route exact path="/aboutUs" component={AboutUsLayout} />
 
-          <Route exact path="/pre" component={PreBooking} />
+
 
           {/* Parte administrativa */}
           <Route exact path="/admin" component={Plantilla} />

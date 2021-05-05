@@ -35,7 +35,7 @@ export function HomeNewsletter(): ReactElement {
     return (
         <div className="newsLetterContainer">
             <div className="newsLetterTitle">SUBSCRIBE TO OUR NEWSLETTER</div>
-            <div className="newsLetterDescription">to receive our latest news and discounts, subscribe to our newsletter</div>
+            <div className="newsLetterDescription">to receive our latest news and discounts</div>
 
             <Form className="newsLetterForm" form={form} autoComplete='off' onFinish={onFinish}>
                 <Form.Item

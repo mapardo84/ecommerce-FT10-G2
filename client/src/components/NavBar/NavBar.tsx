@@ -10,13 +10,17 @@ import { useDispatch, useSelector } from "react-redux";
 import { setModalState } from "../../actions/loginActions";
 import { NavLink, useHistory } from "react-router-dom";
 import hotel from "./logoHotel.png"
+import hotelS from "./logoS.png"
 import Notifications from "../Notifications/Notifications"
-import { SiHotelsDotCom } from "react-icons/si";
 import { MdHotel } from "react-icons/md";
 import { AiFillHome, AiFillStar, AiFillCalendar } from "react-icons/ai";
 import { FaUserCircle } from "react-icons/fa";
 import { RiLogoutBoxFill, RiLoginBoxFill } from "react-icons/ri";
+import { BiCalendarEvent } from "react-icons/bi";
+
 import { IconContext } from "react-icons/lib";
+
+
 import { pre_booking_empty } from "../../actions/Booking/pre_booking_action";
 import { getWishlist } from "../../actions/WishlistAction";
 
@@ -211,6 +215,7 @@ export const NavBar = () => {
           key="top"
           width="270px"
           height="100px"
+          className="drawerResponsive"
 
           zIndex={1200}
           drawerStyle={{ backgroundColor: "rgb(247, 247, 247)" }}
@@ -220,18 +225,25 @@ export const NavBar = () => {
 
             <NavLink to="/booking">
               <Button onClick={handleNavResponsiveClose} size="large" className="navButton" type="text">
-                <SiHotelsDotCom /> Book Now
+              <img className='imagenNavBarS' src={hotelS} alt="IMG NOT FOUND" /> Book Now
+                {/* <SiHotelsDotCom />  */}
             </Button>
             </NavLink>
-            <NavLink to="/accomodations">
+            <NavLink to="/events">
               <Button onClick={handleNavResponsiveClose} className="navButton" size="large" type="text">
-                <MdHotel />Accomodations
+                <BiCalendarEvent /> Events
             </Button>
             </NavLink>
             <NavLink to="/home">
               <Button onClick={handleNavResponsiveClose} className="navButton" size="large" type="text">
                 <AiFillHome /> Home
             </Button>
+            </NavLink>
+
+            <NavLink to="/accomodations">
+              <Button onClick={handleNavResponsiveClose} className="navButton" size="large" type="text">
+                <MdHotel />Accomodations
+               </Button>
             </NavLink>
 
             {

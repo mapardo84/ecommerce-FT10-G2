@@ -156,13 +156,16 @@ export const StepsBooking = () => {
 
         visible={continueBooking}
         footer={null}>
-        <div style={{ display: "flex", justifyContent: "center" }}>
-          <Link to="/booking">
-            <Button style={{ height: "55px" }} onClick={continuePreBooking}>Continue booking</Button>
-          </Link>
-          <Button onClick={startsAgain} style={{ height: "55px" }}> Clear </Button>
+        <div className="modalToContinueBooking">
+          <div>You had already started a booking, what would you like to do?</div>
+
+          <div className="buttonsModalToContinueBooking">
+            <Link to="/booking">
+              <Button type="primary" style={{ height: "45px" }} onClick={continuePreBooking}>Continue booking</Button>
+            </Link>
+            <Button type="primary" onClick={startsAgain} style={{ height: "45px" }}> Clear </Button>
+          </div>
         </div>
-        <div>You had already started a booking, what would you like to do?</div>
       </Modal>
 
       { selectedStep === 0 && continueBooking === false ?

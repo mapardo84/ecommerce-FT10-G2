@@ -32,21 +32,27 @@ export const FooterLayout = () => {
       <Footer className="laclande">
 
         <div className='containletterfooter'>
-          <Button className="info" type="text">Contact us</Button>
           {data?.role === "admin" ? <NavLink to='/admin'>
             <Button className="info" type="text">Admin panel</Button>
           </NavLink> : null}
+          <NavLink to="/aboutUs">
+            <Button className="info" type="text">About us</Button>
+          </NavLink>
 
-          <Button className="info" type="text">About us</Button>
+          <NavLink to="/faq"><Button className="info" type="text">F.A.Q</Button></NavLink>
         </div>
         <div className='containletterfooter'>
 
-          <NavLink to="/faq"><Button className="info" type="text">F.A.Q</Button></NavLink>
 
-          <Button className="info" type="text">Address</Button>
           <div className='logosfooter'>
-            <img className='logoFooterInsta' src={instagram} alt="redes" />
-            <img className='logoFooterFace' src={facebook} alt="redes" />
+            <div style={{ display: "flex" }}>
+              <div className="logoNameFooter"> Instragram </div>
+              <img className='logoFooterInsta' src={instagram} alt="redes" />
+            </div>
+            <div style={{ display: "flex" }}>
+              <div className="logoNameFooter"> Facebook </div>
+              <img className='logoFooterFace' src={facebook} alt="redes" />
+            </div>
           </div>
         </div>
 
