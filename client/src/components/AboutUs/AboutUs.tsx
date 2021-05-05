@@ -81,8 +81,8 @@ const AboutUs = () => {
             </div>
 
             {
-                team.map((e) =>
-                    <div className="flip-card">
+                team.map((e, i: number) =>
+                    <div className="flip-card" key={i}>
                         <div className="flip-card-inner">
 
                             <div className="flip-card-front">
