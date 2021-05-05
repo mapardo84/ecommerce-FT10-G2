@@ -26,18 +26,18 @@ const layout = {
   wrapperCol: { span: 20 },
 };
 
-/* eslint-disable no-template-curly-in-string */
-const validateMessages = {
-  required: '${label} is required!',
-  types: {
-    email: '${label} is not a valid email!',
-    number: '${label} is not a valid number!',
-  },
-  number: {
-    range: '${label} must be between ${min} and ${max}',
-  },
-};
-/* eslint-enable no-template-curly-in-string */
+  /* eslint-disable no-template-curly-in-string */
+  const validateMessages = {
+    required: '${label} is required!',
+    types: {
+      email: '${label} is not a valid email!',
+      number: '${label} is not a valid number!',
+    },
+    number: {
+      range: '${label} must be between ${min} and ${max}',
+    },
+  };
+  /* eslint-enable no-template-curly-in-string */
 
 
 export const FormEvents = () => {
@@ -50,11 +50,12 @@ export const FormEvents = () => {
   return (
     <div className="descriptionBackground1">
       <br></br> <br></br>
-      <h2 className="subtitle2">REQUEST A QUOTE FOR YOUR EVENT</h2>
+      <h2 className="subtitle2">REQUEST AN APPOINTMENT FOR YOUR EVENT</h2>
       <p className="description">
         Please complete the fields in the following form. It will be a pleasure for us to contact you within the next 24  hours to discuss our proposal. Our contact telephone number is +5411 4123.4567</p>
         <div className='MovementFormEvents'>
       <Form {...layout} layout='vertical' name="nest-messages" className="formEvents1" onFinish={onFinish} validateMessages={validateMessages}>
+        <div className="titleEvent">APPOINTMENT FORM</div>
         <Form.Item name='name' label="Name" rules={[{ required: true }]}>
           <Input  className='inputFormEvents'/>
         </Form.Item>
