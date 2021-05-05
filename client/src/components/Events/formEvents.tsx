@@ -53,22 +53,22 @@ export const FormEvents = () => {
       <h2 className="subtitle2">REQUEST A QUOTE FOR YOUR EVENT</h2>
       <p className="description">
         Please complete the fields in the following form. It will be a pleasure for us to contact you within the next 24  hours to discuss our proposal. Our contact telephone number is +5411 4123.4567</p>
-
-      <Form {...layout} name="nest-messages" className="formEvents1" onFinish={onFinish} validateMessages={validateMessages}>
+        <div className='MovementFormEvents'>
+      <Form {...layout} layout='vertical' name="nest-messages" className="formEvents1" onFinish={onFinish} validateMessages={validateMessages}>
         <Form.Item name='name' label="Name" rules={[{ required: true }]}>
-          <Input />
+          <Input  className='inputFormEvents'/>
         </Form.Item>
         <Form.Item name='last_name' label="Last Name" rules={[{ required: true }]}>
-          <Input />
+          <Input  className='inputFormEvents'/>
         </Form.Item>
         <Form.Item name='company' label="Company" rules={[{ required: true }]}>
-          <Input />
+          <Input className='inputFormEvents' />
         </Form.Item>
         <Form.Item name='telephone' label="Telephone" rules={[{ required: true }]}>
-          <Input />
+          <Input  className='inputFormEvents'/>
         </Form.Item>
         <Form.Item name='email' label="Email" rules={[{ type: 'email', required: true }]}>
-          <Input />
+          <Input className='inputFormEvents' />
         </Form.Item>
         <Form.Item name='startDate' label="Start Date" rules={[{ required: true }]}>
           <DatePicker />
@@ -79,22 +79,22 @@ export const FormEvents = () => {
 
         </Form.Item>
         <Form.Item name='eventName' label="Name of the Event" rules={[{ required: false }]}>
-          <Input />
+          <Input className='inputFormEvents' />
 
         </Form.Item>
         <Form.Item name='requestSalon' label="Request Salon Capacity" rules={[{ type: 'number', min: 0, max: 200 }]}>
-          <InputNumber />
+          <InputNumber  className='inputFormEvents'/>
         </Form.Item>
         <Form.Item name='requestCatering' label="Requests for Catering">
-          <Input.TextArea />
+          <Input.TextArea  className='inputFormEvents' />
         </Form.Item>
         <Form.Item name='additionalServices' label="Additional Services">
-          <Input.TextArea />
+          <Input.TextArea className='inputFormEvents' />
         </Form.Item>
-        <Form.Item name='comments' label="Comments">
-          <Input.TextArea />
+        <Form.Item name='comments' label="Comments" wrapperCol ={{span:24}}>
+          <Input.TextArea  className='inputFormEvents' />
         </Form.Item>
-        <Form.Item name='type' label="Type of Events" rules={[{ required: true }]}>
+        <Form.Item className='inputFormEventsselect'name='type' label="Type of Events"  rules={[{ required: true }]}>
           <Select>
             <Select.Option value="greatroom">Social</Select.Option>
             <Select.Option value="studio1">Business</Select.Option>
@@ -108,7 +108,7 @@ export const FormEvents = () => {
           </div>
         </Form.Item>
       </Form>
-
+      </div>
     </div>
   )
 }

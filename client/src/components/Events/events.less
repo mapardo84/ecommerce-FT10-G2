@@ -5,6 +5,13 @@
   align-items: center;
 }
 
+.MovementFormEvents{
+  display: flex !important;
+  justify-content: center !important;
+  align-items: center !important;
+  margin-left: -30vw;
+}
+
 
 .imageAccomodation {
   width: 100vw;
@@ -74,7 +81,7 @@
 .formEvents1{
   margin-top: 100px !important;
   width:800px !important;
-  height:900px !important;
+  height:1500px !important;
   border: 2px !important;
   border-radius: 15px !important;
   display: flex !important;
@@ -85,6 +92,10 @@
   padding-right:100px !important;
   padding-top: 50px !important;
   box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.151);
+  padding: 2vw !important;
+  justify-content: center !important;
+  align-items: center !important;
+
 }
 
 .ImgEventsNavbar{
@@ -106,50 +117,86 @@
 
 .buttonSubmitEvents{
   display: flex !important;
-  margin-left: 150px !important;
+  margin-left: -5vw !important;
 
 }
 
+.inputFormEvents{
+  width:35vw !important;
+  margin-left: 2vw !important;
+}
+
+.inputFormEventsselect{
+  width:45vw !important;
+  margin-left: 95px !important;
+}
 
 
-// @media screen and (max-width:1200px){
-//   .formEvents1{
-//     margin-left: 15vw !important;
-//   }
-// }
+@media screen and (max-width:900px){
+  .inputFormEvents{
+    width:35vw !important;
+  }
+  .inputFormEventsselect{
+    width:45vw !important;
+    margin-left: 95px !important;
+  }
+  .formEvents1{
+    width:650px !important;
+    height:1500px !important;
+  }
 
-// @media screen and (max-width:1000px){
-//   .formEvents1{
-//     margin-left: 10vw !important;
-//   }
-// }
+  .buttonSubmitEvents{
+    display: flex !important;
+    margin-right: -90px !important;
+  
+  }
+}
 
+@media screen and (max-width:720px){
+  .inputFormEvents{
+    width:40vw !important;
+    margin-left: 120px !important;
+    display:flex !important;
+    flex-direction:column !important;
+    
+  }
+  .inputFormEventsselect{
+    width:46vw !important;
+    margin-left: 75px !important;
+    
+   
+  }
+  .formEvents1{
+    width:450px !important;
+    height:1500px !important;
+  
+  
+  }
+}
 
-// @media screen and (max-width:910px){
-//   .formEvents1{
-//     margin-left: 1vw !important;
-//   }
-// }
+@media screen and (max-width:520px){
+  .formEvents1{
+    width:350px !important;
+    height:1500px !important;
+  }
 
-// @media screen and (max-width:875px){
-//   .formEvents1{
-//     margin-left: 7vw !important;
-//   }
+  .inputFormEvents{
+    width:20vw !important;
+    margin-left: 120px !important;
+    display:flex !important;
+    flex-direction:column !important;
+    
+  }
+  .inputFormEventsselect{
+    width:26vw !important;
+    margin-left: -20px!important;
+    
+   
+  }
 
-//   .EventsFormNavbar1{
-//     position: absolute;
-//     font-size: 80px;
-//     font-weight: 500;
-//     color: white;
-//     margin-top:100px;
-//     width: 60vw !important;
-//     text-align: center;
-//   }
-// }
-
-
-// @media screen and (max-width:910px){
-//   .formEvents1{
-//     margin-left: 7vw !important;
-//   }
-// }
+  .buttonSubmitEvents{
+    display: flex !important;
+    margin-left: -10vw !important;
+  
+  }
+}
