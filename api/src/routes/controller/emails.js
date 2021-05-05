@@ -154,8 +154,6 @@ const cancel_email = async (req, res) => {
                                                 <span
                                                     style="display:inline-block; vertical-align:middle; margin:29px 0 26px; border-bottom:1px solid #cecece; width:100px;"></span>
                                                
-                    <h2> Positive Balance:  ${positive_balance}</h2>                 
-                                            
                             <h2>Your booking was succesfully cancelled </h2>
                             <h3>We regret this fact, and we hope that you will soon be able to visit our hotel.</h3>             
 
@@ -291,4 +289,4 @@ const cancelSuscription = async (req, res) => {
 }
 
 
-module.exports = { confirmation_email, cancel_email, newsletter_email,cancelSuscription }
+module.exports = { confirmation_email, cancel_email, newsletter_email, cancelSuscription }

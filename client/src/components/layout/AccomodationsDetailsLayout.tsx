@@ -11,15 +11,13 @@ const { Content } = Layout;
 
 export const AccomodationDetailsLayout: FunctionComponent = () => {
   return (
-    <>
-      <Layout className="accomodationDetailsbg">
-        <NavBar />
-        <Content>
-         <Details />
-        </Content>
-        <FooterLayout />
-        <Chatbot />
-      </Layout>
-    </>
+    <Layout style={{ overflowX: "hidden" }} className="accomodationDetailsbg">
+      <NavBar />
+      <Content>
+        <Details />
+      </Content>
+      <FooterLayout />
+      <Chatbot />
+    </Layout>
   );
 };

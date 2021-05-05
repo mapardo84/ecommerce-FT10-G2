@@ -97,7 +97,7 @@ export const post_pax_booking_payment = (pax: PaxValues, booking: BookingValues,
                 .select("*")
                 .eq("id", paymentId)
             if (payment_exist) {
-                paymentId = payment_exist[0].id
+                paymentId = payment_exist[0]?.id
             } else {
                 const { data: new_payment } = await supabase
                     .from("payments")

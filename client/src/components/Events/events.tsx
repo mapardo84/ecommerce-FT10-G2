@@ -89,7 +89,7 @@ export const Event = () => {
         <Card className="CardEvent"
           tabList={tabListNoTitle}
           activeTabKey={key}
-          tabBarExtraContent={<a href="/events/quote">Make your quote now!
+          tabBarExtraContent={<a href="/events/quote">Make your appointment now!
             </a>}
           onTabChange={(key) => {
             onTabChange(key);

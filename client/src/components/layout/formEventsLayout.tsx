@@ -15,12 +15,12 @@ export const FormEventsLayout: FunctionComponent = () => {
     <>
       <Layout className="accomodationLayout">
         <NavBar />
-                    <img className="ImgEventsNavbar" src={imgEventsNavbar} alt="Img not found" />
-                    <div className="EventsFormNavbar1">
-                        QUOTES
+        <img className="ImgEventsNavbar" src={imgEventsNavbar} alt="Img not found" />
+        <div className="EventsFormNavbar1">
+          APPOINTMENT
                     </div>
         <Content style={{ overflowX: "hidden" }}>
-          <FormEvents/>
+          <FormEvents />
         </Content>
         <FooterLayout />
       </Layout>
