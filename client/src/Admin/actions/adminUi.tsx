@@ -12,20 +12,23 @@ const errorMsg = (msg: string, time: number = 3) => {
 export const loginUser = async () => {
 
     try {
+        if (!supabase.auth.user()) return false;
         //get user session
         const session = supabase.auth.session()
         //console.log("session", session?.user.email)
-        let { data: users } = await supabase
+        let { data: users, error } = await supabase
             .from('users')
             .select("email,active,role")
             .eq('email', session?.user.email)
             .single()
+        if (error) return false;
         if (users?.active === 0 || users?.role === 'user') {
-            console.log("NO")
+            //console.log("NO")
             return false
         } else {
             return true
         }
+
     } catch (err) {
         console.log(err)
         errorMsg("Internal server error. Try again")

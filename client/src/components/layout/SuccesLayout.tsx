@@ -4,7 +4,6 @@ import { FooterLayout } from '../footer/Footer'
 import { FunctionComponent } from "react";
 import { SuccessPayment } from "../MercadoPago/SuccessPayment";
 import './SuccessLayout.less'
-import Chatbot from "../chatbot/Chatbot";
 import successImg from "./img/bookingSuccess.jpg";
 
 const { Content } = Layout;
@@ -22,7 +21,6 @@ export const SuccessLayout: FunctionComponent = () => {
             <SuccessPayment />
           </div>
         </Content>
-        <Chatbot />
         <FooterLayout />
       </Layout>
     </>

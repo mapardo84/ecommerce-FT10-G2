@@ -1,6 +1,8 @@
 import { Dispatch } from "redux";
 import { UserBooking } from "../../reducers/userBookingsReducer";
 import { supabase } from "../../SupaBase/conection";
+const baseUrl = process.env.REACT_APP_BACK_URL;
+
 
 export const GET_USER_BOOKINGS = "GET_USER_BOOKINGS";
 export const SET_LOADING = "SET_LOADING";
@@ -98,7 +100,7 @@ export const cancelUserBooking = (
       .eq("id", bookingId);
     dispatch(getUserBookings());
     console.log(moneyBack)
-    await fetch("http://localhost:4000/emails/cancel", {
+    await fetch(`${baseUrl}emails/cancel`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json"

@@ -5,6 +5,7 @@ import { BackTop, Card } from "antd";
 import { getAllHalls } from "../../Admin/actions/adminEventsActions";
 import { useDispatch, useSelector } from "react-redux";
 import { initialStatePropsEvents } from "./../../reducers/adminEventsReducer"
+import { Link } from "react-router-dom";
 
 const getHalls = async (dispatch: any) => {
   const resolve = getAllHalls();
@@ -89,8 +90,8 @@ export const Event = () => {
         <Card className="CardEvent"
           tabList={tabListNoTitle}
           activeTabKey={key}
-          tabBarExtraContent={<a href="/events/quote">Make your appointment now!
-            </a>}
+          tabBarExtraContent={<Link to="/events/quote">Make your appointment now!
+            </Link>}
           onTabChange={(key) => {
             onTabChange(key);
           }}

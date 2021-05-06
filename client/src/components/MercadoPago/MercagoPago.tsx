@@ -6,6 +6,9 @@ import { Link } from 'react-router-dom';
 import { update_balance } from '../../actions/Booking/pre_booking_action';
 import { RootReducer } from '../../reducers/rootReducer';
 import { supabase } from '../../SupaBase/conection';
+const baseUrl = process.env.REACT_APP_BACK_URL;
+
+
 
 
 export const MercadoPago = () => {
@@ -50,7 +53,7 @@ export const MercadoPago = () => {
 
     localStorage.setItem("total_price", String(total_price))
 
-    axios.get(`http://localhost:4000/mercadopago?quantity=1&unit_price=${total_price}&title=HotelHenry`)
+    axios.get(`${baseUrl}mercadopago?quantity=1&unit_price=${total_price}&title=HotelHenry`)
       .then((res) => {
         setPreferenceId(res?.data?.preferenceId)
         const prefer = res?.data?.preferenceId

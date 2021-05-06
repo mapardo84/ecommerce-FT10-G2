@@ -48,7 +48,7 @@ export const MenuLeft = () => {
         loginUser()
             .then(r => {
                 if (!r) {
-                    history.push('/')
+                    history.push('/home')
                 }
             })
     }, [history])

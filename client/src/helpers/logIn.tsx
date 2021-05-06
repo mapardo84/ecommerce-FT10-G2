@@ -1,5 +1,8 @@
 import { supabase } from '../SupaBase/conection'
 import { message } from 'antd'
+const baseUrl = process.env.REACT_APP_FRONT_URL;
+
+
 //test
 export const success = () => {
     message.success("Log-In success");
@@ -19,7 +22,7 @@ export const loginWith = async (provider: any) => {
         const { error } = await supabase.auth.signIn({
             provider
         }, {
-            redirectTo: 'http://localhost:3000/home'
+            redirectTo: `${baseUrl}home`
         })
         if (!error) {
             //ACA AGARRAR MAIL
@@ -45,7 +48,7 @@ export const classicLogIn = async (email: string, password: string) => {
                 email,
                 password
             }, {
-                redirectTo: 'http://localhost:3000/home'
+                redirectTo: `${baseUrl}home`
             })
             if (!error) {
                 return true

@@ -20,6 +20,6 @@
 const server = require('./src/app.js');
 
 // Syncing all the models at once.
-server.listen(4000, () => {
-  console.log('%s listening at 4000'); // eslint-disable-line no-console
+server.listen(process.env.PORT, () => {
+  console.log('%s listening at donde sea'); // eslint-disable-line no-console
 });

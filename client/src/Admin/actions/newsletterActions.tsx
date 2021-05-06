@@ -2,6 +2,8 @@ import { Dispatch } from 'react'
 import { supabase } from '../../SupaBase/conection'
 import { message } from 'antd';
 import axios from 'axios';
+const baseUrl = process.env.REACT_APP_BACK_URL;
+
 
 export const GET_NEWSLETTER: string = 'GET_NEWSLETTER'
 export const ADD_NEWSLETTER: string = 'ADD_NEWSLETTER'
@@ -25,7 +27,7 @@ export const post_newsletter = (info: IEmail) => {
                 .from('newsletterSubs')
                 .select('email')
                 .eq('active', 'active')
-            axios.post('http://localhost:4000/emails/newsletter', [info, emails])
+            axios.post(`${baseUrl}emails/newsletter`, [info, emails])
             const { email_title, email_content, email_image } = info
             const { data, error } = await supabase
                 .from('newsletterEmails')

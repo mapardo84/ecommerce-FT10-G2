@@ -4,6 +4,8 @@ import { Dispatch } from "react"
 import { PaxValues } from "../../components/booking/paxForm/PaxForm"
 import { BookingValues, ConfirmationEmail, PaymentValues } from "../../components/MercadoPago/SuccessPayment"
 import { supabase } from "../../SupaBase/conection"
+const baseUrl = process.env.REACT_APP_BACK_URL;
+
 
 export const GET_PRE_BOOKING = "GET_PREBOOKING"
 export const GET_INPROGRESS = "GET_INPROGRESS"
@@ -144,7 +146,7 @@ export const post_pax_booking_payment = (pax: PaxValues, booking: BookingValues,
             .eq('id', `${bookingId}`)
         if (email_status) {
             if (!email_status[0].email_send) {
-                axios.post('http://localhost:4000/emails/', info)
+                axios.post(`${baseUrl}emails/`, info)
                 await supabase
                     .from("bookings")
                     .update({ "email_send": true })

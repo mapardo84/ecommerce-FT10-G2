@@ -1,5 +1,6 @@
 var nodemailer = require('nodemailer');
 var supabase = require('../../SupaBase/conection')
+var backurl = process.env.BACK_URL
 
 const confirmation_email = async (req, res) => {
     const {
@@ -13,12 +14,6 @@ const confirmation_email = async (req, res) => {
         type,
         paxes,
         email } = req.body
-
-    contentHTML = `
-        <div>HOLA A TODOS BROTHER<div>
-        <span> asdsadsas <span>
-    `;
-    console.log(contentHTML)
 
 
     var transporter = nodemailer.createTransport({
@@ -60,7 +55,7 @@ const confirmation_email = async (req, res) => {
                                 </tr>
                                 <tr>
                                     <td style="padding:0 35px;">
-                                        <h1 style="color:#1e1e2d; font-weight:500; margin:0;font-size:32px;font-family:'Rubik',sans-serif;">Thanks for choose Henry Hotel </h1>
+                                        <h1 style="color:#1e1e2d; font-weight:500; margin:0;font-size:32px;font-family:'Rubik',sans-serif;">Thanks for choosing Henry Hotel </h1>
                                         <span
                                             style="display:inline-block; vertical-align:middle; margin:29px 0 26px; border-bottom:1px solid #cecece; width:100px;"></span>
                                        
@@ -108,7 +103,7 @@ const confirmation_email = async (req, res) => {
     res.send('hola')
 }
 const cancel_email = async (req, res) => {
-    const { email, positive_balance } = req.body
+    const { email } = req.body
 
 
     var transporter = nodemailer.createTransport({
@@ -253,7 +248,7 @@ const newsletter_email = async (req, res) => {
                 <tr>
                     <td style="text-align:center;">
                         <p style="font-size:14px; color:rgba(69, 80, 86, 0.7411764705882353); line-height:18px; margin:0 0 0;">&copy; <strong>HENRY HOTEL</strong></p>
-                        <a href="http://localhost:4000/emails/cancelSuscription?mail=${emails[i].email}">Cancel Subscription</a>  
+                        <a href="${backurl}emails/cancelSuscription?mail=${emails[i].email}">Cancel Subscription</a>  
                     </td>
                                       
                 </tr>
@@ -267,7 +262,7 @@ const newsletter_email = async (req, res) => {
         `
         };
 
-        const info = await transporter.sendMail(mailOptions);
+        await transporter.sendMail(mailOptions);
     }
 
     res.send('hola')
@@ -277,7 +272,7 @@ const newsletter_email = async (req, res) => {
 const cancelSuscription = async (req, res) => {
 
     try {
-        const { data, error } = await supabase
+        await supabase
             .from('newsletterSubs')
             .update({ active: 'cancelled' })
             .eq('email', req.query.mail)

@@ -13,7 +13,7 @@ const settings = {
     dots: true,
     infinite: true,
     autoplay: true,
-    autoplaySpeed: 4000,
+    autoplaySpeed: 6000,
     pauseOnHover: false,
 };
 
