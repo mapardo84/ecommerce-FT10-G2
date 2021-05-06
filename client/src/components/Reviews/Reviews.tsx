@@ -26,7 +26,7 @@ export const Reviews = ({ idRv }: any) => {
                             <div className="newReviewContainer">
                                 <div className="firstRowReview">
                                     <div>
-                                        <FaUserCircle /> Anonymus
+                                        <FaUserCircle /> Anonymous
                                     </div>
 
                                     <div className="starReview">

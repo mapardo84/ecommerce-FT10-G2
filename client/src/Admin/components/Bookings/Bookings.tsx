@@ -472,10 +472,8 @@ export const Bookings = () => {
                             </Form.Item>
 
                             {/* CheckIn CheckOut */}
-                            <Form.Item name="range-picker" label="CheckIn - CheckOut" rules={[{ type: 'array', required: true, message: 'Please select category!' }]} >
-                                <div className="containerRp">
-                                    <RangePicker onChange={e => onChangeRange(e)} disabled={loadingRange} />
-                                </div>
+                            <Form.Item name="range-picker" label="CheckIn - CheckOut" rules={[{ type: 'array', required: true, message: 'Please select dates!' }]} >
+                                <RangePicker onChange={e => onChangeRange(e)} disabled={loadingRange} />
                             </Form.Item>
 
                             {dateMSJ.length > 0 ? <div style={{ color: 'red' }}>{dateMSJ}</div> : <div></div>}

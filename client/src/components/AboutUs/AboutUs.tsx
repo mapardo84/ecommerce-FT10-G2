@@ -77,9 +77,8 @@ const AboutUs = () => {
     return (
         <div className="aboutUsContainer">
             <div className="titleAboutUs">DEVELOPMENT TEAM</div>
-            <div className="descriptionAboutUs">This application was developed by a team of full stack developers, which used the following technologies for its development: TypeScriptSupaBase Express React Js Redux Ant Design Less The whole project was carried out under Scrum methodologies where the following people participated
+            <div className="descriptionAboutUs">This application was developed by a team of full stack developers, using the following technologies: React Js, Redux, HTML, Less, Ant Design, TypeScript, Nodejs, Express, SupaBase. The whole project was carried out using Agile methodologies(SCRUM) where the following people participated
             </div>
-
             {
                 team.map((e, i: number) =>
                     <div className="flip-card" key={i}>
@@ -92,8 +91,8 @@ const AboutUs = () => {
 
                             <div className="flip-card-back">
                                 <div className="aboutUsIcons">
-                                    <Button type="text" href={e.linkedIn}><AiFillLinkedin style={{ color: "white", fontSize: "35px" }} /></Button>
-                                    <Button type="text" href={e.github}><AiFillGithub style={{ color: "white", fontSize: "35px" }} /></Button>
+                                    <Button type="text" href={e.linkedIn} target="_blank"><AiFillLinkedin style={{ color: "white", fontSize: "35px" }} /></Button>
+                                    <Button type="text" href={e.github} target="_blank"><AiFillGithub style={{ color: "white", fontSize: "35px" }} /></Button>
                                 </div>
                                 <div className="aboutUsName1">{e.name}</div>
 

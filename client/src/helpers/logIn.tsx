@@ -26,7 +26,7 @@ export const loginWith = async (provider: any) => {
         })
         if (!error) {
             //ACA AGARRAR MAIL
-            success()
+            //success()
 
         } else {
             errorMsg()
