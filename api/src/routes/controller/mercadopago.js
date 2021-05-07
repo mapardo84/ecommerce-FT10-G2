@@ -1,7 +1,8 @@
 const mercadopago = require('mercadopago')
+var mercado_to= process.env.MERCADO_PAGO
 
 mercadopago.configure({
-    access_token: 'TEST-1669112607394412-041121-7feaa8d307068512a7059b684241e2c4-741939764'
+    access_token: mercado_to
 });
 
 async function getPreferenceId(req, res) {

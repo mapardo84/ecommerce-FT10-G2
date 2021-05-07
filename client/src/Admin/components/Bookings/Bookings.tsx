@@ -207,6 +207,7 @@ export const Bookings = () => {
     const [disable, setDisable] = useState<boolean>(false)
     const [openForm, setOpenForm] = useState<boolean>(false)
     const [noRoomMSG, setNoRoomMSG] = useState<boolean>(false)
+    const [selectTypeF, setselectTypeF] = useState<any>([])
     const [bookingState, setBookingState] = useState({
         address: "",
         birth_date: {},
@@ -324,6 +325,18 @@ export const Bookings = () => {
 
     const onChangeSelect = (value: any) => {
         console.log(value)
+        console.log("ANTES:", storeBooking.freeRooms)
+        const newRooms = storeBooking.freeRooms.filter((room: any) => room.category_id === value)
+        const noRepeat: any = []
+        const selectType: any = []
+        newRooms.forEach((room: any) => {
+            if (!noRepeat.includes(room.type_id)) {
+                noRepeat.push(room.type_id)
+                selectType.push({ id: room.type_id, name: storeBooking.types.find((type: any) => type.id === room.type_id).name })
+            }
+        })
+        console.log("ACA NEW:", selectType)
+        setselectTypeF(selectType)
         dispatch(getAllRooms())
     }
 
@@ -498,7 +511,7 @@ export const Bookings = () => {
                             {/* Type */}
                             <Form.Item label="Type" name='type' rules={[{ required: true, message: 'Please select type!' }]}>
                                 <Select loading={loadingSelect} disabled={disable}>
-                                    {storeBooking?.types?.map((t: { id: string | number, name: string }, i: number) => {
+                                    {selectTypeF?.map((t: { id: string | number, name: string }, i: number) => {
                                         return (<Select.Option value={t.id} key={`t${i}`}>{t.name}</Select.Option>)
                                     })}
                                 </Select>

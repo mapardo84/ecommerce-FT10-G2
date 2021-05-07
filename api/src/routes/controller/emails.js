@@ -1,6 +1,8 @@
 var nodemailer = require('nodemailer');
 var supabase = require('../../SupaBase/conection')
 var backurl = process.env.BACK_URL
+var remail= process.env.EMAIL
+var emailPass= process.env.EMAIL_PASS
 
 const confirmation_email = async (req, res) => {
     const {
@@ -20,12 +22,12 @@ const confirmation_email = async (req, res) => {
         host: 'smtp.gmail.com',
         port: 465,
         auth: {
-            user: 'software.hotelhenry@gmail.com',
-            pass: 'zjyhnxrvdjrnsyrx'
+            user: remail,
+            pass: emailPass
         }
     })
     var mailOptions = {
-        from: "'HenryHotel' <software.hotelhenry@gmail.com>",
+        from: "'HenryHotel' <`${remail}`>",
         to: `${email}`,
         subject: 'Booking Info',
         html: `
@@ -110,8 +112,8 @@ const cancel_email = async (req, res) => {
         host: 'smtp.gmail.com',
         port: 465,
         auth: {
-            user: 'software.hotelhenry@gmail.com',
-            pass: 'zjyhnxrvdjrnsyrx'
+            user: remail,
+            pass: emailPass
         }
     })
     var mailOptions = {
@@ -195,8 +197,8 @@ const newsletter_email = async (req, res) => {
             host: 'smtp.gmail.com',
             port: 465,
             auth: {
-                user: 'software.hotelhenry@gmail.com',
-                pass: 'zjyhnxrvdjrnsyrx'
+                user: remail,
+                pass: emailPass
             }
         })
         var mailOptions = {

@@ -1,46 +1,37 @@
-# Getting Started with Create React App
+# Front-End 
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
-## Available Scripts
+## Experiencia como invitado
 
-In the project directory, you can run:
+El invitado podra navegar a través de la pagina sin necesidad de loguearse en una cuenta. Podra ver imágenes de las instalaciones del hotel, servicios y categorías. Tendra ciertas limitaciones al navegar ya que no podra realizar un booking, agregar contenido a su lista de deseados, recibir ofertas y newsletter. 
 
-### `yarn start`
+## Experiencia como pasajero del hotel
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+- El usuario que se registre en la web app podrá hacerlo utilizando Google, Facebook o el sistema de registro de la página. Una vez registrado la-  aplicación el usuario podrá realizar un booking de una habitación y podrá registrar a la persona que vaya a utilizarla como pasajero titular del hotel. 
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+- El usuario podrá hacer reservas, como cancelar la reserva. Si la cancela solo recibira el dinero de vuelta en su cuenta como balance positivo si la reserva era mayor a 7 días.
 
-### `yarn test`
+- Otras funcionalidades que podra realizar el usuario son agregar las categorías a una lista de deseados y si esta categoria en algun momento se encuentra en oferta recibira una notificación. Tambien podra suscribirse al newsletter en el cual recibira las ultimas noticias sobre el hotel.
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+- Una vez terminada la estadia en el hotel el usuario puede realizar reviews sobre la categoria en la que se hospedo para que podamos mantener el mejor servicio posible para futuros pasajeros. 
 
-### `yarn build`
+- El usuario podra utilizar nuestras instalaciones para realizar eventos, matrimonios, conferencias etc. Desde la página podra solicitar un presupuesto en nuestras instalaciones para el evento y a la brevedad la administración le contestara. 
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+- La aplicación tambie posee un chatbot el cual tambien podrá guiar al usuario en su experiencia.
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+## Experiencia como administrador del hotel
 
-### `yarn eject`
+- Si el usuario es asignado como administrador podra acceder a través del botón admin panel a un nueva sección. 
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+- Desde aqui el administrador podrá realizar las siguientes funciones:
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+- Crear una reserva desde 0, modificar categorías, precios, manejo de cuentas de pasajeros, visualizar disponibilidad de habitaciones.
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+- Hacer checkin y checkout en el mostrador de las reservas.
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+- Enviar los newsletter, administrar los descuentos, resetear las contraseñas de las cuentas, hacer a otro usuario administrador del hotel, manejar las solicitudes de los eventos.
 
-## Learn More
+## Tecnologias utilizadas 
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
+TypeScript - ReactJs - Redux - Less - Ant Desing UI 

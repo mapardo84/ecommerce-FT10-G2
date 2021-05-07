@@ -9,6 +9,7 @@ import { supabase } from "../../SupaBase/conection";
 import { useDispatch } from "react-redux";
 import { setModalState } from "../../actions/loginActions";
 import "./LogIn.less";
+const captchakey = process.env.REACT_APP_CAPTCHA;
 
 interface log {
   email: string;
@@ -117,7 +118,7 @@ export const LogIn = () => {
 
         <div className="captcha">
           <ReCAPTCHA
-            sitekey="6LcZXqsaAAAAAN4pWJ2LNrXd68tnxzwHvPclIjex"
+            sitekey={`${captchakey}`}
             onChange={onChange} />
         </div>
 
